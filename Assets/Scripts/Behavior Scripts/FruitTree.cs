@@ -27,7 +27,7 @@ public class FruitTree : Gatherable
     //Left click decreases food remaining and triggers the animation for food to disappear
     public override void OnPointerClick(PointerEventData eventData)
     {
-        if (playerNear == true && FoodRem > 0) {
+        if (eventData.button == PointerEventData.InputButton.Left && playerNear == true && FoodRem > 0) {
             base.OnPointerClick(eventData);
             animator.SetTrigger("Harvest " + harvestTriggerInt.ToString());
             harvestTriggerInt ++;

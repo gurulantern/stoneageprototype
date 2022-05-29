@@ -5,9 +5,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class GameController : MonoBehaviour
 {
+    public CharController controls;
     public static GameController instance;
     public GameObject hudContainer, gameOverPanel;
     public TextMeshProUGUI allianceTracker, foodCounter;

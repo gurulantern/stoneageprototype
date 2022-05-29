@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Food : MonoBehaviour
 {
+    
     public int food = 20;
     void OnTriggerEnter2D(Collider2D other) 
     {
-        CharacterController controller = other.GetComponent<CharacterController>();
+        CharController controller = other.GetComponent<CharController>();
         if (controller != null)
         {
             if (controller._playerStamina.currentStamina < controller._playerStamina.maxStamina) 

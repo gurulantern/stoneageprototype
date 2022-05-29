@@ -4,9 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 
-public abstract class Observable : MonoBehaviour, IPointerClickHandler
+public  class Observable : MonoBehaviour, IPointerClickHandler
 {
-    public abstract void Observe();
     [SerializeField] GameEvent _onRightClick;
     protected bool playerNear { get; set; } = false;
     private int i = 0;
@@ -31,7 +30,7 @@ public abstract class Observable : MonoBehaviour, IPointerClickHandler
     }
     public virtual void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Right) 
+        if (eventData.button == PointerEventData.InputButton.Right && playerNear == true) 
         {
             _onRightClick?.Invoke();
         }

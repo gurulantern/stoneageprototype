@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6648273047993850818}
   - component: {fileID: -6419844421664405122}
   - component: {fileID: 7587098824650898209}
+  - component: {fileID: 2046775314444580847}
   m_Layer: 6
   m_Name: FruitTree1
   m_TagString: Fruit Tree
@@ -147,9 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _onClick: {fileID: 11400000, guid: 39547941a8e8c7c41920f5b9cc33e448, type: 2}
-  _observeClick: {fileID: 11400000, guid: f8bdfd8de3968ba42800a4a665577550, type: 2}
-  playersFood: 
-  playerIds: []
+  animator: {fileID: 5804568076964361385}
   foodTotal: 7
 --- !u!58 &7587098824650898209
 CircleCollider2D:
@@ -167,3 +166,17 @@ CircleCollider2D:
   m_Offset: {x: 0.007371187, y: 0.79999995}
   serializedVersion: 2
   m_Radius: 1.0073712
+--- !u!114 &2046775314444580847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5492570035467929356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c55a3672ab143147a462551e6537cf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onRightClick: {fileID: 11400000, guid: f8bdfd8de3968ba42800a4a665577550, type: 2}
+  animator: {fileID: 0}

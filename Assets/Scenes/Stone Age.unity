@@ -2630,12 +2630,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 417999127}
   m_CullTransparentMesh: 1
---- !u!1 &425665777 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4126516024473503786, guid: e6bdb19b1f11f0d4bb59d518add06929,
-    type: 3}
-  m_PrefabInstance: {fileID: 4126516026133855559}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &442044602
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24795,61 +24789,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4126516026133855559}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1928796611
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 425665777}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 98750b838e291dd40b81ebfcc5949ed2,
-    type: 3}
-  m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 5b22dc57-f197-44d2-adee-558714ba700b
-    m_ActionName: General/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 0aac306d-e381-4437-b672-d48fa61a2eef
-    m_ActionName: General/Sleep[/Keyboard/f]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 4b6b990f-7c76-4f51-b6f4-3781b9c760e3
-    m_ActionName: General/Interact[/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 698e477e-9b06-40ba-9506-6dbc21dcda01
-    m_ActionName: General/Observe[/Mouse/rightButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: e2b23358-295d-42d8-a36c-3da8de285dc8
-    m_ActionName: General/Create[/Keyboard/r]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 0e48472f-b86e-464d-a57d-85eb02d9ce4e
-    m_ActionName: General/Zoom [/Mouse/scroll]
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: General
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!4 &1936421277 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5021513890683486726, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
@@ -25507,6 +25446,138 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Interpolate
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3328693769471626152, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 519420031}
+    - target: {fileID: 3328693769471626152, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+      propertyPath: m_NotificationBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3328693769471626152, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3328693769471626152, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_ActionId
+      value: 5b22dc57-f197-44d2-adee-558714ba700b
+      objectReference: {fileID: 0}
+    - target: {fileID: 3328693769471626152, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_ActionId
+      value: 0aac306d-e381-4437-b672-d48fa61a2eef
+      objectReference: {fileID: 0}
+    - target: {fileID: 3328693769471626152, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_ActionId
+      value: 4b6b990f-7c76-4f51-b6f4-3781b9c760e3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3328693769471626152, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_ActionId
+      value: 698e477e-9b06-40ba-9506-6dbc21dcda01
+      objectReference: {fileID: 0}
+    - target: {fileID: 3328693769471626152, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_ActionId
+      value: e2b23358-295d-42d8-a36c-3da8de285dc8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3328693769471626152, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_ActionId
+      value: 0e48472f-b86e-464d-a57d-85eb02d9ce4e
+      objectReference: {fileID: 0}
+    - target: {fileID: 3328693769471626152, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_ActionName
+      value: General/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
+      objectReference: {fileID: 0}
+    - target: {fileID: 3328693769471626152, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_ActionName
+      value: General/Sleep[/Keyboard/f]
+      objectReference: {fileID: 0}
+    - target: {fileID: 3328693769471626152, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_ActionName
+      value: General/Gather[/Mouse/leftButton]
+      objectReference: {fileID: 0}
+    - target: {fileID: 3328693769471626152, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_ActionName
+      value: General/Observe[/Mouse/rightButton]
+      objectReference: {fileID: 0}
+    - target: {fileID: 3328693769471626152, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_ActionName
+      value: General/Create[/Keyboard/r]
+      objectReference: {fileID: 0}
+    - target: {fileID: 3328693769471626152, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_ActionName
+      value: General/Zoom [/Mouse/scroll]
+      objectReference: {fileID: 0}
+    - target: {fileID: 3328693769471626152, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3328693769471626152, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3328693769471626152, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3411029999344969448, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+      propertyPath: _gameEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: f8bdfd8de3968ba42800a4a665577550,
+        type: 2}
+    - target: {fileID: 3411029999344969448, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+      propertyPath: _unityEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3411029999344969448, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+      propertyPath: _unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3411029999344969448, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+      propertyPath: _unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: -5350760502861824651, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+    - target: {fileID: 3411029999344969448, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+      propertyPath: _unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3411029999344969448, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+      propertyPath: _unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Observe
+      objectReference: {fileID: 0}
+    - target: {fileID: 3411029999344969448, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+      propertyPath: _unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CharacterController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3411029999344969448, guid: e6bdb19b1f11f0d4bb59d518add06929,
+        type: 3}
+      propertyPath: _unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4126516024473503784, guid: e6bdb19b1f11f0d4bb59d518add06929,
         type: 3}
