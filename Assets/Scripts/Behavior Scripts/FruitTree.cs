@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class FruitTree : Gatherable
 {
+    [SerializeField] GameEvent _gathered;
     public int foodTotal = 7;
     private int harvestTriggerInt;
     private int foodRem;
@@ -32,6 +33,7 @@ public class FruitTree : Gatherable
             animator.SetTrigger("Harvest " + harvestTriggerInt.ToString());
             harvestTriggerInt ++;
             FoodRem = Mathf.Clamp(FoodRem - food, 0, foodTotal);
+            _gathered?.Invoke();
             Debug.Log("Food Remaining: " + FoodRem);    
         }
     }

@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c02df5e4b22b823418cd6addcd6995da, type: 3}
-  m_Name: Magenta Cave Collection
+  m_Name: Cave Collection
   m_EditorClassIdentifier: 
-  foodCount: 0
+  foodCount: 35

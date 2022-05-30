@@ -8,6 +8,8 @@ public class ResetButton : MonoBehaviour
 {
     public void ResetGame()
     {
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Time.timeScale = 1f;
     }
 }

@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Food : MonoBehaviour
 {
-    
-    public int food = 20;
+    [SerializeField] private GameEvent _eaten;
     void OnTriggerEnter2D(Collider2D other) 
     {
         CharController controller = other.GetComponent<CharController>();
@@ -13,7 +12,7 @@ public class Food : MonoBehaviour
         {
             if (controller._playerStamina.currentStamina < controller._playerStamina.maxStamina) 
             {
-                controller.FoodStamina(food);
+                _eaten?.Invoke();
                 Destroy(gameObject);
             }
         }    

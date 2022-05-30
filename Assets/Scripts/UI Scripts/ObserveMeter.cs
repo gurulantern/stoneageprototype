@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class ObserveMeter : MonoBehaviour
 {
+    public ObserveAmount _observeAmount;
     public Slider observeSlider { get; set; }
     public float increment;
     float originalSize;
@@ -17,6 +18,7 @@ public class ObserveMeter : MonoBehaviour
     
     public void Increment()
     {
+
         observeSlider.value += increment;
         if (observeSlider.value >= 90f) {
             createAction.SetActive(true);

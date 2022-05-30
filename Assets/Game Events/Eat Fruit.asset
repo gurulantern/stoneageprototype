@@ -9,7 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c02df5e4b22b823418cd6addcd6995da, type: 3}
-  m_Name: Cyan Cave Collection
+  m_Script: {fileID: 11500000, guid: b6e32c37cc3fc4d4fa3a686aca533bbf, type: 3}
+  m_Name: Eat Fruit
   m_EditorClassIdentifier: 
-  foodCount: 35

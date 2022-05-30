@@ -119,7 +119,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""0a8ee03e-247c-4499-9aa7-c1d11db54b7a"",
-                    ""path"": ""<Keyboard>/r"",
+                    ""path"": ""<Keyboard>/c"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Desktop Control Scheme"",
@@ -249,6 +249,54 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""UI"",
+            ""id"": ""225862a8-07d0-4bee-99c3-46a9e918034b"",
+            ""actions"": [
+                {
+                    ""name"": ""Left Click"",
+                    ""type"": ""Button"",
+                    ""id"": ""eeabc2d9-ad43-42b9-b445-22df850d94a6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Right Click"",
+                    ""type"": ""Button"",
+                    ""id"": ""556b02c9-b897-43b1-b1fd-6e99252ba00a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""2954c72d-5012-43ea-9f51-5e7f11170674"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Left Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f2b01dfb-c58a-487d-bc25-a63ade2bbfb3"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Right Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -278,6 +326,10 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_General_Observe = m_General.FindAction("Observe", throwIfNotFound: true);
         m_General_Create = m_General.FindAction("Create", throwIfNotFound: true);
         m_General_Zoom = m_General.FindAction("Zoom ", throwIfNotFound: true);
+        // UI
+        m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
+        m_UI_LeftClick = m_UI.FindAction("Left Click", throwIfNotFound: true);
+        m_UI_RightClick = m_UI.FindAction("Right Click", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -406,6 +458,47 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         }
     }
     public GeneralActions @General => new GeneralActions(this);
+
+    // UI
+    private readonly InputActionMap m_UI;
+    private IUIActions m_UIActionsCallbackInterface;
+    private readonly InputAction m_UI_LeftClick;
+    private readonly InputAction m_UI_RightClick;
+    public struct UIActions
+    {
+        private @PlayerControls m_Wrapper;
+        public UIActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @LeftClick => m_Wrapper.m_UI_LeftClick;
+        public InputAction @RightClick => m_Wrapper.m_UI_RightClick;
+        public InputActionMap Get() { return m_Wrapper.m_UI; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
+        public void SetCallbacks(IUIActions instance)
+        {
+            if (m_Wrapper.m_UIActionsCallbackInterface != null)
+            {
+                @LeftClick.started -= m_Wrapper.m_UIActionsCallbackInterface.OnLeftClick;
+                @LeftClick.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnLeftClick;
+                @LeftClick.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnLeftClick;
+                @RightClick.started -= m_Wrapper.m_UIActionsCallbackInterface.OnRightClick;
+                @RightClick.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnRightClick;
+                @RightClick.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnRightClick;
+            }
+            m_Wrapper.m_UIActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @LeftClick.started += instance.OnLeftClick;
+                @LeftClick.performed += instance.OnLeftClick;
+                @LeftClick.canceled += instance.OnLeftClick;
+                @RightClick.started += instance.OnRightClick;
+                @RightClick.performed += instance.OnRightClick;
+                @RightClick.canceled += instance.OnRightClick;
+            }
+        }
+    }
+    public UIActions @UI => new UIActions(this);
     private int m_DesktopControlSchemeSchemeIndex = -1;
     public InputControlScheme DesktopControlSchemeScheme
     {
@@ -423,5 +516,10 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnObserve(InputAction.CallbackContext context);
         void OnCreate(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
+    }
+    public interface IUIActions
+    {
+        void OnLeftClick(InputAction.CallbackContext context);
+        void OnRightClick(InputAction.CallbackContext context);
     }
 }

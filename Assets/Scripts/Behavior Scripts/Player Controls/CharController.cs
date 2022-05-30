@@ -40,14 +40,13 @@ public class CharController : MonoBehaviour
                 Wake();
             } else if (sleep == true) {
                 ChangeStamina(restoreRate);
-                speed = 0;
-                rb.MovePosition(rb.position + moveInput * speed * Time.fixedDeltaTime);
+                playerControls.Disable();
                 Debug.Log("Sleeping and restoring stamina");
-            } else if (animator.GetBool("Observe") == true) {
-                speed = 0;
-                rb.MovePosition(rb.position + moveInput * speed * Time.fixedDeltaTime);
+            } else if (animator.GetBool("Observe") == true || animator.GetBool("Gather") == true && sleep == false) {
+                playerControls.Disable();
+                ChangeStamina(-tireRate);
             } else if (sleep == false && _playerStamina.currentStamina <= tireLimit) {
-                animator.SetTrigger("Tired");
+                animator.SetBool("Tired", true);
                 ChangeStamina(-tireRate);
                 speed = 0.5f;
                 rb.MovePosition(rb.position + moveInput * speed * Time.fixedDeltaTime);
@@ -57,8 +56,7 @@ public class CharController : MonoBehaviour
                 rb.MovePosition(rb.position + moveInput * speed * Time.fixedDeltaTime);
             }
         } else {
-            ChangeStamina(0);
-            speed = 0;
+            playerControls.Disable();
         }
     }
 
@@ -83,6 +81,7 @@ public class CharController : MonoBehaviour
 
     void Wake()
     {
+        animator.SetBool("Tired", false);
         animator.SetTrigger("Awake");
         sleep = false;
         Debug.Log("Player is awake");
@@ -92,7 +91,6 @@ public class CharController : MonoBehaviour
     {
         animator.SetBool("Observe", true);
         Debug.Log("Player observes");
-
     }
 
     public void StopObserve()

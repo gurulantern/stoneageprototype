@@ -8,12 +8,6 @@ public class PlayerInventory : ScriptableObject
     public int food = 0;
     public int wood = 0;
 
-    void Awake()
-    {
-        food = 0;
-        wood = 0;
-    }
-
     public void AddFood()
     {
         food += 1;

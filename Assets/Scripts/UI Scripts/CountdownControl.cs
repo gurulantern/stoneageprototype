@@ -7,9 +7,10 @@ using TMPro;
 public class CountdownControl : MonoBehaviour
 {
     // Start is called before the first frame update
-   private int countdownTime;
+   private float countdownTime;
    public TextMeshProUGUI countdownDisplay;
    public Button startButton;
+   public bool countdownStarted;
 
     void Start()
     {
@@ -25,8 +26,9 @@ public class CountdownControl : MonoBehaviour
    {
        while(countdownTime > 0)
        {
-           countdownDisplay.text = countdownTime.ToString();
+           countdownDisplay.text = countdownTime.ToString("0");
            yield return new WaitForSeconds(1f);
+           Debug.Log("Counting Down!");
 
            countdownTime--;
        }

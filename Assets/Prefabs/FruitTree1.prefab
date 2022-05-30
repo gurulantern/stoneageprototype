@@ -149,6 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _onClick: {fileID: 11400000, guid: 39547941a8e8c7c41920f5b9cc33e448, type: 2}
   animator: {fileID: 5804568076964361385}
+  _gathered: {fileID: 11400000, guid: 0dfbd9c50da8d5b4a9255b7a04254b40, type: 2}
   foodTotal: 7
 --- !u!58 &7587098824650898209
 CircleCollider2D:

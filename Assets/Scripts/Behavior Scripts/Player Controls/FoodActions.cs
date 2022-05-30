@@ -22,6 +22,12 @@ public class FoodActions : Gatherable
     private bool fruitTreeNear;
     private bool caveNear;
 
+    private void Awake() 
+    {
+        _playerInventory.food = 0;
+        _playerInventory.wood = 0;    
+    }
+
     public override void OnTriggerEnter2D(Collider2D other)
     {
         base.OnTriggerEnter2D(other);
@@ -48,11 +54,11 @@ public class FoodActions : Gatherable
         }        
     }
 
-    public void ReadyGather()
+    public void StartGather()
     {
         if(fruitTreeNear) 
         {
-            animator.SetTrigger("Gather");
+            animator.SetBool("Gather", true);
             _playerInventory.AddFood();
             gatherCooldownRem = gatherCooldown;
             while (gatherCooldownRem != 0)
@@ -60,10 +66,14 @@ public class FoodActions : Gatherable
                 ReadyToGather = false;
                 gatherCooldownRem = Mathf.Clamp(gatherCooldownRem - Time.fixedDeltaTime, 0, gatherCooldown);
             }
-            animator.SetTrigger("Gather Done");
             ReadyToGather = true;
             Debug.Log("Gathered Food: " + _playerInventory.food + "Ready to Gather: " + ReadyToGather);
         }
+    }
+
+    public void StopGather()
+    {
+        animator.SetBool("Gather", false);
     }
 
     public void DropOff()

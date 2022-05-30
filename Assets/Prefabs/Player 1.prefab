@@ -242,7 +242,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   _playerInventory: {fileID: 11400000, guid: 52414e5870cde2a4987c64fcfe0705ef, type: 2}
   _caveCollection: {fileID: 11400000, guid: 63159b4aaa0ad7a44bec6b3581323ee3, type: 2}
-  gatherCooldown: 5
+  gatherCooldown: 50
 --- !u!114 &3096947651827779481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,13 +283,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3642061a092171f4bb2a09e9c197cf02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameEvent: {fileID: 11400000, guid: 39547941a8e8c7c41920f5b9cc33e448, type: 2}
+  _gameEvent: {fileID: 11400000, guid: 0dfbd9c50da8d5b4a9255b7a04254b40, type: 2}
   _unityEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: -4339546867159847212}
         m_TargetAssemblyTypeName: FoodActions, Assembly-CSharp
-        m_MethodName: ReadyGather
+        m_MethodName: StartGather
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -343,14 +343,14 @@ MonoBehaviour:
   _unityEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: -5350760502861824651}
+        m_TargetAssemblyTypeName: CharController, Assembly-CSharp
+        m_MethodName: FoodStamina
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 20
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
