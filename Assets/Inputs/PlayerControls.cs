@@ -24,14 +24,14 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     ""name"": ""PlayerControls"",
     ""maps"": [
         {
-            ""name"": ""General"",
+            ""name"": ""Player"",
             ""id"": ""4dd88877-f6ee-437e-883c-acc98ce723e5"",
             ""actions"": [
                 {
                     ""name"": ""Move"",
                     ""type"": ""Value"",
                     ""id"": ""5b22dc57-f197-44d2-adee-558714ba700b"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -42,16 +42,16 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""id"": ""0aac306d-e381-4437-b672-d48fa61a2eef"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Gather"",
+                    ""name"": ""Food Action"",
                     ""type"": ""Button"",
                     ""id"": ""4b6b990f-7c76-4f51-b6f4-3781b9c760e3"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Tap"",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -60,7 +60,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""id"": ""698e477e-9b06-40ba-9506-6dbc21dcda01"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -69,17 +69,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""id"": ""e2b23358-295d-42d8-a36c-3da8de285dc8"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""Zoom "",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Value"",
                     ""id"": ""0e48472f-b86e-464d-a57d-85eb02d9ce4e"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -101,7 +101,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Desktop Control Scheme"",
-                    ""action"": ""Gather"",
+                    ""action"": ""Food Action"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -109,7 +109,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""952a0dbb-e648-4f49-a056-68a95111ac11"",
                     ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": ""Desktop Control Scheme"",
                     ""action"": ""Observe"",
@@ -251,7 +251,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""UI"",
+            ""name"": ""Admin"",
             ""id"": ""225862a8-07d0-4bee-99c3-46a9e918034b"",
             ""actions"": [
                 {
@@ -318,18 +318,18 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         }
     ]
 }");
-        // General
-        m_General = asset.FindActionMap("General", throwIfNotFound: true);
-        m_General_Move = m_General.FindAction("Move", throwIfNotFound: true);
-        m_General_Sleep = m_General.FindAction("Sleep", throwIfNotFound: true);
-        m_General_Gather = m_General.FindAction("Gather", throwIfNotFound: true);
-        m_General_Observe = m_General.FindAction("Observe", throwIfNotFound: true);
-        m_General_Create = m_General.FindAction("Create", throwIfNotFound: true);
-        m_General_Zoom = m_General.FindAction("Zoom ", throwIfNotFound: true);
-        // UI
-        m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
-        m_UI_LeftClick = m_UI.FindAction("Left Click", throwIfNotFound: true);
-        m_UI_RightClick = m_UI.FindAction("Right Click", throwIfNotFound: true);
+        // Player
+        m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
+        m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+        m_Player_Sleep = m_Player.FindAction("Sleep", throwIfNotFound: true);
+        m_Player_FoodAction = m_Player.FindAction("Food Action", throwIfNotFound: true);
+        m_Player_Observe = m_Player.FindAction("Observe", throwIfNotFound: true);
+        m_Player_Create = m_Player.FindAction("Create", throwIfNotFound: true);
+        m_Player_Zoom = m_Player.FindAction("Zoom ", throwIfNotFound: true);
+        // Admin
+        m_Admin = asset.FindActionMap("Admin", throwIfNotFound: true);
+        m_Admin_LeftClick = m_Admin.FindAction("Left Click", throwIfNotFound: true);
+        m_Admin_RightClick = m_Admin.FindAction("Right Click", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -386,54 +386,54 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // General
-    private readonly InputActionMap m_General;
-    private IGeneralActions m_GeneralActionsCallbackInterface;
-    private readonly InputAction m_General_Move;
-    private readonly InputAction m_General_Sleep;
-    private readonly InputAction m_General_Gather;
-    private readonly InputAction m_General_Observe;
-    private readonly InputAction m_General_Create;
-    private readonly InputAction m_General_Zoom;
-    public struct GeneralActions
+    // Player
+    private readonly InputActionMap m_Player;
+    private IPlayerActions m_PlayerActionsCallbackInterface;
+    private readonly InputAction m_Player_Move;
+    private readonly InputAction m_Player_Sleep;
+    private readonly InputAction m_Player_FoodAction;
+    private readonly InputAction m_Player_Observe;
+    private readonly InputAction m_Player_Create;
+    private readonly InputAction m_Player_Zoom;
+    public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
-        public GeneralActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_General_Move;
-        public InputAction @Sleep => m_Wrapper.m_General_Sleep;
-        public InputAction @Gather => m_Wrapper.m_General_Gather;
-        public InputAction @Observe => m_Wrapper.m_General_Observe;
-        public InputAction @Create => m_Wrapper.m_General_Create;
-        public InputAction @Zoom => m_Wrapper.m_General_Zoom;
-        public InputActionMap Get() { return m_Wrapper.m_General; }
+        public PlayerActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_Player_Move;
+        public InputAction @Sleep => m_Wrapper.m_Player_Sleep;
+        public InputAction @FoodAction => m_Wrapper.m_Player_FoodAction;
+        public InputAction @Observe => m_Wrapper.m_Player_Observe;
+        public InputAction @Create => m_Wrapper.m_Player_Create;
+        public InputAction @Zoom => m_Wrapper.m_Player_Zoom;
+        public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(GeneralActions set) { return set.Get(); }
-        public void SetCallbacks(IGeneralActions instance)
+        public static implicit operator InputActionMap(PlayerActions set) { return set.Get(); }
+        public void SetCallbacks(IPlayerActions instance)
         {
-            if (m_Wrapper.m_GeneralActionsCallbackInterface != null)
+            if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
             {
-                @Move.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnMove;
-                @Sleep.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnSleep;
-                @Sleep.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnSleep;
-                @Sleep.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnSleep;
-                @Gather.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnGather;
-                @Gather.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnGather;
-                @Gather.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnGather;
-                @Observe.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnObserve;
-                @Observe.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnObserve;
-                @Observe.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnObserve;
-                @Create.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnCreate;
-                @Create.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnCreate;
-                @Create.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnCreate;
-                @Zoom.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnZoom;
-                @Zoom.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnZoom;
-                @Zoom.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnZoom;
+                @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                @Sleep.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSleep;
+                @Sleep.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSleep;
+                @Sleep.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSleep;
+                @FoodAction.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFoodAction;
+                @FoodAction.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFoodAction;
+                @FoodAction.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFoodAction;
+                @Observe.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnObserve;
+                @Observe.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnObserve;
+                @Observe.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnObserve;
+                @Create.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCreate;
+                @Create.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCreate;
+                @Create.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCreate;
+                @Zoom.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoom;
+                @Zoom.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoom;
+                @Zoom.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoom;
             }
-            m_Wrapper.m_GeneralActionsCallbackInterface = instance;
+            m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @Move.started += instance.OnMove;
@@ -442,9 +442,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Sleep.started += instance.OnSleep;
                 @Sleep.performed += instance.OnSleep;
                 @Sleep.canceled += instance.OnSleep;
-                @Gather.started += instance.OnGather;
-                @Gather.performed += instance.OnGather;
-                @Gather.canceled += instance.OnGather;
+                @FoodAction.started += instance.OnFoodAction;
+                @FoodAction.performed += instance.OnFoodAction;
+                @FoodAction.canceled += instance.OnFoodAction;
                 @Observe.started += instance.OnObserve;
                 @Observe.performed += instance.OnObserve;
                 @Observe.canceled += instance.OnObserve;
@@ -457,36 +457,36 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
             }
         }
     }
-    public GeneralActions @General => new GeneralActions(this);
+    public PlayerActions @Player => new PlayerActions(this);
 
-    // UI
-    private readonly InputActionMap m_UI;
-    private IUIActions m_UIActionsCallbackInterface;
-    private readonly InputAction m_UI_LeftClick;
-    private readonly InputAction m_UI_RightClick;
-    public struct UIActions
+    // Admin
+    private readonly InputActionMap m_Admin;
+    private IAdminActions m_AdminActionsCallbackInterface;
+    private readonly InputAction m_Admin_LeftClick;
+    private readonly InputAction m_Admin_RightClick;
+    public struct AdminActions
     {
         private @PlayerControls m_Wrapper;
-        public UIActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @LeftClick => m_Wrapper.m_UI_LeftClick;
-        public InputAction @RightClick => m_Wrapper.m_UI_RightClick;
-        public InputActionMap Get() { return m_Wrapper.m_UI; }
+        public AdminActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @LeftClick => m_Wrapper.m_Admin_LeftClick;
+        public InputAction @RightClick => m_Wrapper.m_Admin_RightClick;
+        public InputActionMap Get() { return m_Wrapper.m_Admin; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
-        public void SetCallbacks(IUIActions instance)
+        public static implicit operator InputActionMap(AdminActions set) { return set.Get(); }
+        public void SetCallbacks(IAdminActions instance)
         {
-            if (m_Wrapper.m_UIActionsCallbackInterface != null)
+            if (m_Wrapper.m_AdminActionsCallbackInterface != null)
             {
-                @LeftClick.started -= m_Wrapper.m_UIActionsCallbackInterface.OnLeftClick;
-                @LeftClick.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnLeftClick;
-                @LeftClick.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnLeftClick;
-                @RightClick.started -= m_Wrapper.m_UIActionsCallbackInterface.OnRightClick;
-                @RightClick.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnRightClick;
-                @RightClick.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnRightClick;
+                @LeftClick.started -= m_Wrapper.m_AdminActionsCallbackInterface.OnLeftClick;
+                @LeftClick.performed -= m_Wrapper.m_AdminActionsCallbackInterface.OnLeftClick;
+                @LeftClick.canceled -= m_Wrapper.m_AdminActionsCallbackInterface.OnLeftClick;
+                @RightClick.started -= m_Wrapper.m_AdminActionsCallbackInterface.OnRightClick;
+                @RightClick.performed -= m_Wrapper.m_AdminActionsCallbackInterface.OnRightClick;
+                @RightClick.canceled -= m_Wrapper.m_AdminActionsCallbackInterface.OnRightClick;
             }
-            m_Wrapper.m_UIActionsCallbackInterface = instance;
+            m_Wrapper.m_AdminActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @LeftClick.started += instance.OnLeftClick;
@@ -498,7 +498,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
             }
         }
     }
-    public UIActions @UI => new UIActions(this);
+    public AdminActions @Admin => new AdminActions(this);
     private int m_DesktopControlSchemeSchemeIndex = -1;
     public InputControlScheme DesktopControlSchemeScheme
     {
@@ -508,16 +508,16 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
             return asset.controlSchemes[m_DesktopControlSchemeSchemeIndex];
         }
     }
-    public interface IGeneralActions
+    public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
         void OnSleep(InputAction.CallbackContext context);
-        void OnGather(InputAction.CallbackContext context);
+        void OnFoodAction(InputAction.CallbackContext context);
         void OnObserve(InputAction.CallbackContext context);
         void OnCreate(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
     }
-    public interface IUIActions
+    public interface IAdminActions
     {
         void OnLeftClick(InputAction.CallbackContext context);
         void OnRightClick(InputAction.CallbackContext context);

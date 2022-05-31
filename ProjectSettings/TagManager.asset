@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Fruit Tree
   - Cave
+  - Tree
   layers:
   - Default
   - TransparentFX

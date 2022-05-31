@@ -2,14 +2,14 @@
     "name": "PlayerControls",
     "maps": [
         {
-            "name": "General",
+            "name": "Player",
             "id": "4dd88877-f6ee-437e-883c-acc98ce723e5",
             "actions": [
                 {
                     "name": "Move",
                     "type": "Value",
                     "id": "5b22dc57-f197-44d2-adee-558714ba700b",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -20,16 +20,16 @@
                     "id": "0aac306d-e381-4437-b672-d48fa61a2eef",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Gather",
+                    "name": "Food Action",
                     "type": "Button",
                     "id": "4b6b990f-7c76-4f51-b6f4-3781b9c760e3",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Tap",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -38,7 +38,7 @@
                     "id": "698e477e-9b06-40ba-9506-6dbc21dcda01",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -47,17 +47,17 @@
                     "id": "e2b23358-295d-42d8-a36c-3da8de285dc8",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
                     "name": "Zoom ",
-                    "type": "PassThrough",
+                    "type": "Value",
                     "id": "0e48472f-b86e-464d-a57d-85eb02d9ce4e",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -79,7 +79,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Desktop Control Scheme",
-                    "action": "Gather",
+                    "action": "Food Action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -87,7 +87,7 @@
                     "name": "",
                     "id": "952a0dbb-e648-4f49-a056-68a95111ac11",
                     "path": "<Mouse>/rightButton",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "Desktop Control Scheme",
                     "action": "Observe",
@@ -229,7 +229,7 @@
             ]
         },
         {
-            "name": "UI",
+            "name": "Admin",
             "id": "225862a8-07d0-4bee-99c3-46a9e918034b",
             "actions": [
                 {

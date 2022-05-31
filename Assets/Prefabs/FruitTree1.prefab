@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -6419844421664405122}
   - component: {fileID: 7587098824650898209}
   - component: {fileID: 2046775314444580847}
+  - component: {fileID: 1552916823626759411}
   m_Layer: 6
   m_Name: FruitTree1
   m_TagString: Fruit Tree
@@ -181,3 +182,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _onRightClick: {fileID: 11400000, guid: f8bdfd8de3968ba42800a4a665577550, type: 2}
   animator: {fileID: 0}
+--- !u!50 &1552916823626759411
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5492570035467929356}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
