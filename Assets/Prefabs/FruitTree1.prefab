@@ -12,10 +12,9 @@ GameObject:
   - component: {fileID: 739293710868112597}
   - component: {fileID: 5804568076964361385}
   - component: {fileID: 6648273047993850818}
-  - component: {fileID: -6419844421664405122}
   - component: {fileID: 7587098824650898209}
-  - component: {fileID: 2046775314444580847}
-  - component: {fileID: 1552916823626759411}
+  - component: {fileID: -6419844421664405122}
+  - component: {fileID: 4886264188954558651}
   m_Layer: 6
   m_Name: FruitTree1
   m_TagString: Fruit Tree
@@ -136,22 +135,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.6791563, y: 0.87356615}
   m_EdgeRadius: 0
---- !u!114 &-6419844421664405122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5492570035467929356}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbc312664545e44498b1ed3ed42a27a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onClick: {fileID: 11400000, guid: 39547941a8e8c7c41920f5b9cc33e448, type: 2}
-  animator: {fileID: 5804568076964361385}
-  _gathered: {fileID: 11400000, guid: 0dfbd9c50da8d5b4a9255b7a04254b40, type: 2}
-  foodTotal: 7
 --- !u!58 &7587098824650898209
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -168,7 +151,23 @@ CircleCollider2D:
   m_Offset: {x: 0.007371187, y: 0.79999995}
   serializedVersion: 2
   m_Radius: 1.0073712
---- !u!114 &2046775314444580847
+--- !u!114 &-6419844421664405122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5492570035467929356}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbc312664545e44498b1ed3ed42a27a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gathered: {fileID: 11400000, guid: 0dfbd9c50da8d5b4a9255b7a04254b40, type: 2}
+  _fruitTreeRef: {fileID: 11400000, guid: 367196d7d9b4a05459554e9862e7f729, type: 2}
+  harvestTrigger: 1
+  foodRem: 0
+--- !u!114 &4886264188954558651
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,29 +176,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 5492570035467929356}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c55a3672ab143147a462551e6537cf8, type: 3}
+  m_Script: {fileID: 11500000, guid: 3642061a092171f4bb2a09e9c197cf02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _onRightClick: {fileID: 11400000, guid: f8bdfd8de3968ba42800a4a665577550, type: 2}
-  animator: {fileID: 0}
---- !u!50 &1552916823626759411
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5492570035467929356}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  _gameEvent: {fileID: 11400000, guid: 39547941a8e8c7c41920f5b9cc33e448, type: 2}
+  _unityEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -6419844421664405122}
+        m_TargetAssemblyTypeName: FruitTree, Assembly-CSharp
+        m_MethodName: Harvest
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

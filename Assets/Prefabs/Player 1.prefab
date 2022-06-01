@@ -16,10 +16,8 @@ GameObject:
   - component: {fileID: 2955475726884889708}
   - component: {fileID: 3328693769471626152}
   - component: {fileID: -5350760502861824651}
-  - component: {fileID: -4339546867159847212}
   - component: {fileID: 3096947651827779481}
   - component: {fileID: 4499866126157595373}
-  - component: {fileID: 3411029999344969448}
   - component: {fileID: 782909295415391657}
   m_Layer: 0
   m_Name: Player 1
@@ -206,7 +204,7 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Desktop Control Scheme
-  m_DefaultActionMap: General
+  m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &-5350760502861824651
@@ -221,28 +219,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c5180d8a837e554ebac54f11e10c3ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _camera: {fileID: 0}
+  _gatherFruitEvent: {fileID: 0}
   _observeDone: {fileID: 11400000, guid: dc22a70e3b7057a4fa78d073f33966de, type: 2}
+  speed: 2.5
+  tiredSpeed: 0.5
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 0
   _playerStamina: {fileID: 11400000, guid: 9299f36b2475ab84c86b693933550aec, type: 2}
+  _playerInventory: {fileID: 0}
+  _caveCollection: {fileID: 0}
   tireLimit: 10
   tireRate: 0.01
   restoreRate: 0.5
---- !u!114 &-4339546867159847212
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4126516024473503786}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c843e415e34308d488a663634f32da3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onClick: {fileID: 0}
-  animator: {fileID: 0}
-  _playerInventory: {fileID: 11400000, guid: 52414e5870cde2a4987c64fcfe0705ef, type: 2}
-  _caveCollection: {fileID: 11400000, guid: 63159b4aaa0ad7a44bec6b3581323ee3, type: 2}
-  gatherCooldown: 50
 --- !u!114 &3096947651827779481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,7 +249,7 @@ MonoBehaviour:
   _unityEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: -4339546867159847212}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FoodActions, Assembly-CSharp
         m_MethodName: DropOff
         m_Mode: 1
@@ -287,37 +277,9 @@ MonoBehaviour:
   _unityEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: -4339546867159847212}
-        m_TargetAssemblyTypeName: FoodActions, Assembly-CSharp
-        m_MethodName: StartGather
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &3411029999344969448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4126516024473503786}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3642061a092171f4bb2a09e9c197cf02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gameEvent: {fileID: 11400000, guid: f8bdfd8de3968ba42800a4a665577550, type: 2}
-  _unityEvent:
-    m_PersistentCalls:
-      m_Calls:
       - m_Target: {fileID: -5350760502861824651}
         m_TargetAssemblyTypeName: CharController, Assembly-CSharp
-        m_MethodName: OnObserve
+        m_MethodName: Gather
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -1,40 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.EventSystems;
+using UnityEngine.Events;
 
 public class FruitTree : Gatherable
 {
     [SerializeField] GameEvent _gathered;
-    public int foodTotal = 7;
-    private int harvestTriggerInt;
-    private int foodRem;
-    public int FoodRem { get; set;}
-    private int food = 1;
-    GameObject fruitTree;
+    [SerializeField] FoodSource _fruitTreeRef;
+    [SerializeField] private int harvestTrigger;
+    [SerializeField] private int foodRemaining;
+    public int FoodRemaining { get; set;}
+    Animator animator;
 
-    public override void Gather()
+    void Awake()
     {
-        throw new System.NotImplementedException();
-    }
-    void Start()
-    {
-        fruitTree = GetComponent<GameObject>();
-        FoodRem = foodTotal; 
-        harvestTriggerInt = 1;
-    }
+        animator = GetComponent<Animator>();
+        FoodRemaining = _fruitTreeRef.foodTotal; 
+        harvestTrigger = _fruitTreeRef.harvestTriggerInt;
 
+    }
     //Left click decreases food remaining and triggers the animation for food to disappear
-    public override void OnPointerClick(PointerEventData eventData)
+    public void Harvest()
     {
-        if (eventData.button == PointerEventData.InputButton.Left && playerNear == true && FoodRem > 0) {
-            base.OnPointerClick(eventData);
-            animator.SetTrigger("Harvest " + harvestTriggerInt.ToString());
-            harvestTriggerInt ++;
-            FoodRem = Mathf.Clamp(FoodRem - food, 0, foodTotal);
+        if (playerNear == true && FoodRemaining > 0) {
+            gameObject.GetComponent<Animator>().SetTrigger("Harvest " + harvestTrigger.ToString());
+            harvestTrigger ++;
+            FoodRemaining = Mathf.Clamp(FoodRemaining - _fruitTreeRef.foodTaken, 0, _fruitTreeRef.foodTotal);
             _gathered?.Invoke();
-            Debug.Log("Food Remaining: " + FoodRem);    
+            Debug.Log("Food Remaining: " + FoodRemaining);    
         }
     }
 
