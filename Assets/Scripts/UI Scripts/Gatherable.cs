@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using System;
 
 public abstract class Gatherable : MonoBehaviour
 {
+    [SerializeField] protected GameEvent _gatheredEvent;
     protected int i;
     protected bool playerNear; 
 
@@ -14,7 +17,6 @@ public abstract class Gatherable : MonoBehaviour
         
         if (other.gameObject.CompareTag("Player") && i == 0) {
             playerNear = true;
-            Debug.Log("player near");
             i++;
         } 
     }

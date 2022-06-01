@@ -26473,22 +26473,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4499866126157595373, guid: e6bdb19b1f11f0d4bb59d518add06929,
-        type: 3}
-      propertyPath: _unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: -5350760502861824651, guid: e6bdb19b1f11f0d4bb59d518add06929,
-        type: 3}
-    - target: {fileID: 4499866126157595373, guid: e6bdb19b1f11f0d4bb59d518add06929,
-        type: 3}
-      propertyPath: _unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Gather
-      objectReference: {fileID: 0}
-    - target: {fileID: 4499866126157595373, guid: e6bdb19b1f11f0d4bb59d518add06929,
-        type: 3}
-      propertyPath: _unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CharController, Assembly-CSharp
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6bdb19b1f11f0d4bb59d518add06929, type: 3}
 --- !u!1001 &8838111738330110740

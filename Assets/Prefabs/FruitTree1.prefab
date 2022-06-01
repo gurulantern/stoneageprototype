@@ -163,10 +163,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc312664545e44498b1ed3ed42a27a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gathered: {fileID: 11400000, guid: 0dfbd9c50da8d5b4a9255b7a04254b40, type: 2}
+  _gatheredEvent: {fileID: 11400000, guid: 0dfbd9c50da8d5b4a9255b7a04254b40, type: 2}
   _fruitTreeRef: {fileID: 11400000, guid: 367196d7d9b4a05459554e9862e7f729, type: 2}
   harvestTrigger: 1
-  foodRem: 0
+  foodRemaining: 0
 --- !u!114 &4886264188954558651
 MonoBehaviour:
   m_ObjectHideFlags: 0

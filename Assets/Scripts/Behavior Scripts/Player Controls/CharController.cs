@@ -44,6 +44,10 @@ public class CharController : MonoBehaviour
         sleep = false;
     }
 
+    void Update()
+    {
+    }
+
 
     void FixedUpdate()
     {
@@ -88,11 +92,9 @@ public class CharController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.CompareTag("Fruit Tree") && i == 0) {
             fruitTreeNear = true;
-            Debug.Log("fruit tree near");
             i++;
         } else if (other.gameObject.CompareTag("Tree") && i == 0) {
             treeNear = true;
-            Debug.Log("tree near");
             i++;
         } else if (other.gameObject.CompareTag("Player") && i == 0) {
             playerNear = true;
@@ -100,7 +102,6 @@ public class CharController : MonoBehaviour
             i++;
         } else if (other.gameObject.CompareTag("Cave") && i == 0) {
             caveNear = true;
-            Debug.Log("cave near");
             i++;
         } 
     }
@@ -108,7 +109,6 @@ public class CharController : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other) {
         if (other.gameObject.CompareTag("Fruit Tree") && i == 1) {
             fruitTreeNear = false;
-            Debug.Log("fruit tree not near");
             i = 0;
         } else if (other.gameObject.CompareTag("Tree") && i == 1) {
             treeNear = false;
@@ -118,7 +118,6 @@ public class CharController : MonoBehaviour
             i = 0 ;
         } else if (other.gameObject.CompareTag("Cave") && i == 1) {
             caveNear = false;
-            Debug.Log("cave not near");
             i = 0;
         }
     }
@@ -158,36 +157,30 @@ public class CharController : MonoBehaviour
     //Functions for interacting with food objects (Fruit trees, caves, and other players)
     private void OnFoodAction()
     {
+        Debug.Log(animator);
         RaycastHit2D hit;
-        Debug.Log("there was a left click at " + Mouse.current.position.ReadValue()); 
         Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
         hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
-        if (hit.collider.tag == "Fruit Tree" && fruitTreeNear) {
+        if (hit.collider.tag == "Fruit Tree" && fruitTreeNear && hit) {
+            Debug.Log("Fruit Tree Clicked");
             //Invokes event for Fruit Tree to animate then send event back
             _gatherFruitEvent?.Invoke();
-            Debug.Log("Click event!");
+            animator.SetBool("Gather", true);
         } else if (hit.collider.tag == "Cave" && caveNear) {
-            _caveCollection.AddFood(_playerInventory.food);
             _playerInventory.DropOff();
-            Debug.Log("Player food: " + _playerInventory.food);
+            _caveCollection.AddFood(_playerInventory.food);
+            Debug.Log(_caveCollection.foodCount);
         } else if (hit.collider.tag == "Player" && playerNear) {
             _playerInventory.AddFood();
         }
     }
-
-    public void Gather() {
-        //Triggers at end of Harvesting Animation event
-        gameObject.GetComponent<Animator>().SetBool("Gather", true);
-        if (gameObject.GetComponent<Animator>().GetBool("Gather")) {
-                _playerInventory.AddFood();
-        }
-        Debug.Log("Player food: " + _playerInventory.food);
-    }
-
     public void StopGather() {
         //Triggers at the end of the gather animation
+        Debug.Log("Gathering is finished");
         gameObject.GetComponent<Animator>().SetBool("Gather", false);
+        _playerInventory.AddFood();
+
     }    
     
     //Function for right clicking and observing a nearby object
@@ -196,7 +189,7 @@ public class CharController : MonoBehaviour
         RaycastHit2D hit;
         Debug.Log("there was a right click at " + Mouse.current.position.ReadValue());
         Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
- 
+        Debug.Log(animator);
         hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
         if (hit.collider.tag == "Fruit Tree" && fruitTreeNear) {
             animator.SetBool("Observe", true);

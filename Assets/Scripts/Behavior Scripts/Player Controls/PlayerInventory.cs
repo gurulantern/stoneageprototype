@@ -11,7 +11,10 @@ public class PlayerInventory : ScriptableObject
     public event Action ChangedFood;
     public event Action ChangedWood;
 
-
+    void Awake() {
+        food = 0;
+        wood = 0;
+    }
     public void AddFood()
     {
         food += 1;

@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 
-public class Cave : MonoBehaviour
+public class Cave : Gatherable
 {
+    [SerializeField] private FoodCollection foodCollection;
 
-    private int i = 0;
+    
 }

@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 8914785045991559061}
   - component: {fileID: 532761834995395502}
   - component: {fileID: -4284275416427041784}
-  - component: {fileID: -7137348740811905697}
   m_Layer: 6
   m_Name: HomeCave
   m_TagString: Cave
@@ -150,17 +149,3 @@ CircleCollider2D:
   m_Offset: {x: 0.0063751936, y: -0.11122775}
   serializedVersion: 2
   m_Radius: 1.187873
---- !u!114 &-7137348740811905697
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1707997314763811456}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73a200cf3cb8cf94392017cfb44629f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onClick: {fileID: 11400000, guid: 2d0bef7205864cb4ab42c2f9cc282272, type: 2}
-  animator: {fileID: 0}

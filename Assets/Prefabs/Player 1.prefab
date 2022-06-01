@@ -16,8 +16,6 @@ GameObject:
   - component: {fileID: 2955475726884889708}
   - component: {fileID: 3328693769471626152}
   - component: {fileID: -5350760502861824651}
-  - component: {fileID: 3096947651827779481}
-  - component: {fileID: 4499866126157595373}
   - component: {fileID: 782909295415391657}
   m_Layer: 0
   m_Name: Player 1
@@ -233,62 +231,6 @@ MonoBehaviour:
   tireLimit: 10
   tireRate: 0.01
   restoreRate: 0.5
---- !u!114 &3096947651827779481
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4126516024473503786}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3642061a092171f4bb2a09e9c197cf02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gameEvent: {fileID: 11400000, guid: 2d0bef7205864cb4ab42c2f9cc282272, type: 2}
-  _unityEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: FoodActions, Assembly-CSharp
-        m_MethodName: DropOff
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &4499866126157595373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4126516024473503786}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3642061a092171f4bb2a09e9c197cf02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gameEvent: {fileID: 11400000, guid: 0dfbd9c50da8d5b4a9255b7a04254b40, type: 2}
-  _unityEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: -5350760502861824651}
-        m_TargetAssemblyTypeName: CharController, Assembly-CSharp
-        m_MethodName: Gather
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &782909295415391657
 MonoBehaviour:
   m_ObjectHideFlags: 0
