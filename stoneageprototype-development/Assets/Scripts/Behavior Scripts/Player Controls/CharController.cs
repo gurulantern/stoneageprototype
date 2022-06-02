@@ -167,7 +167,6 @@ public class CharController : MonoBehaviour
             _gatherFruitEvent?.Invoke();
             animator.SetBool("Gather", true);
         } else if (hit.collider.tag == "Cave" && caveNear) {
-            Debug.Log(_playerInventory.food);
             _caveCollection.AddFood(_playerInventory.food);
             _playerInventory.DropOff();
             Debug.Log(_caveCollection.foodCount);
