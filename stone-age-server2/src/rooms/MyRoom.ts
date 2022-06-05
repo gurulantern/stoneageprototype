@@ -1,5 +1,5 @@
 import { Room, Client, generateId } from "colyseus";
-import { RoomState, NetworkedEntity, NetworkedUser } from "./schema/MyRoomState";
+import { RoomState, NetworkedEntity, NetworkedUser } from "./schema/RoomState";
 const logger = require("../helpers/logger");
 
 export class MyRoom extends Room<RoomState> {

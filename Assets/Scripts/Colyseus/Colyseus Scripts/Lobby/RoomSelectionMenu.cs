@@ -55,7 +55,7 @@ public class RoomSelectionMenu : MonoBehaviour
 
     public void GetAvailableRooms()
     {
-        ExampleManager.Instance.GetAvailableRooms();
+        ColyseusManager.Instance.GetAvailableRooms();
     }
 
     public void HandRooms(ColyseusRoomAvailable[] rooms)

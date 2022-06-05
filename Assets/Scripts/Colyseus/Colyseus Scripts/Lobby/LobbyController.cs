@@ -32,7 +32,7 @@ public class LobbyController : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 
-        while (!ExampleManager.IsReady)
+        while (!ColyseusManager.IsReady)
         {
             yield return new WaitForEndOfFrame();
         }
@@ -43,14 +43,14 @@ public class LobbyController : MonoBehaviour
             ["YOUR_ROOM_OPTION_2"] = "option 2"
         };
 
-        ExampleManager.Instance.Initialize(roomName, roomOptions);
-        ExampleManager.onRoomsReceived += OnRoomsReceived;
+        ColyseusManager.Instance.Initialize(roomName, roomOptions);
+        ColyseusManager.onRoomsReceived += OnRoomsReceived;
         connectingCover.SetActive(false);
     }
 
     private void OnDestroy()
     {
-        ExampleManager.onRoomsReceived -= OnRoomsReceived;
+        ColyseusManager.onRoomsReceived -= OnRoomsReceived;
     }
 
     public void CreateUser()
@@ -58,16 +58,16 @@ public class LobbyController : MonoBehaviour
         string desiredUserName = createUserMenu.UserName;
         PlayerPrefs.SetString("UserName", desiredUserName);
 
-        ColyseusSettings clonedSettings = ExampleManager.Instance.CloneSettings();
+        ColyseusSettings clonedSettings = ColyseusManager.Instance.CloneSettings();
         clonedSettings.colyseusServerAddress = createUserMenu.ServerURL;
         clonedSettings.colyseusServerPort = createUserMenu.ServerPort;
         clonedSettings.useSecureProtocol= createUserMenu.UseSecure;
 
-        ExampleManager.Instance.OverrideSettings(clonedSettings);
+        ColyseusManager.Instance.OverrideSettings(clonedSettings);
 
-        ExampleManager.Instance.InitializeClient();
+        ColyseusManager.Instance.InitializeClient();
 
-        ExampleManager.Instance.UserName = desiredUserName;
+        ColyseusManager.Instance.UserName = desiredUserName;
 
         //Do user creation stuff
         createUserMenu.gameObject.SetActive(false);
@@ -81,20 +81,20 @@ public class LobbyController : MonoBehaviour
         string desiredRoomName = selectRoomMenu.RoomCreationName;
         if (!string.IsNullOrEmpty(desiredRoomName))
         {
-            LoadGallery(() => { ExampleManager.Instance.CreateNewRoom(desiredRoomName); });
+            LoadGallery(() => { ColyseusManager.Instance.CreateNewRoom(desiredRoomName); });
         }
     }
 
     public void JoinOrCreateRoom()
     {
         connectingCover.SetActive(true);
-        LoadGallery(() => { ExampleManager.Instance.JoinOrCreateRoom(); });
+        LoadGallery(() => { ColyseusManager.Instance.JoinOrCreateRoom(); });
     }
 
     public void JoinRoom(string id)
     {
         connectingCover.SetActive(true);
-        LoadGallery(() => { ExampleManager.Instance.JoinExistingRoom(id); });
+        LoadGallery(() => { ColyseusManager.Instance.JoinExistingRoom(id); });
     }
 
     public void OnConnectedToServer()

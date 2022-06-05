@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/LobbyScene.unity
+    path: Assets/Scenes/MyLobbyScene.unity
     guid: d34c82824e6b2fc4fb5a7cd7f4b1884e
   - enabled: 1
     path: Assets/Scenes/Stone Age.unity

@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "git": "^0.1.5"
+  },
+  "devDependencies": {
+    "@types/mocha": "^9.1.1"
   }
 }

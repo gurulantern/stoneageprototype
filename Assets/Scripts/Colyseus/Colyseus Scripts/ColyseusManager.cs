@@ -99,6 +99,8 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
     public async void GetAvailableRooms()
     {
         ColyseusRoomAvailable[] rooms = await client.GetAvailableRooms(_roomController.roomName);
+
+        onRoomsReceived?.Invoke(rooms);
     }
 
     public async void JoinExistingRoom(string roomID)

@@ -229,7 +229,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 40018593}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 010cee042acbf4a4c946c9c288dbdd1c, type: 3}
+  m_Script: {fileID: 11500000, guid: a58294b11b4bfd7469fcd204cc7f91a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   createButton: {fileID: 57515034}
@@ -322,7 +322,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 966587618}
+      - m_Target: {fileID: 966587623}
         m_TargetAssemblyTypeName: LobbyController, Assembly-CSharp
         m_MethodName: CreateUser
         m_Mode: 1
@@ -1641,10 +1641,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 631429329}
-  - component: {fileID: 631429328}
   - component: {fileID: 631429327}
+  - component: {fileID: 631429330}
   m_Layer: 0
-  m_Name: ExampleManager
+  m_Name: ColyseusManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1662,21 +1662,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0334c84a6aadcc149a2401942503c891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &631429328
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 631429326}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dab4dd3d6cbdbb147af237fa91591c81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _colyseusSettings: {fileID: 11400000, guid: a61d158c14f17d24b817ab670d7e9936, type: 2}
-  _roomController:
-    roomName: NO_ROOM_NAME_PROVIDED
 --- !u!4 &631429329
 Transform:
   m_ObjectHideFlags: 0
@@ -1692,6 +1677,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &631429330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 631429326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56b998600b760394c984c188e4f8f849, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _colyseusSettings: {fileID: 11400000, guid: a61d158c14f17d24b817ab670d7e9936, type: 2}
+  _roomController:
+    roomName: NO_ROOM_NAME_PROVIDED
 --- !u!1 &643199157
 GameObject:
   m_ObjectHideFlags: 0
@@ -1999,7 +1999,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 708113557}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d691b119c8cbb504d81f17d60c1b4a8e, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e53bac0af96f4249a4d07b30454e9bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   createRoomButton: {fileID: 1447287975}
@@ -2007,7 +2007,7 @@ MonoBehaviour:
     type: 3}
   entryRoot: {fileID: 2142306688}
   loadingCover: {fileID: 832334714}
-  lobbyController: {fileID: 966587618}
+  lobbyController: {fileID: 966587623}
   roomCreationNameInputField: {fileID: 169478914}
 --- !u!1 &762000585
 GameObject:
@@ -2596,7 +2596,7 @@ GameObject:
   - component: {fileID: 966587621}
   - component: {fileID: 966587620}
   - component: {fileID: 966587619}
-  - component: {fileID: 966587618}
+  - component: {fileID: 966587623}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2604,23 +2604,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &966587618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 966587617}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aca67152b9cb934dbea32cf2ae8d6ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  connectingCover: {fileID: 1018669214}
-  createUserMenu: {fileID: 40018594}
-  roomName: my_room
-  gameSceneName: Stone Age
-  selectRoomMenu: {fileID: 708113559}
 --- !u!114 &966587619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2706,6 +2689,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &966587623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 966587617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46b32b1f544a1954b9738684c2072831, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  connectingCover: {fileID: 1018669214}
+  createUserMenu: {fileID: 40018594}
+  roomName: my_room
+  gameSceneName: Stone Age
+  selectRoomMenu: {fileID: 708113559}
 --- !u!1 &966952180
 GameObject:
   m_ObjectHideFlags: 0
@@ -3601,8 +3601,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 966587618}
-        m_TargetAssemblyTypeName: LobbyController, LucidSight.Runtime.ColyseusSDK
+      - m_Target: {fileID: 966587623}
+        m_TargetAssemblyTypeName: LobbyController, Assembly-CSharp
         m_MethodName: JoinOrCreateRoom
         m_Mode: 1
         m_Arguments:
@@ -3794,7 +3794,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 966587618}
+      - m_Target: {fileID: 966587623}
         m_TargetAssemblyTypeName: LobbyController, Assembly-CSharp
         m_MethodName: CreateRoom
         m_Mode: 1
