@@ -1,18 +1,42 @@
-using System.Collections;
-using System.Collections.Generic;
+using Colyseus;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RoomListItem : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private Text clientCount = null;
+
+    [SerializeField]
+    private Button joinButton = null;
+
+    private RoomSelectionMenu menuRef;
+
+    [SerializeField]
+    private Text roomName = null;
+
+    private ColyseusRoomAvailable roomRef;
+
+    public void Initialize(ColyseusRoomAvailable roomReference, RoomSelectionMenu menu)
     {
-        
+        menuRef = menu;
+        roomRef = roomReference;
+        roomName.text = roomReference.roomId;
+        string maxClients = roomReference.maxClients > 0 ? roomReference.maxClients.ToString() : "--";
+        clientCount.text = $"{roomReference.clients} / {maxClients}";
+        //TODO: if we want to lock rooms, will need to do so here
+        if (roomReference.maxClients > 0 && roomReference.clients >= roomReference.maxClients)
+        {
+            joinButton.interactable = false;
+        }
+        else
+        {
+            joinButton.interactable = true;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TryJoin()
     {
-        
+        menuRef.JoinRoom(roomRef.roomId);
     }
 }
