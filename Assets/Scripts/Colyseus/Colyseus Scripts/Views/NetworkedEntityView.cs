@@ -78,8 +78,8 @@ using UnityEngine;
         protected struct EntityState
         {
             public double timestamp;
-            public Vector3 pos;
-            public Vector3 vel;
+            public Vector2 pos;
+            public Vector2 vel;
             public Quaternion rot;
             public Colyseus.Schema.MapSchema<string> attributes;
         }
@@ -180,8 +180,8 @@ using UnityEngine;
         {
 
             // Network player, receive data
-            Vector3 pos = new Vector3((float)state.xPos, (float)state.yPos);
-            Vector3 velocity = new Vector3((float)state.xVel, (float)state.yVel);
+            Vector2 pos = new Vector2((float)state.xPos, (float)state.yPos);
+            Vector2 velocity = new Vector2((float)state.xVel, (float)state.yVel);
 
             // If we're ignoring position data from the owning session, then use our own values. This
             // should only happen in special cases
@@ -194,7 +194,7 @@ using UnityEngine;
             // Check for speed hacks
             if (checkForSpeedHacks && proxyStates.Length > 0)
             {
-                Vector3 delta = pos - proxyStates[0].pos;
+                Vector2 delta = pos - proxyStates[0].pos;
                 if (delta.sqrMagnitude > maxSpeedDeltaSqr)
                 {
 #if UNITY_EDITOR
