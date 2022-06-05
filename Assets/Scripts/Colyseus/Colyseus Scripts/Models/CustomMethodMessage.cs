@@ -1,18 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
-public class CustomMethodMessage : MonoBehaviour
+public class CustomMethodMessage
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    // The name of the method we want to run on the server
+    public string method;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // Optional array of parameters to be sent to the clients
+    public object[] param;
 }

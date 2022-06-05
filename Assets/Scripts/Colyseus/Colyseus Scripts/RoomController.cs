@@ -20,7 +20,7 @@ using UnityEngine;
 
     /// OnNetworkEntityRemoved delegate for OnNetworkEntityRemoved event.
     /// Then entity that was just removed to the room.
-    public delegate void OnNetworkEntityRemoved(NetworkedEntity entity, ColyseusNetworkedEntityView view);
+    public delegate void OnNetworkEntityRemoved(NetworkedEntity entity, StoneColyseusNetworkedEntityView view);
 
     public delegate void OnUserStateChanged(MapSchema<string> changes);
 
@@ -426,7 +426,7 @@ using UnityEngine;
     private async void OnEntityAdd(string key, NetworkedEntity entity)
     {
         LSLog.LogImportant(
-            $"Entity [{entity.__refId} | {entity.id}] add: x => {entity.xPos}, y => {entity.yPos}, z => {entity.zPos}");
+            $"Entity [{entity.__refId} | {entity.id}] add: x => {entity.xPos}, y => {entity.yPos}");
 
         _entities.Add(entity.id, entity);
 
@@ -455,7 +455,7 @@ using UnityEngine;
             _entities.Remove(entity.id);
         }
 
-        ColyseusNetworkedEntityView view = null;
+        StoneColyseusNetworkedEntityView view = null;
 
         if (_entityViews.ContainsKey(entity.id))
         {

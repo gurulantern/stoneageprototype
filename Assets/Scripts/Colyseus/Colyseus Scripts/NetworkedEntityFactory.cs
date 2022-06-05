@@ -123,21 +123,19 @@ public class NetworkedEntityFactory
     /// attributes - Position for the new entity
     /// viewToAssign - The provided view that will be assigned to the new NetworkedEntity
     /// name - callback">Callback that will be invoked with the newly created NetworkedEntity
-    public void CreateNetworkedEntityWithTransform(ColyseusRoom<RoomState> room, Vector2 position, Quaternion rotation,
+    public void CreateNetworkedEntityWithTransform(ColyseusRoom<RoomState> room, Vector2 position,
         Dictionary<string, object> attributes = null, StoneColyseusNetworkedEntityView viewToAssign = null,
         Action<NetworkedEntity> callback = null)
     {
         if (attributes != null)
         {
-            attributes.Add("creationPos", new object[3] { position.x, position.y, position.z });
-            attributes.Add("creationRot", new object[4] { rotation.x, rotation.y, rotation.z, rotation.w });
+            attributes.Add("creationPos", new object[2] { position.x, position.y, });
         }
         else
         {
             attributes = new Dictionary<string, object>()
             {
-                ["creationPos"] = new object[3] { position.x, position.y, position.z },
-                ["creationRot"] = new object[4] { rotation.x, rotation.y, rotation.z, rotation.w }
+                ["creationPos"] = new object[2] { position.x, position.y },
             };
         }
 

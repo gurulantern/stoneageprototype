@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using Colyseus;
 using LucidSightTools;
@@ -30,10 +30,16 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
         get{ return _roomController.GetRoundtripTime; }
     }
 
+    ///     Returns the synchronized time from the server in seconds.
+    public double GetServerTimeSeconds
+    {
+        get { return _roomController.GetServerTimeSeconds; }
+    }
+
     /// Retunrs a reference to the current networked user.
     public NetworkedUser CurrentUser
     {
-        get{ return _roomController.CurrentNetworkedUer; }
+        get{ return _roomController.CurrentNetworkedUser; }
     }
 
     public static bool IsReady
@@ -144,7 +150,7 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
     {
         base.OnApplicationQuit();
 
-        _roomController.LeavAllRooms();
+        _roomController.LeaveAllRooms(true);
 
         CleanUpOnAppQuit();
     }
@@ -163,7 +169,7 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
     /// param - the parameters of the function to call
     /// target - who should receive this RFC
     public static void RFC(StoneColyseusNetworkedEntityView entity, string function, object[] param,
-        ExampleRFCTargets target = ExampleRFCTargets.ALL)
+        RFCTargets target = RFCTargets.ALL)
     {
         RFC(entity.Id, function, param, target);
     }
@@ -226,7 +232,7 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
     /// Entity attributes
     public void InstantiateNetworkedEntity(string prefab, Dictionary<string, object> attributes = null)
     {
-        InstantiateNetworkedEntity(prefab, Vector2.zero, Quaternion.identity, attributes);
+        InstantiateNetworkedEntity(prefab, Vector2.zero, attributes);
     }
 
     /// Creates a new NetworkedEntity with the given prefab and attributes
@@ -241,26 +247,16 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
             Quaternion.identity, attributes);
     }
 
-    /// Creates a new NetworkedEntity with the given prefab and attributes
-    /// and places it at the provided position and rotation.
-    /// prefab, position, attritbutes - Prefab you would like to use to create the entity
-    public static void InstantiateNetworkedEntity(string prefab, Vector2 position, Quaternion rotation,
-        Dictionary<string, object> attributes = null)
-    {
-        Instance._networkedEntityFactory.InstantiateNetworkedEntity(Instance._roomController.Room, prefab, position,
-            rotation, attributes);
-    }
-
     /// Creates a new NetworkedEntity with the given ColyseusNetworkedEntityView and attributes 
     /// and places it at the provided position and rotation.
     /// viewToAssign - The provided view that will be assigned to the new NetworkedEntity
     /// callback - Callback that will be invoked with the newly created NetworkedEntity
-    public static void CreateNetworkedEntityWithTransform(Vector2 position, Quaternion rotation,
+    public static void CreateNetworkedEntityWithTransform(Vector2 position,
         Dictionary<string, object> attributes = null, StoneColyseusNetworkedEntityView viewToAssign = null,
         Action<NetworkedEntity> callback = null)
     {
         Instance._networkedEntityFactory.CreateNetworkedEntityWithTransform(Instance._roomController.Room, position,
-            rotation, attributes, viewToAssign, callback);
+            attributes, viewToAssign, callback);
     }
 
     /// Creates a new NetworkedEntity with the given prefab, attributes, and ColyseusNetworkedEntityView

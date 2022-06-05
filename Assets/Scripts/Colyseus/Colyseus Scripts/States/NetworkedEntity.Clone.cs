@@ -2,17 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NetworkedEntity.Clone : MonoBehaviour
+public partial class NetworkedEntity
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	// Make sure to update Clone fi you add any attributes
+	public NetworkedEntity Clone()
+	{
+		return new NetworkedEntity() { id = id, ownerId = ownerId, creationId = creationId, xPos = xPos, yPos = yPos, xScale = xScale, yScale = yScale, timestamp = timestamp, attributes = attributes };
+	}
 }

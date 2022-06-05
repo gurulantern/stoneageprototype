@@ -3,14 +3,10 @@ using System.Collections;
 
 namespace Colyseus
 {
-    /// <summary>
     /// The base Networked Entity View
-    /// </summary>
     public class StoneColyseusNetworkedEntityView : MonoBehaviour
     {
-        /// <summary>
-        /// The ID of the <see cref="ExampleNetworkedEntity"/> that belongs to this view.
-        /// </summary>
+        /// The ID of the NetworkedEntity that belongs to this view.
         public string Id { get; protected set; }
 
     }

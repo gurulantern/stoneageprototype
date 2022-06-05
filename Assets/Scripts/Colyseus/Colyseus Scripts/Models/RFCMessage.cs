@@ -1,18 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class RFCMessage : MonoBehaviour
+// Potential targets of the RFC
+public enum RFCTargets
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    // Send this RFC to all connected clients
+    ALL,
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // Send this RFC to all connected clients EXCEPT for the sender
+    OTHERS
+}
+
+// Method call on clients in the same room
+public class RFCMessage
+{
+    // The target of the RFC
+    public RFCTargets target = RFCTargets.ALL;
+
+    // The ID of the entity sending this RFC
+    public string entityId;
+
+    // The name of the function that will be called
+    public string function;
+
+    // Optional array of parameters to be sent to the clients
+    public object[] param;
 }

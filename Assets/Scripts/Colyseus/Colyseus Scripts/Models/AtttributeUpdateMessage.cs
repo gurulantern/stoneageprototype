@@ -1,18 +1,14 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class AtttributeUpdateMessage : MonoBehaviour
+// Message sent to update an entity's attributes
+public class AttributeUpdateMessage
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    // ID of the entity to update
+    public string entityId;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // Id of the networked user
+    public string userId;
+
+    // Map of the attributes to update
+    public Dictionary<string, string> attributesToSet = new Dictionary<string, string>();
 }
