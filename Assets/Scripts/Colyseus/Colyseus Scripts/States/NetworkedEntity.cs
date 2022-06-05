@@ -24,26 +24,14 @@ public partial class NetworkedEntity : Schema {
 	public float yPos = default(float);
 
 	[Type(5, "number")]
-	public float xRot = default(float);
-
-	[Type(6, "number")]
-	public float yRot = default(float);
-
-	[Type(7, "number")]
-	public float xScale = default(float);
-
-	[Type(8, "number")]
-	public float yScale = default(float);
-
-	[Type(9, "number")]
 	public float timestamp = default(float);
 
-	[Type(10, "number")]
+	[Type(6, "number")]
 	public float xVel = default(float);
 
-	[Type(11, "number")]
+	[Type(7, "number")]
 	public float yVel = default(float);
 
-	[Type(12, "map", typeof(MapSchema<string>), "string")]
+	[Type(8, "map", typeof(MapSchema<string>), "string")]
 	public MapSchema<string> attributes = new MapSchema<string>();
 }

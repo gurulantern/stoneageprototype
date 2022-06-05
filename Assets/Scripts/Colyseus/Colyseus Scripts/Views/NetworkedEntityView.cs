@@ -150,8 +150,7 @@ using UnityEngine;
 
         protected virtual void SetStateStartPos()
         {
-            gameObject.transform.localPosition = new Vector3((float)state.xPos, (float)state.yPos);
-            gameObject.transform.localScale = new Vector3((float)state.xScale, (float)state.yScale);
+            gameObject.transform.localPosition = new Vector2((float)state.xPos, (float)state.yPos);
         }
 
         public virtual void OnEntityRemoved()
@@ -245,12 +244,6 @@ using UnityEngine;
             //Copy Transform to State (round position to fix floating point issues with state compare)
             state.xPos = (float)System.Math.Round((decimal)transform.localPosition.x, 4);
             state.yPos = (float)System.Math.Round((decimal)transform.localPosition.y, 4);
-
-            state.xRot = transform.localRotation.x;
-            state.yRot = transform.localRotation.y;
-
-            state.xScale = transform.localScale.x;
-            state.yScale = transform.localScale.y;
 
             state.xVel = localPositionDelta.x;
             state.yVel = localPositionDelta.y;
