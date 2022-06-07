@@ -13,30 +13,36 @@ public class CharControllerMulti : NetworkedEntityView
     [SerializeField] GameEvent _gatherFruitEvent;
     [SerializeField] GameEvent _dropOffEvent;
     [SerializeField] GameEvent _observeDone;
-    [SerializeField] private float speed = 2.5f;
-    [SerializeField] private float tiredSpeed = .5f;
     [SerializeField] private LayerMask _layerMask;
-    private Vector2 playerVelocity;
-    public PlayerInventory _playerInventory;
+    public PlayerStats _playerStats;
+    public float maxStamina, currentStamina, speed, tiredSpeed, tireLimit, tireRate, restoreRate;
+    public int food, wood;
     private Vector2 moveInput;
     //Bunch of bools for checking if near with Circle colliders and checking player state
     private bool treeNear, fruitTreeNear, playerNear, caveNear;
     private bool sleep, observing, gathering, tired;
-    //Limit for when player enters tire state
-    public float tireLimit = 10f;
-    public float tireRate = .01f;
-    public float restoreRate = .5f;
     //Iterator variable for debugging Trigger Enter and Exit
     private int i = 0;
     Rigidbody2D rb;
     Animator animator;
     Vector2 lookDirection = new Vector2(1,0);
+    public event Action ChangedFood;
+    public event Action ChangedWood;
     
     protected override void Awake() {
         base.Awake();
         animator = gameObject.GetComponent<Animator>();
         _playerControls = new PlayerControls();
         rb = GetComponent<Rigidbody2D>();
+        maxStamina = _playerStats.MaxStamina;
+        currentStamina = _playerStats.MaxStamina;
+        speed = _playerStats.Speed;
+        tiredSpeed = _playerStats.TiredSpeed;
+        tireLimit = _playerStats.TireLimit;
+        tireRate = _playerStats.TireRate;
+        restoreRate = _playerStats.RestoreRate;
+        food = _playerStats.Food;
+        wood = _playerStats.Wood;
     }
 
     protected override void Start()
@@ -57,7 +63,7 @@ public class CharControllerMulti : NetworkedEntityView
             yield return 0;
         }
         LSLog.LogImportant("HAS JOINED ROOM - CREATING ENTITY");
-        ColyseusManager.CreateNetworkedEntityWithTransform(new Vector2(0f, 0f), new Dictionary<string, object>() { ["prefab"] = "Player"}, this, (entity) => {
+        ColyseusManager.CreateNetworkedEntityWithTransform(new Vector2(-3.86f,14.39f), new Dictionary<string, object>() { ["prefab"] = "Player"}, this, (entity) => {
             LSLog.LogImportant($"Network Entity Ready {entity.id}");
         });
     }
@@ -73,7 +79,7 @@ public class CharControllerMulti : NetworkedEntityView
         base.Update();
 
         if (!HasInit || !IsMine) return;
-        rb.MovePosition(rb.position + moveInput * tiredSpeed * Time.deltaTime);
+        rb.MovePosition(rb.position + moveInput * speed * Time.deltaTime);
 
     }
 
@@ -105,14 +111,16 @@ public class CharControllerMulti : NetworkedEntityView
         }
     }
 */
-    /// Function for changing stamina over time
+//Function for changing stamina over time
     private void ChangeStamina(float rate)
     {
+        currentStamina = Mathf.Clamp(currentStamina + rate, 0, maxStamina);
     }
 
     //Funciton for edible objects to change player stamina
     public void FoodStamina(int amount)
     {
+        currentStamina = Mathf.Clamp(currentStamina + amount, 0, maxStamina); 
     }
 
     //Trigger Exits and Enters to set whether objects are near for interactions
@@ -194,16 +202,19 @@ public class CharControllerMulti : NetworkedEntityView
             _gatherFruitEvent?.Invoke();
             animator.SetBool("Gather", true);
         } else if (hit.collider.tag == "Cave" && caveNear) {
-            _playerInventory.DropOff();
+            Cave cave = hit.collider.GetComponent<Cave>();
+            cave.AddFood(food);
+            DropOff();
+            Debug.Log(cave.FoodCount);
         } else if (hit.collider.tag == "Player" && playerNear) {
-            _playerInventory.AddFood();
+            AddFood();
         }
     }
     public void StopGather() {
         //Triggers at the end of the gather animation
         Debug.Log("Gathering is finished");
         gameObject.GetComponent<Animator>().SetBool("Gather", false);
-        _playerInventory.AddFood();
+        AddFood();
 
     }    
     
@@ -232,5 +243,35 @@ public class CharControllerMulti : NetworkedEntityView
     {
         animator.SetBool("Observe", false);
         _observeDone?.Invoke();
+    }
+
+    public void AddFood()
+    {
+        food += 1;
+        ChangedFood?.Invoke();
+    }
+
+    public void AddWood()
+    {
+        wood += 1;
+        ChangedWood?.Invoke();
+    }
+
+    public void Robbed()
+    {
+        food -= 1;
+        ChangedFood?.Invoke();
+    }
+
+    public void DropOff()
+    {
+        food -= food;
+        ChangedFood?.Invoke();
+    }
+
+    public void UseWood()
+    {
+        wood -= wood;
+        ChangedWood?.Invoke();
     }
 }

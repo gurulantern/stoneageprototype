@@ -245,8 +245,7 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
     public static void InstantiateNetworkedEntity(string prefab, Vector2 position,
         Dictionary<string, object> attributes = null)
     {
-        Instance._networkedEntityFactory.InstantiateNetworkedEntity(Instance._roomController.Room, prefab, position,
-            Quaternion.identity, attributes);
+        Instance._networkedEntityFactory.InstantiateNetworkedEntity(Instance._roomController.Room, prefab, position, attributes);
     }
 
     /// Creates a new NetworkedEntity with the given ColyseusNetworkedEntityView and attributes 

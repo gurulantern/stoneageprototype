@@ -12,7 +12,8 @@ using LucidSightTools;
 public class GameController : MonoBehaviour
 {
     public StoneColyseusNetworkedEntityView prefab;
-    public CharController controls;
+    CharController playerStats;
+    [SerializeField] private Cave homeCave;
     public static GameController instance;
     public GameObject hudContainer, gameOverPanel;
     public TextMeshProUGUI allianceTracker, foodCounter;
@@ -24,6 +25,7 @@ public class GameController : MonoBehaviour
     private void Awake() 
     {
         instance = this;
+        playerStats = prefab.GetComponent<CharController>(); 
     }
     private void Start() 
     {

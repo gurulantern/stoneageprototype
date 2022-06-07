@@ -6,7 +6,7 @@ using Colyseus;
 using GameDevWare.Serialization;
 using LucidSightTools;
 
-/// Responsible for carrying out the creation of network entities and registering them with the Example Manager.
+/// Responsible for carrying out the creation of network entities and registering them with the Colyseus Manager.
 public class NetworkedEntityFactory
 {
     private readonly Dictionary<string, Action<NetworkedEntity>> _creationCallbacks;
@@ -28,7 +28,7 @@ public class NetworkedEntityFactory
     /// position - Position for the new entity
     /// rotation - Position for the new entity
     /// attributes - Position for the new entity
-    public void InstantiateNetworkedEntity(ColyseusRoom<RoomState> room, string prefab, Vector3 position, Quaternion rotation,
+    public void InstantiateNetworkedEntity(ColyseusRoom<RoomState> room, string prefab, Vector2 position,
         Dictionary<string, object> attributes = null)
     {
         if (string.IsNullOrEmpty(prefab))
@@ -39,15 +39,13 @@ public class NetworkedEntityFactory
 
         if (attributes != null)
         {
-            attributes.Add("creationPos", new object[3] { position.x, position.y, position.z });
-            attributes.Add("creationRot", new object[4] { rotation.x, rotation.y, rotation.z, rotation.w });
+            attributes.Add("creationPos", new object[2] { position.x, position.y });
         }
         else
         {
             attributes = new Dictionary<string, object>()
             {
-                ["creationPos"] = new object[3] { position.x, position.y, position.z },
-                ["creationRot"] = new object[4] { rotation.x, rotation.y, rotation.z, rotation.w }
+                ["creationPos"] = new object[2] { position.x, position.y },
             };
         }
 
@@ -157,7 +155,7 @@ public class NetworkedEntityFactory
         NetworkedEntityView view = UnityEngine.Object.Instantiate((NetworkedEntityView)asyncItem.asset);
         if (view == null)
         {
-            LSLog.LogError("Instantiated Object is not of VMENetworkedEntityView Type");
+            LSLog.LogError("Instantiated Object is not of Player Type");
             asyncItem = null;
             return;
         }

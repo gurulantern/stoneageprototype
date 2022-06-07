@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2955475726884889708}
   - component: {fileID: 3328693769471626152}
   - component: {fileID: 782909295415391657}
-  - component: {fileID: -1233530421571458690}
+  - component: {fileID: -2674248606795513031}
   m_Layer: 0
   m_Name: MultiPlayer
   m_TagString: Untagged
@@ -233,7 +233,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &-1233530421571458690
+--- !u!114 &-2674248606795513031
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -246,7 +246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   autoInitEntity: 0
-  prefabName: 
+  prefabName: Player
   positionLerpSpeed: 5
   snapIfAngleIsGreater: 100
   rotationLerpSpeed: 5
@@ -340,15 +340,18 @@ MonoBehaviour:
     rot: {x: 0, y: 0, z: 0, w: 0}
   _camera: {fileID: 0}
   _gatherFruitEvent: {fileID: 0}
+  _dropOffEvent: {fileID: 0}
   _observeDone: {fileID: 0}
-  speed: 2.5
-  tiredSpeed: 0.5
   _layerMask:
     serializedVersion: 2
     m_Bits: 0
-  _playerStamina: {fileID: 0}
-  _playerInventory: {fileID: 0}
-  _caveCollection: {fileID: 0}
-  tireLimit: 10
-  tireRate: 0.01
-  restoreRate: 0.5
+  _playerStats: {fileID: 11400000, guid: 9db0846c5c3bc274da33171b82162da4, type: 2}
+  maxStamina: 0
+  currentStamina: 0
+  speed: 0
+  tiredSpeed: 0
+  tireLimit: 0
+  tireRate: 0
+  restoreRate: 0
+  food: 0
+  wood: 0
