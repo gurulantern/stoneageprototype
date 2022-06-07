@@ -6,7 +6,7 @@ using System;
 
 public abstract class Gatherable : MonoBehaviour
 {
-    [SerializeField] protected GameEvent _gatheredEvent;
+    [SerializeField] protected GameEvent _interactEvent;
     protected int i;
     protected bool playerNear; 
 

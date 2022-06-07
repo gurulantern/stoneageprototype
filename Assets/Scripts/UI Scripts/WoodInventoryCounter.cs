@@ -6,13 +6,12 @@ using TMPro;
 
 public class WoodInventoryCounter : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI counter;
-    [SerializeField] PlayerInventory _playerInventory;
-
-    void Awake() => _playerInventory.ChangedWood += UpdateText;
-    void OnDestroy() => _playerInventory.ChangedWood -= UpdateText;
+    [SerializeField] TextMeshProUGUI counter;    
+    CharController character;
+    void Awake() => character.ChangedWood += UpdateText;
+    void OnDestroy() => character.ChangedWood -= UpdateText;
     void OnEnable() => UpdateText();
     void OnValidate() => counter = GetComponent<TextMeshProUGUI>();
-    void UpdateText() => counter.text = _playerInventory.wood.ToString();
+    void UpdateText() => counter.text = character.wood.ToString();
 
 }

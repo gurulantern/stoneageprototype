@@ -123,7 +123,7 @@ using UnityEngine;
             try
             {
                 state = entity;
-                IsMine = ExampleManager.Instance.CurrentUser != null && string.Equals(ExampleManager.Instance.CurrentUser.sessionId, state.ownerId);
+                IsMine = ColyseusManager.Instance.CurrentUser != null && string.Equals(ColyseusManager.Instance.CurrentUser.sessionId, state.ownerId);
                 state.attributes.OnChange += Attributes_OnChange;
                 state.OnChange += Entity_State_OnChange;
 
@@ -369,7 +369,7 @@ using UnityEngine;
 
         public void SetAttributes(Dictionary<string, string> attributesToSet)
         {
-            ExampleManager.NetSend("setAttribute", new AttributeUpdateMessage() { entityId = state.id, attributesToSet = attributesToSet });
+            ColyseusManager.NetSend("setAttribute", new AttributeUpdateMessage() { entityId = state.id, attributesToSet = attributesToSet });
         }
 
         protected static List<PropertyCompareResult> Compare<T>(T oldObject, T newObject)

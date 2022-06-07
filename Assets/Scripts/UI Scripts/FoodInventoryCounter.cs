@@ -7,12 +7,11 @@ using TMPro;
 public class FoodInventoryCounter : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI counter;
-    [SerializeField] PlayerInventory _playerInventory;
-
-    void Awake() => _playerInventory.ChangedFood += UpdateText;
-    void OnDestroy() => _playerInventory.ChangedFood -= UpdateText;
+    CharController character;
+    void Awake() => character.ChangedFood += UpdateText;
+    void OnDestroy() => character.ChangedFood -= UpdateText;
     void OnEnable() => UpdateText();
     void OnValidate() => counter = GetComponent<TextMeshProUGUI>();
-    void UpdateText() => counter.text = _playerInventory.food.ToString();
+    void UpdateText() => counter.text = character.food.ToString();
 
 }

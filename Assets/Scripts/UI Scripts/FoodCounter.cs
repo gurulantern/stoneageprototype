@@ -8,12 +8,11 @@ using TMPro;
 public class FoodCounter : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI counter;
-    [SerializeField] FoodCollection foodCollection;
-
-    void Awake() => foodCollection.Changed += UpdateText;
-    void OnDestroy() => foodCollection.Changed -= UpdateText;
+    Cave cave;
+    void Awake() => cave.Changed += UpdateText;
+    void OnDestroy() => cave.Changed -= UpdateText;
     void OnEnable() => UpdateText();
     void OnValidate() => counter = GetComponent<TextMeshProUGUI>();
-    void UpdateText() => counter.text = foodCollection.foodCount.ToString();
+    void UpdateText() => counter.text = cave.FoodCount.ToString();
 
 }

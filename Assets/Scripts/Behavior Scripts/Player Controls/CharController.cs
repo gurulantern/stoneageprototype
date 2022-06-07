@@ -1,49 +1,54 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
 public class CharController : MonoBehaviour
 {
     [SerializeField] PlayerControls _playerControls;
     [SerializeField] private Camera _camera;
     [SerializeField] GameEvent _gatherFruitEvent;
+    [SerializeField] GameEvent _dropOffEvent;
     [SerializeField] GameEvent _observeDone;
-    [SerializeField] private float speed = 2.5f;
-    [SerializeField] private float tiredSpeed = .5f;
     [SerializeField] private LayerMask _layerMask;
-    public PlayerStamina _playerStamina;
-    public PlayerInventory _playerInventory;
-    public FoodCollection _caveCollection;
+    public PlayerStats _playerStats;
+    public float maxStamina, currentStamina, speed, tiredSpeed, tireLimit, tireRate, restoreRate;
+    public int food, wood;
     private Vector2 moveInput;
     //Bunch of bools for checking if near with Circle colliders and checking player state
-    private bool treeNear {get; set;}
-    private bool fruitTreeNear {get; set;}
-    private bool playerNear {get; set;}
-    private bool caveNear {get; set;}
+    private bool treeNear, fruitTreeNear, playerNear, caveNear;
     private bool sleep, observing, gathering, tired;
-    //Limit for when player enters tire state
-    public float tireLimit = 10f;
-    public float tireRate = .01f;
-    public float restoreRate = .5f;
     //Iterator variable for debugging Trigger Enter and Exit
     private int i = 0;
     Rigidbody2D rb;
     Animator animator;
     Vector2 lookDirection = new Vector2(1,0);
+    public event Action ChangedFood;
+    public event Action ChangedWood;
     
     private void Awake() {
         animator = gameObject.GetComponent<Animator>();
         _playerControls = new PlayerControls();
         rb = GetComponent<Rigidbody2D>();
-        _playerStamina.currentStamina = 100;
+        maxStamina = _playerStats.MaxStamina;
+        currentStamina = _playerStats.MaxStamina;
+        speed = _playerStats.Speed;
+        tiredSpeed = _playerStats.TiredSpeed;
+        tireLimit = _playerStats.TireLimit;
+        tireRate = _playerStats.TireRate;
+        restoreRate = _playerStats.RestoreRate;
+        food = _playerStats.Food;
+        wood = _playerStats.Wood;
     }
 
     void Start()
     {
         sleep = false;
+
     }
 
     void Update()
     {
+
     }
 
 
@@ -51,7 +56,7 @@ public class CharController : MonoBehaviour
     {
         if (GameController.instance.gamePlaying)
         {
-            if (_playerStamina.currentStamina == _playerStamina.maxStamina && sleep == true) {
+            if (currentStamina == maxStamina && sleep == true) {
                 //When stamina is full after sleeping call Wake
                 Wake();
             } else if (sleep == true) {
@@ -59,7 +64,7 @@ public class CharController : MonoBehaviour
                 ChangeStamina(restoreRate);
             } else if (animator.GetBool("Observe") || animator.GetBool("Gather")) {    
                 ChangeStamina(-tireRate);
-            } else if (sleep == false && _playerStamina.currentStamina <= tireLimit) {
+            } else if (sleep == false && currentStamina <= tireLimit) {
                 //When Awake and stamina is under tire limit, enter tired animation and slow down
                 animator.SetBool("Tired", true);
                 ChangeStamina(-tireRate);
@@ -77,13 +82,13 @@ public class CharController : MonoBehaviour
     //Function for changing stamina over time
     private void ChangeStamina(float rate)
     {
-        _playerStamina.currentStamina = Mathf.Clamp(_playerStamina.currentStamina + rate, 0, _playerStamina.maxStamina);
+        currentStamina = Mathf.Clamp(currentStamina + rate, 0, maxStamina);
     }
 
     //Funciton for edible objects to change player stamina
     public void FoodStamina(int amount)
     {
-        _playerStamina.currentStamina = Mathf.Clamp(_playerStamina.currentStamina + amount, 0, _playerStamina.maxStamina); 
+        currentStamina = Mathf.Clamp(currentStamina + amount, 0, maxStamina); 
     }
 
     //Trigger Exits and Enters to set whether objects are near for interactions
@@ -165,18 +170,19 @@ public class CharController : MonoBehaviour
             _gatherFruitEvent?.Invoke();
             animator.SetBool("Gather", true);
         } else if (hit.collider.tag == "Cave" && caveNear) {
-            _caveCollection.AddFood(_playerInventory.food);
-            _playerInventory.DropOff();
-            Debug.Log(_caveCollection.foodCount);
+            Cave cave = hit.collider.GetComponent<Cave>();
+            cave.AddFood(food);
+            DropOff();
+            Debug.Log(cave.FoodCount);
         } else if (hit.collider.tag == "Player" && playerNear) {
-            _playerInventory.AddFood();
+            AddFood();
         }
     }
     public void StopGather() {
         //Triggers at the end of the gather animation
         Debug.Log("Gathering is finished");
         gameObject.GetComponent<Animator>().SetBool("Gather", false);
-        _playerInventory.AddFood();
+        AddFood();
 
     }    
     
@@ -205,5 +211,35 @@ public class CharController : MonoBehaviour
     {
         animator.SetBool("Observe", false);
         _observeDone?.Invoke();
+    }
+
+    public void AddFood()
+    {
+        food += 1;
+        ChangedFood?.Invoke();
+    }
+
+    public void AddWood()
+    {
+        wood += 1;
+        ChangedWood?.Invoke();
+    }
+
+    public void Robbed()
+    {
+        food -= 1;
+        ChangedFood?.Invoke();
+    }
+
+    public void DropOff()
+    {
+        food -= food;
+        ChangedFood?.Invoke();
+    }
+
+    public void UseWood()
+    {
+        wood -= wood;
+        ChangedWood?.Invoke();
     }
 }

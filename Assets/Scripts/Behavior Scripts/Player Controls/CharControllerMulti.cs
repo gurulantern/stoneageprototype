@@ -11,20 +11,16 @@ public class CharControllerMulti : NetworkedEntityView
     [SerializeField] PlayerControls _playerControls;
     [SerializeField] private Camera _camera;
     [SerializeField] GameEvent _gatherFruitEvent;
+    [SerializeField] GameEvent _dropOffEvent;
     [SerializeField] GameEvent _observeDone;
     [SerializeField] private float speed = 2.5f;
     [SerializeField] private float tiredSpeed = .5f;
     [SerializeField] private LayerMask _layerMask;
     private Vector2 playerVelocity;
-    public PlayerStamina _playerStamina;
     public PlayerInventory _playerInventory;
-    public FoodCollection _caveCollection;
     private Vector2 moveInput;
     //Bunch of bools for checking if near with Circle colliders and checking player state
-    private bool treeNear {get; set;}
-    private bool fruitTreeNear {get; set;}
-    private bool playerNear {get; set;}
-    private bool caveNear {get; set;}
+    private bool treeNear, fruitTreeNear, playerNear, caveNear;
     private bool sleep, observing, gathering, tired;
     //Limit for when player enters tire state
     public float tireLimit = 10f;
@@ -41,7 +37,6 @@ public class CharControllerMulti : NetworkedEntityView
         animator = gameObject.GetComponent<Animator>();
         _playerControls = new PlayerControls();
         rb = GetComponent<Rigidbody2D>();
-        _playerStamina.currentStamina = 100;
     }
 
     protected override void Start()
@@ -113,13 +108,11 @@ public class CharControllerMulti : NetworkedEntityView
     /// Function for changing stamina over time
     private void ChangeStamina(float rate)
     {
-        _playerStamina.currentStamina = Mathf.Clamp(_playerStamina.currentStamina + rate, 0, _playerStamina.maxStamina);
     }
 
     //Funciton for edible objects to change player stamina
     public void FoodStamina(int amount)
     {
-        _playerStamina.currentStamina = Mathf.Clamp(_playerStamina.currentStamina + amount, 0, _playerStamina.maxStamina); 
     }
 
     //Trigger Exits and Enters to set whether objects are near for interactions
@@ -201,9 +194,7 @@ public class CharControllerMulti : NetworkedEntityView
             _gatherFruitEvent?.Invoke();
             animator.SetBool("Gather", true);
         } else if (hit.collider.tag == "Cave" && caveNear) {
-            _caveCollection.AddFood(_playerInventory.food);
             _playerInventory.DropOff();
-            Debug.Log(_caveCollection.foodCount);
         } else if (hit.collider.tag == "Player" && playerNear) {
             _playerInventory.AddFood();
         }

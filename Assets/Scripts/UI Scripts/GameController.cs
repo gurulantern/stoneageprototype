@@ -11,7 +11,7 @@ using LucidSightTools;
 
 public class GameController : MonoBehaviour
 {
-    public ColyseusNetworkedEntityView prefab;
+    public StoneColyseusNetworkedEntityView prefab;
     public CharController controls;
     public static GameController instance;
     public GameObject hudContainer, gameOverPanel;
@@ -34,13 +34,13 @@ public class GameController : MonoBehaviour
 
     private void OnEnable() 
     {
-        ExampleRoomController.onAddNetworkEntity += OnNetworkAdd;
-        ExampleRoomController.onRemoveNetworkEntity += OnNetworkRemove;
+        RoomController.onAddNetworkEntity += OnNetworkAdd;
+        RoomController.onRemoveNetworkEntity += OnNetworkRemove;
     }
 
-    private void OnNetworkAdd(ExampleNetworkedEntity entity)
+    private void OnNetworkAdd(NetworkedEntity entity)
     {
-        if (ExampleManager.Instance.HasEntityView(entity.id))
+        if (ColyseusManager.Instance.HasEntityView(entity.id))
         {
             LSLog.LogImportant("View found! For " + entity.id);
         }
@@ -50,20 +50,20 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void OnNetworkRemove(ExampleNetworkedEntity entity, ColyseusNetworkedEntityView view)
+    private void OnNetworkRemove(NetworkedEntity entity, StoneColyseusNetworkedEntityView view)
     {
         RemoveView(view);
     }
     
-    private void CreateView(ExampleNetworkedEntity entity)
+    private void CreateView(NetworkedEntity entity)
     {
         LSLog.LogImportant("print: " + JsonUtility.ToJson(entity));
-        ColyseusNetworkedEntityView newView = Instantiate(prefab);
-        ExampleManager.Instance.RegisterNetworkedEntityView(entity, newView);
+        StoneColyseusNetworkedEntityView newView = Instantiate(prefab);
+        ColyseusManager.Instance.RegisterNetworkedEntityView(entity, newView);
         newView.gameObject.SetActive(true);
     }
 
-    private void RemoveView(ColyseusNetworkedEntityView view)
+    private void RemoveView(StoneColyseusNetworkedEntityView view)
     {
         view.SendMessage("OnEntityRemoved", SendMessageOptions.DontRequireReceiver);
     }

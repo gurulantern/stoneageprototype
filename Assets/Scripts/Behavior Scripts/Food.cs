@@ -10,7 +10,7 @@ public class Food : MonoBehaviour
         CharController controller = other.GetComponent<CharController>();
         if (controller != null)
         {
-            if (controller._playerStamina.currentStamina < controller._playerStamina.maxStamina) 
+            if (controller.currentStamina < controller.maxStamina) 
             {
                 _eaten?.Invoke();
                 Destroy(gameObject);
