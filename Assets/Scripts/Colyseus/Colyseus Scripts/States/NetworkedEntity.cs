@@ -17,21 +17,24 @@ public partial class NetworkedEntity : Schema {
 	[Type(2, "string")]
 	public string creationId = default(string);
 
-	[Type(3, "number")]
-	public float xPos = default(float);
+	[Type(3, "string")]
+	public string prefab = "MultiPlayer";
 
 	[Type(4, "number")]
-	public float yPos = default(float);
+	public float xPos = default(float);
 
 	[Type(5, "number")]
-	public float timestamp = default(float);
+	public float yPos = default(float);
 
 	[Type(6, "number")]
-	public float xVel = default(float);
+	public float timestamp = default(float);
 
 	[Type(7, "number")]
+	public float xVel = default(float);
+
+	[Type(8, "number")]
 	public float yVel = default(float);
 
-	[Type(8, "map", typeof(MapSchema<string>), "string")]
+	[Type(9, "map", typeof(MapSchema<string>), "string")]
 	public MapSchema<string> attributes = new MapSchema<string>();
 }

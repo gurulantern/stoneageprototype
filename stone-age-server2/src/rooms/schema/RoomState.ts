@@ -4,6 +4,7 @@ export class NetworkedEntity extends Schema {
     @type("string") id: string;
     @type("string") ownerId: string;
     @type("string") creationId: string = "";
+    @type("string") prefab: string;
     @type("number") xPos: number;
     @type("number") yPos: number;
     @type("number") timestamp: number;

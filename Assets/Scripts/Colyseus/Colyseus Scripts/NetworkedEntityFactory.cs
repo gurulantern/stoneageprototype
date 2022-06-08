@@ -155,7 +155,7 @@ public class NetworkedEntityFactory
         NetworkedEntityView view = UnityEngine.Object.Instantiate((NetworkedEntityView)asyncItem.asset);
         if (view == null)
         {
-            LSLog.LogError("Instantiated Object is not of Player Type");
+            LSLog.LogError("Instantiated Object is not of MultiPlayer Type");
             asyncItem = null;
             return;
         }

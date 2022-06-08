@@ -8,6 +8,10 @@ using LucidSightTools;
 
 public class CharControllerMulti : NetworkedEntityView
 {
+    public delegate void OnPlayerActivated(CharControllerMulti playerController);
+    public static event OnPlayerActivated onPlayerActivated;
+    public delegate void OnPlayerDeactivated(CharControllerMulti playerController);
+    public static event OnPlayerDeactivated onPlayerDeactivated;
     [SerializeField] PlayerControls _playerControls;
     [SerializeField] private Camera _camera;
     [SerializeField] GameEvent _gatherFruitEvent;
@@ -23,9 +27,21 @@ public class CharControllerMulti : NetworkedEntityView
     private bool sleep, observing, gathering, tired;
     //Iterator variable for debugging Trigger Enter and Exit
     private int i = 0;
+    private int teamIndex = -1;
+    public int TeamIndex
+    {
+        get 
+        { 
+            return teamIndex; 
+        }
+    }
+    public Color defaultColor = Color.white; 
+    public Color[] teamColors;
+    public Renderer[] playerRenderers;
     Rigidbody2D rb;
     Animator animator;
     Vector2 lookDirection = new Vector2(1,0);
+    private Vector2 spawnPosition;
     public event Action ChangedFood;
     public event Action ChangedWood;
     
@@ -45,6 +61,17 @@ public class CharControllerMulti : NetworkedEntityView
         wood = _playerStats.Wood;
     }
 
+    private void OnEnable() 
+    {
+        GameController.onUpdateClientTeam += OnTeamUpdated;    
+    }
+
+    private void OnDisable() 
+    {
+        GameController.onUpdateClientTeam -= OnTeamUpdated;
+        onPlayerDeactivated?.Invoke(this);    
+    }
+
     protected override void Start()
     {
         autoInitEntity = false;
@@ -52,6 +79,49 @@ public class CharControllerMulti : NetworkedEntityView
         sleep = false;
 
         StartCoroutine("WaitForConnect");
+    }
+
+    private void OnTeamUpdated(int team, string id)
+    {
+        //If we're in team death match, we need our team index
+        if (id.Equals(OwnerId))
+        {
+            SetTeam(team);
+        }
+    }
+
+    public override void InitiView(NetworkedEntity entity)
+    {
+        base.InitiView(entity);
+        onPlayerActivated?.Invoke(this);
+
+        //If we're in team death match, we need our team index
+        if (!GameController.Instance)
+        {
+            SetTeam(GameController.Instance.GetTeamIndex(OwnerId));
+        }
+
+        if (IsMine)
+        {
+            spawnPosition = transform.position;
+        }
+    }
+
+    private void SetTeam(int idx)
+    {
+        teamIndex = idx;
+        if (teamIndex >= 0)
+        {
+            SetPlayerColor(teamColors[teamIndex]);
+        }
+    }
+
+    public void SetPlayerColor(Color color)
+    {
+        for (int i = 0; i < playerRenderers.Length; ++i)
+        {
+            playerRenderers[i].material.color = color;
+        }
     }
 
     IEnumerator WaitForConnect() 
@@ -63,9 +133,9 @@ public class CharControllerMulti : NetworkedEntityView
             yield return 0;
         }
         LSLog.LogImportant("HAS JOINED ROOM - CREATING ENTITY");
-        ColyseusManager.CreateNetworkedEntityWithTransform(new Vector2(-3.86f,14.39f), new Dictionary<string, object>() { ["prefab"] = "Player"}, this, (entity) => {
-            LSLog.LogImportant($"Network Entity Ready {entity.id}");
-        });
+        ///ColyseusManager.CreateNetworkedEntityWithTransform(new Vector2(-3.86f,14.39f), new Dictionary<string, object>() { ["prefab"] = "Player"}, this, (entity) => {
+        ///    LSLog.LogImportant($"Network Entity Ready {entity.id}");
+        ///});
     }
 
     public override void OnEntityRemoved()

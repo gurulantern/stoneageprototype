@@ -54,7 +54,7 @@ public class CharController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (GameController.instance.gamePlaying)
+        if (GameController.Instance.gamePlaying)
         {
             if (currentStamina == maxStamina && sleep == true) {
                 //When stamina is full after sleeping call Wake

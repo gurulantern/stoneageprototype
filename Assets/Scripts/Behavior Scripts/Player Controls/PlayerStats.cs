@@ -10,13 +10,7 @@ public class PlayerStats : ScriptableObject
     [SerializeField] private int wood = 0;
     public int Wood => wood;
     [SerializeField] private float speed = 2.5f;
-    public float Speed 
-    { 
-        get 
-        {
-            return speed; 
-        }
-    }
+    public float Speed  => speed;
     [SerializeField] private float tiredSpeed = .5f;
     public float TiredSpeed => tiredSpeed;
     [SerializeField] private float tireLimit = 10f;

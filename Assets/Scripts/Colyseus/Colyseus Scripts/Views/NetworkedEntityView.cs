@@ -118,7 +118,7 @@ using UnityEngine;
         }
 
 
-        public void InitiView(NetworkedEntity entity)
+        public virtual void InitiView(NetworkedEntity entity)
         {
             try
             {
@@ -132,7 +132,7 @@ using UnityEngine;
                 RefId = state.__refId;
 
                 //Syncs Transform on Initi
-                SetStateStartPos();
+                //SetStateStartPos();
 
                 //set my transform
                 if (myTransform == null) myTransform = transform;

@@ -7,6 +7,12 @@ TagManager:
   - Fruit Tree
   - Cave
   - Tree
+  - Cyan Cave
+  - Magenta Cave
+  - Lime Cave
+  - Gold Cave
+  - Blue Cave
+  - Red Cave
   layers:
   - Default
   - TransparentFX

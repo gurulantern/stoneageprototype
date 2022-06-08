@@ -7,7 +7,6 @@ using UnityEngine;
 public class ColyseusManager : ColyseusManager<ColyseusManager>
 {
     public delegate void OnRoomsReceived(ColyseusRoomAvailable[] rooms);
-
     public static OnRoomsReceived onRoomsReceived;
     private NetworkedEntityFactory _networkedEntityFactory;
 

@@ -17,18 +17,36 @@ using UnityEngine;
     /// OnNetworkEntityAdd delegate for OnNetworkEntityAdd event.
     /// Then entity that was just added to the room.
     public delegate void OnNetworkEntityAdd(NetworkedEntity entity);
+    /// Event for when a NetworkEntity is added to the room.
+    public static OnNetworkEntityAdd onAddNetworkEntity;
 
     /// OnNetworkEntityRemoved delegate for OnNetworkEntityRemoved event.
     /// Then entity that was just removed to the room.
     public delegate void OnNetworkEntityRemoved(NetworkedEntity entity, StoneColyseusNetworkedEntityView view);
-
-    public delegate void OnUserStateChanged(MapSchema<string> changes);
-
-    /// Event for when a NetworkEntity is added to the room.
-    public static OnNetworkEntityAdd onAddNetworkEntity;
-
     /// Event for when a NetworkEntity is removed from the room.
     public static OnNetworkEntityRemoved onRemoveNetworkEntity;
+
+    ///Delegate and event for Current User State Changing.
+    public delegate void OnUserStateChanged(MapSchema<string> changes);
+    public static event OnUserStateChanged onCurrentUserStateChanged;
+    ///Delegate and event for Joining 
+    public delegate void OnJoined(string customLogic);
+    public static event OnJoined onJoined;
+
+    ///Delegate and event for Player joining;
+    public delegate void OnPlayerJoined(string playerUserName);
+    public static event OnPlayerJoined onPlayerJoined;
+
+    ///Delegate and event for Updating team.
+    public delegate void OnTeamUpdate(int teamIndex, string clientID, bool added);
+    public static event OnTeamUpdate onTeamUpdate;
+
+    ///Delegate and event for Team received.
+    public delegate void OnTeamReceive(int teamIndex, string[] clients);
+    public static event OnTeamReceive onTeamReceive;
+
+
+
 
     /// Our user object we get upon joining a room.
     [SerializeField] private static NetworkedUser _currentNetworkedUser;

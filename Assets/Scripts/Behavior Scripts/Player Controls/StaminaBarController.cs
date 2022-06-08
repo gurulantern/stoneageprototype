@@ -16,7 +16,7 @@ public class StaminaBarController : MonoBehaviour
     
     void FixedUpdate()
     {
-        if (GameController.instance.gamePlaying)
+        if (GameController.Instance.gamePlaying)
         {
             staminaSlider.value = character.currentStamina;
         }
