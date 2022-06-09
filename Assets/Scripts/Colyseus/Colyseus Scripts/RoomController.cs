@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,6 +30,11 @@ using UnityEngine;
     ///Delegate and event for Current User State Changing.
     public delegate void OnUserStateChanged(MapSchema<string> changes);
     public static event OnUserStateChanged onCurrentUserStateChanged;
+
+    ///Delegate and event for Room State Updating
+    public delegate void OnRoomChanged(ColyseusRoom<RoomState> room);
+    public static event OnRoomChanged onRoomChanged;
+
     ///Delegate and event for Joining 
     public delegate void OnJoined(string customLogic);
     public static event OnJoined onJoined;
@@ -36,7 +42,7 @@ using UnityEngine;
     ///Delegate and event for Player joining;
     public delegate void OnPlayerJoined(string playerUserName);
     public static event OnPlayerJoined onPlayerJoined;
-
+/*
     ///Delegate and event for Updating team.
     public delegate void OnTeamUpdate(int teamIndex, string clientID, bool added);
     public static event OnTeamUpdate onTeamUpdate;
@@ -44,9 +50,7 @@ using UnityEngine;
     ///Delegate and event for Team received.
     public delegate void OnTeamReceive(int teamIndex, string[] clients);
     public static event OnTeamReceive onTeamReceive;
-
-
-
+*/
 
     /// Our user object we get upon joining a room.
     [SerializeField] private static NetworkedUser _currentNetworkedUser;
@@ -91,14 +95,27 @@ using UnityEngine;
     private Thread _pingThread;
 
     ///     The current or active Room we get when joining or creating a room
+    public ColyseusRoom<RoomState> Room
+    {
+        get 
+        { 
+            return _room; 
+        }
+
+        private set
+        {
+            _room = value;
+        }
+    }
     private ColyseusRoom<RoomState> _room;
+    public RoomState currentRoomState;
 
     ///     The time as received from the server in milliseconds.
     private double _serverTime = -1;
 
     ///     Collection for tracking users that have joined the room.
-    private IndexedDictionary<string, NetworkedUser> _users =
-        new IndexedDictionary<string, NetworkedUser>();
+    private IndexedDictionary<string, NetworkedEntityState> _users =
+        new IndexedDictionary<string, NetworkedEntityState>();
 
     ///     Used to help calculate the latency of the connection to the server.
     private bool _waitForPong;
@@ -127,11 +144,6 @@ using UnityEngine;
     public double GetRoundtripTime
     {
         get { return _lastPong - _lastPing; }
-    }
-
-    public ColyseusRoom<RoomState> Room
-    {
-        get { return _room; }
     }
 
     public string LastRoomID
@@ -324,7 +336,7 @@ using UnityEngine;
             //Debug.Log($"Received 'onRFC' {_rfc.entityId}!");
             if (_entityViews.Keys.Contains(_rfc.entityId))
             {
-                _entityViews[_rfc.entityId].RemoteFunctionCallHandler(_rfc);
+                ///_entityViews[_rfc.entityId].RemoteFunctionCallHandler(_rfc);
             }
         });
 
@@ -339,8 +351,8 @@ using UnityEngine;
         //_room.OnMessage<YOUR_CUSTOM_MESSAGE>("messageNameInCustomLogic", objectOfTypeYOUR_CUSTOM_MESSAGE => {  });
 
         //========================
-        _room.State.networkedEntities.OnAdd += OnEntityAdd;
-        _room.State.networkedEntities.OnRemove += OnEntityRemoved;
+        ///_room.State.networkedEntities.OnAdd += OnEntityAdd;
+        ///_room.State.networkedEntities.OnRemove += OnEntityRemoved;
 
         _room.State.networkedUsers.OnAdd += OnUserAdd;
         _room.State.networkedUsers.OnRemove += OnUserRemove;
@@ -380,8 +392,8 @@ using UnityEngine;
             return;
         }
 
-        _room.State.networkedEntities.OnAdd -= OnEntityAdd;
-        _room.State.networkedEntities.OnRemove -= OnEntityRemoved;
+        ///_room.State.networkedEntities.OnAdd -= OnEntityAdd;
+        ///_room.State.networkedEntities.OnRemove -= OnEntityRemoved;
         _room.State.networkedUsers.OnAdd -= OnUserAdd;
         _room.State.networkedUsers.OnRemove -= OnUserRemove;
 
@@ -395,6 +407,7 @@ using UnityEngine;
         _room = null;
         _currentNetworkedUser = null;
     }
+
 
     ///     Asynchronously gets all the available rooms of the _client
     ///     named roomName
@@ -437,7 +450,7 @@ using UnityEngine;
             //await CreateSpecificRoom(_client, roomName, roomId, onJoin);
         }
     }
-
+/*
     ///     The callback for the event when a NetworkedEntity is added to a room.
     ///     The entity that was just added.
     ///     The entity's key
@@ -451,6 +464,7 @@ using UnityEngine;
         //Creation ID is only Registered with the owner so only owners callback will be triggered
         if (!string.IsNullOrEmpty(entity.creationId) && _creationCallbacks.ContainsKey(entity.creationId))
         {
+            Debug.Log("Creation Callbacks!!!!!");
             _creationCallbacks[entity.creationId].Invoke(entity);
             _creationCallbacks.Remove(entity.creationId);
         }
@@ -460,6 +474,7 @@ using UnityEngine;
         if (_entityViews.ContainsKey(entity.id) == false && !string.IsNullOrEmpty(entity.attributes["prefab"]))
         {
             await _factory.CreateFromPrefab(entity);
+            Debug.Log($"Created entity with {entity.id}");
         }
     }
 
@@ -483,11 +498,12 @@ using UnityEngine;
 
         onRemoveNetworkEntity?.Invoke(entity, view);
     }
+*/
 
     ///     Callback for when a NetworkedUser is added to a room.
     ///     user - The user object
     ///     key - The user key
-    private void OnUserAdd(string key, NetworkedUser user)
+    private void OnUserAdd(string key, NetworkedEntityState user)
     {
         LSLog.LogImportant($"user [{user.__refId} | {user.sessionId} | key {key}] Joined");
 
@@ -511,7 +527,7 @@ using UnityEngine;
     ///     Callback for when a user is removed from a room.
     ///     user - The removed user.
     ///     key - The user key.
-    private void OnUserRemove(string key, NetworkedUser user)
+    private void OnUserRemove(string key, NetworkedEntityState user)
     {
         LSLog.LogImportant($"user [{user.__refId} | {user.sessionId} | key {key}] Left");
 
@@ -537,6 +553,7 @@ using UnityEngine;
     ///     isFirstState - Is it the first state?
     private static void OnStateChangeHandler(RoomState state, bool isFirstState)
     {
+
         LSLog.LogImportant("State has been updated!");
     }
 

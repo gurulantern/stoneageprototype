@@ -355,3 +355,10 @@ MonoBehaviour:
   restoreRate: 0
   food: 0
   wood: 0
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  teamColors:
+  - {r: 0.0627451, g: 1, b: 1, a: 0}
+  - {r: 1, g: 0, b: 1, a: 0}
+  - {r: 0, g: 1, b: 0, a: 0}
+  - {r: 1, g: 0.84313726, b: 0, a: 0}
+  playerRenderers: []

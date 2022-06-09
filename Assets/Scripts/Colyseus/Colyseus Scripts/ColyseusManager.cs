@@ -7,7 +7,7 @@ using UnityEngine;
 public class ColyseusManager : ColyseusManager<ColyseusManager>
 {
     public delegate void OnRoomsReceived(ColyseusRoomAvailable[] rooms);
-    public static OnRoomsReceived onRoomsReceived;
+    public static event OnRoomsReceived onRoomsReceived;
     private NetworkedEntityFactory _networkedEntityFactory;
 
     [SerializeField] private RoomController _roomController;
@@ -54,11 +54,36 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
         get{ return userName; }
         set{ userName = value; }
     }
+    public RoomState currentRoomState;
+
+    public float ServerTime
+    {
+        get
+        {
+            if (currentRoomState != null)
+            {
+                return currentRoomState.serverTime;
+            }
+            
+            LSLog.Log("Asked for server time but no room yet!", LSLog.LogColor.yellow);
+            return 0;
+        }
+    }
+
+    protected override void Awake() {
+        base.Awake();
+    }
 
     protected override void Start()
     {
+        base.Start();
         Application.targetFrameRate = 60;
         Application.runInBackground = true;
+    }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
     }
 
     public void Initialize(string roomName, Dictionary<string, object> roomOptions)
@@ -73,10 +98,11 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
         _roomController = new RoomController {roomName = roomName};
         _roomController.SetRoomOptions(roomOptions);
         _roomController.SetDependencies(_colyseusSettings);
-
+/*
         /// Set up Networked Entity Factory
         _networkedEntityFactory = new NetworkedEntityFactory(_roomController.CreationCallbacks, 
             _roomController.Entities, _roomController.EntityViews);
+ */
     }
 
     /// Create a new Colyseus Client
@@ -226,7 +252,7 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
     }
 
 #endregion Remote Function Call
-
+/*
 #region Networked Entity Creation
     /// Creates a new NetworkedEntity with the given prefab and attributes.
     /// Prefab you would like to use to create the entity
@@ -297,4 +323,5 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
     }
 
 #endregion Networked Entity Creation
+*/
 }

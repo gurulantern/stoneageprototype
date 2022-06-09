@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class CameraBehavior : MonoBehaviour
 {
+    [SerializeField]
+    private Transform target = null;
+
+    [SerializeField]
+    private Transform cameraTransform = null;
     public Vector2 camOffset = new Vector2(0f, 0f);
-    private Transform target;
-    // Start is called before the first frame update
-
-    void Start()
-    {
-        target = GameObject.Find("Player").transform;
-    }
-
-    // Update is called once per frame
     void LateUpdate()
     {
         this.transform.position = target.TransformPoint(camOffset);
+    }
+
+    public void SetFollow(Transform trans)
+    {
+        target = trans;
     }
 }

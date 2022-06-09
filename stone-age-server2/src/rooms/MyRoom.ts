@@ -1,5 +1,5 @@
 import { Room, Client, generateId } from "colyseus";
-import { RoomState, NetworkedEntity, NetworkedUser } from "./schema/RoomState";
+import { RoomState, NetworkedEntityState } from "./schema/RoomState";
 const logger = require("../helpers/logger");
 
 export class MyRoom extends Room<RoomState> {
@@ -7,6 +7,7 @@ export class MyRoom extends Room<RoomState> {
     clientEntities = new Map<string, string[]>();
     serverTime: number = 0;
     roomOptions: any;
+    teams: Map<number, Map<string, Client>>;
 
     /**
      * Callback for when the room is created
@@ -42,7 +43,7 @@ export class MyRoom extends Room<RoomState> {
 
         // Set the callback for the "entityUpdate" message
         this.onMessage("entityUpdate", (client: Client, entityUpdateArray: any) => {
-            if (this.state.networkedEntities.has(`${entityUpdateArray[0]}`) === false) return;
+            if (this.state.networkedUsers.has(`${entityUpdateArray[0]}`) === false) return;
 
             this.onEntityUpdate(client.sessionId, entityUpdateArray);
         });
@@ -52,7 +53,7 @@ export class MyRoom extends Room<RoomState> {
         //
         this.onMessage("remoteFunctionCall", (client: Client, RFCMessage: any) => {
             //Confirm Sending Client is Owner 
-            if (this.state.networkedEntities.has(`${RFCMessage.entityId}`) === false) return;
+            if (this.state.networkedUsers.has(`${RFCMessage.entityId}`) === false) return;
 
             RFCMessage.clientId = client.sessionId;
 
@@ -73,10 +74,10 @@ export class MyRoom extends Room<RoomState> {
             // Set entity attribute
             if (attributeUpdateMessage.entityId) {
                 //Check if this client owns the object
-                if (this.state.networkedEntities.has(`${attributeUpdateMessage.entityId}`) === false) return;
+                if (this.state.networkedUsers.has(`${attributeUpdateMessage.entityId}`) === false) return;
 
-                this.state.networkedEntities.get(`${attributeUpdateMessage.entityId}`).timestamp = parseFloat(this.serverTime.toString());
-                let entityAttributes = this.state.networkedEntities.get(`${attributeUpdateMessage.entityId}`).attributes;
+                this.state.networkedUsers.get(`${attributeUpdateMessage.entityId}`).timestamp = parseFloat(this.serverTime.toString());
+                let entityAttributes = this.state.networkedUsers.get(`${attributeUpdateMessage.entityId}`).attributes;
                 for (let index = 0; index < Object.keys(attributeUpdateMessage.attributesToSet).length; index++) {
                     let key = Object.keys(attributeUpdateMessage.attributesToSet)[index];
                     let value = attributeUpdateMessage.attributesToSet[key];
@@ -109,8 +110,8 @@ export class MyRoom extends Room<RoomState> {
         // Set the callback for the "removeEntity" message
         //
         this.onMessage("removeEntity", (client: Client, removeId: string) => {
-            if (this.state.networkedEntities.has(removeId)) {
-                this.state.networkedEntities.delete(removeId);
+            if (this.state.networkedUsers.has(removeId)) {
+                this.state.networkedUsers.delete(removeId);
             }
         });
 
@@ -120,7 +121,7 @@ export class MyRoom extends Room<RoomState> {
         this.onMessage("createEntity", (client: Client, creationMessage: any) => {
             // Generate new UID for the entity
             let entityViewID = generateId();
-            let newEntity = new NetworkedEntity().assign({
+            let newEntity = new NetworkedEntityState().assign({
                 id: entityViewID,
                 ownerId: client.sessionId,
                 timestamp: this.serverTime
@@ -140,7 +141,7 @@ export class MyRoom extends Room<RoomState> {
             }
 
             // Add the entity to the room state's networkedEntities map 
-            this.state.networkedEntities.set(entityViewID, newEntity);
+            this.state.networkedUsers.set(entityViewID, newEntity);
 
             // Add the entity to the client entities collection
             if (this.clientEntities.has(client.sessionId)) {
@@ -162,7 +163,7 @@ export class MyRoom extends Room<RoomState> {
     onJoin(client: Client, options: any) {
         logger.info(`Client joined!- ${client.sessionId} ***`);
 
-        let newNetworkedUser = new NetworkedUser().assign({
+        let newNetworkedUser = new NetworkedEntityState().assign({
             sessionId: client.sessionId,
         });
 
@@ -183,9 +184,9 @@ export class MyRoom extends Room<RoomState> {
      * @param {*} data 
      */
     onEntityUpdate(clientID: string, data: any) {
-        if (this.state.networkedEntities.has(`${data[0]}`) === false) return;
+        if (this.state.networkedUsers.has(`${data[0]}`) === false) return;
 
-        let stateToUpdate = this.state.networkedEntities.get(data[0]);
+        let stateToUpdate = this.state.networkedUsers.get(data[0]);
 
         let startIndex = 1;
         if (data[1] === "attributes") startIndex = 2;
@@ -249,7 +250,7 @@ export class MyRoom extends Room<RoomState> {
                 let allClientEntities = this.clientEntities.get(client.sessionId);
                 allClientEntities.forEach(element => {
 
-                    this.state.networkedEntities.delete(element);
+                    this.state.networkedUsers.delete(element);
                 });
 
                 // remove the client from clientEntities

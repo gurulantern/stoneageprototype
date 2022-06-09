@@ -8,12 +8,14 @@
 using Colyseus.Schema;
 
 public partial class RoomState : Schema {
-	[Type(0, "map", typeof(MapSchema<NetworkedEntity>))]
-	public MapSchema<NetworkedEntity> networkedEntities = new MapSchema<NetworkedEntity>();
-
+	[Type(0, "map", typeof(MapSchema<NetworkedEntityState>))]
+	public MapSchema<NetworkedEntityState> networkedUsers = new MapSchema<NetworkedEntityState>();
+/*
 	[Type(1, "map", typeof(MapSchema<NetworkedUser>))]
 	public MapSchema<NetworkedUser> networkedUsers = new MapSchema<NetworkedUser>();
 
 	[Type(2, "map", typeof(MapSchema<string>), "string")]
 	public MapSchema<string> attributes = new MapSchema<string>();
+*/
+	public float serverTime = default(float);
 }

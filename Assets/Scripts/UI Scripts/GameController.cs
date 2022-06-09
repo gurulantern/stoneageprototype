@@ -18,7 +18,7 @@ public class GameController : MonoBehaviour
     public delegate void OnViewRemoved(StoneColyseusNetworkedEntityView view);
     public static event OnViewRemoved onViewRemoved;
     public static GameController Instance { get; set; }
-    CharController playerStats;
+    CharControllerMulti playerStats;
     [SerializeField] private Cave homeCave;
     public Vector2 spawnCenter;
     public float minSpawnVariance = .01f;
@@ -46,7 +46,7 @@ public class GameController : MonoBehaviour
             return;
         }
         Instance = this;
-        playerStats = prefab.GetComponent<CharController>(); 
+        playerStats = prefab.GetComponent<CharControllerMulti>(); 
     }
     private void Start() 
     {
@@ -57,22 +57,22 @@ public class GameController : MonoBehaviour
 
     private void OnEnable() 
     {
-        RoomController.onAddNetworkEntity += OnNetworkAdd;
-        RoomController.onRemoveNetworkEntity += OnNetworkRemove;
-        RoomController.onTeamUpdate += OnTeamUpdate;
-        RoomController.onTeamReceive += OnFullTeamUpdate;
+        ///RoomController.onAddNetworkEntity += OnNetworkAdd;
+        ///RoomController.onRemoveNetworkEntity += OnNetworkRemove;
+        ///RoomController.onTeamUpdate += OnTeamUpdate;
+        ///RoomController.onTeamReceive += OnFullTeamUpdate;
 
-        onViewAdded += OnPlayerCreated;
+        ///onViewAdded += OnPlayerCreated;
     }
 
     private void OnDisable() 
     {
-        RoomController.onAddNetworkEntity -= OnNetworkAdd;
-        RoomController.onRemoveNetworkEntity -= OnNetworkRemove;
-        RoomController.onTeamUpdate -= OnTeamUpdate;
-        RoomController.onTeamReceive -= OnFullTeamUpdate;
+        ///RoomController.onAddNetworkEntity -= OnNetworkAdd;
+        ///RoomController.onRemoveNetworkEntity -= OnNetworkRemove;
+        ///RoomController.onTeamUpdate -= OnTeamUpdate;
+        ///RoomController.onTeamReceive -= OnFullTeamUpdate;
 
-        onViewAdded -= OnPlayerCreated;
+        ///onViewAdded -= OnPlayerCreated;
     }
 
     public Vector2 GetSpawnPoint(int teamIndex)
@@ -87,6 +87,36 @@ public class GameController : MonoBehaviour
         return pos;
     }
 
+        private void FixedUpdate()
+    {
+        if (remainingTime > 0 && gamePlaying == true)
+        {
+            remainingTime = Mathf.Clamp(remainingTime - Time.fixedDeltaTime, 0, timeLimit);
+            Timer.instance.DecrementTime(remainingTime / timeLimit);
+        } else if (remainingTime == 0) {
+            EndGame();
+        }
+    }
+
+    public void BeginGame()
+    {
+        gamePlaying = true;
+        Time.timeScale = 1.0f;
+    }
+
+    private void EndGame()
+    {
+        gamePlaying = false;
+        Invoke("ShowGameOverScreen", 0f);
+        Time.timeScale = 0f;
+    }
+
+    private void ShowGameOverScreen()
+    {
+        hudContainer.SetActive(false);
+        gameOverPanel.SetActive(true);
+    }
+/*
     private void OnNetworkAdd(NetworkedEntity entity)
     {
         if (ColyseusManager.Instance.HasEntityView(entity.id))
@@ -116,36 +146,8 @@ public class GameController : MonoBehaviour
     {
         view.SendMessage("OnEntityRemoved", SendMessageOptions.DontRequireReceiver);
     }
-    private void FixedUpdate()
-    {
-        if (remainingTime > 0 && gamePlaying == true)
-        {
-            remainingTime = Mathf.Clamp(remainingTime - Time.fixedDeltaTime, 0, timeLimit);
-            Timer.instance.DecrementTime(remainingTime / timeLimit);
-        } else if (remainingTime == 0) {
-            EndGame();
-        }
-    }
 
-    public void BeginGame()
-    {
-        gamePlaying = true;
-        Time.timeScale = 1.0f;
-    }
-
-    private void EndGame()
-    {
-        gamePlaying = false;
-        Invoke("ShowGameOverScreen", 0f);
-        Time.timeScale = 0f;
-    }
-
-    private void ShowGameOverScreen()
-    {
-        hudContainer.SetActive(false);
-        gameOverPanel.SetActive(true);
-    }
-
+/*
     public void SetCurrentUserAttributes(Dictionary<string, string> attributes)
     {
         ColyseusManager.NetSend("setAttribute",
@@ -269,12 +271,10 @@ public class GameController : MonoBehaviour
         LSLog.LogError($"Could not find a player for owner with ID {ColyseusManager.Instance.CurrentNetworkedEntity.id}");
         return null;
     }
-
     private void OnDestroy() 
     {
         ColyseusManager.Instance.OnEditorQuit();    
     }
-
     private void OnPlayerCreated(StoneColyseusNetworkedEntityView newView)
     {
         if (newView.TryGetComponent(out CharControllerMulti player))
@@ -285,4 +285,5 @@ public class GameController : MonoBehaviour
             }
         }
     }
+*/
 }

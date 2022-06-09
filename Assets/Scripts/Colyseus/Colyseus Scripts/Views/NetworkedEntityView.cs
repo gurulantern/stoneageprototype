@@ -99,7 +99,7 @@ using UnityEngine;
         {
             StartCoroutine("Co_InitiWithServer");
         }
-
+/*
         IEnumerator Co_InitiWithServer()
         {
             while (ColyseusManager.Instance.isInRoom == false)
@@ -117,7 +117,6 @@ using UnityEngine;
             }
         }
 
-
         public virtual void InitiView(NetworkedEntity entity)
         {
             try
@@ -132,7 +131,7 @@ using UnityEngine;
                 RefId = state.__refId;
 
                 //Syncs Transform on Initi
-                //SetStateStartPos();
+                SetStateStartPos();
 
                 //set my transform
                 if (myTransform == null) myTransform = transform;
@@ -390,4 +389,5 @@ using UnityEngine;
 
             return result;
         }
+*/
     }

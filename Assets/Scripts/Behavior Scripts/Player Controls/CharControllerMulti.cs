@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using LucidSightTools;
 
-public class CharControllerMulti : NetworkedEntityView
+public class CharControllerMulti : MonoBehaviour
 {
     public delegate void OnPlayerActivated(CharControllerMulti playerController);
     public static event OnPlayerActivated onPlayerActivated;
@@ -18,6 +18,8 @@ public class CharControllerMulti : NetworkedEntityView
     [SerializeField] GameEvent _dropOffEvent;
     [SerializeField] GameEvent _observeDone;
     [SerializeField] private LayerMask _layerMask;
+    public NetworkedEntity owner;
+    public Transform cameraTransform;
     public PlayerStats _playerStats;
     public float maxStamina, currentStamina, speed, tiredSpeed, tireLimit, tireRate, restoreRate;
     public int food, wood;
@@ -45,8 +47,7 @@ public class CharControllerMulti : NetworkedEntityView
     public event Action ChangedFood;
     public event Action ChangedWood;
     
-    protected override void Awake() {
-        base.Awake();
+    private void Awake() {
         animator = gameObject.GetComponent<Animator>();
         _playerControls = new PlayerControls();
         rb = GetComponent<Rigidbody2D>();
@@ -63,24 +64,22 @@ public class CharControllerMulti : NetworkedEntityView
 
     private void OnEnable() 
     {
-        GameController.onUpdateClientTeam += OnTeamUpdated;    
+        ///GameController.onUpdateClientTeam += OnTeamUpdated;    
     }
 
     private void OnDisable() 
     {
-        GameController.onUpdateClientTeam -= OnTeamUpdated;
-        onPlayerDeactivated?.Invoke(this);    
+        ///GameController.onUpdateClientTeam -= OnTeamUpdated;
+        ///onPlayerDeactivated?.Invoke(this);    
     }
 
-    protected override void Start()
+    private void Start()
     {
-        autoInitEntity = false;
-        base.Start();
         sleep = false;
 
-        StartCoroutine("WaitForConnect");
+        ///StartCoroutine("WaitForConnect");
     }
-
+/*
     private void OnTeamUpdated(int team, string id)
     {
         //If we're in team death match, we need our team index
@@ -123,7 +122,12 @@ public class CharControllerMulti : NetworkedEntityView
             playerRenderers[i].material.color = color;
         }
     }
-
+    public override void OnEntityRemoved()
+    {
+        base.OnEntityRemoved();
+        LSLog.LogImportant("REMOVING ENTITY", LSLog.LogColor.lime);
+        Destroy(this.gameObject);
+    }
     IEnumerator WaitForConnect() 
     {
         if (ColyseusManager.Instance.CurrentUser != null && !IsMine) yield break;
@@ -133,22 +137,15 @@ public class CharControllerMulti : NetworkedEntityView
             yield return 0;
         }
         LSLog.LogImportant("HAS JOINED ROOM - CREATING ENTITY");
-        ///ColyseusManager.CreateNetworkedEntityWithTransform(new Vector2(-3.86f,14.39f), new Dictionary<string, object>() { ["prefab"] = "Player"}, this, (entity) => {
-        ///    LSLog.LogImportant($"Network Entity Ready {entity.id}");
-        ///});
+        ColyseusManager.CreateNetworkedEntityWithTransform(new Vector2(-3.86f,14.39f), new Dictionary<string, object>() { ["prefab"] = "MultiPlayer"}, this, (entity) => {
+            LSLog.LogImportant($"Network Entity Ready {entity.id}");
+        });
     }
+*/
 
-    public override void OnEntityRemoved()
-    {
-        base.OnEntityRemoved();
-        LSLog.LogImportant("REMOVING ENTITY", LSLog.LogColor.lime);
-        Destroy(this.gameObject);
-    }
-    protected override void Update()
-    {
-        base.Update();
 
-        if (!HasInit || !IsMine) return;
+    private void Update()
+    {
         rb.MovePosition(rb.position + moveInput * speed * Time.deltaTime);
 
     }
