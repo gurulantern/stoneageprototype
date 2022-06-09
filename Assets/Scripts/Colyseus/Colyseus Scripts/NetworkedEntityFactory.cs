@@ -45,6 +45,7 @@ public class NetworkedEntityFactory: MonoBehaviour
 
     public void SpawnEntity(NetworkedEntityState state, bool isPlayer = false)
     {
+        Debug.Log("Spawning Entity");
         Vector3 position = new Vector3((float)state.xPos, (float)state.yPos, (float)state.zPos);
         Quaternion rot =  new Quaternion((float)state.xRot, (float)state.yRot, (float)state.zRot, 1.0f);
 
@@ -55,6 +56,7 @@ public class NetworkedEntityFactory: MonoBehaviour
         entity.Initialize(state, isPlayer);
         entities.Add(state.id, entity);
 
+        Debug.Log("Setting Camera transform to entity transform");
         if (isPlayer)
         {
             _ourEntityId = state.id;

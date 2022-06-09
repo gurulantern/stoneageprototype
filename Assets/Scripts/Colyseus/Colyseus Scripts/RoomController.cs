@@ -53,7 +53,7 @@ using UnityEngine;
 */
 
     /// Our user object we get upon joining a room.
-    [SerializeField] private static NetworkedUser _currentNetworkedUser;
+    [SerializeField] private static NetworkedEntityState _currentNetworkedUser;
 
     ///  The Client that is created when connecting to the Colyseus server.
     private ColyseusClient _client;
@@ -166,7 +166,7 @@ using UnityEngine;
         get { return _creationCallbacks; }
     }
 
-    public NetworkedUser CurrentNetworkedUser
+    public NetworkedEntityState CurrentNetworkedUser
     {
         get { return _currentNetworkedUser; }
     }
@@ -323,7 +323,7 @@ using UnityEngine;
 
         _room.OnStateChange += OnStateChangeHandler;
 
-        _room.OnMessage<NetworkedUser>("onJoin", currentNetworkedUser =>
+        _room.OnMessage<NetworkedEntityState>("onJoin", currentNetworkedUser =>
         {
             Debug.Log($"Received 'NetworkedUser' after join/creation call {currentNetworkedUser.sessionId}!");
             Debug.Log(Json.SerializeToString(currentNetworkedUser));
@@ -509,7 +509,7 @@ using UnityEngine;
 
         // Add "player" to map of players
         _users.Add(key, user);
-
+        
         // On entity update...
         user.OnChange += changes =>
         {

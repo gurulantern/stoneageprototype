@@ -13,9 +13,10 @@ public partial class RoomState : Schema {
 /*
 	[Type(1, "map", typeof(MapSchema<NetworkedUser>))]
 	public MapSchema<NetworkedUser> networkedUsers = new MapSchema<NetworkedUser>();
-
-	[Type(2, "map", typeof(MapSchema<string>), "string")]
-	public MapSchema<string> attributes = new MapSchema<string>();
 */
+	[Type(1, "map", typeof(MapSchema<string>), "string")]
+	public MapSchema<string> attributes = new MapSchema<string>();
+
+	[Type(2, "number")]
 	public float serverTime = default(float);
 }

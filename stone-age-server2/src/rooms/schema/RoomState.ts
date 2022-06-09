@@ -1,11 +1,10 @@
-import { Schema, type, MapSchema, ArraySchema } from "@colyseus/schema";
+import { Schema, type, MapSchema } from "@colyseus/schema";
 import { Vector3 } from "../../helpers/Vectors";
 
 export class NetworkedEntityState extends Schema {
     @type("string") id: string;
     @type("string") ownerId: string;
     @type("string") creationId: string = "";
-    @type("string") prefab: string;
     @type("number") xPos: number;
     @type("number") yPos: number;
     @type("number") zPos: number;
@@ -20,14 +19,6 @@ export class NetworkedEntityState extends Schema {
     @type("boolean") connected: boolean;
     @type({map: "string"}) attributes = new MapSchema<string>();
 }
-/*
-export class NetworkedUser extends Schema {
-    @type("string") sessionId: string;
-    @type("boolean") connected: boolean;
-    @type("number") timestamp: number;
-    @type({map: "string"}) attributes = new MapSchema<string>();
-}
-*/
 export class RoomState extends Schema {
     @type({ map: NetworkedEntityState }) networkedUsers = new MapSchema<NetworkedEntityState>();
     @type({ map: "string" }) attributes = new MapSchema<string>();

@@ -9,7 +9,7 @@ public partial class NetworkedEntityState : Schema
 	// Make sure to update Clone fi you add any attributes
 	public NetworkedEntityState Clone()
 	{
-		return new NetworkedEntityState() { id = id, ownerId = ownerId, creationId = creationId, prefab = prefab, xPos = xPos, yPos = yPos, zPos = zPos, xRot = xRot, yRot = yRot, zRot = zRot, wRot =wRot, timestamp = timestamp, xVel = xVel, yVel = yVel, sessionId = sessionId, connected = connected, attributes = attributes };
+		return new NetworkedEntityState() { id = id, ownerId = ownerId, creationId = creationId, xPos = xPos, yPos = yPos, zPos = zPos, xRot = xRot, yRot = yRot, zRot = zRot, wRot =wRot, timestamp = timestamp, xVel = xVel, yVel = yVel, sessionId = sessionId, connected = connected, attributes = attributes };
 	}
 }
 // Compare a property to determine changes of state

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Colyseus;
 using LucidSightTools;
@@ -6,14 +7,32 @@ using UnityEngine;
 
 public class ColyseusManager : ColyseusManager<ColyseusManager>
 {
+    public delegate void OnRoomChanged(ColyseusRoom<RoomState> room);
+    public static event OnRoomChanged onRoomChanged;
     public delegate void OnRoomsReceived(ColyseusRoomAvailable[] rooms);
     public static event OnRoomsReceived onRoomsReceived;
     private NetworkedEntityFactory _networkedEntityFactory;
 
-    [SerializeField] private RoomController _roomController;
+    [SerializeField] 
+    private RoomController _roomController;
 
     /// Returns a reference to the current networked user.
     public NetworkedEntity CurrentNetworkedEntity;
+
+    public ColyseusRoom<RoomState> Room
+    {
+        get
+        {
+            return _room;
+        }
+
+        private set
+        {
+            _room = value;
+        }
+    }
+
+    private ColyseusRoom<RoomState> _room;
 
     private bool isInitialized;
 
@@ -36,7 +55,7 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
     }
 
     /// Retunrs a reference to the current networked user.
-    public NetworkedUser CurrentUser
+    public NetworkedEntityState CurrentUser
     {
         get{ return _roomController.CurrentNetworkedUser; }
     }
@@ -72,6 +91,8 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
 
     protected override void Awake() {
         base.Awake();
+
+
     }
 
     protected override void Start()
@@ -84,6 +105,52 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
     protected override void OnDestroy()
     {
         base.OnDestroy();
+        UnregisterHandlers();
+    }
+
+    private IEnumerator WaitThenSpawnPlayer(string entityID)
+    {
+        while (!Room.State.networkedUsers.ContainsKey(entityID))
+        {
+            //Wait until the room has a state for this ID (may take a frame or two, prevent race conditions)
+            yield return new WaitForEndOfFrame();
+        }
+
+        bool isOurs = entityID.Equals(Room.SessionId);
+        NetworkedEntityState entityState = Room.State.networkedUsers[entityID];
+
+        if (isOurs == false)
+        {
+            Debug.Log("Spawning");
+            NetworkedEntityFactory.Instance.SpawnEntity(entityState, isOurs);
+        }
+        else
+        {// Update our existing entity
+
+            if (NetworkedEntityFactory.Instance.UpdateOurEntity(entityState) == false)
+            {// Spawn a new entity for us since something went wrong attempting to update our existing one
+                NetworkedEntityFactory.Instance.SpawnEntity(entityState, true);
+            }
+        }
+    }
+
+    public async void ConsumeSeatReservation(ColyseusRoomAvailable room, string sessionId)
+    {
+        try
+        {
+            ColyseusMatchMakeResponse response = new ColyseusMatchMakeResponse() { room = room, sessionId = sessionId };
+
+            Room = await client.ConsumeSeatReservation<RoomState>(response);
+
+            onRoomChanged?.Invoke(Room);
+
+            currentRoomState = Room.State;
+            RegisterHandlers();
+        }
+        catch (System.Exception error)
+        {
+            LSLog.LogError($"Error attempting to consume seat reservation - {error.Message + error.StackTrace}");
+        }
     }
 
     public void Initialize(string roomName, Dictionary<string, object> roomOptions)
@@ -98,6 +165,8 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
         _roomController = new RoomController {roomName = roomName};
         _roomController.SetRoomOptions(roomOptions);
         _roomController.SetDependencies(_colyseusSettings);
+        RegisterHandlers();
+
 /*
         /// Set up Networked Entity Factory
         _networkedEntityFactory = new NetworkedEntityFactory(_roomController.CreationCallbacks, 
@@ -127,6 +196,80 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
 
         onRoomsReceived?.Invoke(rooms);
     }
+
+    private void RegisterHandlers()
+    {
+        if (Room != null)
+        {
+            Room.OnStateChange += OnRoomStateChange;
+            Room.State.networkedUsers.OnAdd += NetworkedUsers_OnAdd;
+            Room.State.networkedUsers.OnRemove += NetworkedUsers_OnRemove;
+/*
+            _roomController.Room.OnMessage<ObjectUseMessage>("objectUsed", (msg) =>
+            {
+                StartCoroutine(AwaitObjectInteraction(msg.interactedObjectID, msg.interactingStateID));
+            });
+            _roomController.Room.OnMessage<MovedToGridMessage>("movedToGrid", OnMovedToGrid);
+*/
+        }
+        else
+        {
+            LSLog.LogError($"Cannot register room handlers, room is null!");
+        }
+    }
+
+        private void UnregisterHandlers()
+    {
+        if (Room != null)
+        {
+            Room.OnStateChange -= OnRoomStateChange;
+
+            Room.State.networkedUsers.OnAdd -= NetworkedUsers_OnAdd;
+            Room.State.networkedUsers.OnRemove -= NetworkedUsers_OnRemove;
+
+        }
+    }
+
+       /// <summary>
+    /// Callback for when a networked entity has been removed from the room state's collection of networked entities/users
+    /// </summary>
+    /// <param name="key">The sessionId of the networked entity that got removed</param>
+    /// <param name="value">The <see cref="NetworkedEntityState"/> of the user that was removed</param>
+    private void NetworkedUsers_OnRemove(string key, NetworkedEntityState value)
+    {
+        NetworkedEntityFactory.Instance.RemoveEntity(value.id);
+    }
+
+    /// <summary>
+    /// Callback for when a networked entity has been added to the room state's collection of networked entities/users
+    /// </summary>
+    /// <param name="key">The sessionId of the networked entity that got added</param>
+    /// <param name="value">The <see cref="NetworkedEntityState"/> of the user that was added</param>
+    private void NetworkedUsers_OnAdd(string key, NetworkedEntityState value)
+    {
+        // TODO: subscribe to NetworkedEntityState OnChange event for updating entities
+        Debug.Log("Starting spawn coroutine");
+        StartCoroutine(WaitThenSpawnPlayer(value.id));
+
+        //if (value.id.Equals(_room.SessionId))
+        //{
+        //    JoinChatRoom();
+        //}
+    }
+
+    /// <summary>
+    /// Event handler when the room receives its first state
+    /// </summary>
+    /// <param name="state"></param>
+    /// <param name="isfirststate"></param>
+    private void OnRoomStateChange(RoomState state, bool isfirststate)
+    {
+        if (isfirststate)
+        {
+            //LSLog.LogImportant($"On Room State Changed - First State!", LSLog.LogColor.yellow);
+        }
+    }
+
 
     public async void JoinExistingRoom(string roomID)
     {

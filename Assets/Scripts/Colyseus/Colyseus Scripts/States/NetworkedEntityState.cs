@@ -17,45 +17,42 @@ public partial class NetworkedEntityState : Schema {
 	[Type(2, "string")]
 	public string creationId = default(string);
 
-	[Type(3, "string")]
-	public string prefab = "MultiPlayer";
-
-	[Type(4, "number")]
+	[Type(3, "number")]
 	public float xPos = default(float);
 
-	[Type(5, "number")]
+	[Type(4, "number")]
 	public float yPos = default(float);
 	
-	[Type(6, "number")]
+	[Type(5, "number")]
 	public float zPos = default(float);
 
-	[Type(7, "number")]
+	[Type(6, "number")]
 	public float xRot = default(float);
 
-	[Type(8, "number")]
+	[Type(7, "number")]
 	public float yRot = default(float);
 
-	[Type(9, "number")]
+	[Type(8, "number")]
 	public float zRot = default(float);
 
-	[Type(10, "number")]
+	[Type(9, "number")]
 	public float wRot = default(float);
 
-	[Type(11, "number")]
+	[Type(10, "number")]
 	public float timestamp = default(float);
 
-	[Type(12, "number")]
+	[Type(11, "number")]
 	public float xVel = default(float);
 
-	[Type(13, "number")]
+	[Type(12, "number")]
 	public float yVel = default(float);
 
-	[Type(14, "string")]
+	[Type(13, "string")]
 	public string sessionId = default(string);
 
-	[Type(15, "boolean")]
+	[Type(14, "boolean")]
 	public bool connected = default(bool);
 
-	[Type(16, "map", typeof(MapSchema<string>), "string")]
+	[Type(15, "map", typeof(MapSchema<string>), "string")]
 	public MapSchema<string> attributes = new MapSchema<string>();
 }
