@@ -11,7 +11,7 @@ using NativeWebSocket;
 using UnityEngine;
 
 ///     Manages the rooms of a server connection.
-[Serializable] public class RoomController
+[Serializable] public class RoomController: MonoBehaviour
 {
     /// Network Events
     //==========================
@@ -53,7 +53,8 @@ using UnityEngine;
 */
 
     /// Our user object we get upon joining a room.
-    [SerializeField] private static NetworkedEntityState _currentNetworkedUser;
+    [SerializeField] 
+    private static NetworkedEntityState _currentNetworkedUser;
 
     ///  The Client that is created when connecting to the Colyseus server.
     private ColyseusClient _client;
@@ -108,7 +109,6 @@ using UnityEngine;
         }
     }
     private ColyseusRoom<RoomState> _room;
-    public RoomState currentRoomState;
 
     ///     The time as received from the server in milliseconds.
     private double _serverTime = -1;
@@ -509,21 +509,53 @@ using UnityEngine;
 
         // Add "player" to map of players
         _users.Add(key, user);
-        
+        Debug.Log($"User added now spawning - key is {key} and user id is {user.sessionId}");
+        StartCoroutine(WaitThenSpawnPlayer(user.sessionId));
+
         // On entity update...
         user.OnChange += changes =>
         {
             user.updateHash = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString();
 
             // If the change is for our current user then fire the event with the attributes that changed
-            if (ColyseusManager.Instance.CurrentUser != null &&
-                string.Equals(ColyseusManager.Instance.CurrentUser.sessionId, user.sessionId))
+            if (ColyseusManager.Instance.CurrentNetworkedUser != null &&
+                string.Equals(ColyseusManager.Instance.CurrentNetworkedUser.sessionId, user.sessionId))
             {
                 OnCurrentUserStateChanged?.Invoke(user.attributes);
             }
         };
     }
 
+        public IEnumerator WaitThenSpawnPlayer(string entityID)
+    {
+        Debug.Log("Firing coroutine for spawning player");
+        Debug.Log(_room);
+        Debug.Log(_room.State);
+        Debug.Log(_room.State.networkedUsers);
+        while (!_room.State.networkedUsers.ContainsKey(entityID))
+        {
+            //Wait until the room has a state for this ID (may take a frame or two, prevent race conditions)
+            yield return new WaitForEndOfFrame();
+        }
+        Debug.Log(entityID + " and " + _room.SessionId);
+        bool isOurs = entityID.Equals(_room.SessionId);
+        NetworkedEntityState entityState = _room.State.networkedUsers[entityID];
+
+        if (isOurs == false)
+        {
+            Debug.Log("Spawning");
+            NetworkedEntityFactory.Instance.SpawnEntity(entityState, isOurs);
+        }
+        else
+        {// Update our existing entity
+
+            if (NetworkedEntityFactory.Instance.UpdateOurEntity(entityState) == false)
+            {// Spawn a new entity for us since something went wrong attempting to update our existing one
+                Debug.Log("Something went wrong. Spawning"); 
+                NetworkedEntityFactory.Instance.SpawnEntity(entityState, true);
+            }
+        }
+    }
     ///     Callback for when a user is removed from a room.
     ///     user - The removed user.
     ///     key - The user key.

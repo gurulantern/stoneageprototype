@@ -76,7 +76,7 @@ public class NetworkedEntity : MonoBehaviour
     // Keep track of what slots are used
     private int proxyStateCount;
 
-    public void Initialize(NetworkedEntityState initialState, bool isPlayer = false)
+    public void Initialize(NetworkedEntityState initialState, bool isPlayer = true)
     {
         if (state != null)
         {// Unsubscribe from existing state events

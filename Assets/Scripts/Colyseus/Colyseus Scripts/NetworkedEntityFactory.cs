@@ -43,12 +43,12 @@ public class NetworkedEntityFactory: MonoBehaviour
         cameraController.SetFollow(target);
     }
 
-    public void SpawnEntity(NetworkedEntityState state, bool isPlayer = false)
+    public void SpawnEntity(NetworkedEntityState state, bool isPlayer = true)
     {
         Debug.Log("Spawning Entity");
         Vector3 position = new Vector3((float)state.xPos, (float)state.yPos, (float)state.zPos);
         Quaternion rot =  new Quaternion((float)state.xRot, (float)state.yRot, (float)state.zRot, 1.0f);
-
+/// Possible place to set the spawn point
         GameObject newEntity = Instantiate(entityPrefab, position, rot);
 
         newEntity.transform.SetParent(GameObject.Find("Grid").transform);

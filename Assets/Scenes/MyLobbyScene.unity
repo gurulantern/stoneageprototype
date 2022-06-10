@@ -1642,6 +1642,7 @@ GameObject:
   m_Component:
   - component: {fileID: 631429329}
   - component: {fileID: 631429330}
+  - component: {fileID: 631429331}
   m_Layer: 0
   m_Name: ColyseusManager
   m_TagString: Untagged
@@ -1677,9 +1678,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _colyseusSettings: {fileID: 11400000, guid: a61d158c14f17d24b817ab670d7e9936, type: 2}
-  _roomController:
-    roomName: NO_ROOM_NAME_PROVIDED
-  CurrentNetworkedEntity: {fileID: 0}
+  _roomName: NO_ROOM_NAME_PROVIDED
+--- !u!114 &631429331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 631429326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b77fe1870166aa146895b2c493c8a1d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &643199157
 GameObject:
   m_ObjectHideFlags: 0

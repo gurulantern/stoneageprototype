@@ -3185,7 +3185,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -698.4812, y: -504.84924, z: -2.7118635}
+  m_LocalPosition: {x: -694.03, y: -520.16, z: -2.7118635}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5703,7 +5703,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1141900560}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -698.4812, y: -504.84924, z: -2.7118635}
+  m_LocalPosition: {x: -694.03, y: -520.16, z: -2.7118635}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6502,9 +6502,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _colyseusSettings: {fileID: 11400000, guid: a61d158c14f17d24b817ab670d7e9936, type: 2}
-  _roomController:
-    roomName: NO_ROOM_NAME_PROVIDED
-  CurrentNetworkedEntity: {fileID: 0}
+  _roomName: NO_ROOM_NAME_PROVIDED
 --- !u!1001 &1319812449
 PrefabInstance:
   m_ObjectHideFlags: 0
