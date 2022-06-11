@@ -48,12 +48,10 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
             _room = value;
         }
     }
-
-    ///     Collection for tracking users that have joined the room.
-    private IndexedDictionary<string, NetworkedEntityState> _users =
-        new IndexedDictionary<string, NetworkedEntityState>();
-
     private ColyseusRoom<RoomState> _room;
+    ///     Collection for tracking users that have joined the room.
+    private IndexedDictionary<string, NetworkedUser> _users =
+        new IndexedDictionary<string, NetworkedUser>();
     private Dictionary<string, object> roomOptionsDictionary = new Dictionary<string, object>();
     public RoomState currentRoomState;
     public List<IColyseusRoom> rooms = new List<IColyseusRoom>();
@@ -85,11 +83,11 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
         get { return _lastRoomId; }
     }
     /// Retunrs a reference to the current networked user.
-    public NetworkedEntityState CurrentNetworkedUser
+    public NetworkedUser CurrentNetworkedUser
     {
         get { return _currentNetworkedUser; }
     }
-    private NetworkedEntityState _currentNetworkedUser;
+    private NetworkedUser _currentNetworkedUser;
 
     public static bool IsReady
     {
@@ -143,18 +141,25 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
 
     public IEnumerator WaitThenSpawnPlayer(string entityID)
     {
-        while (!Room.State.networkedUsers.ContainsKey(entityID))
+        while (!Room.State.networkedEntities.ContainsKey(entityID))
         {
             //Wait until the room has a state for this ID (may take a frame or two, prevent race conditions)
             yield return new WaitForEndOfFrame();
         }
         Debug.Log(entityID + " and " + Room.SessionId);
         bool isOurs = entityID.Equals(Room.SessionId);
-        Debug.Log(Room.State.networkedUsers[entityID]);
-        NetworkedEntityState entityState = Room.State.networkedUsers[entityID];
+        Debug.Log(Room.State.networkedEntities[entityID]);
+        NetworkedEntityState entityState = Room.State.networkedEntities[entityID];
 
-        Debug.Log("Spawning");
-        NetworkedEntityFactory.Instance.SpawnEntity(entityState, isOurs);
+        if (isOurs == false)
+        {
+            NetworkedEntityFactory.Instance.SpawnEntity(entityState, isOurs);
+        }
+        else
+        {// Update our existing entity
+
+            NetworkedEntityFactory.Instance.SpawnEntity(entityState, true);
+        }
     }
 /*
     public async void ConsumeSeatReservation(ColyseusRoomAvailable room, string sessionId)
@@ -461,6 +466,7 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
         onComplete?.Invoke(true);
         LSLog.LogImportant($"Created Room: {_room.Id}");
         _lastRoomId = roomId;
+        currentRoomState = Room.State;
         RegisterRoomHandlers();
     }
 
@@ -490,7 +496,40 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
         onComplete?.Invoke(true);
         LSLog.LogImportant($"Joined / Created Room: {_room.Id}");
         _lastRoomId = _room.Id;
+        currentRoomState = Room.State;
         RegisterRoomHandlers();
+    }
+
+        public async Task JoinRoomId(string roomId, Action<bool> onJoin = null)
+    {
+        LSLog.Log($"Joining Room ID {roomId}....");
+        ClearRoomHandlers();
+
+        try
+        {
+            while (_room == null || !_room.colyseusConnection.IsOpen)
+            {
+                _room = await _client.JoinById<RoomState>(roomId, null);
+
+                if (_room == null || !_room.colyseusConnection.IsOpen)
+                {
+                    LSLog.LogImportant($"Failed to Connect to {roomId}.. Retrying in 5 Seconds...");
+                    await Task.Delay(5000);
+                }
+            }
+
+            _lastRoomId = roomId;
+            currentRoomState = Room.State;
+            RegisterRoomHandlers();
+            onJoin?.Invoke(true);
+        }
+        catch (Exception ex)
+        {
+            LSLog.LogError(ex.Message);
+            onJoin?.Invoke(false);
+            //LSLog.LogError("Failed to joining room, try another...");
+            //await CreateSpecificRoom(_client, roomName, roomId, onJoin);
+        }
     }
 
     public async Task LeaveAllRooms(bool consented, Action onLeave = null)
@@ -528,7 +567,7 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
 
         _room.OnStateChange += OnStateChangeHandler;
 
-        _room.OnMessage<NetworkedEntityState>("onJoin", currentNetworkedUser =>
+        _room.OnMessage<NetworkedUser>("onJoin", currentNetworkedUser =>
         {
             Debug.Log($"Received 'NetworkedUser' after join/creation call {currentNetworkedUser.sessionId}!");
             Debug.Log(Json.SerializeToString(currentNetworkedUser));
@@ -556,8 +595,8 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
         //_room.OnMessage<YOUR_CUSTOM_MESSAGE>("messageNameInCustomLogic", objectOfTypeYOUR_CUSTOM_MESSAGE => {  });
 
         //========================
-        ///_room.State.networkedEntities.OnAdd += OnEntityAdd;
-        ///_room.State.networkedEntities.OnRemove += OnEntityRemoved;
+        _room.State.networkedEntities.OnAdd += OnEntityAdd;
+        _room.State.networkedEntities.OnRemove += OnEntityRemoved;
 
         _room.State.networkedUsers.OnAdd += OnUserAdd;
         _room.State.networkedUsers.OnRemove += OnUserRemove;
@@ -622,38 +661,9 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
 
         return allRooms;
     }
-    public async Task JoinRoomId(string roomId, Action<bool> onJoin = null)
-    {
-        LSLog.Log($"Joining Room ID {roomId}....");
-        ClearRoomHandlers();
 
-        try
-        {
-            while (_room == null || !_room.colyseusConnection.IsOpen)
-            {
-                _room = await _client.JoinById<RoomState>(roomId, null);
 
-                if (_room == null || !_room.colyseusConnection.IsOpen)
-                {
-                    LSLog.LogImportant($"Failed to Connect to {roomId}.. Retrying in 5 Seconds...");
-                    await Task.Delay(5000);
-                }
-            }
-
-            _lastRoomId = roomId;
-            RegisterRoomHandlers();
-            onJoin?.Invoke(true);
-        }
-        catch (Exception ex)
-        {
-            LSLog.LogError(ex.Message);
-            onJoin?.Invoke(false);
-            //LSLog.LogError("Failed to joining room, try another...");
-            //await CreateSpecificRoom(_client, roomName, roomId, onJoin);
-        }
-    }
-
-    private void OnUserAdd(string key, NetworkedEntityState user)
+    private void OnUserAdd(string key, NetworkedUser user)
     {
         LSLog.LogImportant($"user [{user.__refId} | {user.sessionId} | key {key}] Joined");
 
@@ -676,7 +686,7 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
         };
     }
 
-    private void OnUserRemove(string key, NetworkedEntityState user)
+    private void OnUserRemove(string key, NetworkedUser user)
     {
         LSLog.LogImportant($"user [{user.__refId} | {user.sessionId} | key {key}] Left");
 

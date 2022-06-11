@@ -39,20 +39,11 @@ public partial class NetworkedEntityState : Schema {
 	public float wRot = default(float);
 
 	[Type(10, "number")]
-	public float timestamp = default(float);
-
-	[Type(11, "number")]
 	public float xVel = default(float);
 
-	[Type(12, "number")]
+	[Type(11, "number")]
 	public float yVel = default(float);
 
-	[Type(13, "string")]
-	public string sessionId = default(string);
-
-	[Type(14, "boolean")]
-	public bool connected = default(bool);
-
-	[Type(15, "map", typeof(MapSchema<string>), "string")]
+	[Type(12, "map", typeof(MapSchema<string>), "string")]
 	public MapSchema<string> attributes = new MapSchema<string>();
 }

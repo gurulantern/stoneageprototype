@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 3328693769471626152}
   - component: {fileID: 782909295415391657}
   - component: {fileID: -2674248606795513031}
+  - component: {fileID: 6170153437355800280}
   m_Layer: 0
   m_Name: MultiPlayer
   m_TagString: Untagged
@@ -245,99 +246,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebba3d456ccffc243949c26f50946107, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  autoInitEntity: 0
-  prefabName: Player
-  positionLerpSpeed: 5
-  snapIfAngleIsGreater: 100
-  rotationLerpSpeed: 5
-  stateSyncUpdateRateMs: 100
-  interpolationBackTimeMs: 200
-  extrapolationLimitMs: 500
-  maxSpeedDeltaSqr: 9
-  syncLocalPosition: 1
-  syncLocalRotation: 1
-  checkForSpeedHacks: 0
-  proxyStates:
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-    rot: {x: 0, y: 0, z: 0, w: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-    rot: {x: 0, y: 0, z: 0, w: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-    rot: {x: 0, y: 0, z: 0, w: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-    rot: {x: 0, y: 0, z: 0, w: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-    rot: {x: 0, y: 0, z: 0, w: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-    rot: {x: 0, y: 0, z: 0, w: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-    rot: {x: 0, y: 0, z: 0, w: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-    rot: {x: 0, y: 0, z: 0, w: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-    rot: {x: 0, y: 0, z: 0, w: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-    rot: {x: 0, y: 0, z: 0, w: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-    rot: {x: 0, y: 0, z: 0, w: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-    rot: {x: 0, y: 0, z: 0, w: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-    rot: {x: 0, y: 0, z: 0, w: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-    rot: {x: 0, y: 0, z: 0, w: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-    rot: {x: 0, y: 0, z: 0, w: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-    rot: {x: 0, y: 0, z: 0, w: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-    rot: {x: 0, y: 0, z: 0, w: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-    rot: {x: 0, y: 0, z: 0, w: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-    rot: {x: 0, y: 0, z: 0, w: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-    rot: {x: 0, y: 0, z: 0, w: 0}
   _camera: {fileID: 0}
   _gatherFruitEvent: {fileID: 0}
   _dropOffEvent: {fileID: 0}
@@ -345,6 +253,8 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 0
+  owner: {fileID: 0}
+  cameraTransform: {fileID: 0}
   _playerStats: {fileID: 11400000, guid: 9db0846c5c3bc274da33171b82162da4, type: 2}
   maxStamina: 0
   currentStamina: 0
@@ -362,3 +272,85 @@ MonoBehaviour:
   - {r: 0, g: 1, b: 0, a: 0}
   - {r: 1, g: 0.84313726, b: 0, a: 0}
   playerRenderers: []
+--- !u!114 &6170153437355800280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4126516024473503786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99f2875d8f1b2ba428eb374211b8173f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMine: 0
+  movement: {fileID: -2674248606795513031}
+  updateTimer: 0.5
+  animator: {fileID: 2955475726884889708}
+  maxAngleForSnapRotation: 35
+  interpolationBackTimeMs: 200
+  extrapolationLimitMs: 500
+  positionLerpSpeed: 5
+  rotationLerpSpeed: 5
+  proxyStates:
+  - timestamp: 0
+    pos: {x: 0, y: 0, z: 0}
+    rot: {x: 0, y: 0, z: 0, w: 0}
+  - timestamp: 0
+    pos: {x: 0, y: 0, z: 0}
+    rot: {x: 0, y: 0, z: 0, w: 0}
+  - timestamp: 0
+    pos: {x: 0, y: 0, z: 0}
+    rot: {x: 0, y: 0, z: 0, w: 0}
+  - timestamp: 0
+    pos: {x: 0, y: 0, z: 0}
+    rot: {x: 0, y: 0, z: 0, w: 0}
+  - timestamp: 0
+    pos: {x: 0, y: 0, z: 0}
+    rot: {x: 0, y: 0, z: 0, w: 0}
+  - timestamp: 0
+    pos: {x: 0, y: 0, z: 0}
+    rot: {x: 0, y: 0, z: 0, w: 0}
+  - timestamp: 0
+    pos: {x: 0, y: 0, z: 0}
+    rot: {x: 0, y: 0, z: 0, w: 0}
+  - timestamp: 0
+    pos: {x: 0, y: 0, z: 0}
+    rot: {x: 0, y: 0, z: 0, w: 0}
+  - timestamp: 0
+    pos: {x: 0, y: 0, z: 0}
+    rot: {x: 0, y: 0, z: 0, w: 0}
+  - timestamp: 0
+    pos: {x: 0, y: 0, z: 0}
+    rot: {x: 0, y: 0, z: 0, w: 0}
+  - timestamp: 0
+    pos: {x: 0, y: 0, z: 0}
+    rot: {x: 0, y: 0, z: 0, w: 0}
+  - timestamp: 0
+    pos: {x: 0, y: 0, z: 0}
+    rot: {x: 0, y: 0, z: 0, w: 0}
+  - timestamp: 0
+    pos: {x: 0, y: 0, z: 0}
+    rot: {x: 0, y: 0, z: 0, w: 0}
+  - timestamp: 0
+    pos: {x: 0, y: 0, z: 0}
+    rot: {x: 0, y: 0, z: 0, w: 0}
+  - timestamp: 0
+    pos: {x: 0, y: 0, z: 0}
+    rot: {x: 0, y: 0, z: 0, w: 0}
+  - timestamp: 0
+    pos: {x: 0, y: 0, z: 0}
+    rot: {x: 0, y: 0, z: 0, w: 0}
+  - timestamp: 0
+    pos: {x: 0, y: 0, z: 0}
+    rot: {x: 0, y: 0, z: 0, w: 0}
+  - timestamp: 0
+    pos: {x: 0, y: 0, z: 0}
+    rot: {x: 0, y: 0, z: 0, w: 0}
+  - timestamp: 0
+    pos: {x: 0, y: 0, z: 0}
+    rot: {x: 0, y: 0, z: 0, w: 0}
+  - timestamp: 0
+    pos: {x: 0, y: 0, z: 0}
+    rot: {x: 0, y: 0, z: 0, w: 0}

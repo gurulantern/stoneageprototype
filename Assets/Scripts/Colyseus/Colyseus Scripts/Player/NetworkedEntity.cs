@@ -16,7 +16,7 @@ public class NetworkedEntity : MonoBehaviour
     {
         get
         {
-            return state.id;
+            return state.sessionId;
         }
     }
 
@@ -52,6 +52,7 @@ public class NetworkedEntity : MonoBehaviour
     public float rotationLerpSpeed = 5f;
 
     private bool ignoreMovementSync = false;
+    Vector2 lookDirection = new Vector2(1,0);
 
 
     ///public AvatarState Avatar { get { return localUpdatedState?.avatar; } }
@@ -76,7 +77,7 @@ public class NetworkedEntity : MonoBehaviour
     // Keep track of what slots are used
     private int proxyStateCount;
 
-    public void Initialize(NetworkedEntityState initialState, bool isPlayer = true)
+    public void Initialize(NetworkedEntityState initialState, bool isPlayer = false)
     {
         if (state != null)
         {// Unsubscribe from existing state events
@@ -163,7 +164,15 @@ public class NetworkedEntity : MonoBehaviour
 
         walkVal = currentSpeed / movement.speed;
 
-        animator.SetFloat("Walk", Mathf.Clamp(walkVal, 0,1));
+        if(!Mathf.Approximately(movement.MoveInput.x, 0.0f) || !Mathf.Approximately(movement.MoveInput.y, 0.0f))
+        {
+            lookDirection.Set(movement.MoveInput.x, movement.MoveInput.y);
+            lookDirection.Normalize();
+        }
+
+        animator.SetFloat("Look X", lookDirection.x);
+        animator.SetFloat("Look Y", lookDirection.y);
+        animator.SetFloat("Speed", Mathf.Clamp(walkVal, 0,1));
     }
 
 

@@ -23,6 +23,10 @@ public class CharControllerMulti : MonoBehaviour
     public PlayerStats _playerStats;
     public float maxStamina, currentStamina, speed, tiredSpeed, tireLimit, tireRate, restoreRate;
     public int food, wood;
+    public Vector2 MoveInput
+    {
+        get { return moveInput;}
+    }
     private Vector2 moveInput;
     //Bunch of bools for checking if near with Circle colliders and checking player state
     private bool treeNear, fruitTreeNear, playerNear, caveNear;
@@ -241,10 +245,10 @@ public class CharControllerMulti : MonoBehaviour
     }
 
     //Sets look direction and set speed for animator
-    private void OnMove(InputValue value) 
+    public void OnMove(InputValue value) 
     {
         moveInput = value.Get<Vector2>();
-
+/*
         if(!Mathf.Approximately(moveInput.x, 0.0f) || !Mathf.Approximately(moveInput.y, 0.0f))
         {
             lookDirection.Set(moveInput.x, moveInput.y);
@@ -254,6 +258,7 @@ public class CharControllerMulti : MonoBehaviour
         animator.SetFloat("Look X", lookDirection.x);
         animator.SetFloat("Look Y", lookDirection.y);
         animator.SetFloat("Speed", moveInput.magnitude);
+*/  
     }
 
     //Functions for interacting with food objects (Fruit trees, caves, and other players)

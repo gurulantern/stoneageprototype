@@ -43,7 +43,7 @@ public class NetworkedEntityFactory: MonoBehaviour
         cameraController.SetFollow(target);
     }
 
-    public void SpawnEntity(NetworkedEntityState state, bool isPlayer = true)
+    public void SpawnEntity(NetworkedEntityState state, bool isPlayer = false)
     {
         Debug.Log("Spawning Entity");
         Vector3 position = new Vector3((float)state.xPos, (float)state.yPos, (float)state.zPos);
@@ -52,6 +52,7 @@ public class NetworkedEntityFactory: MonoBehaviour
         GameObject newEntity = Instantiate(entityPrefab, position, rot);
 
         newEntity.transform.SetParent(GameObject.Find("Grid").transform);
+        newEntity.name = ColyseusManager.Instance.UserName;
         NetworkedEntity entity = newEntity.GetComponent<NetworkedEntity>();
         entity.Initialize(state, isPlayer);
         entities.Add(state.id, entity);

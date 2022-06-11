@@ -12,15 +12,20 @@ export class NetworkedEntityState extends Schema {
     @type("number") yRot: number;
     @type("number") zRot: number;
     @type("number") wRot: number;
-    @type("number") timestamp: number;
     @type("number") xVel: number;
     @type("number") yVel: number;
-    @type("string") sessionId: string;
-    @type("boolean") connected: boolean;
     @type({map: "string"}) attributes = new MapSchema<string>();
 }
+
+export class NetworkedUser extends Schema {
+    @type("number") timestamp: number;
+    @type("string") sessionId: string;
+    @type("boolean") connected: boolean;
+
+}
 export class RoomState extends Schema {
-    @type({ map: NetworkedEntityState }) networkedUsers = new MapSchema<NetworkedEntityState>();
+    @type({ map: NetworkedEntityState }) networkedEntities = new MapSchema<NetworkedEntityState>();
+    @type({ map: NetworkedUser }) networkedUsers = new MapSchema<NetworkedUser>();
     @type({ map: "string" }) attributes = new MapSchema<string>();
 
     @type("number") serverTime: number = 0.0;
