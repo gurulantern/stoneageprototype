@@ -14,7 +14,7 @@ using UnityEngine;
         public bool IsEntityOwner { get; private set; }
         public bool IsMine { get; private set; }
         public bool HasInit { get; private set; }
-
+        public string UserName { get; private set; }
         public bool autoInitEntity = false;
         public string prefabName;
 
@@ -109,7 +109,9 @@ using UnityEngine;
 
             if (autoInitEntity && HasInit == false && !string.IsNullOrEmpty(prefabName))
             {
-                ColyseusManager.CreateNetworkedEntity(prefabName, null, this);
+                UserName = ColyseusManager.Instance.UserName;
+                Debug.Log($"Instantiating a player with username - {UserName}");
+                ColyseusManager.CreateNetworkedEntity(prefabName, new Dictionary<string, object> { ["userName"] = UserName }, this);
             }
             else if (autoInitEntity && HasInit == false && string.IsNullOrEmpty(prefabName))
             {
@@ -126,6 +128,13 @@ using UnityEngine;
                 IsMine = ColyseusManager.Instance.CurrentUser != null && string.Equals(ColyseusManager.Instance.CurrentUser.sessionId, state.ownerId);
                 state.attributes.OnChange += Attributes_OnChange;
                 state.OnChange += Entity_State_OnChange;
+
+                if (state.attributes.TryGetValue("userName", out string userName))
+                {
+                    Debug.Log("Setting username as object name");
+                    UserName = userName;
+                    gameObject.name = UserName;
+                }
 
                 OwnerId = state.ownerId;
                 Id = state.id;
@@ -244,9 +253,21 @@ using UnityEngine;
             //Copy Transform to State (round position to fix floating point issues with state compare)
             state.xPos = (float)System.Math.Round((decimal)transform.localPosition.x, 4);
             state.yPos = (float)System.Math.Round((decimal)transform.localPosition.y, 4);
+            state.zPos = (float)System.Math.Round((decimal)transform.localPosition.z, 4);
+
+            state.xRot = transform.localRotation.x;
+            state.yRot = transform.localRotation.y;
+            state.zRot = transform.localRotation.z;
+            state.wRot = transform.localRotation.w;
+
+            state.xScale = transform.localScale.x;
+            state.yScale = transform.localScale.y;
+            state.zScale = transform.localScale.z;
 
             state.xVel = localPositionDelta.x;
             state.yVel = localPositionDelta.y;
+            state.zVel = localPositionDelta.z / Time.deltaTime;
+
 
             ////No need to update again if last sent state == current view modified state
             if (localUpdatedState != null)
@@ -291,6 +312,7 @@ using UnityEngine;
                 if (counterStateSyncUpdateRate > stateSyncUpdateRateMs / 1000f)
                 {
                     counterStateSyncUpdateRate = 0f;
+                    Debug.Log($"Updating state from this view - {UserName}");
                     UpdateStateFromView();
                 }
 
@@ -298,6 +320,7 @@ using UnityEngine;
             else if (!IsMine && (syncLocalPosition))
             {
                 // You are not the owner, so you have to converge the object's state toward the server's state.
+                Debug.Log("Processing view of non-owner");
                 ProcessViewSync();
             }
 

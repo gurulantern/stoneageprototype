@@ -74,11 +74,9 @@ public class CharControllerMulti : NetworkedEntityView
 
     protected override void Start()
     {
-        autoInitEntity = false;
         base.Start();
         sleep = false;
 
-        StartCoroutine("WaitForConnect");
     }
 
     private void OnTeamUpdated(int team, string id)
@@ -124,20 +122,6 @@ public class CharControllerMulti : NetworkedEntityView
         }
     }
 
-    IEnumerator WaitForConnect() 
-    {
-        if (ColyseusManager.Instance.CurrentUser != null && !IsMine) yield break;
-
-        while (!ColyseusManager.Instance.isInRoom)
-        {
-            yield return 0;
-        }
-        LSLog.LogImportant("HAS JOINED ROOM - CREATING ENTITY");
-        ///ColyseusManager.CreateNetworkedEntityWithTransform(new Vector2(-3.86f,14.39f), new Dictionary<string, object>() { ["prefab"] = "Player"}, this, (entity) => {
-        ///    LSLog.LogImportant($"Network Entity Ready {entity.id}");
-        ///});
-    }
-
     public override void OnEntityRemoved()
     {
         base.OnEntityRemoved();
@@ -151,6 +135,11 @@ public class CharControllerMulti : NetworkedEntityView
         if (!HasInit || !IsMine) return;
         rb.MovePosition(rb.position + moveInput * speed * Time.deltaTime);
 
+    }
+
+    protected override void ProcessViewSync()
+    {
+        base.ProcessViewSync();
     }
 
 /*

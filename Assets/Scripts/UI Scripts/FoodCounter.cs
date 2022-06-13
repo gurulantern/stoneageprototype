@@ -9,10 +9,11 @@ public class FoodCounter : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI counter;
     Cave cave;
+/*
     void Awake() => cave.Changed += UpdateText;
     void OnDestroy() => cave.Changed -= UpdateText;
     void OnEnable() => UpdateText();
     void OnValidate() => counter = GetComponent<TextMeshProUGUI>();
     void UpdateText() => counter.text = cave.FoodCount.ToString();
-
+*/
 }

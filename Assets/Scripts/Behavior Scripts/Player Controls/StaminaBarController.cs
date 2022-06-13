@@ -11,7 +11,7 @@ public class StaminaBarController : MonoBehaviour
     {
         staminaSlider = GetComponent<Slider>();
         character = GetComponent<CharController>();
-        staminaSlider.value = character.maxStamina;
+//        staminaSlider.value = character.maxStamina;
     }
     
     void FixedUpdate()

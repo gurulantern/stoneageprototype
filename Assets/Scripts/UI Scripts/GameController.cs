@@ -35,6 +35,9 @@ public class GameController : MonoBehaviour
     private float remainingTime;
     private bool _showCountDown = false;
     public bool gamePlaying { get; private set; }
+    public Transform tdmSpawnCenter;
+    public float tdmMinSpawnVariance = 200f;
+    public float tdmMaxSpawnVariance = 500f;
     private int numTotalFood;
     [SerializeField] private List<StoneAgeTeam> teams = new List<StoneAgeTeam>();
 
@@ -59,6 +62,7 @@ public class GameController : MonoBehaviour
     {
         RoomController.onAddNetworkEntity += OnNetworkAdd;
         RoomController.onRemoveNetworkEntity += OnNetworkRemove;
+        RoomController.onJoined += OnJoinedRoom;
         RoomController.onTeamUpdate += OnTeamUpdate;
         RoomController.onTeamReceive += OnFullTeamUpdate;
 
@@ -69,6 +73,7 @@ public class GameController : MonoBehaviour
     {
         RoomController.onAddNetworkEntity -= OnNetworkAdd;
         RoomController.onRemoveNetworkEntity -= OnNetworkRemove;
+        RoomController.onJoined -= OnJoinedRoom;
         RoomController.onTeamUpdate -= OnTeamUpdate;
         RoomController.onTeamReceive -= OnFullTeamUpdate;
 
@@ -77,7 +82,7 @@ public class GameController : MonoBehaviour
 
     public Vector2 GetSpawnPoint(int teamIndex)
     {
-        Vector2 pos = spawnCenter;
+        Vector3 pos = spawnCenter;
 
         if (teamIndex == 0)
         {
@@ -96,6 +101,8 @@ public class GameController : MonoBehaviour
         else
         {
             LSLog.LogImportant("No View found for " + entity.id);
+            CreateView(entity);
+
         }
     }
 
@@ -106,10 +113,14 @@ public class GameController : MonoBehaviour
     
     private void CreateView(NetworkedEntity entity)
     {
-        LSLog.LogImportant("print: " + JsonUtility.ToJson(entity));
+        //LSLog.LogImportant("print: " + JsonUtility.ToJson(entity));
         StoneColyseusNetworkedEntityView newView = Instantiate(prefab);
         ColyseusManager.Instance.RegisterNetworkedEntityView(entity, newView);
         newView.gameObject.SetActive(true);
+
+        LSLog.LogImportant($"Game Manager - New View Created!");
+
+        onViewAdded?.Invoke(newView);
     }
 
     private void RemoveView(StoneColyseusNetworkedEntityView view)
@@ -154,6 +165,12 @@ public class GameController : MonoBehaviour
                 userId = ColyseusManager.Instance.CurrentUser.sessionId,
                 attributesToSet = attributes
             });
+    }
+
+    private void OnJoinedRoom(string customLogic)
+    {
+        ///IsCoop = string.Equals(customLogic, "starBossCoop");
+        JoinComplete = true;
     }
 
     private void UpdateGameStates(MapSchema<string> attributes)
@@ -272,7 +289,7 @@ public class GameController : MonoBehaviour
 
     private void OnDestroy() 
     {
-        ColyseusManager.Instance.OnEditorQuit();    
+        ///ColyseusManager.Instance.OnEditorQuit();    
     }
 
     private void OnPlayerCreated(StoneColyseusNetworkedEntityView newView)

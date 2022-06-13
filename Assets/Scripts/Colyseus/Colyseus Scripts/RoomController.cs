@@ -337,6 +337,19 @@ using UnityEngine;
 
         //Custom game logic
         //_room.OnMessage<YOUR_CUSTOM_MESSAGE>("messageNameInCustomLogic", objectOfTypeYOUR_CUSTOM_MESSAGE => {  });
+        _room.OnMessage<StoneAgePlayerJoinedMessage>("playerJoined", msg => { onPlayerJoined?.Invoke(msg.userName); });
+
+        _room.OnMessage<StoneAgeTeamUpdateMessage>("onTeamUpdate", msg =>
+        {
+            LSLog.Log($"Updating team: {msg.teamIndex}, Client: {msg.clientID}, Added ? {msg.added}");
+            onTeamUpdate?.Invoke(msg.teamIndex, msg.clientID, msg.added);
+        });
+
+        _room.OnMessage<StoneAgeAllTeamsUpdateMessage>("onReceiveTeam", msg =>
+        {
+            LSLog.Log($"Receiving full team: {msg.teamIndex}, Clients on Team: {msg.clients.Length}");
+            onTeamReceive?.Invoke(msg.teamIndex, msg.clients);
+        });
 
         //========================
         _room.State.networkedEntities.OnAdd += OnEntityAdd;
@@ -444,13 +457,14 @@ using UnityEngine;
     private async void OnEntityAdd(string key, NetworkedEntity entity)
     {
         LSLog.LogImportant(
-            $"Entity [{entity.__refId} | {entity.id}] add: x => {entity.xPos}, y => {entity.yPos}");
+            $"Entity [{entity.__refId} | {entity.id}] add: x => {entity.xPos}, y => {entity.yPos}, z => {entity.zPos}");
 
         _entities.Add(entity.id, entity);
 
         //Creation ID is only Registered with the owner so only owners callback will be triggered
         if (!string.IsNullOrEmpty(entity.creationId) && _creationCallbacks.ContainsKey(entity.creationId))
         {
+            Debug.Log("Creation Callbacks!");
             _creationCallbacks[entity.creationId].Invoke(entity);
             _creationCallbacks.Remove(entity.creationId);
         }
