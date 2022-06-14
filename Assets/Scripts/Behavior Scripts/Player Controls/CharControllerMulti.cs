@@ -128,23 +128,29 @@ public class CharControllerMulti : NetworkedEntityView
         LSLog.LogImportant("REMOVING ENTITY", LSLog.LogColor.lime);
         Destroy(this.gameObject);
     }
+/*
     protected override void Update()
     {
         base.Update();
-
-        if (!HasInit || !IsMine) return;
-        rb.MovePosition(rb.position + moveInput * speed * Time.deltaTime);
-
+        Debug.Log($"IsMine is {IsMine}");
+        if (IsMine)
+        {
+            rb.MovePosition(rb.position + moveInput * speed * Time.deltaTime);
+        }
     }
-
+*/
     protected override void ProcessViewSync()
     {
         base.ProcessViewSync();
     }
 
-/*
     void FixedUpdate()
     {
+        if (IsMine)
+        {
+            rb.MovePosition(rb.position + moveInput * speed * Time.deltaTime);
+        }
+        /*
         if (GameController.instance.gamePlaying)
         {
             if (_playerStamina.currentStamina == _playerStamina.maxStamina && sleep == true) {
@@ -168,8 +174,8 @@ public class CharControllerMulti : NetworkedEntityView
         } else {
             _playerControls.Disable();
         }
+        */
     }
-*/
 //Function for changing stamina over time
     private void ChangeStamina(float rate)
     {

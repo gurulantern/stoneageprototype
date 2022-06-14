@@ -320,7 +320,6 @@ using UnityEngine;
             else if (!IsMine && (syncLocalPosition))
             {
                 // You are not the owner, so you have to converge the object's state toward the server's state.
-                Debug.Log("Processing view of non-owner");
                 ProcessViewSync();
             }
 

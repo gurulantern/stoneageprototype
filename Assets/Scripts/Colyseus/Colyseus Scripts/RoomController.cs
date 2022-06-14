@@ -311,12 +311,18 @@ using UnityEngine;
 
         _room.OnStateChange += OnStateChangeHandler;
 
-        _room.OnMessage<NetworkedUser>("onJoin", currentNetworkedUser =>
+        _room.OnMessage<OnJoinMessage>("onJoin", msg =>
         {
+            _currentNetworkedUser = msg.newNetworkedUser;
+            Debug.Log("Player has joined");
+            onJoined?.Invoke(msg.customLogic);
+
+/*
             Debug.Log($"Received 'NetworkedUser' after join/creation call {currentNetworkedUser.sessionId}!");
             Debug.Log(Json.SerializeToString(currentNetworkedUser));
 
             _currentNetworkedUser = currentNetworkedUser;
+*/  
         });
 
         _room.OnMessage<RFCMessage>("onRFC", _rfc =>
