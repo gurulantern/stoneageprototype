@@ -13,7 +13,6 @@ export class MyRoom extends Room<RoomState> {
     currCountDown: number;
     currentTime: number;
     teams: Map<number, Map<string, Client>>;
-    tdmScoreToWin: number = 10;
 
     /**
      * Getter function to retrieve the correct customLogic file. Will try .JS extension and then .TS

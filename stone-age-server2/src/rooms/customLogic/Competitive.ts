@@ -537,14 +537,14 @@ exports.InitializeLogic = function (roomRef: MyRoom, options: any) {
 
     roomRef.currentTime = 0;
 
-    roomRef.tdmScoreToWin = options["scoreToWin"] ? Number(options["scoreToWin"]) : 10;
-
-    logger.silly(`*** TDM - Score to win = ${roomRef.tdmScoreToWin} ***`);
+    logger.silly(`*** Competitive Mode - Gather the most by time's end ***`);
 
     //If we ever want more than 2 teams, this will need to be updated
     roomRef.teams = new Map();
     roomRef.teams.set(0, new Map());
     roomRef.teams.set(1, new Map());
+    roomRef.teams.set(2, new Map());
+    roomRef.teams.set(3, new Map());
 
     // Set initial game state to waiting for all clients to be ready
     setRoomAttribute(roomRef, CurrentState, StoneAgeServerGameState.Waiting)

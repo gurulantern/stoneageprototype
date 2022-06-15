@@ -12,6 +12,7 @@ public class CharControllerMulti : NetworkedEntityView
     public static event OnPlayerActivated onPlayerActivated;
     public delegate void OnPlayerDeactivated(CharControllerMulti playerController);
     public static event OnPlayerDeactivated onPlayerDeactivated;
+    [SerializeField] SpriteRenderer _spriteRenderer;
     [SerializeField] PlayerControls _playerControls;
     [SerializeField] Camera _camera;
     [SerializeField] GameEvent _gatherFruitEvent;
@@ -82,7 +83,7 @@ public class CharControllerMulti : NetworkedEntityView
     private void OnTeamUpdated(int team, string id)
     {
         //If we're in team death match, we need our team index
-        if (id.Equals(OwnerId))
+        if (!GameController.Instance.IsCoop && id.Equals(OwnerId))
         {
             SetTeam(team);
         }
@@ -92,9 +93,10 @@ public class CharControllerMulti : NetworkedEntityView
     {
         base.InitiView(entity);
         onPlayerActivated?.Invoke(this);
+        Debug.Log("Initializing view");
 
         //If we're in team death match, we need our team index
-        if (!GameController.Instance)
+        if (!GameController.Instance.IsCoop)
         {
             SetTeam(GameController.Instance.GetTeamIndex(OwnerId));
         }
@@ -116,10 +118,7 @@ public class CharControllerMulti : NetworkedEntityView
 
     public void SetPlayerColor(Color color)
     {
-        for (int i = 0; i < playerRenderers.Length; ++i)
-        {
-            playerRenderers[i].material.color = color;
-        }
+        _spriteRenderer.color = color;
     }
 
     public override void OnEntityRemoved()

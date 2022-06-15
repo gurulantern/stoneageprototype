@@ -17,7 +17,7 @@ public class GameController : MonoBehaviour
 
     public delegate void OnViewRemoved(StoneColyseusNetworkedEntityView view);
     public static event OnViewRemoved onViewRemoved;
-    public static GameController Instance { get; set; }
+    public static GameController Instance { get; private set; }
     CharController playerStats;
     [SerializeField] private Cave homeCave;
     public Vector2 spawnCenter;
@@ -26,6 +26,7 @@ public class GameController : MonoBehaviour
     private string currentGameState = "";
     private string lastGameState = "";
     public bool JoinComplete { get; private set; } = false;
+    public bool IsCoop { get; private set; }
     public delegate void OnUpdateClientTeam(int teamIndex, string clientID);
     public static event OnUpdateClientTeam onUpdateClientTeam;
     public GameObject hudContainer, gameOverPanel;
@@ -39,7 +40,8 @@ public class GameController : MonoBehaviour
     public float tdmMinSpawnVariance = 200f;
     public float tdmMaxSpawnVariance = 500f;
     private int numTotalFood;
-    [SerializeField] private List<StoneAgeTeam> teams = new List<StoneAgeTeam>();
+    [SerializeField] 
+    private List<StoneAgeTeam> teams = new List<StoneAgeTeam>();
 
     private void Awake() 
     {
@@ -169,7 +171,7 @@ public class GameController : MonoBehaviour
 
     private void OnJoinedRoom(string customLogic)
     {
-        ///IsCoop = string.Equals(customLogic, "starBossCoop");
+        IsCoop = string.Equals(customLogic, "collaborative");
         JoinComplete = true;
     }
 

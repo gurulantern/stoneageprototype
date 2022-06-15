@@ -338,6 +338,7 @@ MonoBehaviour:
     pos: {x: 0, y: 0}
     vel: {x: 0, y: 0}
     rot: {x: 0, y: 0, z: 0, w: 0}
+  _spriteRenderer: {fileID: 4126516024473503784}
   _camera: {fileID: 0}
   _gatherFruitEvent: {fileID: 0}
   _dropOffEvent: {fileID: 0}
@@ -356,5 +357,9 @@ MonoBehaviour:
   food: 0
   wood: 0
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
-  teamColors: []
+  teamColors:
+  - {r: 0.4198113, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.514151, b: 1, a: 1}
+  - {r: 0.2783019, g: 1, b: 0.2783019, a: 1}
+  - {r: 1, g: 0.8853774, b: 0.2783019, a: 1}
   playerRenderers: []

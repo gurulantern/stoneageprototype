@@ -866,6 +866,46 @@ PrefabInstance:
       propertyPath: _camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: -2674248606795513031, guid: 3d1628db331f9124aad8c8281d5f333b,
+        type: 3}
+      propertyPath: _spriteRenderer
+      value: 
+      objectReference: {fileID: 211113146}
+    - target: {fileID: -2674248606795513031, guid: 3d1628db331f9124aad8c8281d5f333b,
+        type: 3}
+      propertyPath: teamColors.Array.data[0].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2674248606795513031, guid: 3d1628db331f9124aad8c8281d5f333b,
+        type: 3}
+      propertyPath: teamColors.Array.data[1].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2674248606795513031, guid: 3d1628db331f9124aad8c8281d5f333b,
+        type: 3}
+      propertyPath: teamColors.Array.data[2].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2674248606795513031, guid: 3d1628db331f9124aad8c8281d5f333b,
+        type: 3}
+      propertyPath: teamColors.Array.data[3].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4126516024473503784, guid: 3d1628db331f9124aad8c8281d5f333b,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4126516024473503784, guid: 3d1628db331f9124aad8c8281d5f333b,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4126516024473503784, guid: 3d1628db331f9124aad8c8281d5f333b,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4126516024473503786, guid: 3d1628db331f9124aad8c8281d5f333b,
         type: 3}
       propertyPath: m_Name
@@ -928,6 +968,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d1628db331f9124aad8c8281d5f333b, type: 3}
+--- !u!212 &211113146 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4126516024473503784, guid: 3d1628db331f9124aad8c8281d5f333b,
+    type: 3}
+  m_PrefabInstance: {fileID: 211113145}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &211113148 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4126516024473503799, guid: 3d1628db331f9124aad8c8281d5f333b,
