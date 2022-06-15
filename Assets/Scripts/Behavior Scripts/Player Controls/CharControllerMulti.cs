@@ -13,7 +13,7 @@ public class CharControllerMulti : NetworkedEntityView
     public delegate void OnPlayerDeactivated(CharControllerMulti playerController);
     public static event OnPlayerDeactivated onPlayerDeactivated;
     [SerializeField] PlayerControls _playerControls;
-    [SerializeField] private Camera _camera;
+    [SerializeField] Camera _camera;
     [SerializeField] GameEvent _gatherFruitEvent;
     [SerializeField] GameEvent _dropOffEvent;
     [SerializeField] GameEvent _observeDone;
