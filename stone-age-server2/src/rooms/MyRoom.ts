@@ -88,7 +88,7 @@ export class MyRoom extends Room<RoomState> {
      * @param {*} options The room options sent from the client when creating a room
      */
     async onCreate(options: any) {
-        logger.info("*********************** STAR BOSS ROOM CREATED ***********************");
+        logger.info("*********************** STONE AGE ROOM CREATED ***********************");
         console.log(options);
         logger.info("***********************");
 
@@ -109,7 +109,7 @@ export class MyRoom extends Room<RoomState> {
         // Set the frequency of the patch rate
         this.setPatchRate(1000 / 20);
     
-        // Retrieve the custom logic for the room (Death match or Coop)
+        // Retrieve the custom logic for the room (Competitive or COllaborative)
         await this.getCustomLogic(options["logic"]);
         
         this.initializeGameTypeLogic(options);

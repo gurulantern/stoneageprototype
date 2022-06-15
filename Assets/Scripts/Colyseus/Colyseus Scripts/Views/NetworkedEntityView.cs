@@ -346,7 +346,7 @@ using UnityEngine;
         protected virtual void ProcessViewSync()
         {
             // This is the target playback time of this body
-            double interpolationTime = ColyseusManager.Instance.GetServerTime - interpolationBackTimeMs;
+            double interpolationTime = ColyseusManager.Instance.GetRoundtripTime - interpolationBackTimeMs;
 
             // Use interpolation if the target playback time is present in the buffer
             if (proxyStates[0].timestamp > interpolationTime)

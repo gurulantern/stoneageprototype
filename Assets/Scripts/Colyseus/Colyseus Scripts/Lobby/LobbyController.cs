@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Colyseus;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 
@@ -10,6 +11,9 @@ public class LobbyController : MonoBehaviour
 {
     [SerializeField]
     private GameObject connectingCover = null;
+    
+    [SerializeField]
+    private Toggle collabToggle = null;
 
     [SerializeField]
     private CreateUserMenu createUserMenu = null;
@@ -17,6 +21,8 @@ public class LobbyController : MonoBehaviour
     //Variables to initialize the room controller
     public string roomName = "my_room";
     public string gameSceneName = "Stone Age";
+    protected Dictionary<string, object> roomOptions = null;
+
     [SerializeField]
     private RoomSelectionMenu selectRoomMenu = null;
 
@@ -36,12 +42,6 @@ public class LobbyController : MonoBehaviour
         {
             yield return new WaitForEndOfFrame();
         }
-
-        Dictionary<string, object> roomOptions = new Dictionary<string, object>
-        {
-            ["YOUR_ROOM_OPTION_1"] = "option 1",
-            ["YOUR_ROOM_OPTION_2"] = "option 2"
-        };
 
         ColyseusManager.Instance.Initialize(roomName, roomOptions);
         ColyseusManager.onRoomsReceived += OnRoomsReceived;
@@ -79,9 +79,11 @@ public class LobbyController : MonoBehaviour
     {
         connectingCover.SetActive(true);
         string desiredRoomName = selectRoomMenu.RoomCreationName;
+        string gameModeLogic = collabToggle.isOn ? "collaborative" : "competitive";
+        roomOptions = new Dictionary<string, object> {{"logic", gameModeLogic}};
         if (!string.IsNullOrEmpty(desiredRoomName))
         {
-            LoadGallery(() => { ColyseusManager.Instance.CreateNewRoom(desiredRoomName); });
+            LoadGallery(() => { ColyseusManager.Instance.CreateNewRoom(desiredRoomName, roomOptions); });
         }
     }
 

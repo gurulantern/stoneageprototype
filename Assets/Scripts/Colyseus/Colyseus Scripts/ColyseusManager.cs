@@ -24,7 +24,7 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
     }
 
     /// Returns the synchronized time from the server in milliseconds.
-    public double GetServerTime
+    public double GetRoundtripTime
     {
         get{ return _roomController.GetRoundtripTime; }
     }
@@ -107,8 +107,10 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
         await _roomController.JoinRoomId(roomID);
     }
 
-    public async void CreateNewRoom(string roomID)
+    public async void CreateNewRoom(string roomID, Dictionary<string, object> roomOptions)
     {
+        _roomController.SetRoomOptions(roomOptions);
+        
         await _roomController.CreateSpecificRoom(client, _roomController.roomName, roomID);
     }
 
