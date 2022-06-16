@@ -23,7 +23,6 @@ public class CharControllerMulti : NetworkedEntityView
     public float maxStamina, currentStamina, speed, tiredSpeed, tireLimit, tireRate, restoreRate;
     public int food, wood;
     private Vector2 moveInput;
-    //Bunch of bools for checking if near with Circle colliders and checking player state
     private bool treeNear, fruitTreeNear, playerNear, caveNear;
     private bool sleep, observing, gathering, tired;
     //Iterator variable for debugging Trigger Enter and Exit
@@ -36,7 +35,6 @@ public class CharControllerMulti : NetworkedEntityView
             return teamIndex; 
         }
     }
-    public Color defaultColor = Color.white; 
     public Color[] teamColors;
     public Renderer[] playerRenderers;
     Rigidbody2D rb;
@@ -127,17 +125,23 @@ public class CharControllerMulti : NetworkedEntityView
         LSLog.LogImportant("REMOVING ENTITY", LSLog.LogColor.lime);
         Destroy(this.gameObject);
     }
-/*
     protected override void Update()
     {
-        base.Update();
-        Debug.Log($"IsMine is {IsMine}");
-        if (IsMine)
+        base.Update(); 
+        if (!IsMine)
         {
-            rb.MovePosition(rb.position + moveInput * speed * Time.deltaTime);
+            if(!Mathf.Approximately(localPositionDelta.x, 0.0f) || !Mathf.Approximately(localPositionDelta.y, 0.0f))
+            {
+                lookDirection.Set(localPositionDelta.x, localPositionDelta.y);
+                lookDirection.Normalize();
+            }
+
+            animator.SetFloat("Look X", lookDirection.x);
+            animator.SetFloat("Look Y", lookDirection.y);
+            animator.SetFloat("Speed", localPositionDelta.magnitude * 100);
         }
     }
-*/
+    
     protected override void ProcessViewSync()
     {
         base.ProcessViewSync();
@@ -149,6 +153,7 @@ public class CharControllerMulti : NetworkedEntityView
         {
             rb.MovePosition(rb.position + moveInput * speed * Time.deltaTime);
         }
+
         /*
         if (GameController.instance.gamePlaying)
         {

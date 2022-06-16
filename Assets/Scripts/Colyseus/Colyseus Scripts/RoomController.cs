@@ -44,8 +44,17 @@ using UnityEngine;
     ///Delegate and event for Team received.
     public delegate void OnTeamReceive(int teamIndex, string[] clients);
     public static event OnTeamReceive onTeamReceive;
+    public delegate void OnRoomStateChanged(MapSchema<string> attributes);
+    public static event OnRoomStateChanged onRoomStateChanged;
 
+    public delegate void OnBeginRoundCountDown();
+    public static event OnBeginRoundCountDown onBeginRoundCountDown;
 
+    public delegate void OnBeginRound(int bossHealth);
+    public static event OnBeginRound onBeginRound;
+
+    public delegate void OnRoundEnd();
+    public static event OnRoundEnd onRoundEnd;
 
 
     /// Our user object we get upon joining a room.

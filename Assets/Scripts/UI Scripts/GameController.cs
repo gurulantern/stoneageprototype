@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour
 
     public delegate void OnViewRemoved(StoneColyseusNetworkedEntityView view);
     public static event OnViewRemoved onViewRemoved;
+    public UIController uiController;
     public static GameController Instance { get; private set; }
     CharController playerStats;
     [SerializeField] private Cave homeCave;
@@ -62,6 +63,12 @@ public class GameController : MonoBehaviour
 
     private void OnEnable() 
     {
+        
+        RoomController.onRoomStateChanged += OnRoomStateChanged;
+        RoomController.onBeginRoundCountDown += OnBeginRoundCountDown;
+        RoomController.onBeginRound += OnBeginRound;
+        RoomController.onRoundEnd += OnRoundEnd;
+        RoomController.onJoined += OnJoinedRoom;
         RoomController.onAddNetworkEntity += OnNetworkAdd;
         RoomController.onRemoveNetworkEntity += OnNetworkRemove;
         RoomController.onJoined += OnJoinedRoom;
@@ -69,10 +76,18 @@ public class GameController : MonoBehaviour
         RoomController.onTeamReceive += OnFullTeamUpdate;
 
         onViewAdded += OnPlayerCreated;
+
+        uiController.UpdateCountDownMessage("");
+        uiController.UpdateGeneralMessageText("");
     }
 
     private void OnDisable() 
     {
+        RoomController.onRoomStateChanged -= OnRoomStateChanged;
+        RoomController.onBeginRoundCountDown -= OnBeginRoundCountDown;
+        RoomController.onBeginRound -= OnBeginRound;
+        RoomController.onRoundEnd -= OnRoundEnd;
+        RoomController.onJoined -= OnJoinedRoom;
         RoomController.onAddNetworkEntity -= OnNetworkAdd;
         RoomController.onRemoveNetworkEntity -= OnNetworkRemove;
         RoomController.onJoined -= OnJoinedRoom;
@@ -173,6 +188,72 @@ public class GameController : MonoBehaviour
     {
         IsCoop = string.Equals(customLogic, "collaborative");
         JoinComplete = true;
+    }
+
+       private void OnBeginRoundCountDown()
+    {
+        LSLog.LogImportant($"Round Count Down Has Begun!", LSLog.LogColor.cyan);
+
+        _showCountDown = true;
+    }
+
+    private void OnBeginRound(int bossHealth)
+    {
+        StartCoroutine(BeginRoutine(bossHealth));
+    }
+
+    private IEnumerator BeginRoutine(int bossHealth)
+    {
+        if (IsCoop == false)
+        {
+            Debug.Log("Welcome to your ship");
+            CharControllerMulti pc = GetOwnersShip();
+
+            if (pc)
+            {
+                pc.PositionAtSpawn();
+            }
+        }
+
+        RoundInProgress = true;
+        if (IsCoop)
+        {
+
+        }
+        else
+        {
+            winningTeam = -1;
+        }
+
+        yield return new WaitForSeconds(1.0f);
+
+        _showCountDown = false;
+        uiController.UpdateCountDownMessage("");
+    }
+
+    private void OnRoundEnd()
+    {
+        LSLog.LogImportant($"Round Ended!", LSLog.LogColor.lime);
+        StartCoroutine(RoundEndRoutine());
+    }
+
+    private IEnumerator RoundEndRoutine()
+    {
+        RoundInProgress = false;
+        PlayerSpaceshipController ownersShip = GetOwnersShip();
+        if (IsCoop)
+        {
+
+            uiController.ShowRoundOverMessage("VICTORY! THE WORM IS DEFEATED!");
+
+        }
+        else
+        {
+            //We may not have the winning team yet, need to hold here
+            StartCoroutine(HoldForWinner());
+        }
+
+        ResetAllShipDamage();
     }
 
     private void UpdateGameStates(MapSchema<string> attributes)

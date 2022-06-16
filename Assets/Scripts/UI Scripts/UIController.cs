@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 public class UIController : MonoBehaviour
 {
@@ -13,7 +14,30 @@ public class UIController : MonoBehaviour
     private Button startButton = null;
 
     [SerializeField]
+    private TextMeshProUGUI generalMessageText;
+    [SerializeField]
+    private TextMeshProUGUI countDownText;
+
+    [SerializeField]
+    private TextMeshProUGUI roundOverMessageText;
+
+    [SerializeField]
+    private PlayerTag playerTagPrefab;
+
+    [SerializeField]
+    private RectTransform playerTagRoot;
+
+    [SerializeField]
+    private TextMeshProUGUI playerJoinMsgPrefab;
+
+    [SerializeField]
+    private RectTransform playerJoinMsgRoot;
+
+    [SerializeField]
     private TextMeshProUGUI pingLabel;
+
+    private Dictionary<CharControllerMulti, PlayerTag> playerTags;
+
 #pragma warning restore 0649
     public UnityEvent onStart;
     public UnityEvent onReset;
@@ -41,5 +65,16 @@ public class UIController : MonoBehaviour
     public virtual void Update()
     {
         pingLabel.text = $"Ping: {ColyseusManager.Instance.GetRoundtripTime}ms";
+    }
+
+    public void UpdateGeneralMessageText(string message)
+    {
+        generalMessageText.text = message;
+    }
+
+    
+    public void UpdateCountDownMessage(string message)
+    {
+        countDownText.text = message;
     }
 }
