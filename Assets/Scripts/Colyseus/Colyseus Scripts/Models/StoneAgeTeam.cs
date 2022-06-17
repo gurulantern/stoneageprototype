@@ -1,12 +1,16 @@
 using System;
 using System.Collections.Generic;
 using LucidSightTools;
+using UnityEngine;
 
 [Serializable]
 public class StoneAgeTeam
 {
     public int teamIndex = -1;
     public List<string> clientsOnTeam = new List<string>();
+    [SerializeField] private bool steal;
+    [SerializeField] private bool scare;
+    [SerializeField] private bool create; 
 
     public bool AddPlayer(string clientID)
     {

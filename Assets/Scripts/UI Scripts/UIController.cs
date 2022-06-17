@@ -19,7 +19,6 @@ public class UIController : MonoBehaviour
     private Button closeOptionsButton = null;
     [SerializeField]
     private GameObject gameOptions = null;
-
     [SerializeField]
     private TextMeshProUGUI generalMessageText;
     [SerializeField]
@@ -73,6 +72,15 @@ public class UIController : MonoBehaviour
     {
         onReset?.Invoke();
     }
+    public void OpenOptions()
+    {
+        gameOptions.gameObject.SetActive(true);
+    }
+    public void CloseOptions()
+    {
+        gameOptions.gameObject.SetActive(false);
+    }
+
 
     public virtual void Update()
     {

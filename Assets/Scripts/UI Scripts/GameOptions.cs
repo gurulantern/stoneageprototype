@@ -1,21 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
-public class GameOptions : UIController
+public class GameOptions : MonoBehaviour
 {
-    private void CloseOptions()
-    {
-        gameOptions.gameObject.SetActive(false);
-    }
+    [SerializeField]
+    private TMP_InputField roundTimeInput;
 
-    private void StartButton()
-    {
+    [SerializeField]
+    private TMP_InputField paintTimeInput;
 
-    }
+    [SerializeField]
+    private TMP_InputField tireRateInput;
 
-    private void OptionsButton()
-    {
-        gameOptions.gameObject.SetActive(true);
-    }
+    [SerializeField]
+    private Toggle alliances;
+
+    
 }
