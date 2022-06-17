@@ -483,6 +483,17 @@ let simulateRoundLogic = function (roomRef: MyRoom, deltaTime: Number) {
 
         return;
     }
+
+    if (getGameState(roomRef, CurrentState) == StoneAgeServerGameState.SimulateRound && roomRef.currentRoundTime == 0)
+    {
+        roomRef.teams.forEach((teamMap, teamidx) => {
+            let teamScore: number = getTeamScore(roomRef, teamidx);
+
+            ///if()
+        })
+
+    }
+
 /*
     roomRef.teams.forEach((teamMap, teamIdx) => {
         let teamScore: number = getTeamScore(roomRef, teamIdx);
@@ -494,6 +505,7 @@ let simulateRoundLogic = function (roomRef: MyRoom, deltaTime: Number) {
 
             moveToState(roomRef, StoneAgeServerGameState.EndRound);
         }
+
     });
 */
 }

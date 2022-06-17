@@ -133,7 +133,7 @@ PrefabInstance:
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_RootOrder
-      value: 47
+      value: 48
       objectReference: {fileID: 0}
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -188,7 +188,7 @@ PrefabInstance:
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_Name
-      value: FruitTree1 (6)
+      value: FruitTree (6)
       objectReference: {fileID: 0}
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -207,7 +207,7 @@ PrefabInstance:
     - target: {fileID: 5021513890683486720, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
       propertyPath: m_Name
-      value: Tree1 (7)
+      value: Tree (7)
       objectReference: {fileID: 0}
     - target: {fileID: 5021513890683486726, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
@@ -363,7 +363,7 @@ PrefabInstance:
     - target: {fileID: 5021513890683486720, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
       propertyPath: m_Name
-      value: Tree1 (18)
+      value: Tree (18)
       objectReference: {fileID: 0}
     - target: {fileID: 5021513890683486726, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
@@ -444,7 +444,7 @@ PrefabInstance:
     - target: {fileID: 1707997314763811456, guid: 3a02ed17b80a19b40bee2913f1c97b52,
         type: 3}
       propertyPath: m_Name
-      value: HomeCave (4)
+      value: Lime HomeCave
       objectReference: {fileID: 0}
     - target: {fileID: 1707997314763811456, guid: 3a02ed17b80a19b40bee2913f1c97b52,
         type: 3}
@@ -454,7 +454,7 @@ PrefabInstance:
     - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
         type: 3}
       propertyPath: m_RootOrder
-      value: 58
+      value: 57
       objectReference: {fileID: 0}
     - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
         type: 3}
@@ -696,7 +696,7 @@ PrefabInstance:
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_RootOrder
-      value: 50
+      value: 51
       objectReference: {fileID: 0}
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -751,7 +751,7 @@ PrefabInstance:
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_Name
-      value: FruitTree1 (3)
+      value: FruitTree (3)
       objectReference: {fileID: 0}
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -996,12 +996,12 @@ PrefabInstance:
     - target: {fileID: 5021513890683486720, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
       propertyPath: m_Name
-      value: Tree1
+      value: Tree (0)
       objectReference: {fileID: 0}
     - target: {fileID: 5021513890683486726, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
       propertyPath: m_RootOrder
-      value: 54
+      value: 37
       objectReference: {fileID: 0}
     - target: {fileID: 5021513890683486726, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
@@ -1071,7 +1071,7 @@ PrefabInstance:
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_RootOrder
-      value: 39
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -1126,7 +1126,7 @@ PrefabInstance:
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_Name
-      value: FruitTree1 (14)
+      value: FruitTree (14)
       objectReference: {fileID: 0}
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -1145,7 +1145,7 @@ PrefabInstance:
     - target: {fileID: 5021513890683486720, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
       propertyPath: m_Name
-      value: Tree1 (10)
+      value: Tree (10)
       objectReference: {fileID: 0}
     - target: {fileID: 5021513890683486726, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
@@ -1214,7 +1214,7 @@ PrefabInstance:
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_RootOrder
-      value: 49
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -1269,7 +1269,7 @@ PrefabInstance:
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_Name
-      value: FruitTree1 (4)
+      value: FruitTree (4)
       objectReference: {fileID: 0}
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -1288,7 +1288,7 @@ PrefabInstance:
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_RootOrder
-      value: 46
+      value: 47
       objectReference: {fileID: 0}
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -1343,7 +1343,7 @@ PrefabInstance:
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_Name
-      value: FruitTree1 (7)
+      value: FruitTree (7)
       objectReference: {fileID: 0}
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -1455,7 +1455,7 @@ PrefabInstance:
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_RootOrder
-      value: 38
+      value: 39
       objectReference: {fileID: 0}
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -1510,7 +1510,7 @@ PrefabInstance:
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_Name
-      value: FruitTree1 (15)
+      value: FruitTree (15)
       objectReference: {fileID: 0}
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -1529,7 +1529,7 @@ PrefabInstance:
     - target: {fileID: 5021513890683486720, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
       propertyPath: m_Name
-      value: Tree1 (11)
+      value: Tree (11)
       objectReference: {fileID: 0}
     - target: {fileID: 5021513890683486726, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
@@ -1594,80 +1594,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1977738429}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &449277373
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1637951098}
-    m_Modifications:
-    - target: {fileID: 1707997314763811456, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-        type: 3}
-      propertyPath: m_Name
-      value: HomeCave (6)
-      objectReference: {fileID: 0}
-    - target: {fileID: 1707997314763811456, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-        type: 3}
-      propertyPath: m_TagString
-      value: Red Cave
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -16.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.26
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 3a02ed17b80a19b40bee2913f1c97b52, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1839,7 +1765,7 @@ PrefabInstance:
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_RootOrder
-      value: 44
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -1894,7 +1820,7 @@ PrefabInstance:
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_Name
-      value: FruitTree1 (9)
+      value: FruitTree (9)
       objectReference: {fileID: 0}
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -2074,7 +2000,7 @@ PrefabInstance:
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_RootOrder
-      value: 52
+      value: 53
       objectReference: {fileID: 0}
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -2129,7 +2055,7 @@ PrefabInstance:
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_Name
-      value: FruitTree1 (1)
+      value: FruitTree (1)
       objectReference: {fileID: 0}
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -2304,7 +2230,7 @@ PrefabInstance:
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_RootOrder
-      value: 40
+      value: 41
       objectReference: {fileID: 0}
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -2359,7 +2285,7 @@ PrefabInstance:
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_Name
-      value: FruitTree1 (13)
+      value: FruitTree (13)
       objectReference: {fileID: 0}
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -2378,7 +2304,7 @@ PrefabInstance:
     - target: {fileID: 5021513890683486720, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
       propertyPath: m_Name
-      value: Tree1 (1)
+      value: Tree (1)
       objectReference: {fileID: 0}
     - target: {fileID: 5021513890683486726, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
@@ -2447,7 +2373,7 @@ PrefabInstance:
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_RootOrder
-      value: 41
+      value: 42
       objectReference: {fileID: 0}
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -2502,7 +2428,7 @@ PrefabInstance:
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_Name
-      value: FruitTree1 (12)
+      value: FruitTree (12)
       objectReference: {fileID: 0}
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -2521,7 +2447,7 @@ PrefabInstance:
     - target: {fileID: 5021513890683486720, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
       propertyPath: m_Name
-      value: Tree1 (6)
+      value: Tree (6)
       objectReference: {fileID: 0}
     - target: {fileID: 5021513890683486726, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
@@ -2596,7 +2522,7 @@ PrefabInstance:
     - target: {fileID: 5021513890683486720, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
       propertyPath: m_Name
-      value: Tree1 (21)
+      value: Tree (21)
       objectReference: {fileID: 0}
     - target: {fileID: 5021513890683486726, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
@@ -2740,7 +2666,7 @@ PrefabInstance:
     - target: {fileID: 5021513890683486720, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
       propertyPath: m_Name
-      value: Tree1 (14)
+      value: Tree (14)
       objectReference: {fileID: 0}
     - target: {fileID: 5021513890683486720, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
@@ -2811,6 +2737,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1718126935079483738, guid: e3c2ba7b786bc6a44a75bbeb34b645c5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3032326676349713109, guid: e3c2ba7b786bc6a44a75bbeb34b645c5,
         type: 3}
       propertyPath: m_Name
@@ -3105,7 +3036,7 @@ PrefabInstance:
     - target: {fileID: 5021513890683486720, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
       propertyPath: m_Name
-      value: Tree1 (2)
+      value: Tree (2)
       objectReference: {fileID: 0}
     - target: {fileID: 5021513890683486726, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
@@ -3174,7 +3105,7 @@ PrefabInstance:
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_RootOrder
-      value: 51
+      value: 52
       objectReference: {fileID: 0}
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -3229,7 +3160,7 @@ PrefabInstance:
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_Name
-      value: FruitTree1 (2)
+      value: FruitTree (2)
       objectReference: {fileID: 0}
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -3248,7 +3179,7 @@ PrefabInstance:
     - target: {fileID: 5021513890683486720, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
       propertyPath: m_Name
-      value: Tree1 (12)
+      value: Tree (12)
       objectReference: {fileID: 0}
     - target: {fileID: 5021513890683486726, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
@@ -3419,7 +3350,7 @@ PrefabInstance:
     - target: {fileID: 1707997314763811456, guid: 3a02ed17b80a19b40bee2913f1c97b52,
         type: 3}
       propertyPath: m_Name
-      value: HomeCave (2)
+      value: Magenta HomeCave
       objectReference: {fileID: 0}
     - target: {fileID: 1707997314763811456, guid: 3a02ed17b80a19b40bee2913f1c97b52,
         type: 3}
@@ -3511,7 +3442,7 @@ PrefabInstance:
     - target: {fileID: 5021513890683486720, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
       propertyPath: m_Name
-      value: Tree1 (19)
+      value: Tree (19)
       objectReference: {fileID: 0}
     - target: {fileID: 5021513890683486726, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
@@ -3592,7 +3523,7 @@ PrefabInstance:
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_RootOrder
-      value: 37
+      value: 38
       objectReference: {fileID: 0}
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -3647,7 +3578,7 @@ PrefabInstance:
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_Name
-      value: FruitTree1 (16)
+      value: FruitTree (16)
       objectReference: {fileID: 0}
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -3666,7 +3597,7 @@ PrefabInstance:
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_RootOrder
-      value: 45
+      value: 46
       objectReference: {fileID: 0}
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -3721,7 +3652,7 @@ PrefabInstance:
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_Name
-      value: FruitTree1 (8)
+      value: FruitTree (8)
       objectReference: {fileID: 0}
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -3787,7 +3718,7 @@ PrefabInstance:
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_RootOrder
-      value: 53
+      value: 54
       objectReference: {fileID: 0}
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -3842,7 +3773,7 @@ PrefabInstance:
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_Name
-      value: FruitTree1
+      value: FruitTree (0)
       objectReference: {fileID: 0}
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -3953,7 +3884,7 @@ PrefabInstance:
     - target: {fileID: 5021513890683486720, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
       propertyPath: m_Name
-      value: Tree1 (5)
+      value: Tree (5)
       objectReference: {fileID: 0}
     - target: {fileID: 5021513890683486726, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
@@ -4028,7 +3959,7 @@ PrefabInstance:
     - target: {fileID: 5021513890683486720, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
       propertyPath: m_Name
-      value: Tree1 (17)
+      value: Tree (17)
       objectReference: {fileID: 0}
     - target: {fileID: 5021513890683486726, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
@@ -4115,7 +4046,7 @@ PrefabInstance:
     - target: {fileID: 1707997314763811456, guid: 3a02ed17b80a19b40bee2913f1c97b52,
         type: 3}
       propertyPath: m_Name
-      value: HomeCave (5)
+      value: Gold HomeCave
       objectReference: {fileID: 0}
     - target: {fileID: 1707997314763811456, guid: 3a02ed17b80a19b40bee2913f1c97b52,
         type: 3}
@@ -4125,7 +4056,7 @@ PrefabInstance:
     - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
         type: 3}
       propertyPath: m_RootOrder
-      value: 59
+      value: 58
       objectReference: {fileID: 0}
     - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
         type: 3}
@@ -4201,7 +4132,7 @@ PrefabInstance:
     - target: {fileID: 5021513890683486720, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
       propertyPath: m_Name
-      value: Tree1 (4)
+      value: Tree (4)
       objectReference: {fileID: 0}
     - target: {fileID: 5021513890683486726, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
@@ -4341,80 +4272,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 290060992}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1587980354
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1637951098}
-    m_Modifications:
-    - target: {fileID: 1707997314763811456, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-        type: 3}
-      propertyPath: m_Name
-      value: HomeCave (3)
-      objectReference: {fileID: 0}
-    - target: {fileID: 1707997314763811456, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-        type: 3}
-      propertyPath: m_TagString
-      value: Lime Cave
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 57
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 16.36
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 3a02ed17b80a19b40bee2913f1c97b52, type: 3}
 --- !u!1001 &1607343865
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4494,7 +4351,7 @@ PrefabInstance:
     - target: {fileID: 5021513890683486720, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
       propertyPath: m_Name
-      value: Tree1 (20)
+      value: Tree (20)
       objectReference: {fileID: 0}
     - target: {fileID: 5021513890683486726, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
@@ -4769,6 +4626,7 @@ Transform:
   - {fileID: 1335535300}
   - {fileID: 1761580383}
   - {fileID: 1337422754}
+  - {fileID: 1873362529}
   - {fileID: 854096234}
   - {fileID: 633907012}
   - {fileID: 183766356}
@@ -4786,13 +4644,10 @@ Transform:
   - {fileID: 2089709166}
   - {fileID: 1529730078}
   - {fileID: 1681683617}
-  - {fileID: 1873362529}
   - {fileID: 92089582}
   - {fileID: 1709223271}
-  - {fileID: 1789506977}
   - {fileID: 1161777705}
   - {fileID: 47262205}
-  - {fileID: 1836178724}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4812,7 +4667,7 @@ PrefabInstance:
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_RootOrder
-      value: 43
+      value: 44
       objectReference: {fileID: 0}
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -4867,7 +4722,7 @@ PrefabInstance:
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_Name
-      value: FruitTree1 (10)
+      value: FruitTree (10)
       objectReference: {fileID: 0}
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -4892,7 +4747,7 @@ PrefabInstance:
     - target: {fileID: 5021513890683486720, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
       propertyPath: m_Name
-      value: Tree1 (3)
+      value: Tree (3)
       objectReference: {fileID: 0}
     - target: {fileID: 5021513890683486726, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
@@ -4961,7 +4816,7 @@ PrefabInstance:
     - target: {fileID: 5021513890683486720, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
       propertyPath: m_Name
-      value: Tree1 (15)
+      value: Tree (15)
       objectReference: {fileID: 0}
     - target: {fileID: 5021513890683486726, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
@@ -5119,12 +4974,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 18958655}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1789506977 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-    type: 3}
-  m_PrefabInstance: {fileID: 1587980354}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1804296058
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5135,7 +4984,7 @@ PrefabInstance:
     - target: {fileID: 5021513890683486720, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
       propertyPath: m_Name
-      value: Tree1 (9)
+      value: Tree (9)
       objectReference: {fileID: 0}
     - target: {fileID: 5021513890683486726, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
@@ -5204,7 +5053,7 @@ PrefabInstance:
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_RootOrder
-      value: 42
+      value: 43
       objectReference: {fileID: 0}
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -5259,7 +5108,7 @@ PrefabInstance:
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_Name
-      value: FruitTree1 (11)
+      value: FruitTree (11)
       objectReference: {fileID: 0}
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -5268,12 +5117,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a3ac3f0c61a55d348bb859613f191366, type: 3}
---- !u!4 &1836178724 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
-    type: 3}
-  m_PrefabInstance: {fileID: 449277373}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1841248822
 GameObject:
   m_ObjectHideFlags: 0
@@ -21782,7 +21625,7 @@ PrefabInstance:
     - target: {fileID: 5021513890683486720, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
       propertyPath: m_Name
-      value: Tree1 (16)
+      value: Tree (16)
       objectReference: {fileID: 0}
     - target: {fileID: 5021513890683486726, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
@@ -21869,7 +21712,7 @@ PrefabInstance:
     - target: {fileID: 5021513890683486720, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
       propertyPath: m_Name
-      value: Tree1 (13)
+      value: Tree (13)
       objectReference: {fileID: 0}
     - target: {fileID: 5021513890683486726, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
@@ -22094,7 +21937,7 @@ PrefabInstance:
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_RootOrder
-      value: 48
+      value: 49
       objectReference: {fileID: 0}
     - target: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -22149,7 +21992,7 @@ PrefabInstance:
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
       propertyPath: m_Name
-      value: FruitTree1 (5)
+      value: FruitTree (5)
       objectReference: {fileID: 0}
     - target: {fileID: 5492570035467929356, guid: a3ac3f0c61a55d348bb859613f191366,
         type: 3}
@@ -22230,7 +22073,7 @@ PrefabInstance:
     - target: {fileID: 3422698852695282505, guid: 115e6f5331ae2f944acec298508bab8d,
         type: 3}
       propertyPath: m_Name
-      value: Fruit
+      value: Fruit (0)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 115e6f5331ae2f944acec298508bab8d, type: 3}
@@ -22250,7 +22093,7 @@ PrefabInstance:
     - target: {fileID: 5021513890683486720, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
       propertyPath: m_Name
-      value: Tree1 (8)
+      value: Tree (8)
       objectReference: {fileID: 0}
     - target: {fileID: 5021513890683486726, guid: aefcf5d581c51c74d98bfc0bafcb48ba,
         type: 3}
@@ -22388,7 +22231,7 @@ PrefabInstance:
     - target: {fileID: 1707997314763811456, guid: 3a02ed17b80a19b40bee2913f1c97b52,
         type: 3}
       propertyPath: m_Name
-      value: HomeCave (1)
+      value: Cyan HomeCave
       objectReference: {fileID: 0}
     - target: {fileID: 1707997314763811456, guid: 3a02ed17b80a19b40bee2913f1c97b52,
         type: 3}

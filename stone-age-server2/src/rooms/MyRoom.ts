@@ -6,6 +6,8 @@ export class MyRoom extends Room<RoomState> {
 
     clientEntities = new Map<string, string[]>();
     serverTime: number = 0;
+    roundTime: number = 60;
+    currentRoundTime: number;
     customMethodController: any = null;
     roomOptions: any;
 
@@ -13,6 +15,7 @@ export class MyRoom extends Room<RoomState> {
     currCountDown: number;
     currentTime: number;
     teams: Map<number, Map<string, Client>>;
+    alliances: Map<number, Map<string, Client>>;
 
     /**
      * Getter function to retrieve the correct customLogic file. Will try .JS extension and then .TS

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -6419844421664405122}
   - component: {fileID: 4886264188954558651}
   m_Layer: 6
-  m_Name: FruitTree1
+  m_Name: FruitTree
   m_TagString: Fruit Tree
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

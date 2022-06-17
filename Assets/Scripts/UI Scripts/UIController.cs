@@ -9,9 +9,16 @@ public class UIController : MonoBehaviour
 #pragma warning disable 0649
     [SerializeField]
     private Button resetButton = null;
-
     [SerializeField]
     private Button startButton = null;
+    [SerializeField]
+    private Button optionsButton = null;
+    [SerializeField]
+    private Button setOptionsButton = null;
+    [SerializeField]
+    private Button closeOptionsButton = null;
+    [SerializeField]
+    private GameObject gameOptions = null;
 
     [SerializeField]
     private TextMeshProUGUI generalMessageText;
@@ -55,6 +62,11 @@ public class UIController : MonoBehaviour
     public void ButtonOnStart()
     {
         onStart?.Invoke();
+    }
+
+    public void ButtonSetOptions()
+    {
+
     }
 
     public void ButtonOnReset()

@@ -207,15 +207,15 @@ public class GameController : MonoBehaviour
         if (IsCoop == false)
         {
             Debug.Log("Welcome to your ship");
-            CharControllerMulti pc = GetOwnersShip();
+            //CharControllerMulti pc = GetOwnersShip();
 
-            if (pc)
+            if (true)
             {
-                pc.PositionAtSpawn();
+            //   pc.PositionAtSpawn();
             }
         }
 
-        RoundInProgress = true;
+        //RoundInProgress = true;
         if (IsCoop)
         {
 
@@ -234,9 +234,9 @@ public class GameController : MonoBehaviour
     private void OnRoundEnd()
     {
         LSLog.LogImportant($"Round Ended!", LSLog.LogColor.lime);
-        StartCoroutine(RoundEndRoutine());
+        ///StartCoroutine(RoundEndRoutine());
     }
-
+/*
     private IEnumerator RoundEndRoutine()
     {
         RoundInProgress = false;
@@ -255,7 +255,7 @@ public class GameController : MonoBehaviour
 
         ResetAllShipDamage();
     }
-
+*/
     private void UpdateGameStates(MapSchema<string> attributes)
     {
         if (attributes.TryGetValue("currentGameState", out string currentServerGameState))
