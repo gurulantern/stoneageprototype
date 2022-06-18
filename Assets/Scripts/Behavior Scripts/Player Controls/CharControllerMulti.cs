@@ -27,6 +27,7 @@ public class CharControllerMulti : NetworkedEntityView
     private bool sleep, observing, gathering, tired;
     //Iterator variable for debugging Trigger Enter and Exit
     private int i = 0;
+    [SerializeField]
     private int teamIndex = -1;
     public int TeamIndex
     {

@@ -30,8 +30,6 @@ public class GameController : MonoBehaviour
     public bool IsCoop { get; private set; }
     public delegate void OnUpdateClientTeam(int teamIndex, string clientID);
     public static event OnUpdateClientTeam onUpdateClientTeam;
-    public GameObject hudContainer, gameOverPanel;
-    public TextMeshProUGUI allianceTracker, foodCounter;
     public int winningTeam = -1;
     public float timeLimit = 60f;
     private float remainingTime;
@@ -127,6 +125,17 @@ public class GameController : MonoBehaviour
     {
         RemoveView(view);
     }
+
+    /// <summary>
+    /// Used with button input when the user is ready to start a round of play
+    /// </summary>
+    public void PlayerReadyToPlay()
+    {
+        uiController.UpdatePlayerReadiness(false);
+
+        SetCurrentUserAttributes(new Dictionary<string, string> { { "readyState", "ready" } });
+
+    }
     
     private void CreateView(NetworkedEntity entity)
     {
@@ -148,7 +157,6 @@ public class GameController : MonoBehaviour
     {
         if (remainingTime > 0 && gamePlaying == true)
         {
-            remainingTime = Mathf.Clamp(remainingTime - Time.fixedDeltaTime, 0, timeLimit);
             Timer.instance.DecrementTime(remainingTime / timeLimit);
         } else if (remainingTime == 0) {
             EndGame();
@@ -164,14 +172,8 @@ public class GameController : MonoBehaviour
     private void EndGame()
     {
         gamePlaying = false;
-        Invoke("ShowGameOverScreen", 0f);
+        uiController.ShowGameOverScreen();
         Time.timeScale = 0f;
-    }
-
-    private void ShowGameOverScreen()
-    {
-        hudContainer.SetActive(false);
-        gameOverPanel.SetActive(true);
     }
 
     public void SetCurrentUserAttributes(Dictionary<string, string> attributes)
@@ -258,6 +260,11 @@ public class GameController : MonoBehaviour
 */
     private void UpdateGameStates(MapSchema<string> attributes)
     {
+        if (attributes.TryGetValue("roundTime", out string currentRoundTime))
+        {
+            remainingTime = float.Parse(currentRoundTime);
+        }
+
         if (attributes.TryGetValue("currentGameState", out string currentServerGameState))
         {
             currentGameState = currentServerGameState;
@@ -280,6 +287,21 @@ public class GameController : MonoBehaviour
     private void OnRoomStateChanged(MapSchema<string> attributes)
     {
         UpdateGameStates(attributes);
+        UpdateCountDown(attributes);
+
+    }
+
+    private void UpdateCountDown(MapSchema<string> attributes)
+    {
+        if (!_showCountDown)
+        {
+            return;
+        }
+
+        if(attributes.TryGetValue("countDown", out string countDown))
+        {
+            uiController.UpdateCountDownMessage(countDown);
+        }
     }
 
     private void OnTeamUpdate(int teamIdx, string clientID, bool added)

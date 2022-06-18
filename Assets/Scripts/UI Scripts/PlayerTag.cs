@@ -15,40 +15,33 @@ public class PlayerTag : MonoBehaviour
 
     [SerializeField]
     private RectTransform rectTransform;
-
-    [SerializeField]
-    private Color teamColor;
-
-    [SerializeField]
-    private Color rivalColor;
+    private int team;
+    public Color[] teamColors;
 #pragma warning restore 0649
     private bool rival = false;
 
     void Awake()
     {
-        SetColors();
+        SetColors(team);
     }
 
-    public void SetPlayerTag(string tag)
+    public void SetPlayerTag(string tag, int teamIndex)
     {
         playerTag.text = tag;
+        team = teamIndex;
     }
 
-    public void UpdateTag(Vector2 position, float alpha, bool isFriendly)
+    public void UpdateTag(Vector2 position, float alpha, int teamIdx)
     {
         rectTransform.anchoredPosition = position;
         canvasGroup.alpha = alpha;
 
-        if (isFriendly != rival)
-        {
-            rival = isFriendly;
-            SetColors();
-        }
+        SetColors(team);
     }
 
-    private void SetColors()
+    private void SetColors(int teamIdx)
     {
-        playerTag.color = rival ? teamColor : rivalColor;
+        playerTag.color = teamColors[teamIdx];
     }
 }
 

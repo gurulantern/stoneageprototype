@@ -2,13 +2,15 @@ import { Client } from "colyseus";
 import { RoomState, NetworkedEntity, NetworkedUser } from "../schema/RoomState";
 import { MyRoom } from "../MyRoom";
 
+import { FoodSource, PlayerFood, CaveFood } from "./FoodSource";
+
 const logger = require("../../helpers/logger.js");
 const utilities = require('../../helpers/LSUtilities.js');
 
 // string indentifiers for keys in the room attributes
 const CurrentState = "currentGameState";
 const LastState = "lastGameState";
-const GameStart = "gameStart";
+const ClientReadyState = "readyState";
 const GeneralMessage = "generalMessage";
 const BeginRoundCountDown = "countDown";
 const WinningTeamId = "winningTeamId";
@@ -21,6 +23,7 @@ const StoneAgeServerGameState = {
     Waiting: "Waiting",
     BeginRound: "BeginRound",
     SimulateRound: "SimulateRound",
+    PaintRound: "PaintRound",
     EndRound: "EndRound"
 };
  
@@ -32,7 +35,7 @@ const StoneAgeCountDownState = {
 };
 
 /** Count down time before a round begins */
-const StoneAgeCountDownTime: number = 5;
+const StoneAgeCountDownTime: number = 10;
 
 /**
  * The primary game loop on the server
@@ -154,25 +157,25 @@ let getAttributeNumber = function(entity: NetworkedEntity, attributeName: string
  * Checks if all the connected clients have a 'readyState' of "ready"
  * @param {*} users The collection of users from the room's state
  */
- let checkIfGameStarted = function(users: Map<string, NetworkedUser>) {
-    let gameStarted = true;
+ let checkIfUsersReady = function(users: Map<string, NetworkedUser>) {
+    let playersReady = true;
 
     let userArr: NetworkedUser[] = Array.from<NetworkedUser>(users.values());
 
     if(userArr.length <= 0)
-        gameStarted = false;
+        playersReady = false;
 
     for(let user of userArr) {
         
-        let readyState = user.attributes.get(GameStart);
+        let readyState = user.attributes.get(ClientReadyState);
         
         if(readyState == null || readyState != "start"){
-            gameStarted = false;
+            playersReady = false;
             break;
         }
     }
 
-    return gameStarted;
+    return playersReady;
 }
 /**
  * Get the score of a given team
@@ -200,7 +203,7 @@ let getGameState = function (roomRef: MyRoom, gameState: string) {
 /** Resets data tracking collection and unlocks the room */
 let resetForNewRound = function (roomRef: MyRoom) {
     
-    setUsersAttribute(roomRef, GameStart, "waiting");
+    setUsersAttribute(roomRef, ClientReadyState, "waiting");
 
     unlockIfAble(roomRef);
 }
@@ -366,9 +369,9 @@ let moveToState = function (roomRef: MyRoom, newState: string) {
  * The logic run when the server is in the Waiting state
  * @param {*} deltaTime Server delta time in seconds
  */
-let waitingLogic = function (roomRef: MyRoom, deltaTime: Number) {
+let waitingLogic = function (roomRef: MyRoom, deltaTime: number) {
     
-    let gameStarted: boolean = false;
+    let playersReady: boolean = false;
     let enoughPlayers: boolean = false;
 
     // Switch on LastState since the waiting logic gets used in multiple places
@@ -377,13 +380,13 @@ let waitingLogic = function (roomRef: MyRoom, deltaTime: Number) {
         case StoneAgeServerGameState.EndRound:
             
             // Check if there are enough players
-            gameStarted = checkIfGameStarted(roomRef.state.networkedUsers);
+            playersReady = checkIfUsersReady(roomRef.state.networkedUsers);
             enoughPlayers = checkIfEnoughPlayers(roomRef);
 
             // Return out if game has not started yet
-            if(gameStarted == false || enoughPlayers == false) { 
+            if(playersReady == false || enoughPlayers == false) { 
                 
-                setRoomAttribute(roomRef, GeneralMessage, `${(gameStarted == false ? "Waiting for game to start." : "")}${(enoughPlayers == false ? " There aren't enough players to begin." : "")}`);
+                setRoomAttribute(roomRef, GeneralMessage, `${(playersReady == false ? "Waiting for players to ready up." : "")}${(enoughPlayers == false ? " There aren't enough players to begin." : "")}`);
 
                 return;
             }
@@ -414,6 +417,9 @@ let beginRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
             
             // Reset the count down message attribute
             setRoomAttribute(roomRef, BeginRoundCountDown, "");
+
+            // Set the round timer
+            setRoomAttribute(roomRef, "roundTime", String(roomRef.roundTime));
 
             // Broadcast to the clients that a round has begun
             roomRef.broadcast("beginRoundCountDown", {});
@@ -461,6 +467,9 @@ let beginRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
             // Move to the Simulation state
             moveToState(roomRef, StoneAgeServerGameState.SimulateRound);
 
+            // Clear user's ready state for round begin
+            setUsersAttribute(roomRef, ClientReadyState, "waiting");
+
             // Reset Current Count Down state for next round
             roomRef.CurrentCountDownState = StoneAgeCountDownState.Enter;
             break;
@@ -473,7 +482,7 @@ let beginRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
  * The logic run when the server is in the SimulateRound state
  * @param {*} deltaTime Server delta time in seconds
  */
-let simulateRoundLogic = function (roomRef: MyRoom, deltaTime: Number) {
+let simulateRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
     
     // Check if there are enough players to continue
     if(checkIfEnoughPlayers(roomRef) == false) {
@@ -484,6 +493,11 @@ let simulateRoundLogic = function (roomRef: MyRoom, deltaTime: Number) {
         return;
     }
 
+    while (getGameState(roomRef, CurrentState) == StoneAgeServerGameState.SimulateRound && roomRef.currentRoundTime !== 0)
+    {
+        roomRef.currentRoundTime = roomRef.roundTime - deltaTime;
+        setRoomAttribute(roomRef, "roundTime", String(roomRef.currentRoundTime));
+    }
     if (getGameState(roomRef, CurrentState) == StoneAgeServerGameState.SimulateRound && roomRef.currentRoundTime == 0)
     {
         roomRef.teams.forEach((teamMap, teamidx) => {
@@ -509,12 +523,21 @@ let simulateRoundLogic = function (roomRef: MyRoom, deltaTime: Number) {
     });
 */
 }
+/**
+ * The logic run when the server is in the PaintRound state
+ * @param {*} deltaTime Server delta time in seconds
+ */
+let paintRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
+
+    // Let all clients know that the round is now in Paint mode
+    roomRef.broadcast("onPaintRound", { });
+}
 
 /**
  * The logic run when the server is in the EndRound state
  * @param {*} deltaTime Server delta time in seconds
  */
-let endRoundLogic = function (roomRef: MyRoom, deltaTime: Number) {
+let endRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
 
     // Let all clients know that the round has ended
     roomRef.broadcast("onRoundEnd", { });
@@ -522,7 +545,7 @@ let endRoundLogic = function (roomRef: MyRoom, deltaTime: Number) {
     // Reset the server state for a new round
     resetForNewRound(roomRef);
 
-    // Move to Waiting state, waiting for someone to start the game for another round of play
+    // Move to Waiting state, waiting for all players to ready up for another round of play
     moveToState(roomRef, StoneAgeServerGameState.Waiting);
 }
 

@@ -6,7 +6,7 @@ export class MyRoom extends Room<RoomState> {
 
     clientEntities = new Map<string, string[]>();
     serverTime: number = 0;
-    roundTime: number = 60;
+    roundTime: number = 240;
     currentRoundTime: number;
     customMethodController: any = null;
     roomOptions: any;
