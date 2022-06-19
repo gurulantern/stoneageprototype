@@ -19,6 +19,8 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private Button closeOptionsButton = null;
     [SerializeField]
+    private Canvas _canvas = null;
+    [SerializeField]
     private GameObject gameOptions = null;
     [SerializeField]
     private TextMeshProUGUI generalMessageText;
@@ -56,7 +58,7 @@ public class UIController : MonoBehaviour
 
     private float currentMsgUpdate = 0;
 
-    private CharControllerMulti myMetee;
+    private CharControllerMulti player;
     public GameObject hudContainer, gameOverPanel;
     public TextMeshProUGUI allianceTracker, foodCounter;
 
@@ -124,27 +126,27 @@ public class UIController : MonoBehaviour
         //RoomController.onRemoveNetworkEntity -= OnRemoveNetworkEntity;
     }
 
-        private void OnPlayerActivated(CharControllerMulti meteeController)
+        private void OnPlayerActivated(CharControllerMulti playerController)
     {
         if (!IsReady)
         {
             StartCoroutine(Init());
         }
 
-        if (meteeController.IsMine)
+        if (playerController.IsMine)
         {
-            myMetee = meteeController;
+            player = playerController;
             return;
         }
 
-        if (playerTags.ContainsKey(meteeController) == false)
+        if (playerTags.ContainsKey(playerController) == false)
         {
             PlayerTag newPlayerTag = Instantiate(playerTagPrefab);
 
             newPlayerTag.transform.SetParent(playerTagRoot);
-            newPlayerTag.SetPlayerTag(string.IsNullOrEmpty(meteeController.UserName) ? meteeController.Id : meteeController.UserName, meteeController.TeamIndex);
+            newPlayerTag.SetPlayerTag(string.IsNullOrEmpty(playerController.UserName) ? playerController.Id : playerController.UserName, playerController.TeamIndex);
 
-            playerTags.Add(meteeController, newPlayerTag);
+            playerTags.Add(playerController, newPlayerTag);
         }
     }
 
@@ -220,6 +222,8 @@ public class UIController : MonoBehaviour
     //Open function for the Options button
     public void OpenOptions()
     {
+        readyButton.gameObject.SetActive(false);
+        optionsButton.gameObject.SetActive(false);
         gameOptions.gameObject.SetActive(true);
     }
 
@@ -227,6 +231,8 @@ public class UIController : MonoBehaviour
     public void CloseOptions()
     {
         gameOptions.gameObject.SetActive(false);
+        readyButton.gameObject.SetActive(true);
+        readyButton.gameObject.SetActive(true);
     }
     /// Shows Game Over screen at the end of a round. Might convert for Paint round.
     public void ShowGameOverScreen()
@@ -251,10 +257,10 @@ public class UIController : MonoBehaviour
     {
         foreach (KeyValuePair<CharControllerMulti, PlayerTag> pair in playerTags)
         {
-            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(playerTagRoot, RectTransformUtility.WorldToScreenPoint(cam, pair.Key.transform.position), null, out Vector2 pos))
-            {
-                pair.Value.UpdateTag(pos, 1, myMetee.TeamIndex);
-            }
+            ///if (RectTransformUtility.ScreenPointToLocalPointInRectangle(playerTagRoot, Camera.main.WorldToScreenPoint(pair.Key.transform.position), null, out Vector2 pos))
+            ///{
+            ///    Debug.Log("RectTransformUtility was true");
+                pair.Value.UpdateTag(Camera.main.WorldToScreenPoint(pair.Key.transform.position), 1, player.TeamIndex);
         }
     }
 
