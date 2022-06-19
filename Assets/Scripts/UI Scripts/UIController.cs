@@ -232,7 +232,7 @@ public class UIController : MonoBehaviour
     {
         gameOptions.gameObject.SetActive(false);
         readyButton.gameObject.SetActive(true);
-        readyButton.gameObject.SetActive(true);
+        optionsButton.gameObject.SetActive(true);
     }
     /// Shows Game Over screen at the end of a round. Might convert for Paint round.
     public void ShowGameOverScreen()
