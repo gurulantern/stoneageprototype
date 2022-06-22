@@ -85,6 +85,7 @@ public class CharControllerMulti : NetworkedEntityView
         if (!GameController.Instance.IsCoop && id.Equals(OwnerId))
         {
             SetTeam(team);
+            Debug.Log($"Your team is {team}");
         }
     }
 

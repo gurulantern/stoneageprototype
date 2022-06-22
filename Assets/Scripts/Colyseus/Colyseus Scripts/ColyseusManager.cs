@@ -46,6 +46,11 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
         get{ return Instance != null; }
     }
 
+    public bool IsInRoom
+    {
+        get { return _roomController.Room != null; }
+    }
+
     private string userName;
 
     /// Display name for the user
@@ -192,6 +197,11 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
     public static void CustomServerMethod(string methodName, object[] param)
     {
         NetSend("customMethod", new CustomMethodMessage {method = methodName, param = param});
+    }
+
+    public void ClearCollectionsAndUser()
+    {
+        _roomController.ClearCollectionsAndUser();
     }
 
     /// Send an action and message object to the room.

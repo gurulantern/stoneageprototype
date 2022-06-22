@@ -169,7 +169,7 @@ let getAttributeNumber = function(entity: NetworkedEntity, attributeName: string
         
         let readyState = user.attributes.get(ClientReadyState);
         
-        if(readyState == null || readyState != "start"){
+        if(readyState == null || readyState != "ready"){
             playersReady = false;
             break;
         }
@@ -336,6 +336,7 @@ let checkIfEnoughPlayers = function(roomRef: MyRoom): boolean {
     }
     
     // Check if either team does not have any players
+    /*
     roomRef.teams.forEach((teamMap, teamIdx) => {
         
         if(teamMap.size == 0) {
@@ -343,6 +344,7 @@ let checkIfEnoughPlayers = function(roomRef: MyRoom): boolean {
             enough = false;
         }
     });
+    */
 
     return enough;
 }
@@ -419,7 +421,7 @@ let beginRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
             setRoomAttribute(roomRef, BeginRoundCountDown, "");
 
             // Set the round timer
-            setRoomAttribute(roomRef, "roundTime", String(roomRef.roundTime));
+            // setRoomAttribute(roomRef, "roundTime", String(roomRef.roundTime));
 
             // Broadcast to the clients that a round has begun
             roomRef.broadcast("beginRoundCountDown", {});
@@ -434,10 +436,10 @@ let beginRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
 
             // Begin with "Get Ready!"
             // Set the count down message attribute
-            setRoomAttribute(roomRef, BeginRoundCountDown, "START!");
+            setRoomAttribute(roomRef, BeginRoundCountDown, "Get Ready!");
             
-            // Show the "Get Ready!" message for 3 seconds
-            if(roomRef.currCountDown < 3){
+            // Show the "Get Ready!" message for 2 seconds
+            if(roomRef.currCountDown < 2){
                 roomRef.currCountDown += deltaTime;
                 return;
             }
@@ -452,14 +454,15 @@ let beginRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
         case StoneAgeCountDownState.CountDown:
             
             // Update count down message attribute
-            setRoomAttribute(roomRef, BeginRoundCountDown, `Starting in ${Math.ceil(roomRef.currCountDown).toString()}s`);
+            setRoomAttribute(roomRef, BeginRoundCountDown, `${Math.ceil(roomRef.currCountDown).toString()}`);
 
             // Update Count Down value
             if(roomRef.currCountDown >= 0){
                 roomRef.currCountDown -= deltaTime;
                 return;
-            }
+            } 
             
+            setRoomAttribute(roomRef, BeginRoundCountDown, "Start!");
             // TODO: beginRound is expecting a boss health
             let fakeHealth = -1;
             roomRef.broadcast("beginRound", { fakeHealth });
@@ -557,7 +560,7 @@ let alertClientsOfTeamChange = function (roomRef: MyRoom, clientID: string, team
 // VME Room accessed functions
 //======================================
 /**
- * Initialize the Star Boss Co-op logic
+ * Initialize the Stone Age Comp logic
  * @param {*} roomRef Reference to the room
  * @param {*} options Options of the room from the client when it was created
  */
@@ -584,6 +587,7 @@ exports.InitializeLogic = function (roomRef: MyRoom, options: any) {
     // Set initial game state to waiting for all clients to be ready
     setRoomAttribute(roomRef, CurrentState, StoneAgeServerGameState.Waiting)
     setRoomAttribute(roomRef, LastState, StoneAgeServerGameState.None);
+    logger.silly(`*** Room State set to Waiting ***`);
 
     resetForNewRound(roomRef);
 }

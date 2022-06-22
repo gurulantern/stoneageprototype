@@ -352,6 +352,12 @@ using UnityEngine;
 
         //Custom game logic
         //_room.OnMessage<YOUR_CUSTOM_MESSAGE>("messageNameInCustomLogic", objectOfTypeYOUR_CUSTOM_MESSAGE => {  });
+        _room.OnMessage<EmptyMessage>("beginRoundCountDown", msg => { onBeginRoundCountDown?.Invoke(); });
+
+        _room.OnMessage<StoneAgeBeginRoundMessage>("beginRound", beginRound => { onBeginRound?.Invoke(beginRound.bossHealth); });
+
+        _room.OnMessage<EmptyMessage>("onRoundEnd", msg => { onRoundEnd?.Invoke(); });
+
         _room.OnMessage<StoneAgePlayerJoinedMessage>("playerJoined", msg => { onPlayerJoined?.Invoke(msg.userName); });
 
         _room.OnMessage<StoneAgeTeamUpdateMessage>("onTeamUpdate", msg =>
@@ -566,6 +572,7 @@ using UnityEngine;
     ///     isFirstState - Is it the first state?
     private static void OnStateChangeHandler(RoomState state, bool isFirstState)
     {
+        onRoomStateChanged?.Invoke(state.attributes);
         LSLog.LogImportant("State has been updated!");
     }
 
@@ -628,5 +635,27 @@ using UnityEngine;
         }
 
         await Task.WhenAll(leaveRoomTasks.ToArray());
+
+        ClearCollectionsAndUser();
+    }
+
+    public void ClearCollectionsAndUser()
+    {
+        if (_entities != null)
+            _entities.Clear();
+
+        if (_entityViews != null)
+            _entityViews.Clear();
+
+        if (_users != null)
+            _users.Clear();
+
+        if (_creationCallbacks != null)
+            _creationCallbacks.Clear();
+
+        if (roomOptionsDictionary != null)
+            roomOptionsDictionary.Clear();
+
+        _currentNetworkedUser = null;
     }
 }

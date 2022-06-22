@@ -13,6 +13,8 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private Button readyButton = null;
     [SerializeField]
+    private Button exitButton = null;
+    [SerializeField]
     private Button optionsButton = null;
     [SerializeField]
     private Button setOptionsButton = null;
@@ -54,6 +56,7 @@ public class UIController : MonoBehaviour
 
     private Dictionary<CharControllerMulti, PlayerTag> playerTags;
     public bool IsReady { get; private set; } = false;
+    public bool HideTags { get; set; } = false;
     private Queue<GameObject> playerJoinMessages;
 
     private float currentMsgUpdate = 0;
@@ -139,7 +142,7 @@ public class UIController : MonoBehaviour
             return;
         }
 
-        if (playerTags.ContainsKey(playerController) == false)
+        if (playerTags.ContainsKey(playerController) == false && HideTags == false)
         {
             PlayerTag newPlayerTag = Instantiate(playerTagPrefab);
 
@@ -188,6 +191,7 @@ public class UIController : MonoBehaviour
     {
         readyButton.gameObject.SetActive(showButton);
         optionsButton.gameObject.SetActive(showButton);
+        exitButton.gameObject.SetActive(showButton);
         countDownText.gameObject.SetActive(!showButton);
     }
 
@@ -212,7 +216,7 @@ public class UIController : MonoBehaviour
 
     public void ButtonSetOptions()
     {
-
+        ///onSetOptions?.Invoke();
     }
 
     public void ButtonOnReset()
@@ -224,6 +228,7 @@ public class UIController : MonoBehaviour
     {
         readyButton.gameObject.SetActive(false);
         optionsButton.gameObject.SetActive(false);
+        exitButton.gameObject.SetActive(false);
         gameOptions.gameObject.SetActive(true);
     }
 
@@ -233,6 +238,7 @@ public class UIController : MonoBehaviour
         gameOptions.gameObject.SetActive(false);
         readyButton.gameObject.SetActive(true);
         optionsButton.gameObject.SetActive(true);
+        exitButton.gameObject.SetActive(true);
     }
     /// Shows Game Over screen at the end of a round. Might convert for Paint round.
     public void ShowGameOverScreen()
@@ -250,17 +256,17 @@ public class UIController : MonoBehaviour
 
     public void LateUpdate()
     {
-        UpdatePlayerTags();
+        if (HideTags == false)
+        {
+            UpdatePlayerTags();
+        }
     }
 
     private void UpdatePlayerTags()
     {
         foreach (KeyValuePair<CharControllerMulti, PlayerTag> pair in playerTags)
         {
-            ///if (RectTransformUtility.ScreenPointToLocalPointInRectangle(playerTagRoot, Camera.main.WorldToScreenPoint(pair.Key.transform.position), null, out Vector2 pos))
-            ///{
-            ///    Debug.Log("RectTransformUtility was true");
-                pair.Value.UpdateTag(Camera.main.WorldToScreenPoint(pair.Key.transform.position), 1, player.TeamIndex);
+            pair.Value.UpdateTag(Camera.main.WorldToScreenPoint(pair.Key.transform.position), pair.Key.TeamIndex);
         }
     }
 
@@ -298,7 +304,7 @@ public class UIController : MonoBehaviour
         countDownText.text = message;
     }
 
-        private void OnAddNetworkEntity(NetworkedEntity entity)
+    private void OnAddNetworkEntity(NetworkedEntity entity)
     {
         StartCoroutine(WaitAddEntity(entity));
     }

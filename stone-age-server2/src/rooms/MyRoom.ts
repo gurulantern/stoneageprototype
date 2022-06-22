@@ -178,6 +178,7 @@ export class MyRoom extends Room<RoomState> {
                 let key = Object.keys(attributeUpdateMessage.attributesToSet)[index];
                 let value = attributeUpdateMessage.attributesToSet[key];
                 userAttributes.set(key, value);
+                logger.info(`User \"${attributeUpdateMessage.userId}\" has been updated with \"${key}\" of \"${value}\"`);
             }
         }
 
@@ -290,7 +291,7 @@ export class MyRoom extends Room<RoomState> {
 
         try{
             if(this.customMethodController != null) {
-                this.setMetadata({isCoop: options["logic"] == "starBossCoop" });
+                this.setMetadata({isCoop: options["logic"] == "stoneAgeCoop" });
                 this.customMethodController.InitializeLogic(this, options);
             }
         }

@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 using Colyseus;
 using Colyseus.Schema;
 using LucidSightTools;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -107,6 +108,28 @@ public class GameController : MonoBehaviour
         return pos;
     }
 
+    /// <summary>
+    /// Used with button input when the user wants to return to the lobby
+    /// </summary>
+    public void OnQuitGame()
+    {
+        if (ColyseusManager.Instance.IsInRoom)
+        {
+            //Find playerController for this player
+            CharControllerMulti pc = GetPlayerView< CharControllerMulti>(ColyseusManager.Instance.CurrentNetworkedEntity.id);
+            if (pc != null)
+            {
+                pc.enabled = false; //Stop all the messages and updates
+            }
+
+            ColyseusManager.Instance.LeaveAllRooms(() =>
+            {
+                ColyseusManager.Instance.ClearCollectionsAndUser();
+                SceneManager.LoadScene(0);
+            });
+        }
+    }
+
     private void OnNetworkAdd(NetworkedEntity entity)
     {
         if (ColyseusManager.Instance.HasEntityView(entity.id))
@@ -134,7 +157,6 @@ public class GameController : MonoBehaviour
         uiController.UpdatePlayerReadiness(false);
 
         SetCurrentUserAttributes(new Dictionary<string, string> { { "readyState", "ready" } });
-
     }
     
     private void CreateView(NetworkedEntity entity)
@@ -258,16 +280,28 @@ public class GameController : MonoBehaviour
         ResetAllShipDamage();
     }
 */
+
+
+    private void OnRoomStateChanged(MapSchema<string> attributes)
+    {
+        UpdateGameStates(attributes);
+        UpdateGeneralMessage(attributes);
+        UpdateCountDown(attributes);
+
+    }
+
     private void UpdateGameStates(MapSchema<string> attributes)
     {
         if (attributes.TryGetValue("roundTime", out string currentRoundTime))
         {
             remainingTime = float.Parse(currentRoundTime);
+            Debug.Log(remainingTime + " / " + currentRoundTime);
         }
 
         if (attributes.TryGetValue("currentGameState", out string currentServerGameState))
         {
             currentGameState = currentServerGameState;
+            Debug.Log(currentGameState + " / " + currentServerGameState);
         }
 
         if (attributes.TryGetValue("lastGameState", out string lastServerGameState))
@@ -284,13 +318,6 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void OnRoomStateChanged(MapSchema<string> attributes)
-    {
-        UpdateGameStates(attributes);
-        UpdateCountDown(attributes);
-
-    }
-
     private void UpdateCountDown(MapSchema<string> attributes)
     {
         if (!_showCountDown)
@@ -301,6 +328,16 @@ public class GameController : MonoBehaviour
         if(attributes.TryGetValue("countDown", out string countDown))
         {
             uiController.UpdateCountDownMessage(countDown);
+            Debug.Log("Count down is at " + countDown);
+        }
+    }
+
+    private void UpdateGeneralMessage(MapSchema<string> attributes)
+    {
+        if (attributes.TryGetValue("generalMessage", out string generalMessage))
+        {
+            uiController.UpdateGeneralMessageText(generalMessage);
+            Debug.Log("Genertal Message is " + generalMessage);
         }
     }
 
@@ -406,5 +443,15 @@ public class GameController : MonoBehaviour
                 //player.InitializeObjectForRemote();
             }
         }
+    }
+    public T GetPlayerView<T>(string entityID) where T : StoneColyseusNetworkedEntityView
+    {
+        if (ColyseusManager.Instance.HasEntityView(entityID))
+        {
+            return ColyseusManager.Instance.GetEntityView(entityID) as T;
+        }
+
+        LSLog.LogError($"No player controller with id {entityID} found!");
+        return null;
     }
 }

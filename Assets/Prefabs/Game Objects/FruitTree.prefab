@@ -122,7 +122,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0028591156, y: 0.4540646}
+  m_Offset: {x: -0.006962776, y: 0.41712987}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.1}
@@ -133,7 +133,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6791563, y: 0.87356615}
+  m_Size: {x: 0.85151863, y: 0.7996967}
   m_EdgeRadius: 0
 --- !u!58 &7587098824650898209
 CircleCollider2D:
@@ -163,10 +163,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc312664545e44498b1ed3ed42a27a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gatheredEvent: {fileID: 11400000, guid: 0dfbd9c50da8d5b4a9255b7a04254b40, type: 2}
+  _interactEvent: {fileID: 0}
   _fruitTreeRef: {fileID: 11400000, guid: 367196d7d9b4a05459554e9862e7f729, type: 2}
-  harvestTrigger: 1
-  foodRemaining: 0
 --- !u!114 &4886264188954558651
 MonoBehaviour:
   m_ObjectHideFlags: 0

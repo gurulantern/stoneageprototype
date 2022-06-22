@@ -11,9 +11,6 @@ public class PlayerTag : MonoBehaviour
     private TextMeshProUGUI playerTag;
 
     [SerializeField]
-    private CanvasGroup canvasGroup;
-
-    [SerializeField]
     private RectTransform rectTransform;
     private int team;
     public Color[] teamColors;
@@ -31,12 +28,12 @@ public class PlayerTag : MonoBehaviour
         team = teamIndex;
     }
 
-    public void UpdateTag(Vector2 position, float alpha, int teamIdx)
+    public void UpdateTag(Vector3 position, int teamIdx)
     {
-        rectTransform.anchoredPosition = position;
-        canvasGroup.alpha = alpha;
+        rectTransform.position = position;
+        //canvasGroup.alpha = alpha;
 
-        SetColors(team);
+        SetColors(teamIdx);
     }
 
     private void SetColors(int teamIdx)
