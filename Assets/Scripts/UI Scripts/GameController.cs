@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour
     CharController playerStats;
     [SerializeField] private Cave homeCave;
     public Vector2 spawnCenter;
+    private TextMeshProUGUI scoreBoard;
     public float minSpawnVariance = .01f;
     public float maxSpawnVariance = 2f;
     private string currentGameState = "";
@@ -32,13 +33,14 @@ public class GameController : MonoBehaviour
     public delegate void OnUpdateClientTeam(int teamIndex, string clientID);
     public static event OnUpdateClientTeam onUpdateClientTeam;
     public int winningTeam = -1;
-    public float timeLimit = 60f;
+    public float roundTimeLimit = 240f;
+    public float paintTimeLimit = 60f;
     private float remainingTime;
     private bool _showCountDown = false;
-    public bool gamePlaying { get; private set; }
-    public Transform tdmSpawnCenter;
-    public float tdmMinSpawnVariance = 200f;
-    public float tdmMaxSpawnVariance = 500f;
+    public bool gamePlaying { get; private set; } = false;
+    public Transform SpawnCenter;
+    public float MinSpawnVariance = 200f;
+    public float MaxSpawnVariance = 500f;
     private int numTotalFood;
     [SerializeField] 
     private List<StoneAgeTeam> teams = new List<StoneAgeTeam>();
@@ -55,9 +57,7 @@ public class GameController : MonoBehaviour
     }
     private void Start() 
     {
-        numTotalFood = 0;
         gamePlaying = false;
-        remainingTime = timeLimit;
     }
 
     private void OnEnable() 
@@ -94,18 +94,6 @@ public class GameController : MonoBehaviour
         RoomController.onTeamReceive -= OnFullTeamUpdate;
 
         onViewAdded -= OnPlayerCreated;
-    }
-
-    public Vector2 GetSpawnPoint(int teamIndex)
-    {
-        Vector3 pos = spawnCenter;
-
-        if (teamIndex == 0)
-        {
-            pos.x += -spawnCenter.x * Random.Range(minSpawnVariance, maxSpawnVariance);
-        }
-
-        return pos;
     }
 
     /// <summary>
@@ -179,10 +167,27 @@ public class GameController : MonoBehaviour
     {
         if (remainingTime > 0 && gamePlaying == true)
         {
-            Timer.instance.DecrementTime(remainingTime / timeLimit);
-        } else if (remainingTime == 0) {
-            EndGame();
+            uiController.timer.DecrementTime(remainingTime / (roundTimeLimit * 100));
+            Debug.Log(remainingTime);
+        } 
+    }
+
+    public Vector2 GetSpawnPoint(int teamIndex)
+    {
+        Debug.Log("Getting spawn point.");
+        Vector2 pos = SpawnCenter.position;
+
+        if (teamIndex == 0)
+        {
+            //pos += (-SpawnCenter.right * Random.Range(MinSpawnVariance, MaxSpawnVariance));
         }
+        else if (teamIndex == 1)
+        {
+            //pos += (SpawnCenter.right * Random.Range(MinSpawnVariance, MaxSpawnVariance));
+        }
+
+        Debug.Log("Got your spawn point!");
+        return pos;
     }
 
     public void BeginGame()
@@ -221,25 +226,25 @@ public class GameController : MonoBehaviour
         _showCountDown = true;
     }
 
-    private void OnBeginRound(int bossHealth)
+    private void OnBeginRound()
     {
-        StartCoroutine(BeginRoutine(bossHealth));
+        StartCoroutine(BeginRoutine());
     }
 
-    private IEnumerator BeginRoutine(int bossHealth)
+    private IEnumerator BeginRoutine()
     {
         if (IsCoop == false)
         {
-            Debug.Log("Welcome to your ship");
-            //CharControllerMulti pc = GetOwnersShip();
+            Debug.Log("Game has started!");
+            CharControllerMulti pc = GetPlayer();
 
-            if (true)
+            if (pc)
             {
-            //   pc.PositionAtSpawn();
+                pc.PositionAtSpawn();
             }
         }
 
-        //RoundInProgress = true;
+        gamePlaying = true;
         if (IsCoop)
         {
 
@@ -281,23 +286,16 @@ public class GameController : MonoBehaviour
     }
 */
 
-
     private void OnRoomStateChanged(MapSchema<string> attributes)
     {
         UpdateGameStates(attributes);
         UpdateGeneralMessage(attributes);
         UpdateCountDown(attributes);
-
+        UpdateRoundTime(attributes);
     }
 
     private void UpdateGameStates(MapSchema<string> attributes)
     {
-        if (attributes.TryGetValue("roundTime", out string currentRoundTime))
-        {
-            remainingTime = float.Parse(currentRoundTime);
-            Debug.Log(remainingTime + " / " + currentRoundTime);
-        }
-
         if (attributes.TryGetValue("currentGameState", out string currentServerGameState))
         {
             currentGameState = currentServerGameState;
@@ -328,7 +326,6 @@ public class GameController : MonoBehaviour
         if(attributes.TryGetValue("countDown", out string countDown))
         {
             uiController.UpdateCountDownMessage(countDown);
-            Debug.Log("Count down is at " + countDown);
         }
     }
 
@@ -337,13 +334,24 @@ public class GameController : MonoBehaviour
         if (attributes.TryGetValue("generalMessage", out string generalMessage))
         {
             uiController.UpdateGeneralMessageText(generalMessage);
-            Debug.Log("Genertal Message is " + generalMessage);
+        }
+    }
+
+    private void UpdateRoundTime(MapSchema<string> attributes)
+    {
+        if (attributes.TryGetValue("roundTime", out string time))
+        {
+            if (float.TryParse(time, out float serverTime))
+            {
+                remainingTime = serverTime;
+            }
         }
     }
 
     private void OnTeamUpdate(int teamIdx, string clientID, bool added)
     {
         StoneAgeTeam team = GetOrCreateTeam(teamIdx);
+        scoreBoard = uiController.scoreBoards[teamIdx];
 
         if (added)
         {
@@ -352,22 +360,36 @@ public class GameController : MonoBehaviour
                 //Alert anyone that needs to know, clientID has been added to teamIdx
                 onUpdateClientTeam?.Invoke(teamIdx, clientID);
             }
+            if (team.clientsOnTeam.Count == 1)
+            {
+                scoreBoard.gameObject.SetActive(true);
+            }
         }
         else
         {
             team.RemovePlayer(clientID);
+            if(team.clientsOnTeam.Count == 0)
+            {
+                scoreBoard.gameObject.SetActive(false);
+            }
         }
     }
 
     private void OnFullTeamUpdate(int teamIdx, string[] clients)
     {
         StoneAgeTeam team = GetOrCreateTeam(teamIdx);
+        scoreBoard = uiController.scoreBoards[teamIdx];
+
         for (int i = 0; i < clients.Length; ++i)
         {
             if (team.AddPlayer(clients[i]))
             {
                 //Alert anyone that needs to know, clientID has been added to teamIdx
                 onUpdateClientTeam?.Invoke(teamIdx, clients[i]);
+            }
+            if (team.clientsOnTeam.Count == 1)
+            {
+                scoreBoard.gameObject.SetActive(true);
             }
         }
     }
@@ -418,6 +440,7 @@ public class GameController : MonoBehaviour
         NetworkedEntityView view = ColyseusManager.Instance.GetEntityView(ColyseusManager.Instance.CurrentNetworkedEntity.id);
         if (view != null)
         {
+            Debug.Log("Getting player");
             CharControllerMulti pc = view as CharControllerMulti;
             if (pc)
             {

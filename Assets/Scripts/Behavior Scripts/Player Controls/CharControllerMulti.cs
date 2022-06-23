@@ -183,6 +183,23 @@ public class CharControllerMulti : NetworkedEntityView
         */
     }
 //Function for changing stamina over time
+
+    public void PositionAtSpawn()
+    {
+        transform.position = GetSpawnPosition();
+    }
+
+    private Vector2 GetSpawnPosition()
+    {
+        if (GameController.Instance.IsCoop)
+        {
+            Vector2 randomPt = UnityEngine.Random.insideUnitSphere * 10;
+            randomPt.y = 0;
+            return spawnPosition + randomPt;
+        }
+
+        return GameController.Instance.GetSpawnPoint(TeamIndex);
+    }
     private void ChangeStamina(float rate)
     {
         currentStamina = Mathf.Clamp(currentStamina + rate, 0, maxStamina);

@@ -14,6 +14,9 @@ const ClientReadyState = "readyState";
 const GeneralMessage = "generalMessage";
 const BeginRoundCountDown = "countDown";
 const WinningTeamId = "winningTeamId";
+const RoundTime = "roundTime";
+const PaintRoundTime = "paintRoundTime";
+const VoteRoundTime = "voteRoundTime";
 
 const FoodScoreMultiplier = 10; //How many points 1 kill is worth
 
@@ -438,8 +441,8 @@ let beginRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
             // Set the count down message attribute
             setRoomAttribute(roomRef, BeginRoundCountDown, "Get Ready!");
             
-            // Show the "Get Ready!" message for 2 seconds
-            if(roomRef.currCountDown < 2){
+            // Show the "Get Ready!" message for 1 seconds
+            if(roomRef.currCountDown < 1){
                 roomRef.currCountDown += deltaTime;
                 return;
             }
@@ -496,18 +499,24 @@ let simulateRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
         return;
     }
 
-    while (getGameState(roomRef, CurrentState) == StoneAgeServerGameState.SimulateRound && roomRef.currentRoundTime !== 0)
+    roomRef.currentRoundTime = roomRef.roundTime * 100;
+
+    while (getGameState(roomRef, CurrentState) == StoneAgeServerGameState.SimulateRound && roomRef.currentRoundTime >= 0)
     {
-        roomRef.currentRoundTime = roomRef.roundTime - deltaTime;
-        setRoomAttribute(roomRef, "roundTime", String(roomRef.currentRoundTime));
+        roomRef.currentRoundTime = roomRef.currentRoundTime - deltaTime;
+        setRoomAttribute(roomRef, RoundTime, String(roomRef.currentRoundTime));
+        setRoomAttribute(roomRef, GeneralMessage, "Room state is updating");
+        logger.info(roomRef.currentRoundTime);
     }
-    if (getGameState(roomRef, CurrentState) == StoneAgeServerGameState.SimulateRound && roomRef.currentRoundTime == 0)
+    if (getGameState(roomRef, CurrentState) == StoneAgeServerGameState.SimulateRound && roomRef.currentRoundTime <= 0)
     {
         roomRef.teams.forEach((teamMap, teamidx) => {
             let teamScore: number = getTeamScore(roomRef, teamidx);
 
             ///if()
         })
+
+        moveToState(roomRef, StoneAgeServerGameState.PaintRound);
 
     }
 
@@ -531,6 +540,17 @@ let simulateRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
  * @param {*} deltaTime Server delta time in seconds
  */
 let paintRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
+
+    // Check if there are enough players to continue
+    if(checkIfEnoughPlayers(roomRef) == false) {
+
+        // End round since there are not enough players on a team to finish the round
+        moveToState(roomRef, StoneAgeServerGameState.EndRound);
+
+        return;
+    }
+
+    roomRef.currentRoundTime = roomRef.paintRoundTime * 100;
 
     // Let all clients know that the round is now in Paint mode
     roomRef.broadcast("onPaintRound", { });

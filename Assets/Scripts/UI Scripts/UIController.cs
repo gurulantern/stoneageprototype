@@ -32,6 +32,9 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI roundOverMessageText;
 
+    [SerializeField]
+    public TextMeshProUGUI cyanScore, magentaScore, limeScore, goldScore;
+    public TextMeshProUGUI[] scoreBoards;
     //[SerializeField]
     //private PlayerInfoView playerInfo;
 
@@ -62,6 +65,7 @@ public class UIController : MonoBehaviour
     private float currentMsgUpdate = 0;
 
     private CharControllerMulti player;
+    public Timer timer;
     public GameObject hudContainer, gameOverPanel;
     public TextMeshProUGUI allianceTracker, foodCounter;
 
@@ -71,6 +75,12 @@ public class UIController : MonoBehaviour
     public UnityEvent onPlayerReady;
     public UnityEvent onExit;
     public UnityEvent onReset;
+
+    private void Awake() 
+    {
+        scoreBoards = new TextMeshProUGUI[4] {cyanScore, magentaScore, limeScore, goldScore};
+
+    }
 
     private IEnumerator Start()
     {
@@ -85,7 +95,6 @@ public class UIController : MonoBehaviour
             IsReady = true;
 
             ///roundOverMessageText.gameObject.SetActive(false);
-
             playerTags = new Dictionary<CharControllerMulti, PlayerTag>();
             playerJoinMessages = new Queue<GameObject>();
 

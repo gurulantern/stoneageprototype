@@ -50,7 +50,7 @@ using UnityEngine;
     public delegate void OnBeginRoundCountDown();
     public static event OnBeginRoundCountDown onBeginRoundCountDown;
 
-    public delegate void OnBeginRound(int bossHealth);
+    public delegate void OnBeginRound();
     public static event OnBeginRound onBeginRound;
 
     public delegate void OnRoundEnd();
@@ -354,7 +354,7 @@ using UnityEngine;
         //_room.OnMessage<YOUR_CUSTOM_MESSAGE>("messageNameInCustomLogic", objectOfTypeYOUR_CUSTOM_MESSAGE => {  });
         _room.OnMessage<EmptyMessage>("beginRoundCountDown", msg => { onBeginRoundCountDown?.Invoke(); });
 
-        _room.OnMessage<StoneAgeBeginRoundMessage>("beginRound", beginRound => { onBeginRound?.Invoke(beginRound.bossHealth); });
+        _room.OnMessage<StoneAgeBeginRoundMessage>("beginRound", beginRound => { onBeginRound?.Invoke(); });
 
         _room.OnMessage<EmptyMessage>("onRoundEnd", msg => { onRoundEnd?.Invoke(); });
 

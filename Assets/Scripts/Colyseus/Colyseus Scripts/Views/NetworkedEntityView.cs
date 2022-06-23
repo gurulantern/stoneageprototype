@@ -131,7 +131,7 @@ using UnityEngine;
 
                 if (state.attributes.TryGetValue("userName", out string userName))
                 {
-                    Debug.Log("Setting username as object name");
+                    //Debug.Log("Setting username as object name");
                     UserName = userName;
                     gameObject.name = UserName;
                 }
@@ -312,7 +312,7 @@ using UnityEngine;
                 if (counterStateSyncUpdateRate > stateSyncUpdateRateMs / 1000f)
                 {
                     counterStateSyncUpdateRate = 0f;
-                    Debug.Log($"Updating state from this view - {UserName}");
+                    //Debug.Log($"Updating state from this view - {UserName}");
                     UpdateStateFromView();
                 }
 
