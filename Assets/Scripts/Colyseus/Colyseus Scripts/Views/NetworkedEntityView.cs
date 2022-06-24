@@ -157,11 +157,6 @@ using UnityEngine;
             }
         }
 
-        protected virtual void SetStateStartPos()
-        {
-            gameObject.transform.localPosition = new Vector2((float)state.xPos, (float)state.yPos);
-        }
-
         public virtual void OnEntityRemoved()
         {
             // Entity removed from room state;

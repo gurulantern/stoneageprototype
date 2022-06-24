@@ -29,6 +29,8 @@ public class CharControllerMulti : NetworkedEntityView
     private int i = 0;
     [SerializeField]
     private int teamIndex = -1;
+    [SerializeField]
+    private int teamNumber;
     public int TeamIndex
     {
         get 
@@ -89,16 +91,45 @@ public class CharControllerMulti : NetworkedEntityView
         }
     }
 
+    public void InitializeObjectForRemote()
+    {
+        //Arrange this prefab to work well as a remote view but disabling certain scripts (rather than have a unique second prefab)
+        if (TryGetComponent(out PlayerInput playerInput))
+        {
+            Destroy(playerInput);
+        }
+        /*
+        if (TryGetComponent(out PlayerSpaceshipInputBehaviour inputBehaviour))
+        {
+            Destroy(inputBehaviour);
+        }
+        if (TryGetComponent(out PlayerCameraController cameraController))
+        {
+            Destroy(cameraController);
+        }
+        if (TryGetComponent(out UIHooks uiHooks))
+        {
+            Destroy(uiHooks);
+        }
+
+        gameObject.tag = "OtherShip";
+        gameObject.layer = 11;  //This is "OtherShip" in the physics layer
+        */
+    }
+
     public override void InitiView(NetworkedEntity entity)
     {
         base.InitiView(entity);
         onPlayerActivated?.Invoke(this);
+        teamIndex = GameController.Instance.GetTeamIndex(OwnerId);
         Debug.Log("Initializing view");
 
         //If we're in team death match, we need our team index
         if (!GameController.Instance.IsCoop)
         {
-            SetTeam(GameController.Instance.GetTeamIndex(OwnerId));
+            SetTeam(teamIndex);
+            teamNumber = GameController.Instance.GetTeamNumber(teamIndex);
+
         }
 
         if (IsMine)
@@ -113,12 +144,18 @@ public class CharControllerMulti : NetworkedEntityView
         if (teamIndex >= 0)
         {
             SetPlayerColor(teamColors[teamIndex]);
+            SetStartPos(teamIndex, teamNumber);
         }
     }
 
     public void SetPlayerColor(Color color)
     {
         _spriteRenderer.color = color;
+    }
+
+    protected virtual void SetStartPos(int idx, int spawnNum)
+    {
+        gameObject.transform.localPosition = GameController.Instance.homeCaves[idx].spawnPoints[spawnNum].spawn;
     }
 
     public override void OnEntityRemoved()

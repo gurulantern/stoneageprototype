@@ -9,6 +9,8 @@ using UnityEngine.EventSystems;
 public class Cave : Gatherable
 {
     [SerializeField] private FoodCollection _foodCollection;
+    public int teamIndex;
+    public SpawnPoint[] spawnPoints;
     private int foodCount;
     public int FoodCount { get; }
     public event Action Changed;

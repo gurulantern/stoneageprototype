@@ -21,7 +21,6 @@ public class GameController : MonoBehaviour
     public UIController uiController;
     public static GameController Instance { get; private set; }
     CharController playerStats;
-    [SerializeField] private Cave homeCave;
     public Vector2 spawnCenter;
     private TextMeshProUGUI scoreBoard;
     public float minSpawnVariance = .01f;
@@ -44,6 +43,7 @@ public class GameController : MonoBehaviour
     private int numTotalFood;
     [SerializeField] 
     private List<StoneAgeTeam> teams = new List<StoneAgeTeam>();
+    public  Cave[] homeCaves;
 
     private void Awake() 
     {
@@ -430,6 +430,17 @@ public class GameController : MonoBehaviour
         return -1;
     }
 
+    public int GetTeamNumber(int teamIdx)
+    {
+        if(teams[teamIdx].clientsOnTeam.Count <= 10)
+        {
+            return teams[teamIdx].clientsOnTeam.Count - 1;
+        } else {
+            LSLog.LogError($"Team of {teamIdx} full");
+            return -1;
+        }
+    }
+
     public bool AreUsersSameTeam(CharControllerMulti clientA, CharControllerMulti clientB)
     {
         return clientA.TeamIndex.Equals(clientB.TeamIndex);
@@ -463,7 +474,7 @@ public class GameController : MonoBehaviour
         {
             if (!player.IsMine)
             {
-                //player.InitializeObjectForRemote();
+                player.InitializeObjectForRemote();
             }
         }
     }
