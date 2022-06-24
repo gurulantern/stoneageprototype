@@ -40,6 +40,7 @@ public class UIController : MonoBehaviour
 
     [SerializeField]
     private CanvasGroup loadingCover;
+    public GameObject loadCover;
 
     [SerializeField]
     private PlayerTag playerTagPrefab;
