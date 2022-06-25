@@ -442,7 +442,7 @@ let beginRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
             setRoomAttribute(roomRef, BeginRoundCountDown, "Get Ready!");
             
             // Show the "Get Ready!" message for 1 seconds
-            if(roomRef.currCountDown < 1){
+            if(roomRef.currCountDown < 2){
                 roomRef.currCountDown += deltaTime;
                 return;
             }
@@ -467,8 +467,7 @@ let beginRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
             
             setRoomAttribute(roomRef, BeginRoundCountDown, "Start!");
             // TODO: beginRound is expecting a boss health
-            let fakeHealth = -1;
-            roomRef.broadcast("beginRound", { fakeHealth });
+            roomRef.broadcast("beginRound");
 
             // Move to the Simulation state
             moveToState(roomRef, StoneAgeServerGameState.SimulateRound);
@@ -501,7 +500,7 @@ let simulateRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
 
     roomRef.currentRoundTime = roomRef.roundTime * 100;
 
-    while (getGameState(roomRef, CurrentState) == StoneAgeServerGameState.SimulateRound && roomRef.currentRoundTime >= 0)
+    while (getGameState(roomRef, CurrentState) == StoneAgeServerGameState.SimulateRound && roomRef.currentRoundTime > 0)
     {
         roomRef.currentRoundTime = roomRef.currentRoundTime - deltaTime;
         setRoomAttribute(roomRef, RoundTime, String(roomRef.currentRoundTime));

@@ -574,6 +574,7 @@ using UnityEngine;
     {
         onRoomStateChanged?.Invoke(state.attributes);
         LSLog.LogImportant("State has been updated!");
+        Debug.Log($"{state.attributes}");
     }
 
     ///     Sends "ping" message to current room to help measure latency to the server.

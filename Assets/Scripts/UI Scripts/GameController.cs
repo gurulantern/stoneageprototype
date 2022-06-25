@@ -149,7 +149,7 @@ public class GameController : MonoBehaviour
     
     private void CreateView(NetworkedEntity entity)
     {
-        //LSLog.LogImportant("print: " + JsonUtility.ToJson(entity));
+        LSLog.LogImportant("print: " + JsonUtility.ToJson(entity));
         StoneColyseusNetworkedEntityView newView = Instantiate(prefab);
         ColyseusManager.Instance.RegisterNetworkedEntityView(entity, newView);
         newView.gameObject.SetActive(true);
@@ -228,7 +228,11 @@ public class GameController : MonoBehaviour
 
     private void OnBeginRound()
     {
-        StartCoroutine(BeginRoutine());
+        gamePlaying = true;
+        Debug.Log("Game has started");
+        _showCountDown = false;
+        uiController.UpdateCountDownMessage("");
+        //StartCoroutine(BeginRoutine());
     }
 
     private IEnumerator BeginRoutine()
@@ -339,6 +343,7 @@ public class GameController : MonoBehaviour
 
     private void UpdateRoundTime(MapSchema<string> attributes)
     {
+        Debug.Log("Trying to get time");
         if (attributes.TryGetValue("roundTime", out string time))
         {
             if (float.TryParse(time, out float serverTime))

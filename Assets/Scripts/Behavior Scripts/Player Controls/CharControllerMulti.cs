@@ -127,9 +127,8 @@ public class CharControllerMulti : NetworkedEntityView
         //If we're in team death match, we need our team index
         if (!GameController.Instance.IsCoop)
         {
-            SetTeam(teamIndex);
+            SetTeamAndPos(entity, teamIndex);
             teamNumber = GameController.Instance.GetTeamNumber(teamIndex);
-
         }
 
         if (IsMine)
@@ -144,8 +143,17 @@ public class CharControllerMulti : NetworkedEntityView
         if (teamIndex >= 0)
         {
             SetPlayerColor(teamColors[teamIndex]);
-            SetStartPos(teamIndex, teamNumber);
-            if (GameController.Instance.uiController.loadCover)
+        }
+    }
+
+    private void SetTeamAndPos(NetworkedEntity entity, int idx)
+    {
+        teamIndex = idx;
+        if (teamIndex >= 0)
+        {
+            SetStartPos(entity, teamIndex, teamNumber);
+            SetPlayerColor(teamColors[teamIndex]);
+            if (GameController.Instance.uiController.loadCover.activeInHierarchy)
             {
                 GameController.Instance.uiController.loadCover.SetActive(false);
             }
@@ -157,9 +165,11 @@ public class CharControllerMulti : NetworkedEntityView
         _spriteRenderer.color = color;
     }
 
-    protected virtual void SetStartPos(int idx, int spawnNum)
+    protected virtual void SetStartPos(NetworkedEntity entity, int idx, int spawnNum)
     {
         gameObject.transform.localPosition = GameController.Instance.homeCaves[idx].spawnPoints[spawnNum].spawn;
+        entity.xPos = gameObject.transform.localPosition.x;
+        entity.yPos = gameObject.transform.localPosition.y;
     }
 
     public override void OnEntityRemoved()

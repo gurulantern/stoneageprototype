@@ -17,7 +17,7 @@ public class Cave : Gatherable
 
     void Awake()
     {
-        foodCount = _foodCollection.FoodCount;
+        //foodCount = _foodCollection.FoodCount;
     }
     public void AddFood(int food) 
     {
