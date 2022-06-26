@@ -158,12 +158,12 @@ public class CharControllerMulti : NetworkedEntityView
     {
         _spriteRenderer.color = color;
     }
-
+    /// Sets player's spawn point using home cave refs and spawn point refs based on team number
     protected virtual void SetStartPos(NetworkedEntity entity, int idx, int spawnNum)
     {
-        gameObject.transform.localPosition = GameController.Instance.homeCaves[idx].spawnPoints[spawnNum].spawn;
-        entity.xPos = gameObject.transform.localPosition.x;
-        entity.yPos = gameObject.transform.localPosition.y;
+        myTransform.localPosition = GameController.Instance.homeCaves[idx].spawnPoints[spawnNum].spawn;
+        entity.xPos = myTransform.localPosition.x;
+        entity.yPos = myTransform.localPosition.y;
     }
 
     public override void OnEntityRemoved()
@@ -202,7 +202,7 @@ public class CharControllerMulti : NetworkedEntityView
         }
 
         /*
-        if (GameController.instance.gamePlaying)
+        if (IsMine && GameController.instance.gamePlaying)
         {
             if (_playerStamina.currentStamina == _playerStamina.maxStamina && sleep == true) {
                 //When stamina is full after sleeping call Wake

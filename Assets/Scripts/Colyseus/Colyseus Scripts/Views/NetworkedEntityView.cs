@@ -71,7 +71,7 @@ using UnityEngine;
         protected Vector3 localPositionDelta;
 
         /// The position of this transform in the previous frame
-        private Vector3 prevLocalPosition;
+        protected Vector3 prevLocalPosition;
 
         /// Synchronized object state
         [System.Serializable]
@@ -196,7 +196,7 @@ using UnityEngine;
             }
 
             // Check for speed hacks
-            if (checkForSpeedHacks && proxyStates.Length > 0)
+            if (GameController.Instance.gamePlaying && checkForSpeedHacks && proxyStates.Length > 0)
             {
                 Vector2 delta = pos - proxyStates[0].pos;
                 if (delta.sqrMagnitude > maxSpeedDeltaSqr)
