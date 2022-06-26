@@ -19,7 +19,9 @@ public class CharControllerMulti : NetworkedEntityView
     [SerializeField] GameEvent _dropOffEvent;
     [SerializeField] GameEvent _observeDone;
     [SerializeField] private LayerMask _layerMask;
+    private ICollection entities;
     public PlayerStats _playerStats;
+    private NetworkedEntity updatedEntity;
     public float maxStamina, currentStamina, speed, tiredSpeed, tireLimit, tireRate, restoreRate;
     public int food, wood;
     private Vector2 moveInput;
@@ -86,7 +88,8 @@ public class CharControllerMulti : NetworkedEntityView
         //If we're in team death match, we need our team index
         if (!GameController.Instance.IsCoop && id.Equals(OwnerId))
         {
-            SetTeam(team);
+            teamNumber = GameController.Instance.GetTeamNumber(team);
+            SetTeam(state, team, teamNumber);
             Debug.Log($"Your team is {team}");
         }
     }
@@ -127,8 +130,8 @@ public class CharControllerMulti : NetworkedEntityView
         //If we're in team death match, we need our team index
         if (!GameController.Instance.IsCoop)
         {
-            SetTeamAndPos(entity, teamIndex);
             teamNumber = GameController.Instance.GetTeamNumber(teamIndex);
+            SetTeam(entity, teamIndex, teamNumber);
         }
 
         if (IsMine)
@@ -137,21 +140,12 @@ public class CharControllerMulti : NetworkedEntityView
         }
     }
 
-    private void SetTeam(int idx)
+    private void SetTeam(NetworkedEntity entity, int idx, int teamNum)
     {
         teamIndex = idx;
         if (teamIndex >= 0)
         {
-            SetPlayerColor(teamColors[teamIndex]);
-        }
-    }
-
-    private void SetTeamAndPos(NetworkedEntity entity, int idx)
-    {
-        teamIndex = idx;
-        if (teamIndex >= 0)
-        {
-            SetStartPos(entity, teamIndex, teamNumber);
+            SetStartPos(entity, teamIndex, teamNum);
             SetPlayerColor(teamColors[teamIndex]);
             if (GameController.Instance.uiController.loadCover.activeInHierarchy)
             {

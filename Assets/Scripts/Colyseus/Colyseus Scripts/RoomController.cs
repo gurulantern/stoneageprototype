@@ -362,8 +362,11 @@ using UnityEngine;
 
         _room.OnMessage<StoneAgeTeamUpdateMessage>("onTeamUpdate", msg =>
         {
+
             LSLog.Log($"Updating team: {msg.teamIndex}, Client: {msg.clientID}, Added ? {msg.added}");
+
             onTeamUpdate?.Invoke(msg.teamIndex, msg.clientID, msg.added);
+        
         });
 
         _room.OnMessage<StoneAgeAllTeamsUpdateMessage>("onReceiveTeam", msg =>
