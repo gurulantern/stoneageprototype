@@ -50,8 +50,12 @@ using UnityEngine;
     public delegate void OnBeginRoundCountDown();
     public static event OnBeginRoundCountDown onBeginRoundCountDown;
 
-    public delegate void OnBeginRound();
+    public delegate void OnBeginRound(float time);
     public static event OnBeginRound onBeginRound;
+    public delegate void OnBeginPaint(float time);
+    public static event OnBeginPaint onBeginPaint;
+    public delegate void OnBeginVote(float time);
+    public static event OnBeginVote onBeginVote;
 
     public delegate void OnRoundEnd();
     public static event OnRoundEnd onRoundEnd;
@@ -354,8 +358,12 @@ using UnityEngine;
         //_room.OnMessage<YOUR_CUSTOM_MESSAGE>("messageNameInCustomLogic", objectOfTypeYOUR_CUSTOM_MESSAGE => {  });
         _room.OnMessage<EmptyMessage>("beginRoundCountDown", msg => { onBeginRoundCountDown?.Invoke(); });
 
-        _room.OnMessage<StoneAgeBeginRoundMessage>("beginRound", beginRound => { onBeginRound?.Invoke(); });
+        _room.OnMessage<StoneAgeBeginRoundMessage>("beginRound", beginRound => { onBeginRound?.Invoke(beginRound.time); });
 
+        _room.OnMessage<StoneAgeBeginRoundMessage>("beginPaintRound", beginRound => { onBeginPaint?.Invoke(beginRound.time); });
+
+        _room.OnMessage<StoneAgeBeginRoundMessage>("beginVoteRound", beginRound => { onBeginVote?.Invoke(beginRound.time); });
+        
         _room.OnMessage<EmptyMessage>("onRoundEnd", msg => { onRoundEnd?.Invoke(); });
 
         _room.OnMessage<StoneAgePlayerJoinedMessage>("playerJoined", msg => { onPlayerJoined?.Invoke(msg.userName); });
@@ -577,7 +585,6 @@ using UnityEngine;
     {
         onRoomStateChanged?.Invoke(state.attributes);
         LSLog.LogImportant("State has been updated!");
-        Debug.Log($"{state.attributes}");
     }
 
     ///     Sends "ping" message to current room to help measure latency to the server.

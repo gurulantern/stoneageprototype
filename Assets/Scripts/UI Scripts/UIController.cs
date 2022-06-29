@@ -116,6 +116,12 @@ public class UIController : MonoBehaviour
                 t += Time.deltaTime;
             }
             loadingCover.gameObject.SetActive(false);
+            if (GameController.Instance.gamePlaying)
+            {
+                readyButton.gameObject.SetActive(false);
+                optionsButton.gameObject.SetActive(false);
+                exitButton.gameObject.SetActive(false);
+            }
         }
     }
 

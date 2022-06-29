@@ -32,9 +32,9 @@ public class GameController : MonoBehaviour
     public delegate void OnUpdateClientTeam(int teamIndex, string clientID);
     public static event OnUpdateClientTeam onUpdateClientTeam;
     public int winningTeam = -1;
-    public float roundTimeLimit = 240f;
+    public float roundTimeLimit;
     public float paintTimeLimit = 60f;
-    private float remainingTime;
+    private float elapsedTime;
     private bool _showCountDown = false;
     public bool gamePlaying { get; private set; } = false;
     public Transform SpawnCenter;
@@ -66,6 +66,8 @@ public class GameController : MonoBehaviour
         RoomController.onRoomStateChanged += OnRoomStateChanged;
         RoomController.onBeginRoundCountDown += OnBeginRoundCountDown;
         RoomController.onBeginRound += OnBeginRound;
+        RoomController.onBeginPaint += OnBeginPaint;
+        RoomController.onBeginVote += OnBeginVote;
         RoomController.onRoundEnd += OnRoundEnd;
         RoomController.onJoined += OnJoinedRoom;
         RoomController.onAddNetworkEntity += OnNetworkAdd;
@@ -85,6 +87,8 @@ public class GameController : MonoBehaviour
         RoomController.onRoomStateChanged -= OnRoomStateChanged;
         RoomController.onBeginRoundCountDown -= OnBeginRoundCountDown;
         RoomController.onBeginRound -= OnBeginRound;
+        RoomController.onBeginPaint -= OnBeginPaint;
+        RoomController.onBeginVote -= OnBeginVote;
         RoomController.onRoundEnd -= OnRoundEnd;
         RoomController.onJoined -= OnJoinedRoom;
         RoomController.onAddNetworkEntity -= OnNetworkAdd;
@@ -165,10 +169,10 @@ public class GameController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (remainingTime > 0 && gamePlaying == true)
+        if (elapsedTime < roundTimeLimit && gamePlaying == true)
         {
-            uiController.timer.DecrementTime(remainingTime / (roundTimeLimit * 100));
-            Debug.Log(remainingTime);
+            uiController.timer.DecrementTime((roundTimeLimit - elapsedTime) / roundTimeLimit);
+            Debug.Log(elapsedTime);
         } 
     }
 
@@ -226,17 +230,14 @@ public class GameController : MonoBehaviour
         _showCountDown = true;
     }
 
-    private void OnBeginRound()
+    private void OnBeginRound(float time)
     {
-        gamePlaying = true;
-        Debug.Log("Game has started");
-        _showCountDown = false;
-        uiController.UpdateCountDownMessage("");
-        //StartCoroutine(BeginRoutine());
+        StartCoroutine(BeginRoutine(time));
     }
 
-    private IEnumerator BeginRoutine()
+    private IEnumerator BeginRoutine(float time)
     {
+        /*
         if (IsCoop == false)
         {
             Debug.Log("Game has started!");
@@ -248,7 +249,6 @@ public class GameController : MonoBehaviour
             }
         }
 
-        gamePlaying = true;
         if (IsCoop)
         {
 
@@ -257,6 +257,10 @@ public class GameController : MonoBehaviour
         {
             winningTeam = -1;
         }
+        */
+        roundTimeLimit = time;
+        gamePlaying = true;
+        Debug.Log("Game has started - round time: " + roundTimeLimit);
 
         yield return new WaitForSeconds(1.0f);
 
@@ -264,38 +268,58 @@ public class GameController : MonoBehaviour
         uiController.UpdateCountDownMessage("");
     }
 
+    private void OnBeginPaint(float time)
+    {
+        StartCoroutine(BeginPaint(time));
+    }
+
+    private IEnumerator BeginPaint(float time)
+    {
+        roundTimeLimit = time;
+        Debug.Log("Paint has started, round time: " + roundTimeLimit);
+        yield break;
+    }
+
+    private void OnBeginVote(float time)
+    {
+        StartCoroutine(BeginVote(time));
+    }
+
+    private IEnumerator BeginVote(float time)
+    {
+        roundTimeLimit = time;
+        Debug.Log("Vote has started, round time: " + roundTimeLimit);
+        yield break;
+    }
+
     private void OnRoundEnd()
     {
         LSLog.LogImportant($"Round Ended!", LSLog.LogColor.lime);
-        ///StartCoroutine(RoundEndRoutine());
+        StartCoroutine(RoundEndRoutine());
     }
-/*
+
     private IEnumerator RoundEndRoutine()
     {
-        RoundInProgress = false;
-        PlayerSpaceshipController ownersShip = GetOwnersShip();
-        if (IsCoop)
-        {
-
-            uiController.ShowRoundOverMessage("VICTORY! THE WORM IS DEFEATED!");
-
-        }
-        else
-        {
+        gamePlaying = false;
+        
             //We may not have the winning team yet, need to hold here
-            StartCoroutine(HoldForWinner());
-        }
+        //StartCoroutine(HoldForWinner());
 
-        ResetAllShipDamage();
+        //ResetAllShipDamage();
+        uiController.UpdatePlayerReadiness(true);
+        yield break;
     }
-*/
+
 
     private void OnRoomStateChanged(MapSchema<string> attributes)
     {
         UpdateGameStates(attributes);
         UpdateGeneralMessage(attributes);
         UpdateCountDown(attributes);
-        UpdateRoundTime(attributes);
+        if (gamePlaying)
+        {
+            UpdateRoundTime(attributes);
+        }
     }
 
     private void UpdateGameStates(MapSchema<string> attributes)
@@ -343,12 +367,11 @@ public class GameController : MonoBehaviour
 
     private void UpdateRoundTime(MapSchema<string> attributes)
     {
-        Debug.Log("Trying to get time");
-        if (attributes.TryGetValue("roundTime", out string time))
+        if (attributes.TryGetValue("elapsedTime", out string time))
         {
             if (float.TryParse(time, out float serverTime))
             {
-                remainingTime = serverTime;
+                elapsedTime = serverTime/1000;
             }
         }
     }

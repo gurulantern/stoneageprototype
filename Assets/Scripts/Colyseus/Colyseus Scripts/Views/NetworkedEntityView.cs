@@ -58,7 +58,6 @@ using UnityEngine;
 
         /// Cached transform
         protected Transform myTransform;
-
         /// The change in position in the most recent frame. Applies
         /// to all sessions including the owner
         public Vector3 LocalPositionDelta
@@ -350,8 +349,7 @@ using UnityEngine;
                 float deltaFactor = (ColyseusManager.Instance.GetServerTimeSeconds > proxyStates[0].timestamp) ?
                     (float)(ColyseusManager.Instance.GetServerTimeSeconds - proxyStates[0].timestamp) * 0.2f : 0f;
 
-                if (syncLocalPosition) myTransform.localPosition = Vector3.Lerp(myTransform.localPosition, proxyStates[0].pos, Time.deltaTime * (positionLerpSpeed + deltaFactor));
-
+                if (GameController.Instance.gamePlaying && syncLocalPosition) myTransform.localPosition = Vector3.Lerp(myTransform.localPosition, proxyStates[0].pos, Time.deltaTime * (positionLerpSpeed + deltaFactor));       
                 if (syncLocalRotation && Mathf.Abs(Quaternion.Angle(transform.localRotation, proxyStates[0].rot)) > snapIfAngleIsGreater) myTransform.localRotation = proxyStates[0].rot;
 
                 if (syncLocalRotation) myTransform.localRotation = Quaternion.Slerp(myTransform.localRotation, proxyStates[0].rot, Time.deltaTime * (rotationLerpSpeed + deltaFactor));

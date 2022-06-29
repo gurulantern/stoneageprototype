@@ -83,20 +83,20 @@ public class LobbyController : MonoBehaviour
         roomOptions = new Dictionary<string, object> {{"logic", gameModeLogic}};
         if (!string.IsNullOrEmpty(desiredRoomName))
         {
-            LoadGallery(() => { ColyseusManager.Instance.CreateNewRoom(desiredRoomName, roomOptions); });
+            LoadMainScene(() => { ColyseusManager.Instance.CreateNewRoom(desiredRoomName, roomOptions); });
         }
     }
 
     public void JoinOrCreateRoom()
     {
         connectingCover.SetActive(true);
-        LoadGallery(() => { ColyseusManager.Instance.JoinOrCreateRoom(); });
+        LoadMainScene(() => { ColyseusManager.Instance.JoinOrCreateRoom(); });
     }
 
     public void JoinRoom(string id)
     {
         connectingCover.SetActive(true);
-        LoadGallery(() => { ColyseusManager.Instance.JoinExistingRoom(id); });
+        LoadMainScene(() => { ColyseusManager.Instance.JoinExistingRoom(id); });
     }
 
     public void OnConnectedToServer()
@@ -109,7 +109,7 @@ public class LobbyController : MonoBehaviour
         selectRoomMenu.HandRooms(rooms);
     }
 
-    private void LoadGallery(Action onComplete)
+    private void LoadMainScene(Action onComplete)
     {
         StartCoroutine(LoadSceneAsync(gameSceneName, onComplete));
     }
@@ -126,7 +126,7 @@ public class LobbyController : MonoBehaviour
 
         onComplete.Invoke();
         op.allowSceneActivation = true;
+        connectingCover.SetActive(false);
         SceneManager.UnloadSceneAsync(currScene);
-
     }
 }
