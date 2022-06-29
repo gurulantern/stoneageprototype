@@ -6,12 +6,14 @@ export class MyRoom extends Room<RoomState> {
 
     clientEntities = new Map<string, string[]>();
     serverTime: number = 0;
-    roundTime: number = 30;
-    paintTime : number = 30;
-    voteTime : number = 30;
+    roundTime: number = 10;
+    paintTime : number = 10;
+    voteTime : number = 10;
     currentRoundTime: number;
     customMethodController: any = null;
     roomOptions: any;
+
+    paintRound: boolean = true;
 
     CurrentCountDownState: string;
     currCountDown: number;

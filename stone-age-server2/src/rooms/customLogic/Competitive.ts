@@ -9,6 +9,8 @@ const utilities = require('../../helpers/LSUtilities.js');
 
 //Clock initializer
 let clock = new Clock(true);
+//let paintClock = new Clock(true);
+//let voteClock = new Clock(true);
 
 // string indentifiers for keys in the room attributes
 const CurrentState = "currentGameState";
@@ -377,13 +379,13 @@ let checkIfEnoughPlayers = function(roomRef: MyRoom): boolean {
  */
 let moveToState = function (roomRef: MyRoom, newState: string) {
 
-    //logger.silly(`*** Move State From = ${getGameState(CurrentState)} To = ${newState}`);
-
     // LastState = CurrentState
     setRoomAttribute(roomRef, LastState, getGameState(roomRef, CurrentState));
             
     // CurrentState = newState
     setRoomAttribute(roomRef, CurrentState, newState);
+
+    logger.silly(`** Moving to new state - ${getGameState(roomRef, newState)}**`)
 }
 
 /**
@@ -513,15 +515,17 @@ let simulateRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
         return;
     }
 
-    logger.info(clock.elapsedTime);
-
     setRoomAttribute(roomRef, ElapsedTime, String(clock.elapsedTime));
 
-    clock.setTimeout(() => {
-        clock.stop();
-        moveToState(roomRef, StoneAgeServerGameState.BeginPaintRound);
-    }, (roomRef.roundTime * 1000));
-
+    if(clock.elapsedTime >= (roomRef.roundTime * 1000))
+    {
+        if(roomRef.paintRound) {
+            moveToState(roomRef, StoneAgeServerGameState.BeginPaintRound);
+            logger.info(clock.elapsedTime);
+        } else {
+            moveToState(roomRef, StoneAgeServerGameState.EndRound);
+        }
+    }
     
 /*
     roomRef.teams.forEach((teamMap, teamIdx) => {
@@ -540,11 +544,11 @@ let simulateRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
 }
 
 let beginPaintRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
-    let time = roomRef.voteTime;
+    let time = roomRef.paintTime;
     roomRef.broadcast("beginPaintRound", { time });
     moveToState(roomRef, StoneAgeServerGameState.PaintRound);
-    clock.start(true);
 }
+
 /**
  * The logic run when the server is in the PaintRound state
  * @param {*} deltaTime Server delta time in seconds
@@ -559,22 +563,21 @@ let paintRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
 
         return;
     }
+    let paintDiff = roomRef.roundTime * 1000;
 
-    logger.info(clock.elapsedTime);
+    setRoomAttribute(roomRef, ElapsedTime, String(clock.elapsedTime - paintDiff));
 
-    setRoomAttribute(roomRef, ElapsedTime, String(clock.elapsedTime));
-
-    clock.setTimeout(() => {
-        clock.stop();
+    if(clock.elapsedTime >= ((roomRef.roundTime + roomRef.paintTime) * 1000))
+    {
         moveToState(roomRef, StoneAgeServerGameState.BeginVoteRound);
-    }, (roomRef.paintTime * 1000));
+        logger.info(clock.elapsedTime);
+    }
 }
 
 let beginVoteRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
     let time = roomRef.voteTime;
     roomRef.broadcast("beginVoteRound", { time });
     moveToState(roomRef, StoneAgeServerGameState.VoteRound);
-    clock.start(true);
 }
 
 let voteRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
@@ -587,17 +590,15 @@ let voteRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
 
         return;
     }
+    let voteDiff = (roomRef.roundTime + roomRef.paintTime) *  1000;
 
-    logger.info(clock.elapsedTime);
-    logger.info(clock.currentTime);
+    setRoomAttribute(roomRef, ElapsedTime, String(clock.elapsedTime - voteDiff));
 
-    setRoomAttribute(roomRef, ElapsedTime, String(clock.elapsedTime));
-
-    clock.setTimeout(() => {
-        clock.stop();
+    if (clock.elapsedTime >= ((roomRef.roundTime + roomRef.paintTime + roomRef.voteTime) * 1000))
+    {
         moveToState(roomRef, StoneAgeServerGameState.EndRound);
-        clock.start(true);
-    }, (roomRef.paintTime * 1000));
+        logger.info(clock.elapsedTime);
+    }
 
 }
 
