@@ -34,7 +34,6 @@ public class CharController : MonoBehaviour
         speed = _playerStats.Speed;
         tiredSpeed = _playerStats.TiredSpeed;
         tireLimit = _playerStats.TireLimit;
-        tireRate = _playerStats.TireRate;
         restoreRate = _playerStats.RestoreRate;
         food = _playerStats.Food;
         wood = _playerStats.Wood;

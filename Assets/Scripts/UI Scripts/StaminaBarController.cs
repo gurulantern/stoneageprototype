@@ -6,18 +6,19 @@ using UnityEngine.UI;
 public class StaminaBarController : MonoBehaviour
 {
     public Slider staminaSlider { get; set; }
-    CharController character;        
+    public CharControllerMulti character;        
     void Awake()
     {
         staminaSlider = GetComponent<Slider>();
-        character = GetComponent<CharController>();
+        character = GetComponent<CharControllerMulti>();
         staminaSlider.value = character.maxStamina;
     }
     
     void FixedUpdate()
     {
-        if (GameController.Instance.gamePlaying)
+        if (character.IsMine) //GameController.Instance.gamePlaying)
         {
+            Debug.Log(character.currentStamina);
             staminaSlider.value = character.currentStamina;
         }
     }

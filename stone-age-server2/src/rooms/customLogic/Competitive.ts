@@ -385,7 +385,7 @@ let moveToState = function (roomRef: MyRoom, newState: string) {
     // CurrentState = newState
     setRoomAttribute(roomRef, CurrentState, newState);
 
-    logger.silly(`** Moving to new state - ${getGameState(roomRef, newState)}**`)
+    logger.silly(`** Moving to new state - ${getGameState(roomRef, CurrentState)}**`)
 }
 
 /**

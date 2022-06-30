@@ -13,10 +13,10 @@ public class PlayerStats : ScriptableObject
     public float Speed  => speed;
     [SerializeField] private float tiredSpeed = .5f;
     public float TiredSpeed => tiredSpeed;
-    [SerializeField] private float tireLimit = 10f;
+    [SerializeField] private float tireLimit = 20f;
     public float TireLimit => tireLimit;
     [SerializeField] private float tireRate = .01f;
     public float TireRate => tireRate;
-    [SerializeField] private float restoreRate = .5f;
+    [SerializeField] private float restoreRate = .05f;
     public float RestoreRate => restoreRate;
 }

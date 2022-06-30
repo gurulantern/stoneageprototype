@@ -172,7 +172,6 @@ public class GameController : MonoBehaviour
         if (elapsedTime < roundTimeLimit && gamePlaying == true)
         {
             uiController.timer.DecrementTime((roundTimeLimit - elapsedTime) / roundTimeLimit);
-            Debug.Log(elapsedTime);
         } 
     }
 

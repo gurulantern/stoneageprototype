@@ -19,6 +19,7 @@ public class CharControllerMulti : NetworkedEntityView
     [SerializeField] GameEvent _dropOffEvent;
     [SerializeField] GameEvent _observeDone;
     [SerializeField] private LayerMask _layerMask;
+    [SerializeField] private UIHooks uiHooks; 
     private ICollection entities;
     public PlayerStats _playerStats;
     private NetworkedEntity updatedEntity;
@@ -41,7 +42,6 @@ public class CharControllerMulti : NetworkedEntityView
         }
     }
     public Color[] teamColors;
-    public Renderer[] playerRenderers;
     Rigidbody2D rb;
     Animator animator;
     Vector2 lookDirection = new Vector2(1,0);
@@ -101,6 +101,11 @@ public class CharControllerMulti : NetworkedEntityView
         {
             Destroy(playerInput);
         }
+        if (TryGetComponent(out UIHooks uiHooks))
+        {
+            Destroy(uiHooks);
+        }
+        gameObject.tag = "OtherPlayer";
         /*
         if (TryGetComponent(out PlayerSpaceshipInputBehaviour inputBehaviour))
         {
@@ -109,10 +114,6 @@ public class CharControllerMulti : NetworkedEntityView
         if (TryGetComponent(out PlayerCameraController cameraController))
         {
             Destroy(cameraController);
-        }
-        if (TryGetComponent(out UIHooks uiHooks))
-        {
-            Destroy(uiHooks);
         }
 
         gameObject.tag = "OtherShip";
@@ -196,15 +197,9 @@ public class CharControllerMulti : NetworkedEntityView
 
     void FixedUpdate()
     {
-        if (IsMine)
+        if (IsMine) //&& GameController.Instance.gamePlaying)
         {
-            rb.MovePosition(rb.position + moveInput * speed * Time.deltaTime);
-        }
-
-        /*
-        if (IsMine && GameController.instance.gamePlaying)
-        {
-            if (_playerStamina.currentStamina == _playerStamina.maxStamina && sleep == true) {
+            if (currentStamina == maxStamina && sleep == true) {
                 //When stamina is full after sleeping call Wake
                 Wake();
             } else if (sleep == true) {
@@ -212,7 +207,7 @@ public class CharControllerMulti : NetworkedEntityView
                 ChangeStamina(restoreRate);
             } else if (animator.GetBool("Observe") || animator.GetBool("Gather")) {    
                 ChangeStamina(-tireRate);
-            } else if (sleep == false && _playerStamina.currentStamina <= tireLimit) {
+            } else if (sleep == false && currentStamina <= tireLimit) {
                 //When Awake and stamina is under tire limit, enter tired animation and slow down
                 animator.SetBool("Tired", true);
                 ChangeStamina(-tireRate);
@@ -225,7 +220,6 @@ public class CharControllerMulti : NetworkedEntityView
         } else {
             _playerControls.Disable();
         }
-        */
     }
 //Function for changing stamina over time
 
@@ -247,7 +241,10 @@ public class CharControllerMulti : NetworkedEntityView
     }
     private void ChangeStamina(float rate)
     {
+        if (uiHooks)
+        {
         currentStamina = Mathf.Clamp(currentStamina + rate, 0, maxStamina);
+        }
     }
 
     //Funciton for edible objects to change player stamina
