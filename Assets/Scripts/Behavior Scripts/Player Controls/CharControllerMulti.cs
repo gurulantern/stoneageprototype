@@ -261,7 +261,7 @@ public class CharControllerMulti : NetworkedEntityView
         } else if (other.gameObject.CompareTag("Tree") && i == 0) {
             treeNear = true;
             i++;
-        } else if (other.gameObject.CompareTag("Player") && i == 0) {
+        } else if (other.gameObject.CompareTag("OtherPlayer") && i == 0) {
             playerNear = true;
             Debug.Log("player near");
             i++;
@@ -293,6 +293,7 @@ public class CharControllerMulti : NetworkedEntityView
         if(sleep == false) {
             sleep = true;
             animator.SetTrigger("Sleep");
+            SetAttributes(new Dictionary<string, string> { { "sleep", "true" } });
         }
     }
     //function for waking up
@@ -301,6 +302,7 @@ public class CharControllerMulti : NetworkedEntityView
         animator.SetBool("Tired", false);
         animator.SetTrigger("Awake");
         sleep = false;
+        SetAttributes(new Dictionary<string, string> { { "sleep", "false"} } );
     }
 
     //Sets look direction and set speed for animator

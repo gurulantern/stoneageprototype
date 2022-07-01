@@ -76,6 +76,7 @@ public class UIController : MonoBehaviour
     public UnityEvent onPlayerReady;
     public UnityEvent onExit;
     public UnityEvent onReset;
+    public UnityEvent onSetOptions;
 
     private void Awake() 
     {
@@ -232,7 +233,7 @@ public class UIController : MonoBehaviour
 
     public void ButtonSetOptions()
     {
-        ///onSetOptions?.Invoke();
+        onSetOptions?.Invoke();
     }
 
     public void ButtonOnReset()

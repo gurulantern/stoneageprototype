@@ -18,6 +18,11 @@ export class NetworkedEntity extends Schema {
   @type("number") yVel: number = 0;
   @type("number") zVel: number = 0;
   @type("number") timestamp: number;
+  @type("boolean") sleep: boolean = false;
+  @type("boolean") tired: boolean = false;
+  @type("boolean") wake: boolean = true;
+  @type("boolean") observe: boolean = false;
+  @type("boolean") gather: boolean = false;
   @type({map: "string"}) attributes = new MapSchema<string>();
 }
 
@@ -32,5 +37,16 @@ export class RoomState extends Schema {
     @type({ map: NetworkedEntity }) networkedEntities = new MapSchema<NetworkedEntity>();
     @type({ map: NetworkedUser }) networkedUsers = new MapSchema<NetworkedUser>();
     @type({ map: "string" }) attributes = new MapSchema<string>();
+    @type("number") roundTime: number = 180;
+    @type("number") paintTime: number = 120;
+    @type("number") voteTime: number = 60;
+    @type("boolean") paintRound: boolean = true;
+    @type("boolean") allianceToggle: boolean = false;
+    @type("boolean") stealToggle: boolean = false;
+    @type("boolean") tagsToggle: boolean = false;
+    @type("number") foodScoreMultiplier: number = 2;
+    @type("number") observeScoreMultiplier: number = 2;
+    @type("number") createScoreMultiplier: number = 2;
+    @type("number") tireRate: number = .5;
 }
 

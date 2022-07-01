@@ -8,9 +8,30 @@ public class StoneAgeTeam
 {
     public int teamIndex = -1;
     public List<string> clientsOnTeam = new List<string>();
-    [SerializeField] private bool steal;
-    [SerializeField] private bool scare;
-    [SerializeField] private bool create; 
+    public bool steal = false;
+    public bool scare = false;
+    public bool create = false; 
+
+
+
+    public void SetOptions1(string option, string toggle) 
+    {
+        switch(option) 
+        {
+            case "steal":
+                steal = bool.Parse(toggle);    
+                break;
+            case "scare":
+                scare = bool.Parse(toggle);    
+                break;
+            case "create":
+                create = bool.Parse(toggle);    
+                break;
+            default:
+                Debug.Log("No team options to set");
+                break;
+        }
+    }
 
     public bool AddPlayer(string clientID)
     {

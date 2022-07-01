@@ -6,14 +6,26 @@ export class MyRoom extends Room<RoomState> {
 
     clientEntities = new Map<string, string[]>();
     serverTime: number = 0;
-    roundTime: number = 10;
-    paintTime : number = 10;
-    voteTime : number = 10;
+    roundTime: number = 180;
+    paintTime : number = 120;
+    voteTime : number = 60;
     currentRoundTime: number;
     customMethodController: any = null;
     roomOptions: any;
 
     paintRound: boolean = true;
+    allianceToggle: boolean = false;
+    stealToggle: boolean = false;
+    tagsToggle: boolean = false;
+    foodScoreMultiplier: number = 2;
+    observeScoreMultiplier: number = 2;
+    createScoreMultiplier: number = 2;
+    tireRate: number = .5;
+
+    cyanTeamOptions = new Map<string, boolean>();
+    magentaTeamOptions = new Map<string, boolean>();
+    limeTeamOptions = new Map<string, boolean>();
+    goldTeamOptions = new Map<string, boolean>();
 
     CurrentCountDownState: string;
     currCountDown: number;
@@ -188,6 +200,14 @@ export class MyRoom extends Room<RoomState> {
 
     }
 
+    setOptions (client: Client, optionsMessage: any) {
+        if(optionsMessage == null 
+            || (optionsMessage.userId == null)
+            || optionsMessage.optionsToSet == null) {
+            return; // Invalid Option Update Message
+        }
+    }
+
     // Callback when a client has left the room
     async onLeave(client: Client, consented: boolean) {
         let networkedUser = this.state.networkedUsers.get(client.sessionId);
@@ -275,6 +295,11 @@ export class MyRoom extends Room<RoomState> {
         this.onMessage("setAttribute", (client, attributeUpdateMessage) => {
             this.setAttribute(client, attributeUpdateMessage); 
         });
+
+        // Set options for room
+        this.onMessage("setOptions", (client, optionsMessage) => {
+            this.setOptions(client, optionsMessage);
+        })
 
 
         // Set the callback for the "removeEntity" message

@@ -16,4 +16,37 @@ public partial class RoomState : Schema {
 
 	[Type(2, "map", typeof(MapSchema<string>), "string")]
 	public MapSchema<string> attributes = new MapSchema<string>();
+
+	[Type(3, "number")]
+	public float roundTime = default(float);
+
+	[Type(4, "number")]
+	public float paintTime = default(float);
+
+	[Type(5, "number")]
+	public float voteTime = default(float);
+
+	[Type(6, "boolean")]
+	public bool paintRound = default(bool);
+
+	[Type(7, "boolean")]
+	public bool allianceToggle = default(bool);
+
+	[Type(8, "boolean")]
+	public bool stealToggle = default(bool);
+
+	[Type(9, "boolean")]
+	public bool tagsToggle = default(bool);
+
+	[Type(10, "number")]
+	public float foodScoreMultiplier = default(float);
+
+	[Type(11, "number")]
+	public float observeScoreMultiplier = default(float);
+
+	[Type(12, "number")]
+	public float createScoreMultiplier = default(float);
+
+	[Type(13, "number")]
+	public float tireRate = default(float);
 }

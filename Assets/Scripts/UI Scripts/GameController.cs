@@ -150,6 +150,11 @@ public class GameController : MonoBehaviour
 
         SetCurrentUserAttributes(new Dictionary<string, string> { { "readyState", "ready" } });
     }
+
+    public void SetOptions()
+    {
+        
+    }
     
     private void CreateView(NetworkedEntity entity)
     {

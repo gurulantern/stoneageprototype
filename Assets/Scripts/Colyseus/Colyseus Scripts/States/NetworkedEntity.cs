@@ -8,7 +8,7 @@
 using Colyseus.Schema;
 
 public partial class NetworkedEntity : Schema {
-[Type(0, "string")]
+	[Type(0, "string")]
 	public string id = default(string);
 
 	[Type(1, "string")]
@@ -59,6 +59,21 @@ public partial class NetworkedEntity : Schema {
 	[Type(16, "number")]
 	public float timestamp = default(float);
 
-	[Type(17, "map", typeof(MapSchema<string>), "string")]
+	[Type(17, "boolean")]
+	public bool sleep = default(bool);
+	
+	[Type(18, "boolean")]
+	public bool tired = default(bool);
+
+	[Type(19, "boolean")]
+	public bool wake = default(bool);
+
+	[Type(20, "boolean")]
+	public bool observe = default(bool);
+
+	[Type(21, "boolean")]
+	public bool gather = default(bool);
+	
+	[Type(22, "map", typeof(MapSchema<string>), "string")]
 	public MapSchema<string> attributes = new MapSchema<string>();
 }
