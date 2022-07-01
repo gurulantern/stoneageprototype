@@ -27,7 +27,7 @@ public class CharControllerMulti : NetworkedEntityView
     public int food, wood;
     private Vector2 moveInput;
     private bool treeNear, fruitTreeNear, playerNear, caveNear;
-    private bool sleep, observing, gathering, tired;
+    private bool sleeping, observing, gathering, tired;
     //Iterator variable for debugging Trigger Enter and Exit
     private int i = 0;
     [SerializeField]
@@ -43,7 +43,6 @@ public class CharControllerMulti : NetworkedEntityView
     }
     public Color[] teamColors;
     Rigidbody2D rb;
-    Animator animator;
     Vector2 lookDirection = new Vector2(1,0);
     private Vector2 spawnPosition;
     public event Action ChangedFood;
@@ -51,7 +50,6 @@ public class CharControllerMulti : NetworkedEntityView
     
     protected override void Awake() {
         base.Awake();
-        animator = gameObject.GetComponent<Animator>();
         _playerControls = new PlayerControls();
         rb = GetComponent<Rigidbody2D>();
         maxStamina = _playerStats.MaxStamina;
@@ -79,7 +77,7 @@ public class CharControllerMulti : NetworkedEntityView
     protected override void Start()
     {
         base.Start();
-        sleep = false;
+        sleeping = false;
 
     }
 
@@ -167,6 +165,11 @@ public class CharControllerMulti : NetworkedEntityView
         entity.yPos = myTransform.localPosition.y;
     }
 
+    public void SetWakeState(NetworkedEntity entity, bool wakeState) 
+    {
+
+    }
+
     public override void OnEntityRemoved()
     {
         base.OnEntityRemoved();
@@ -190,29 +193,35 @@ public class CharControllerMulti : NetworkedEntityView
         }
     }
     
+    /// Animator code for players that are not mine
     protected override void ProcessViewSync()
     {
         base.ProcessViewSync();
+        animator.SetBool("Sleep", proxyStates[0].sleep);
+        animator.SetBool("Tired", proxyStates[0].tired);
+        animator.SetBool("Awake", proxyStates[0].wake);
+        animator.SetBool("Observe", proxyStates[0].observe);
+        animator.SetBool("Gather", proxyStates[0].gather);
     }
 
     void FixedUpdate()
     {
         if (IsMine) //&& GameController.Instance.gamePlaying)
         {
-            if (currentStamina == maxStamina && sleep == true) {
+            if (currentStamina == maxStamina && sleeping == true) {
                 //When stamina is full after sleeping call Wake
                 Wake();
-            } else if (sleep == true) {
+            } else if (sleeping == true) {
                 //When sleep is true and stamina is not full, restore stamina
                 ChangeStamina(restoreRate);
             } else if (animator.GetBool("Observe") || animator.GetBool("Gather")) {    
                 ChangeStamina(-tireRate);
-            } else if (sleep == false && currentStamina <= tireLimit) {
+            } else if (sleeping == false && currentStamina <= tireLimit) {
                 //When Awake and stamina is under tire limit, enter tired animation and slow down
                 animator.SetBool("Tired", true);
                 ChangeStamina(-tireRate);
                 rb.MovePosition(rb.position + moveInput * tiredSpeed * Time.fixedDeltaTime);
-            } else if (sleep == false) {
+            } else if (sleeping == false) {
                 //If sleep is false, decrease stamina and move at base speed
                 ChangeStamina(-tireRate);
                 rb.MovePosition(rb.position + moveInput * speed * Time.fixedDeltaTime);
@@ -290,19 +299,21 @@ public class CharControllerMulti : NetworkedEntityView
     //function for sleeping
     private void OnSleep()
     {
-        if(sleep == false) {
-            sleep = true;
-            animator.SetTrigger("Sleep");
-            SetAttributes(new Dictionary<string, string> { { "sleep", "true" } });
+        if(sleeping == false) {
+            sleeping = true;
+            animator.SetBool("Tired", false);
+            animator.SetBool("Awake", false);
+            animator.SetBool("Sleep", true);
         }
     }
     //function for waking up
     void Wake()
     {
+        animator.SetBool("Sleep", false);
         animator.SetBool("Tired", false);
-        animator.SetTrigger("Awake");
-        sleep = false;
-        SetAttributes(new Dictionary<string, string> { { "sleep", "false"} } );
+        animator.SetBool("Awake", true);
+        sleeping = false;
+
     }
 
     //Sets look direction and set speed for animator

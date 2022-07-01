@@ -17,6 +17,7 @@ using UnityEngine;
         public string UserName { get; private set; }
         public bool autoInitEntity = false;
         public string prefabName;
+        protected Animator animator;
 
         //public configs
         [HeaderAttribute("Position Sync")]
@@ -80,12 +81,19 @@ using UnityEngine;
             public Vector2 pos;
             public Vector2 vel;
             public Quaternion rot;
+            public bool sleep;
+            public bool tired;
+            public bool wake;
+            public bool observe;
+            public bool gather;
             public Colyseus.Schema.MapSchema<string> attributes;
         }
 
         protected virtual void Awake()
         {
             myTransform = transform;
+            animator = gameObject.GetComponent<Animator>();
+
         }
 
         protected virtual void Start()
@@ -185,6 +193,11 @@ using UnityEngine;
             // Network player, receive data
             Vector2 pos = new Vector2((float)state.xPos, (float)state.yPos);
             Vector2 velocity = new Vector2((float)state.xVel, (float)state.yVel);
+            bool sleep = (bool)state.sleep;
+            bool tired = (bool)state.tired;
+            bool wake = (bool)state.wake;
+            bool observe = (bool)state.observe;
+            bool gather = (bool)state.gather;
 
             // If we're ignoring position data from the owning session, then use our own values. This
             // should only happen in special cases
@@ -219,6 +232,11 @@ using UnityEngine;
 
             newState.pos = pos;
             newState.vel = velocity;
+            newState.sleep = sleep;
+            newState.tired = tired;
+            newState.wake = wake;
+            newState.observe = observe;
+            newState.gather = gather;
             newState.attributes = state.Clone().attributes;
             proxyStates[0] = newState;
 
@@ -238,7 +256,7 @@ using UnityEngine;
 
         }
 
-        //Take Serializes changes in the tranform and pass those changes to the server
+        //Take Serializes changes in the tranform and animator and pass those changes to the server
         protected virtual void UpdateStateFromView()
         {
 
@@ -261,6 +279,12 @@ using UnityEngine;
             state.xVel = localPositionDelta.x;
             state.yVel = localPositionDelta.y;
             state.zVel = localPositionDelta.z / Time.deltaTime;
+
+            state.sleep = animator.GetBool("Sleep");
+            state.tired = animator.GetBool("Tired");
+            state.wake = animator.GetBool("Awake");
+            state.observe = animator.GetBool("Observe");
+            state.gather = animator.GetBool("Gather");
 
 
             ////No need to update again if last sent state == current view modified state
