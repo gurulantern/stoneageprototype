@@ -16,17 +16,23 @@ public class CharControllerMulti : NetworkedEntityView
     [SerializeField] PlayerControls _playerControls;
     [SerializeField] Camera _camera;
     [SerializeField] GameEvent _gatherFruitEvent;
+    [SerializeField] GameEvent _gatherMeatEvent;
+    [SerializeField] GameEvent _gatherWoodEvent;
     [SerializeField] GameEvent _dropOffEvent;
     [SerializeField] GameEvent _observeDone;
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private UIHooks uiHooks; 
+
+    [SerializeField] private SpriteRenderer _fruitSprite;
+    [SerializeField] private SpriteRenderer _meatSprite;
+    [SerializeField] private SpriteRenderer _woodSprite;
     private ICollection entities;
     public PlayerStats _playerStats;
     private NetworkedEntity updatedEntity;
     public float maxStamina, currentStamina, speed, tiredSpeed, tireLimit, tireRate, restoreRate;
     public int food, wood;
     private Vector2 moveInput;
-    private bool treeNear, fruitTreeNear, playerNear, caveNear;
+    private bool treeNear, fruitTreeNear, animalNear, playerNear, caveNear;
     private bool sleeping, observing, gathering, tired;
     //Iterator variable for debugging Trigger Enter and Exit
     private int i = 0;
@@ -344,19 +350,31 @@ public class CharControllerMulti : NetworkedEntityView
             //Invokes event for Fruit Tree to animate then send event back
             _gatherFruitEvent?.Invoke();
             animator.SetBool("Gather", true);
+            _fruitSprite.gameObject.SetActive(true);
+        } else if (hit.collider.tag == "Animal" && animalNear && hit) {
+            Debug.Log("Animal Clicked");
+            _gatherMeatEvent?.Invoke();
+            animator.SetBool("Gather", true);
+            _meatSprite.gameObject.SetActive(true);
+        } else if (hit.collider.tag == "Tree" && treeNear && hit) {
+            Debug.Log("Tree clicked");
+            _gatherWoodEvent?.Invoke();
+            animator.SetBool("Gather", true);
+            _woodSprite.gameObject.SetActive(true);
         } else if (hit.collider.tag == "Cave" && caveNear) {
             Cave cave = hit.collider.GetComponent<Cave>();
             cave.AddFood(food);
             DropOff();
             Debug.Log(cave.FoodCount);
-        } else if (hit.collider.tag == "Player" && playerNear) {
+        } else if (hit.collider.tag == "OtherPlayer" && playerNear) {
             AddFood();
         }
     }
     public void StopGather() {
         //Triggers at the end of the gather animation
         Debug.Log("Gathering is finished");
-        gameObject.GetComponent<Animator>().SetBool("Gather", false);
+        _fruitSprite.gameObject.SetActive(false);
+        animator.SetBool("Gather", false);
         AddFood();
 
     }    
@@ -372,7 +390,7 @@ public class CharControllerMulti : NetworkedEntityView
         if (hit.collider.tag == "Fruit Tree" && fruitTreeNear) {
             animator.SetBool("Observe", true);
             Debug.Log("Player observes");
-        } else if (hit.collider.tag == "Cave" && caveNear) {
+        } else if (hit.collider.tag == "Tree" && treeNear) {
             animator.SetBool("Observe", true);
             Debug.Log("Player observes");
         } else if (hit.collider.tag == "Player" && playerNear) {

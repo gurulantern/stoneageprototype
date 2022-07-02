@@ -22,16 +22,16 @@ export class MyRoom extends Room<RoomState> {
     createScoreMultiplier: number = 2;
     tireRate: number = .5;
 
-    cyanTeamOptions = new Map<string, boolean>();
-    magentaTeamOptions = new Map<string, boolean>();
-    limeTeamOptions = new Map<string, boolean>();
-    goldTeamOptions = new Map<string, boolean>();
+    createOptions: Map<number, boolean>;
+    stealOptions: Map<number, boolean>;
+    scareOptions: Map<number, boolean>;
 
     CurrentCountDownState: string;
     currCountDown: number;
     currentTime: number;
+    teamScores: Map<number, Map<string, number>>;
     teams: Map<number, Map<string, Client>>;
-    alliances: Map<number, Map<string, Client>>;
+    alliances: Map<number, number[]>;
 
     /**
      * Getter function to retrieve the correct customLogic file. Will try .JS extension and then .TS
@@ -114,6 +114,7 @@ export class MyRoom extends Room<RoomState> {
         this.roomOptions = options;
 
         this.teams = new Map<number, Map<string, Client>>();
+        this.teamScores = new Map<number, Map<string, number>>();
 
         if(options["roomId"] != null) {
             this.roomId = options["roomId"];           

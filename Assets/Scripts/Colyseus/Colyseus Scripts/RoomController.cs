@@ -209,6 +209,11 @@ using UnityEngine;
         roomOptionsDictionary = options;
     }
 
+    public void SetGameOptions()
+    {
+        
+    }
+
     ///     Set the NetworkedEntityFactoryy of the RoomManager.
     public void SetNetworkedEntityFactory(NetworkedEntityFactory factory)
     {

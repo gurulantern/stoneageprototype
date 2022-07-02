@@ -9,8 +9,6 @@ const utilities = require('../../helpers/LSUtilities.js');
 
 //Clock initializer
 let clock = new Clock(true);
-//let paintClock = new Clock(true);
-//let voteClock = new Clock(true);
 
 // string indentifiers for keys in the room attributes
 const CurrentState = "currentGameState";
@@ -91,16 +89,16 @@ switch (getGameState(roomRef, CurrentState)) {
 //======================================
 const customMethods: any = {};
 /**
- * Called by the client when a player is killed (self-reported)
+ * Called by the client when a player gathers (self-reported)
  * @param roomRef Reference to the room
  * @param client The reporting client
- * @param request In order, the Attacker's ID and the Victim's ID, for scoring purposes
+ * @param request In order, the Gatherer's ID and the Source's ID, for scoring purposes
  */
 customMethods.foodCollected =  function (roomRef: MyRoom, client: Client, request: any) {
     
     //Don't count gathering until a round is going
     if(getGameState(roomRef, CurrentState) != StoneAgeServerGameState.SimulateRound) {
-        logger.silly("Cannot gather until the game has begun!");
+        logger.silly("Cannot gather until the game has begun or in gather round!");
         return;
     }
 
@@ -114,6 +112,7 @@ customMethods.foodCollected =  function (roomRef: MyRoom, client: Client, reques
 
     const gathererID = param[0];
     const foodSourceID = param[1];
+    
     let gatherer = roomRef.state.networkedEntities.get(gathererID);
     ///good for stealing from each other
     let foodSource = roomRef.state.networkedEntities.get(foodSourceID);
@@ -126,10 +125,10 @@ customMethods.foodCollected =  function (roomRef: MyRoom, client: Client, reques
         roomRef.setAttribute(null, { entityId: gathererID, attributesToSet: { food: inventoryFood.toString(), score: score.toString() } });
 
         /// Update the team's score PLACE THIS IN THE CAVE SCRIPT
-        updateTeamScore(roomRef, gathererID, 1);
+        updateTeamScore(roomRef, gathererID, "gather", 1);
     }
     else{
-        logger.silly(`No attacking entity found with Id: ${gathererID}`)
+        logger.silly(`No gatherer entity found with Id: ${gathererID}`)
     }
 
     if(foodSource != null){
@@ -141,11 +140,15 @@ customMethods.foodCollected =  function (roomRef: MyRoom, client: Client, reques
         roomRef.setAttribute(null, {entityId: foodSourceID, attributesToSet: {food: foodTaken.toString(), score: score.toString() } });
         
         /// PLACE THIS IN CAVE SCRIPT
-        updateTeamScore(roomRef, gathererID, -1);
+        updateTeamScore(roomRef, gathererID, "gather", -1);
     }
     else{
         logger.silly(`No dead entity found with Id: ${foodSourceID}`)
     }
+}
+
+customMethods.observation = function (roomRef: MyRoom, client: Client, request: any) {
+
 }
 //====================================== END Client Request Logic
 
@@ -203,13 +206,14 @@ let getAttributeNumber = function(entity: NetworkedEntity, attributeName: string
  * @param roomRef Reference to the room
  * @param teamIndex The index of the team who's score we want
  */
-let getTeamScore = function(roomRef: MyRoom, teamIndex: number): number {
-    let score: number = Number(roomRef.state.attributes.get(`team_${teamIndex.toString()}_score`));
+let getTeamScore = function(roomRef: MyRoom, teamIndex: number, scoreType: string): number {
+    let score: number = Number(roomRef.state.attributes.get(`team_${teamIndex.toString()}_${scoreType}`));
+
 
     if(isNaN(score)) {
         return 0;
     }
-
+    
     return score;
 }
 
@@ -229,12 +233,12 @@ let resetForNewRound = function (roomRef: MyRoom) {
     unlockIfAble(roomRef);
 }
 
-let resetPlayerScores = function(roomRef: MyRoom) {
+let resetPlayerData = function(roomRef: MyRoom) {
     // Reset all player scores
-    setEntitiesAttribute(roomRef, "score", "0");
     setEntitiesAttribute(roomRef, "food", "0");
     setEntitiesAttribute(roomRef, "wood", "0");
     setEntitiesAttribute(roomRef, "seeds", "0");
+    setEntitiesAttribute(roomRef, "observe", "0");
     //Remove winning team
     if(roomRef.state.attributes.has(WinningTeamId))
     {
@@ -243,19 +247,21 @@ let resetPlayerScores = function(roomRef: MyRoom) {
 }
 
 /**
- * Reset the score for each team to zero
+ * Reset the score for each score for each team to zero
  * @param roomRef Reference to the room
  */
 let resetTeamScores = function(roomRef: MyRoom) {
 
     // Set teams initial score
-    roomRef.teams.forEach((teamMap, teamIdx) => {
-        setRoomAttribute(roomRef, `team_${teamIdx.toString()}_score`, "0");
+    roomRef.teamScores.forEach((scoreMap, teamIdx) => {
+        scoreMap.forEach((score, scoreType) => {
+            setRoomAttribute(roomRef, `team_${teamIdx.toString()}_${scoreType}`, "0");
+        })
     });
     
 }
 
-let updateTeamScore = function(roomRef: MyRoom, teamMateId: string, amount: number) {
+let updateTeamScore = function(roomRef: MyRoom, teamMateId: string, scoreType: string, amount: number) {
 
     let teamIdx: number = -1;
     let clientId: string = "";
@@ -275,11 +281,11 @@ let updateTeamScore = function(roomRef: MyRoom, teamMateId: string, amount: numb
         });
 
         if(teamIdx >= 0) {
-            teamScore = getTeamScore(roomRef, teamIdx);
+            teamScore = getTeamScore(roomRef, teamIdx, scoreType);
 
             teamScore += amount;
-    
-            setRoomAttribute(roomRef, `team_${teamIdx}_score`, teamScore.toString());
+
+            setRoomAttribute(roomRef, `team_${teamIdx.toString()}_${scoreType}`, teamScore.toString());
         }
         else {
             logger.error(`Update Team Score - Error - No team found for client Id: ${clientId}`);
@@ -419,7 +425,7 @@ let waitingLogic = function (roomRef: MyRoom, deltaTime: number) {
             // Lock the room
             roomRef.lock();
 
-            resetPlayerScores(roomRef);
+            resetPlayerData(roomRef);
             resetTeamScores(roomRef);
 
             // Begin a new round
@@ -649,6 +655,16 @@ exports.InitializeLogic = function (roomRef: MyRoom, options: any) {
     roomRef.teams.set(1, new Map());
     roomRef.teams.set(2, new Map());
     roomRef.teams.set(3, new Map());
+
+    roomRef.teamScores = new Map();
+    roomRef.teamScores.set(0, new Map());
+    roomRef.teamScores.set(1, new Map());
+    roomRef.teamScores.set(2, new Map());
+    roomRef.teamScores.set(3, new Map());
+
+    roomRef.alliances = new Map();
+    roomRef.alliances.set(0, []);
+    roomRef.alliances.set(0, []);
 
     // Set initial game state to waiting for all clients to be ready
     setRoomAttribute(roomRef, CurrentState, StoneAgeServerGameState.Waiting)
