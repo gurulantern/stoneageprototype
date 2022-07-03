@@ -21,10 +21,7 @@ public class GameController : MonoBehaviour
     public UIController uiController;
     public static GameController Instance { get; private set; }
     CharController playerStats;
-    public Vector2 spawnCenter;
     private TextMeshProUGUI scoreBoard;
-    public float minSpawnVariance = .01f;
-    public float maxSpawnVariance = 2f;
     private string currentGameState = "";
     private string lastGameState = "";
     public bool JoinComplete { get; private set; } = false;
@@ -37,13 +34,13 @@ public class GameController : MonoBehaviour
     private float elapsedTime;
     private bool _showCountDown = false;
     public bool gamePlaying { get; private set; } = false;
-    public Transform SpawnCenter;
     public float MinSpawnVariance = 200f;
     public float MaxSpawnVariance = 500f;
-    private int numTotalFood;
+    
     [SerializeField] 
     private List<StoneAgeTeam> teams = new List<StoneAgeTeam>();
     public  Cave[] homeCaves;
+    public SpawnPoint[] aurochsSpawnPoints;
 
     private void Awake() 
     {
@@ -178,24 +175,6 @@ public class GameController : MonoBehaviour
         {
             uiController.timer.DecrementTime((roundTimeLimit - elapsedTime) / roundTimeLimit);
         } 
-    }
-
-    public Vector2 GetSpawnPoint(int teamIndex)
-    {
-        Debug.Log("Getting spawn point.");
-        Vector2 pos = SpawnCenter.position;
-
-        if (teamIndex == 0)
-        {
-            //pos += (-SpawnCenter.right * Random.Range(MinSpawnVariance, MaxSpawnVariance));
-        }
-        else if (teamIndex == 1)
-        {
-            //pos += (SpawnCenter.right * Random.Range(MinSpawnVariance, MaxSpawnVariance));
-        }
-
-        Debug.Log("Got your spawn point!");
-        return pos;
     }
 
     public void BeginGame()
