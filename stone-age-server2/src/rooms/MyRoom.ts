@@ -368,13 +368,13 @@ export class MyRoom extends Room<RoomState> {
             {
                 newEntity.xPos = parseFloat(creationMessage.attributes[key][0]);
                 newEntity.yPos = parseFloat(creationMessage.attributes[key][1]);
-                newEntity.zPos = parseFloat(creationMessage.attributes[key][2]);
+                //newEntity.zPos = parseFloat(creationMessage.attributes[key][2]);
             }
             else if(key === "creationRot")
             {
-                newEntity.xRot = parseFloat(creationMessage.attributes[key][0]);
-                newEntity.yRot = parseFloat(creationMessage.attributes[key][1]);
-                newEntity.zRot = parseFloat(creationMessage.attributes[key][2]);
+                //newEntity.xRot = parseFloat(creationMessage.attributes[key][0]);
+                //newEntity.yRot = parseFloat(creationMessage.attributes[key][1]);
+                //newEntity.zRot = parseFloat(creationMessage.attributes[key][2]);
                 newEntity.wRot = parseFloat(creationMessage.attributes[key][3]);
             }
             else {
@@ -384,6 +384,7 @@ export class MyRoom extends Room<RoomState> {
 
         // Add the entity to the room state's networkedEntities map 
         this.state.networkedEntities.set(entityViewID, newEntity);
+        logger.silly(`*** Added an entity - ViewID = ${entityViewID} ***`);
 
         // Add the entity to the client entities collection
         if(this.clientEntities.has(client.sessionId)) {
