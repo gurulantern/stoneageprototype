@@ -15,6 +15,7 @@ TagManager:
   - Red Cave
   - Fruit
   - Animal
+  - OtherPlayer
   layers:
   - Default
   - TransparentFX

@@ -2,16 +2,18 @@ using UnityEngine;
 
 public class FruitTree : Gatherable
 {
-    [SerializeField] FoodSource _fruitTreeRef;
-    private int foodTotal;
-    private int harvestTrigger;
-    private int foodTaken;
-    private int foodRemaining;
+    [SerializeField] Source _fruitTreeRef;
+    [SerializeField] private int foodTotal;
+    [SerializeField] private int harvestTrigger;
+    [SerializeField] private int foodTaken;
+    [SerializeField] private int foodRemaining;
     Animator animator;
 
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         animator = GetComponent<Animator>();
+        foodTotal = _fruitTreeRef.FoodTotal;
         foodRemaining = _fruitTreeRef.FoodTotal; 
         harvestTrigger = _fruitTreeRef.HarvestTriggerInt;
         foodTaken = _fruitTreeRef.FoodTaken;

@@ -7,8 +7,8 @@ public class Food : MonoBehaviour
     [SerializeField] private GameEvent _eaten;
     void OnTriggerEnter2D(Collider2D other) 
     {
-        CharController controller = other.GetComponent<CharController>();
-        if (controller != null)
+        CharControllerMulti controller = other.GetComponent<CharControllerMulti>();
+        if (controller.IsMine)
         {
             if (controller.currentStamina < controller.maxStamina) 
             {

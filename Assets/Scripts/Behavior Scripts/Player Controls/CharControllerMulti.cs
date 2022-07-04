@@ -23,16 +23,16 @@ public class CharControllerMulti : NetworkedEntityView
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private UIHooks uiHooks; 
 
-    [SerializeField] private SpriteRenderer _fruitSprite;
-    [SerializeField] private SpriteRenderer _meatSprite;
-    [SerializeField] private SpriteRenderer _woodSprite;
+    [SerializeField] private SpriteRenderer[] _gatherIcons;
     private ICollection entities;
     public PlayerStats _playerStats;
     private NetworkedEntity updatedEntity;
     public float maxStamina, currentStamina, speed, tiredSpeed, tireLimit, tireRate, restoreRate;
-    public int food, wood;
+    public int food, wood, seeds;
+    private int icon;
     private Vector2 moveInput;
-    private bool treeNear, fruitTreeNear, animalNear, playerNear, caveNear;
+    private bool treeNear, fruitTreeNear, aurochsNear, playerNear, caveNear;
+    private string tagNear;
     private bool sleeping, observing, gathering, tired;
     //Iterator variable for debugging Trigger Enter and Exit
     private int i = 0;
@@ -110,6 +110,7 @@ public class CharControllerMulti : NetworkedEntityView
             Destroy(uiHooks);
         }
         gameObject.tag = "OtherPlayer";
+
         /*
         if (TryGetComponent(out PlayerSpaceshipInputBehaviour inputBehaviour))
         {
@@ -238,31 +239,15 @@ public class CharControllerMulti : NetworkedEntityView
     }
 //Function for changing stamina over time
 
-    public void PositionAtSpawn()
-    {
-        transform.position = GetSpawnPosition();
-    }
-
-    private Vector2 GetSpawnPosition()
-    {
-        if (GameController.Instance.IsCoop)
-        {
-            Vector2 randomPt = UnityEngine.Random.insideUnitSphere * 10;
-            randomPt.y = 0;
-            return spawnPosition + randomPt;
-        }
-
-        return GameController.Instance.GetSpawnPoint(TeamIndex);
-    }
     private void ChangeStamina(float rate)
     {
-        if (uiHooks)
+        if (uiHooks && IsMine)
         {
-        currentStamina = Mathf.Clamp(currentStamina + rate, 0, maxStamina);
+            currentStamina = Mathf.Clamp(currentStamina + rate, 0, maxStamina);
         }
     }
 
-    //Funciton for edible objects to change player stamina
+    //Function for edible objects to change player stamina
     public void FoodStamina(int amount)
     {
         currentStamina = Mathf.Clamp(currentStamina + amount, 0, maxStamina); 
@@ -270,34 +255,14 @@ public class CharControllerMulti : NetworkedEntityView
 
     //Trigger Exits and Enters to set whether objects are near for interactions
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.gameObject.CompareTag("Fruit Tree") && i == 0) {
-            fruitTreeNear = true;
-            i++;
-        } else if (other.gameObject.CompareTag("Tree") && i == 0) {
-            treeNear = true;
-            i++;
-        } else if (other.gameObject.CompareTag("OtherPlayer") && i == 0) {
-            playerNear = true;
-            Debug.Log("player near");
-            i++;
-        } else if (other.gameObject.CompareTag("Cave") && i == 0) {
-            caveNear = true;
-            i++;
-        } 
+        if (other && i == 0) {
+            tagNear = other.gameObject.tag;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other) {
-        if (other.gameObject.CompareTag("Fruit Tree") && i == 1) {
-            fruitTreeNear = false;
-            i = 0;
-        } else if (other.gameObject.CompareTag("Tree") && i == 1) {
-            treeNear = false;
-            i = 0;
-        } else if (other.gameObject.CompareTag("Player") && i == 1) {
-            playerNear = false;
-            i = 0 ;
-        } else if (other.gameObject.CompareTag("Cave") && i == 1) {
-            caveNear = false;
+        if (other && i == 1) {
+            tagNear = "";
             i = 0;
         }
     }
@@ -342,41 +307,61 @@ public class CharControllerMulti : NetworkedEntityView
     private void OnFoodAction()
     {
         RaycastHit2D hit;
+        string tag;
         Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
         hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
-        if (hit.collider.tag == "Fruit Tree" && fruitTreeNear && hit) {
-            Debug.Log("Fruit Tree Clicked");
-            //Invokes event for Fruit Tree to animate then send event back
-            _gatherFruitEvent?.Invoke();
+        tag = hit.collider.tag;
+        if(tag == tagNear) {
+            Debug.Log(tag + " clicked.");
+            switch(tag) {
+                case "Fruit Tree":
+                    _gatherFruitEvent?.Invoke();
+                    icon = 0;
+                    break;
+                case "Tree":
+                    _gatherWoodEvent?.Invoke();
+                    icon = 1;
+                    break;
+                case "Aurochs":
+                    _gatherMeatEvent?.Invoke();
+                    icon = 2;
+                    break;
+                case "OtherPlayer":
+                    _gatherFruitEvent?.Invoke();
+                    icon = 0;
+                    break;
+                case "Cave":
+                    _gatherFruitEvent?.Invoke();
+                    icon = 0;
+                    break;
+                default:
+                    Debug.Log("No gather event called.");
+                    icon = -1;
+                    break;
+            }
             animator.SetBool("Gather", true);
-            _fruitSprite.gameObject.SetActive(true);
-        } else if (hit.collider.tag == "Animal" && animalNear && hit) {
-            Debug.Log("Animal Clicked");
-            _gatherMeatEvent?.Invoke();
-            animator.SetBool("Gather", true);
-            _meatSprite.gameObject.SetActive(true);
-        } else if (hit.collider.tag == "Tree" && treeNear && hit) {
-            Debug.Log("Tree clicked");
-            _gatherWoodEvent?.Invoke();
-            animator.SetBool("Gather", true);
-            _woodSprite.gameObject.SetActive(true);
-        } else if (hit.collider.tag == "Cave" && caveNear) {
-            Cave cave = hit.collider.GetComponent<Cave>();
-            cave.AddFood(food);
-            DropOff();
-            Debug.Log(cave.FoodCount);
-        } else if (hit.collider.tag == "OtherPlayer" && playerNear) {
-            AddFood();
+            _gatherIcons[icon].gameObject.SetActive(true);
         }
     }
+
+    //The function to stop the gather aciton called when animation has finished;
     public void StopGather() {
         //Triggers at the end of the gather animation
         Debug.Log("Gathering is finished");
-        _fruitSprite.gameObject.SetActive(false);
+        _gatherIcons[icon].gameObject.SetActive(false);
         animator.SetBool("Gather", false);
-        AddFood();
-
+        switch(icon) {
+            case 0:
+                AddFood(icon);
+                if (GameController.Instance.create) {
+                    AddSeeds();
+                }
+                break;
+            case 1:
+                AddWood();
+                break;
+        }
     }    
     
     //Function for right clicking and observing a nearby object
@@ -385,7 +370,6 @@ public class CharControllerMulti : NetworkedEntityView
         RaycastHit2D hit;
         Debug.Log("there was a right click at " + Mouse.current.position.ReadValue());
         Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
-        Debug.Log(animator);
         hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
         if (hit.collider.tag == "Fruit Tree" && fruitTreeNear) {
             animator.SetBool("Observe", true);
@@ -393,46 +377,55 @@ public class CharControllerMulti : NetworkedEntityView
         } else if (hit.collider.tag == "Tree" && treeNear) {
             animator.SetBool("Observe", true);
             Debug.Log("Player observes");
-        } else if (hit.collider.tag == "Player" && playerNear) {
+        } else if (hit.collider.tag == "OtherPlayer" && playerNear) {
             animator.SetBool("Observe", true);
             Debug.Log("Player observes");
+        } else if (hit.collider.tag == "Aurochs" && aurochsNear) {
+            animator.SetBool("Observe", true);
         }
     }
 
-    // function to notify when Obsering is done
+    // function to notify when Obsering is done, called when animation is finished
     public void StopObserve()
     {
         animator.SetBool("Observe", false);
         _observeDone?.Invoke();
     }
 
-    public void AddFood()
+    public void AddFood(int icon)
     {
-        food += 1;
-        ChangedFood?.Invoke();
+        if (icon == 0) {
+            state.food += 1;
+        } else if (icon == 2) {
+            state.food += 15;
+        }
     }
 
     public void AddWood()
     {
-        wood += 1;
-        ChangedWood?.Invoke();
+        state.wood += 1;
+    }
+
+    public void AddSeeds()
+    {
+        state.seeds += 5;
     }
 
     public void Robbed()
     {
-        food -= 1;
+        state.food -= 1;
         ChangedFood?.Invoke();
     }
 
     public void DropOff()
     {
-        food -= food;
+        state.food -= state.food;
         ChangedFood?.Invoke();
     }
 
     public void UseWood()
     {
-        wood -= wood;
+        state.wood -= state.wood;
         ChangedWood?.Invoke();
     }
 }

@@ -20,7 +20,6 @@ public class GameController : MonoBehaviour
     public static event OnViewRemoved onViewRemoved;
     public UIController uiController;
     public static GameController Instance { get; private set; }
-    CharController playerStats;
     private TextMeshProUGUI scoreBoard;
     private string currentGameState = "";
     private string lastGameState = "";
@@ -34,13 +33,12 @@ public class GameController : MonoBehaviour
     private float elapsedTime;
     private bool _showCountDown = false;
     public bool gamePlaying { get; private set; } = false;
-    public float MinSpawnVariance = 200f;
-    public float MaxSpawnVariance = 500f;
-    
+
     [SerializeField] 
     private List<StoneAgeTeam> teams = new List<StoneAgeTeam>();
     public  Cave[] homeCaves;
     public SpawnPoint[] aurochsSpawnPoints;
+    public bool create, steal, scare;
 
     private void Awake() 
     {
@@ -50,7 +48,6 @@ public class GameController : MonoBehaviour
             return;
         }
         Instance = this;
-        playerStats = prefab.GetComponent<CharController>(); 
     }
     private void Start() 
     {

@@ -7,7 +7,7 @@ using TMPro;
 public class WoodInventoryCounter : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI counter;    
-    CharController character;
+    CharControllerMulti character;
 /*
     void Awake() => character.ChangedWood += UpdateText;
     void OnDestroy() => character.ChangedWood -= UpdateText;

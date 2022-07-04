@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-//Wrapper class for serializable Vector3 response we will receive from the server
+//Wrapper class for serializable Vector2 response we will receive from the server
 [Serializable]
 public class Vector2Obj
 {

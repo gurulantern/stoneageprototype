@@ -5,7 +5,7 @@ using TMPro;
 public class FoodInventoryCounter : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI counter;
-    CharController character;
+    CharControllerMulti character;
 /*
     void Awake() => character.ChangedFood += UpdateText;
     void OnDestroy() => character.ChangedFood -= UpdateText;

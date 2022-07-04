@@ -23,6 +23,10 @@ export class NetworkedEntity extends Schema {
   @type("boolean") wake: boolean = true;
   @type("boolean") observe: boolean = false;
   @type("boolean") gather: boolean = false;
+  @type("number") food: number = 0;
+  @type("number") wood: number = 0;
+  @type("number") seeds: number = 0;
+  @type("number") observePoints: number = 0;
   @type({map: "string"}) attributes = new MapSchema<string>();
 }
 

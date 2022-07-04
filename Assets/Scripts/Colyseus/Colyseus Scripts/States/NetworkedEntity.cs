@@ -73,7 +73,19 @@ public partial class NetworkedEntity : Schema {
 
 	[Type(21, "boolean")]
 	public bool gather = default(bool);
+
+	[Type(22, "number")]
+	public int food = default(int);
+
+	[Type(23, "number")]
+	public int wood = default(int);
+
+	[Type(24, "number")]
+	public int seeds = default(int);
+
+	[Type(25, "number")]
+	public int observePoints = default(int);
 	
-	[Type(22, "map", typeof(MapSchema<string>), "string")]
+	[Type(26, "map", typeof(MapSchema<string>), "string")]
 	public MapSchema<string> attributes = new MapSchema<string>();
 }

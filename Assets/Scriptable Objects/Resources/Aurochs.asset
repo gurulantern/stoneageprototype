@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6f9cf9cff1bd74e47b996998d1e80bd0, type: 3}
-  m_Name: Fruit Tree
-  m_EditorClassIdentifier: Assembly-CSharp::FruitTreeSource
-  foodTotal: 7
+  m_Name: Aurochs
+  m_EditorClassIdentifier: 
+  foodTotal: 14
   woodTotal: 10
   seedTotal: 20
   harvestTriggerInt: 1
-  foodTaken: 1
+  foodTaken: 14
   woodTaken: 1
   seedTaken: 1

@@ -28,7 +28,8 @@ using UnityEngine;
 
     ///Delegate and event for Current User State Changing.
     public delegate void OnUserStateChanged(MapSchema<string> changes);
-    public static event OnUserStateChanged onCurrentUserStateChanged;
+    public static event OnUserStateChanged OnCurrentUserStateChanged;
+
     ///Delegate and event for Joining 
     public delegate void OnJoined(string customLogic);
     public static event OnJoined onJoined;
@@ -192,7 +193,6 @@ using UnityEngine;
         return null;
     }
 
-    public static event OnUserStateChanged OnCurrentUserStateChanged;
 
     ///     Set the dependencies.
     ///     roomName

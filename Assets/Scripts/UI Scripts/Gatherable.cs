@@ -6,9 +6,15 @@ using System;
 
 public abstract class Gatherable : MonoBehaviour
 {
-    [SerializeField] protected GameEvent _interactEvent;
+    //[SerializeField] protected GameEvent _interactEvent;
+    //[SerializeField] UnityEvent _unityEvent;
     protected int i;
     protected bool playerNear; 
+    protected string clickedTag;
+
+    protected virtual void Awake() {
+
+    }
 
     private void Start() {
         i = 0;
@@ -18,7 +24,9 @@ public abstract class Gatherable : MonoBehaviour
         if (other.gameObject.CompareTag("Player") && i == 0) {
             playerNear = true;
             i++;
-        } 
+        } else {
+            Debug.Log(other.gameObject.tag);
+        }
     }
 
     protected void OnTriggerExit2D(Collider2D other) {

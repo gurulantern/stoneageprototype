@@ -86,6 +86,10 @@ using UnityEngine;
             public bool wake;
             public bool observe;
             public bool gather;
+            public int food;
+            public int wood;
+            public int seeds;
+            public int observePoints;
             public Colyseus.Schema.MapSchema<string> attributes;
         }
 
@@ -198,6 +202,10 @@ using UnityEngine;
             bool wake = (bool)state.wake;
             bool observe = (bool)state.observe;
             bool gather = (bool)state.gather;
+            //int food = (int)state.food;
+            //int wood = (int)state.wood;
+            //int seeds = (int)state.seeds;
+            //int observePoints = (int)state.observePoints;
 
             // If we're ignoring position data from the owning session, then use our own values. This
             // should only happen in special cases
@@ -237,6 +245,10 @@ using UnityEngine;
             newState.wake = wake;
             newState.observe = observe;
             newState.gather = gather;
+            //newState.food = food;
+            //newState.wood = wood;
+            //newState.seeds = seeds;
+            //newState.observePoints = observePoints;
             newState.attributes = state.Clone().attributes;
             proxyStates[0] = newState;
 
