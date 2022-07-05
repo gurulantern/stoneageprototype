@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f640499696bb2d24abb1240afb265b11
+guid: fd04a0380114a9c40b3501d553483d2d
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -104,7 +104,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: AurochsIdle-tailwag-Sheet_0
+      name: AurochsIdle=tailwagLeft-Sheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -118,14 +118,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a280b05e0738def4dab122f264d5ddfb
-      internalID: 642194973
+      spriteID: 187542a0a6df1a74183c904ce22db26c
+      internalID: 1007969756
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AurochsIdle-tailwag-Sheet_1
+      name: AurochsIdle=tailwagLeft-Sheet_1
       rect:
         serializedVersion: 2
         x: 48
@@ -139,14 +139,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 36d012fb63dbf6f4d8cdd849ad6850b2
-      internalID: 1009483754
+      spriteID: f10e16a3cf025184091ffa983e3587d6
+      internalID: 159389172
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AurochsIdle-tailwag-Sheet_2
+      name: AurochsIdle=tailwagLeft-Sheet_2
       rect:
         serializedVersion: 2
         x: 96
@@ -160,14 +160,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d2e57ab7c1ba7b44bb0f2dc362b6023c
-      internalID: -1636476988
+      spriteID: 3f16aa39cc42fda4a93b10a6ead29037
+      internalID: -283065937
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AurochsIdle-tailwag-Sheet_3
+      name: AurochsIdle=tailwagLeft-Sheet_3
       rect:
         serializedVersion: 2
         x: 144
@@ -181,14 +181,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b6dbfde4f76ec144d9e3ca75b20cb7db
-      internalID: -1386556734
+      spriteID: b2748034c2a02ac408cfb548f8895b6b
+      internalID: 1733713012
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AurochsIdle-tailwag-Sheet_4
+      name: AurochsIdle=tailwagLeft-Sheet_4
       rect:
         serializedVersion: 2
         x: 192
@@ -202,14 +202,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e56a846736515c944acff35d42e3f555
-      internalID: -1736811995
+      spriteID: 36a0d415823383b41bffcfa759380186
+      internalID: 663326271
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AurochsIdle-tailwag-Sheet_5
+      name: AurochsIdle=tailwagLeft-Sheet_5
       rect:
         serializedVersion: 2
         x: 240
@@ -223,14 +223,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 60fa5ff54f826aa49ac25e2c531fe136
-      internalID: -542549334
+      spriteID: 98215cff68f561b4b92c469230231dc8
+      internalID: 1940472543
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AurochsIdle-tailwag-Sheet_6
+      name: AurochsIdle=tailwagLeft-Sheet_6
       rect:
         serializedVersion: 2
         x: 288
@@ -244,14 +244,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5ac08e94c852baa4bbbc27cbc4b82218
-      internalID: -242465978
+      spriteID: 479cd23af1303dc4b8ed7e89d09f0729
+      internalID: 1630945321
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AurochsIdle-tailwag-Sheet_7
+      name: AurochsIdle=tailwagLeft-Sheet_7
       rect:
         serializedVersion: 2
         x: 336
@@ -265,14 +265,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eea5191c20c986b42a7b7cfd2aa4cc66
-      internalID: 431982796
+      spriteID: fcb9571f0b9cba84b96df5d0d4253212
+      internalID: 1545293009
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AurochsIdle-tailwag-Sheet_8
+      name: AurochsIdle=tailwagLeft-Sheet_8
       rect:
         serializedVersion: 2
         x: 384
@@ -286,14 +286,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 82aa809d80ecfe747b798c936f3c440e
-      internalID: -1909740739
+      spriteID: f12b89f35d4396e43865d9873b442875
+      internalID: -301381350
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AurochsIdle-tailwag-Sheet_9
+      name: AurochsIdle=tailwagLeft-Sheet_9
       rect:
         serializedVersion: 2
         x: 432
@@ -307,14 +307,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fdb6e292ef2ddab4fbe4dfbf2a214910
-      internalID: -1372542628
+      spriteID: 5a51d9877be60504b9ac80c9eb9bb80a
+      internalID: 1634035519
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AurochsIdle-tailwag-Sheet_10
+      name: AurochsIdle=tailwagLeft-Sheet_10
       rect:
         serializedVersion: 2
         x: 480
@@ -328,14 +328,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 47ac59f2a5fea1f4885c91a5d5c9f0aa
-      internalID: 1053490187
+      spriteID: 4193c8f60d0278248be7c0fc853ac39b
+      internalID: 1515034900
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AurochsIdle-tailwag-Sheet_11
+      name: AurochsIdle=tailwagLeft-Sheet_11
       rect:
         serializedVersion: 2
         x: 528
@@ -349,14 +349,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e0a29069f1ce81946b9d40cc1aa08407
-      internalID: -1612758426
+      spriteID: 98fe4db362d8c614581432e0f2cc6b1f
+      internalID: 780429477
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AurochsIdle-tailwag-Sheet_12
+      name: AurochsIdle=tailwagLeft-Sheet_12
       rect:
         serializedVersion: 2
         x: 576
@@ -370,14 +370,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0bd63dedc36c2f44799afac531c5e93e
-      internalID: 1715860700
+      spriteID: 8aed920df5b79524b821c19e00fe74a3
+      internalID: 335166560
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AurochsIdle-tailwag-Sheet_13
+      name: AurochsIdle=tailwagLeft-Sheet_13
       rect:
         serializedVersion: 2
         x: 624
@@ -391,14 +391,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3cf46208847735c44bb68cbf3377ffdd
-      internalID: 890726616
+      spriteID: c8ad06c6d729ff34a8c22f90a994edd3
+      internalID: 214849697
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AurochsIdle-tailwag-Sheet_14
+      name: AurochsIdle=tailwagLeft-Sheet_14
       rect:
         serializedVersion: 2
         x: 672
@@ -412,14 +412,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 189e774a76a2ded44a1ac7993dfa353a
-      internalID: -513505571
+      spriteID: bbc0273f0a5961741a48ad646720b92e
+      internalID: -2079881156
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AurochsIdle-tailwag-Sheet_15
+      name: AurochsIdle=tailwagLeft-Sheet_15
       rect:
         serializedVersion: 2
         x: 720
@@ -433,14 +433,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fef5bb1530768604aa231d3c2190f890
-      internalID: 1433263888
+      spriteID: e748fbcb89cfbe948837816e0935ec6f
+      internalID: -1183266298
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AurochsIdle-tailwag-Sheet_16
+      name: AurochsIdle=tailwagLeft-Sheet_16
       rect:
         serializedVersion: 2
         x: 768
@@ -454,8 +454,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 82316dbdeb7810d42871c660b442ac2d
-      internalID: -1621582137
+      spriteID: a681cac3750be684c867a609033cd7be
+      internalID: 1315159593
       vertices: []
       indices: 
       edges: []
@@ -471,23 +471,23 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      AurochsIdle-tailwag-Sheet_2: -1636476988
-      AurochsIdle-tailwag-Sheet_3: -1386556734
-      AurochsIdle-tailwag-Sheet_7: 431982796
-      AurochsIdle-tailwag-Sheet_11: -1612758426
-      AurochsIdle-tailwag-Sheet_1: 1009483754
-      AurochsIdle-tailwag-Sheet_10: 1053490187
-      AurochsIdle-tailwag-Sheet_13: 890726616
-      AurochsIdle-tailwag-Sheet_0: 642194973
-      AurochsIdle-tailwag-Sheet_8: -1909740739
-      AurochsIdle-tailwag-Sheet_12: 1715860700
-      AurochsIdle-tailwag-Sheet_16: -1621582137
-      AurochsIdle-tailwag-Sheet_4: -1736811995
-      AurochsIdle-tailwag-Sheet_9: -1372542628
-      AurochsIdle-tailwag-Sheet_5: -542549334
-      AurochsIdle-tailwag-Sheet_14: -513505571
-      AurochsIdle-tailwag-Sheet_6: -242465978
-      AurochsIdle-tailwag-Sheet_15: 1433263888
+      AurochsIdle=tailwagLeft-Sheet_1: 159389172
+      AurochsIdle=tailwagLeft-Sheet_4: 663326271
+      AurochsIdle=tailwagLeft-Sheet_16: 1315159593
+      AurochsIdle=tailwagLeft-Sheet_3: 1733713012
+      AurochsIdle=tailwagLeft-Sheet_14: -2079881156
+      AurochsIdle=tailwagLeft-Sheet_2: -283065937
+      AurochsIdle=tailwagLeft-Sheet_0: 1007969756
+      AurochsIdle=tailwagLeft-Sheet_9: 1634035519
+      AurochsIdle=tailwagLeft-Sheet_6: 1630945321
+      AurochsIdle=tailwagLeft-Sheet_13: 214849697
+      AurochsIdle=tailwagLeft-Sheet_8: -301381350
+      AurochsIdle=tailwagLeft-Sheet_15: -1183266298
+      AurochsIdle=tailwagLeft-Sheet_5: 1940472543
+      AurochsIdle=tailwagLeft-Sheet_11: 780429477
+      AurochsIdle=tailwagLeft-Sheet_12: 335166560
+      AurochsIdle=tailwagLeft-Sheet_7: 1545293009
+      AurochsIdle=tailwagLeft-Sheet_10: 1515034900
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

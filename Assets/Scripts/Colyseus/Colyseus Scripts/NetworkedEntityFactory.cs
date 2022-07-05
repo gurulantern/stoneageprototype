@@ -180,6 +180,7 @@ public class NetworkedEntityFactory
         if (entityView && !entityView.HasInit)
         {
             entityView.InitiView(model);
+            Debug.Log("InititView");
         }
 
         _entityViews.Add(model.id, (NetworkedEntityView)view);

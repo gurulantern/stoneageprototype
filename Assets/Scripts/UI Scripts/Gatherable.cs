@@ -21,7 +21,7 @@ public abstract class Gatherable : MonoBehaviour
     }
     protected void OnTriggerEnter2D(Collider2D other) {
         
-        if (other.gameObject.CompareTag("Player") && i == 0) {
+        if (other.gameObject.GetComponent<CharControllerMulti>().IsMine && i == 0) {
             playerNear = true;
             i++;
         } else {
@@ -30,7 +30,7 @@ public abstract class Gatherable : MonoBehaviour
     }
 
     protected void OnTriggerExit2D(Collider2D other) {
-        if (other.gameObject.CompareTag("Player") && i == 1) {
+        if (other.gameObject.GetComponent<CharControllerMulti>().IsMine && i == 1) {
             playerNear = false;
             i = 0 ;
         }

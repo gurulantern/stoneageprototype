@@ -13,6 +13,7 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
     public StoneColyseusNetworkedEntityView prefab;
+    public bool create, steal, scare;
     public delegate void OnViewAdded(StoneColyseusNetworkedEntityView view);
     public static event OnViewAdded onViewAdded;
 
@@ -38,7 +39,9 @@ public class GameController : MonoBehaviour
     private List<StoneAgeTeam> teams = new List<StoneAgeTeam>();
     public  Cave[] homeCaves;
     public SpawnPoint[] aurochsSpawnPoints;
-    public bool create, steal, scare;
+ 
+
+
 
     private void Awake() 
     {

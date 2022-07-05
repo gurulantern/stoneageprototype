@@ -494,7 +494,7 @@ using UnityEngine;
     private async void OnEntityAdd(string key, NetworkedEntity entity)
     {
         LSLog.LogImportant(
-            $"Entity [{entity.__refId} | {entity.id}] add: x => {entity.xPos}, y => {entity.yPos}, z => {entity.zPos}");
+            $"Entity [{entity.__refId} | {entity.id}] add: x => {entity.xPos}, y => {entity.yPos}, z => {0}");
 
         _entities.Add(entity.id, entity);
 

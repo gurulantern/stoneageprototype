@@ -24,68 +24,50 @@ public partial class NetworkedEntity : Schema {
 	public float yPos = default(float);
 
 	[Type(5, "number")]
-	public float zPos = default(float);
-
-	[Type(6, "number")]
-	public float xRot = default(float);
-
-	[Type(7, "number")]
-	public float yRot = default(float);
-
-	[Type(8, "number")]
-	public float zRot = default(float);
-
-	[Type(9, "number")]
 	public float wRot = default(float);
 
-	[Type(10, "number")]
+	[Type(6, "number")]
 	public float xScale = default(float);
 
-	[Type(11, "number")]
+	[Type(7, "number")]
 	public float yScale = default(float);
 
-	[Type(12, "number")]
-	public float zScale = default(float);
-
-	[Type(13, "number")]
+	[Type(8, "number")]
 	public float xVel = default(float);
 
-	[Type(14, "number")]
+	[Type(9, "number")]
 	public float yVel = default(float);
 
-	[Type(15, "number")]
-	public float zVel = default(float);
-
-	[Type(16, "number")]
+	[Type(10, "number")]
 	public float timestamp = default(float);
 
-	[Type(17, "boolean")]
+	[Type(11, "boolean")]
 	public bool sleep = default(bool);
 	
-	[Type(18, "boolean")]
+	[Type(12, "boolean")]
 	public bool tired = default(bool);
 
-	[Type(19, "boolean")]
+	[Type(13, "boolean")]
 	public bool wake = default(bool);
 
-	[Type(20, "boolean")]
+	[Type(14, "boolean")]
 	public bool observe = default(bool);
 
-	[Type(21, "boolean")]
+	[Type(15, "boolean")]
 	public bool gather = default(bool);
 
-	[Type(22, "number")]
-	public int food = default(int);
+	[Type(16, "number")]
+	public float food = default(float);
 
-	[Type(23, "number")]
-	public int wood = default(int);
+	[Type(17, "number")]
+	public float wood = default(float);
 
-	[Type(24, "number")]
-	public int seeds = default(int);
+	[Type(18, "number")]
+	public float seeds = default(float);
 
-	[Type(25, "number")]
-	public int observePoints = default(int);
+	[Type(19, "number")]
+	public float observePoints = default(float);
 	
-	[Type(26, "map", typeof(MapSchema<string>), "string")]
+	[Type(20, "map", typeof(MapSchema<string>), "string")]
 	public MapSchema<string> attributes = new MapSchema<string>();
 }

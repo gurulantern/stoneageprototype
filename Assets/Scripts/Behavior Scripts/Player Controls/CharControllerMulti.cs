@@ -395,25 +395,28 @@ public class CharControllerMulti : NetworkedEntityView
     public void AddFood(int icon)
     {
         if (icon == 0) {
-            state.food += 1;
+            state.food += 1f;
         } else if (icon == 2) {
-            state.food += 15;
+            state.food += 15f;
         }
+        Debug.Log(state.food);
     }
 
     public void AddWood()
     {
-        state.wood += 1;
+        state.wood += 1f;
+        Debug.Log(state.wood);
     }
 
     public void AddSeeds()
     {
-        state.seeds += 5;
+        state.seeds += 5f;
+        Debug.Log(state.seeds);
     }
 
     public void Robbed()
     {
-        state.food -= 1;
+        state.food -= 1f;
         ChangedFood?.Invoke();
     }
 

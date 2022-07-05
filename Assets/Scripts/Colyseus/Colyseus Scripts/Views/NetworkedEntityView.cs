@@ -202,10 +202,10 @@ using UnityEngine;
             bool wake = (bool)state.wake;
             bool observe = (bool)state.observe;
             bool gather = (bool)state.gather;
-            //int food = (int)state.food;
-            //int wood = (int)state.wood;
-            //int seeds = (int)state.seeds;
-            //int observePoints = (int)state.observePoints;
+            int food = (int)state.food;
+            int wood = (int)state.wood;
+            int seeds = (int)state.seeds;
+            int observePoints = (int)state.observePoints;
 
             // If we're ignoring position data from the owning session, then use our own values. This
             // should only happen in special cases
@@ -245,10 +245,10 @@ using UnityEngine;
             newState.wake = wake;
             newState.observe = observe;
             newState.gather = gather;
-            //newState.food = food;
-            //newState.wood = wood;
-            //newState.seeds = seeds;
-            //newState.observePoints = observePoints;
+            newState.food = food;
+            newState.wood = wood;
+            newState.seeds = seeds;
+            newState.observePoints = observePoints;
             newState.attributes = state.Clone().attributes;
             proxyStates[0] = newState;
 
@@ -277,20 +277,14 @@ using UnityEngine;
             //Copy Transform to State (round position to fix floating point issues with state compare)
             state.xPos = (float)System.Math.Round((decimal)transform.localPosition.x, 4);
             state.yPos = (float)System.Math.Round((decimal)transform.localPosition.y, 4);
-            state.zPos = (float)System.Math.Round((decimal)transform.localPosition.z, 4);
 
-            state.xRot = transform.localRotation.x;
-            state.yRot = transform.localRotation.y;
-            state.zRot = transform.localRotation.z;
             state.wRot = transform.localRotation.w;
 
             state.xScale = transform.localScale.x;
             state.yScale = transform.localScale.y;
-            state.zScale = transform.localScale.z;
 
             state.xVel = localPositionDelta.x;
             state.yVel = localPositionDelta.y;
-            state.zVel = localPositionDelta.z / Time.deltaTime;
 
             state.sleep = animator.GetBool("Sleep");
             state.tired = animator.GetBool("Tired");
@@ -386,9 +380,9 @@ using UnityEngine;
                     (float)(ColyseusManager.Instance.GetServerTimeSeconds - proxyStates[0].timestamp) * 0.2f : 0f;
 
                 if (GameController.Instance.gamePlaying && syncLocalPosition) myTransform.localPosition = Vector3.Lerp(myTransform.localPosition, proxyStates[0].pos, Time.deltaTime * (positionLerpSpeed + deltaFactor));       
-                if (syncLocalRotation && Mathf.Abs(Quaternion.Angle(transform.localRotation, proxyStates[0].rot)) > snapIfAngleIsGreater) myTransform.localRotation = proxyStates[0].rot;
+                //if (syncLocalRotation && Mathf.Abs(Quaternion.Angle(transform.localRotation, proxyStates[0].rot)) > snapIfAngleIsGreater) myTransform.localRotation = proxyStates[0].rot;
 
-                if (syncLocalRotation) myTransform.localRotation = Quaternion.Slerp(myTransform.localRotation, proxyStates[0].rot, Time.deltaTime * (rotationLerpSpeed + deltaFactor));
+                //if (syncLocalRotation) myTransform.localRotation = Quaternion.Slerp(myTransform.localRotation, proxyStates[0].rot, Time.deltaTime * (rotationLerpSpeed + deltaFactor));
             }
             // Use extrapolation (If we didnt get a packet in the last X ms and object had velcoity)
             else
@@ -400,7 +394,7 @@ using UnityEngine;
                 if (extrapolationLength < extrapolationLimitMs / 1000f)
                 {
                     if (syncLocalPosition) myTransform.localPosition = latest.pos + latest.vel * extrapolationLength;
-                    if (syncLocalRotation) myTransform.localRotation = latest.rot;
+                    //if (syncLocalRotation) myTransform.localRotation = latest.rot;
                 }
             }
         }
