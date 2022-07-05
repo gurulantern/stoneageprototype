@@ -14,39 +14,42 @@ public partial class RoomState : Schema {
 	[Type(1, "map", typeof(MapSchema<NetworkedUser>))]
 	public MapSchema<NetworkedUser> networkedUsers = new MapSchema<NetworkedUser>();
 
-	[Type(2, "map", typeof(MapSchema<string>), "string")]
+	[Type(2, "map", typeof(MapSchema<GatherableState>))]
+	public MapSchema<GatherableState> gatherableObjects = new MapSchema<GatherableState>();
+
+	[Type(3, "map", typeof(MapSchema<string>), "string")]
 	public MapSchema<string> attributes = new MapSchema<string>();
 
-	[Type(3, "number")]
+	[Type(4, "number")]
 	public float roundTime = default(float);
 
-	[Type(4, "number")]
+	[Type(5, "number")]
 	public float paintTime = default(float);
 
-	[Type(5, "number")]
+	[Type(6, "number")]
 	public float voteTime = default(float);
 
-	[Type(6, "boolean")]
+	[Type(7, "boolean")]
 	public bool paintRound = default(bool);
 
-	[Type(7, "boolean")]
+	[Type(8, "boolean")]
 	public bool allianceToggle = default(bool);
 
-	[Type(8, "boolean")]
+	[Type(9, "boolean")]
 	public bool stealToggle = default(bool);
 
-	[Type(9, "boolean")]
+	[Type(10, "boolean")]
 	public bool tagsToggle = default(bool);
 
-	[Type(10, "number")]
+	[Type(11, "number")]
 	public float foodScoreMultiplier = default(float);
 
-	[Type(11, "number")]
+	[Type(12, "number")]
 	public float observeScoreMultiplier = default(float);
 
-	[Type(12, "number")]
+	[Type(13, "number")]
 	public float createScoreMultiplier = default(float);
 
-	[Type(13, "number")]
+	[Type(14, "number")]
 	public float tireRate = default(float);
 }

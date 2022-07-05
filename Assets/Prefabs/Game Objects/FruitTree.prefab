@@ -49,8 +49,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc312664545e44498b1ed3ed42a27a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interactEvent: {fileID: 0}
-  _fruitTreeRef: {fileID: 11400000, guid: 367196d7d9b4a05459554e9862e7f729, type: 2}
+  _resourceRef: {fileID: 11400000, guid: 367196d7d9b4a05459554e9862e7f729, type: 2}
+  resourceTotal: 0
+  harvestTrigger: 0
+  resourceTaken: 0
+  resourceRemaining: 0
+  fruitTotal: 0
+  fruitTaken: 0
+  fruitRemaining: 0
+  seedsTotal: 0
+  seedsTaken: 0
+  seedsRemaining: 0
 --- !u!114 &4886264188954558651
 MonoBehaviour:
   m_ObjectHideFlags: 0

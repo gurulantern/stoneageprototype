@@ -1,5 +1,7 @@
 import { Room, Client, generateId } from "colyseus";
-import { RoomState, NetworkedEntity, NetworkedUser } from "./schema/RoomState";
+import { RoomState, NetworkedEntity, NetworkedUser, GatherableState, ScorableState } from "./schema/RoomState";
+import * as gatherableObjectFactory from "../helpers/gatherableObjectFactory";
+import * as scorableObjectFactory from "../helpers/scorableObjectFactory";
 const logger = require("../helpers/logger");
 
 export class MyRoom extends Room<RoomState> {
@@ -281,6 +283,15 @@ export class MyRoom extends Room<RoomState> {
             this.onEntityUpdate(client.sessionId, entityUpdateArray);
         });
 
+        
+        this.onMessage("objectGathered", (client, objectInfoArray) => {
+            this.handleGatherInteraction(client, objectInfoArray);
+        });
+
+        this.onMessage("scoreChange", (client, objectInfoArray) => {
+            this.handleScoreInteraction(client, objectInfoArray);
+        });
+
         // Set the callback for the "removeFunctionCall" message
         this.onMessage("remoteFunctionCall", (client, RFCMessage) => {
             //Confirm Sending Client is Owner 
@@ -397,4 +408,70 @@ export class MyRoom extends Room<RoomState> {
 
         this.broadcast("playerJoined", {userName: userName}, {except : client});
     }
+
+    async handleGatherInteraction(client: Client, objectInfo: any) {
+
+        //const userRepo = DI.em.fork().getRepository(User);
+    
+        //If the server is not yet aware of this item, lets change that
+        if (this.state.gatherableObjects.has(objectInfo[0]) === false) {
+          let gatherable = gatherableObjectFactory.getStateForType(objectInfo[1]);
+          gatherable.assign({
+            id: objectInfo[0],
+          });
+          this.state.gatherableObjects.set(objectInfo[0], gatherable);
+        }
+    
+        //Get the interactable item
+        let gatherableObject = this.state.gatherableObjects.get(objectInfo[0]);
+
+    
+        let gatheringState = this.state.networkedUsers.get(client.id);
+        if (gatheringState != null && gatherableObject != null) {
+            this.broadcast("objectGathered", { gatheredObjectID: gatherableObject.id, gatheringStateID: gatheringState.sessionId });
+            /*
+            let userObj: User = await userRepo.findOne({ activeSessionId: client.sessionId });
+
+            if (userObj) {
+            userObj.coins = interactingState.coins;
+
+            await userRepo.flush();
+            }
+            */
+          
+        }
+      }
+
+      async handleScoreInteraction(client: Client, objectInfo: any) {
+
+        //const userRepo = DI.em.fork().getRepository(User);
+    
+        //If the server is not yet aware of this item, lets change that
+        if (this.state.scorableObjects.has(objectInfo[0]) === false) {
+          let scorable = scorableObjectFactory.getStateForType(objectInfo[1]);
+          scorable.assign({
+            id: objectInfo[0],
+          });
+          this.state.scorableObjects.set(objectInfo[0], scorable);
+        }
+    
+        //Get the interactable item
+        let scorableObject = this.state.scorableObjects.get(objectInfo[0]);
+
+    
+        let scoringState = this.state.networkedUsers.get(client.id);
+        if (scoringState != null && scorableObject != null) {
+            this.broadcast("scoreChanged", { scoredObjectID: scorableObject.id, scoringStateID: scoringState.sessionId });
+            /*
+            let userObj: User = await userRepo.findOne({ activeSessionId: client.sessionId });
+
+            if (userObj) {
+            userObj.coins = interactingState.coins;
+
+            await userRepo.flush();
+            }
+            */
+          
+        }
+      }
 }

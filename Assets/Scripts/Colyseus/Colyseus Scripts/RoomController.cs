@@ -359,6 +359,16 @@ using UnityEngine;
             _waitForPong = false;
         });
 
+        Room.OnMessage<ObjectGatherMessage>("objectGathered", (msg) =>
+        {
+            StartCoroutine(AwaitObjectInteraction(msg.gatheredObjectID, msg.gatheringStateID));
+        });
+
+        Room.OnMessage<ObjectScoreMessage>("objectScored", (msg) =>
+        {
+            StartCoroutine(AwaitObjectInteraction(msg.scoredObjectID, msg.scoringStateID));
+        });
+
         //Custom game logic
         //_room.OnMessage<YOUR_CUSTOM_MESSAGE>("messageNameInCustomLogic", objectOfTypeYOUR_CUSTOM_MESSAGE => {  });
         _room.OnMessage<EmptyMessage>("beginRoundCountDown", msg => { onBeginRoundCountDown?.Invoke(); });

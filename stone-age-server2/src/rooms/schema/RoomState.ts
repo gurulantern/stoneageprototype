@@ -24,6 +24,27 @@ export class NetworkedEntity extends Schema {
   @type({map: "string"}) attributes = new MapSchema<string>();
 }
 
+export class GatherableState extends Schema {
+  @type("string") id: string = "ID";
+  @type("string") gatherableType: string = "";
+  @type("boolean") destroyed: boolean = false;
+  @type("number") xPos: number = 0;
+  @type("number") yPos: number = 0;
+  @type("number") availableTimestamp: number = 0.0;
+  @type("number") resourceTotal: number = 0;
+  @type("number") seedsTotal: number = 0;
+  @type("number") harvestTrigger: number = 0;  
+}
+
+export class ScorableState extends Schema {
+  @type("string") id: string = "ID";
+  @type("string") scorableType: string = "";
+  @type("number") xPos: number = 0;
+  @type("number") yPos: number = 0;
+  @type("number") availableTimestamp: number = 0.0;
+  @type("number") score: number = 0.0;
+}
+
 export class NetworkedUser extends Schema {
     @type("string") sessionId: string;
     @type("boolean") connected: boolean;
@@ -34,6 +55,8 @@ export class NetworkedUser extends Schema {
 export class RoomState extends Schema {
     @type({ map: NetworkedEntity }) networkedEntities = new MapSchema<NetworkedEntity>();
     @type({ map: NetworkedUser }) networkedUsers = new MapSchema<NetworkedUser>();
+    @type({ map: GatherableState }) gatherableObjects = new MapSchema<GatherableState>();
+    @type({ map: ScorableState }) scorableObjects = new MapSchema<ScorableState>();
     @type({ map: "string" }) attributes = new MapSchema<string>();
     @type("number") roundTime: number = 180;
     @type("number") paintTime: number = 120;
