@@ -9,13 +9,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2277645938194218942}
+  - component: {fileID: 7813661911691709772}
   - component: {fileID: 2277645938194218943}
   - component: {fileID: 2277645938194218940}
   - component: {fileID: 2277645938194218941}
   - component: {fileID: 2277645938194218938}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LiveAurochs
-  m_TagString: Untagged
+  m_TagString: Aurochs
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -35,6 +36,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7813661911691709772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2277645938194218939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95d12f7aaa4cc6443b350361bc51dfa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _resourceRef: {fileID: 11400000, guid: 1762de71bc68a2d4d9f0ebac938b9647, type: 2}
+  resourceTotal: 0
+  harvestTrigger: 0
+  resourceTaken: 0
+  resourceRemaining: 0
+  alive: 1
 --- !u!212 &2277645938194218943
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -76,7 +95,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 642194973, guid: f640499696bb2d24abb1240afb265b11, type: 3}
+  m_Sprite: {fileID: 1007969756, guid: fd04a0380114a9c40b3501d553483d2d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -126,9 +145,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.019161021, y: 0.50972104}
+  m_Offset: {x: -0.0017046077, y: 0.46798944}
   serializedVersion: 2
-  m_Radius: 2.1266518
+  m_Radius: 0.85384995
 --- !u!95 &2277645938194218938
 Animator:
   serializedVersion: 4

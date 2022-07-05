@@ -97,7 +97,6 @@ using UnityEngine;
         {
             myTransform = transform;
             animator = gameObject.GetComponent<Animator>();
-
         }
 
         protected virtual void Start()

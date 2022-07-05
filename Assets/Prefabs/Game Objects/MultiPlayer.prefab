@@ -94,8 +94,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4126516024473503799}
   - component: {fileID: -2674248606795513031}
-  - component: {fileID: 782909295415391657}
   - component: {fileID: 4183993424342884441}
+  - component: {fileID: 782909295415391657}
   - component: {fileID: 4126516024473503784}
   - component: {fileID: 1156100682316801019}
   - component: {fileID: 6086085549515622760}
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 3328693769471626152}
   m_Layer: 0
   m_Name: MultiPlayer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -161,6 +161,10 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    food: 0
+    wood: 0
+    seeds: 0
+    observePoints: 0
   - timestamp: 0
     pos: {x: 0, y: 0}
     vel: {x: 0, y: 0}
@@ -170,6 +174,10 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    food: 0
+    wood: 0
+    seeds: 0
+    observePoints: 0
   - timestamp: 0
     pos: {x: 0, y: 0}
     vel: {x: 0, y: 0}
@@ -179,6 +187,10 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    food: 0
+    wood: 0
+    seeds: 0
+    observePoints: 0
   - timestamp: 0
     pos: {x: 0, y: 0}
     vel: {x: 0, y: 0}
@@ -188,6 +200,10 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    food: 0
+    wood: 0
+    seeds: 0
+    observePoints: 0
   - timestamp: 0
     pos: {x: 0, y: 0}
     vel: {x: 0, y: 0}
@@ -197,6 +213,10 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    food: 0
+    wood: 0
+    seeds: 0
+    observePoints: 0
   - timestamp: 0
     pos: {x: 0, y: 0}
     vel: {x: 0, y: 0}
@@ -206,6 +226,10 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    food: 0
+    wood: 0
+    seeds: 0
+    observePoints: 0
   - timestamp: 0
     pos: {x: 0, y: 0}
     vel: {x: 0, y: 0}
@@ -215,6 +239,10 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    food: 0
+    wood: 0
+    seeds: 0
+    observePoints: 0
   - timestamp: 0
     pos: {x: 0, y: 0}
     vel: {x: 0, y: 0}
@@ -224,6 +252,10 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    food: 0
+    wood: 0
+    seeds: 0
+    observePoints: 0
   - timestamp: 0
     pos: {x: 0, y: 0}
     vel: {x: 0, y: 0}
@@ -233,6 +265,10 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    food: 0
+    wood: 0
+    seeds: 0
+    observePoints: 0
   - timestamp: 0
     pos: {x: 0, y: 0}
     vel: {x: 0, y: 0}
@@ -242,6 +278,10 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    food: 0
+    wood: 0
+    seeds: 0
+    observePoints: 0
   - timestamp: 0
     pos: {x: 0, y: 0}
     vel: {x: 0, y: 0}
@@ -251,6 +291,10 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    food: 0
+    wood: 0
+    seeds: 0
+    observePoints: 0
   - timestamp: 0
     pos: {x: 0, y: 0}
     vel: {x: 0, y: 0}
@@ -260,6 +304,10 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    food: 0
+    wood: 0
+    seeds: 0
+    observePoints: 0
   - timestamp: 0
     pos: {x: 0, y: 0}
     vel: {x: 0, y: 0}
@@ -269,6 +317,10 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    food: 0
+    wood: 0
+    seeds: 0
+    observePoints: 0
   - timestamp: 0
     pos: {x: 0, y: 0}
     vel: {x: 0, y: 0}
@@ -278,6 +330,10 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    food: 0
+    wood: 0
+    seeds: 0
+    observePoints: 0
   - timestamp: 0
     pos: {x: 0, y: 0}
     vel: {x: 0, y: 0}
@@ -287,6 +343,10 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    food: 0
+    wood: 0
+    seeds: 0
+    observePoints: 0
   - timestamp: 0
     pos: {x: 0, y: 0}
     vel: {x: 0, y: 0}
@@ -296,6 +356,10 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    food: 0
+    wood: 0
+    seeds: 0
+    observePoints: 0
   - timestamp: 0
     pos: {x: 0, y: 0}
     vel: {x: 0, y: 0}
@@ -305,6 +369,10 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    food: 0
+    wood: 0
+    seeds: 0
+    observePoints: 0
   - timestamp: 0
     pos: {x: 0, y: 0}
     vel: {x: 0, y: 0}
@@ -314,6 +382,10 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    food: 0
+    wood: 0
+    seeds: 0
+    observePoints: 0
   - timestamp: 0
     pos: {x: 0, y: 0}
     vel: {x: 0, y: 0}
@@ -323,6 +395,10 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    food: 0
+    wood: 0
+    seeds: 0
+    observePoints: 0
   - timestamp: 0
     pos: {x: 0, y: 0}
     vel: {x: 0, y: 0}
@@ -332,6 +408,10 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    food: 0
+    wood: 0
+    seeds: 0
+    observePoints: 0
   _spriteRenderer: {fileID: 4126516024473503784}
   _camera: {fileID: 0}
   _gatherFruitEvent: {fileID: 11400000, guid: 39547941a8e8c7c41920f5b9cc33e448, type: 2}
@@ -347,9 +427,6 @@ MonoBehaviour:
   - {fileID: 8474644410875550075}
   - {fileID: 721778478633175771}
   - {fileID: 5543031323886416027}
-  _fruitSprite: {fileID: 8474644410875550075}
-  _meatSprite: {fileID: 5543031323886416027}
-  _woodSprite: {fileID: 721778478633175771}
   _playerStats: {fileID: 11400000, guid: 9db0846c5c3bc274da33171b82162da4, type: 2}
   maxStamina: 0
   currentStamina: 0
@@ -360,6 +437,7 @@ MonoBehaviour:
   restoreRate: 0
   food: 0
   wood: 0
+  seeds: 0
   teamIndex: -1
   teamNumber: 0
   teamColors:
@@ -367,6 +445,23 @@ MonoBehaviour:
   - {r: 1, g: 0.514151, b: 1, a: 1}
   - {r: 0.2783019, g: 1, b: 0.2783019, a: 1}
   - {r: 1, g: 0.8853774, b: 0.2783019, a: 1}
+--- !u!114 &4183993424342884441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4126516024473503786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adf3d4af0263cd84e9ead26329a4a1aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _staminaSlider: {fileID: 0}
+  _observeSlider: {fileID: 0}
+  _personalFoodCount: {fileID: 0}
+  _personalWoodCount: {fileID: 0}
+  _personalSeedsCount: {fileID: 0}
 --- !u!114 &782909295415391657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,19 +490,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &4183993424342884441
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4126516024473503786}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adf3d4af0263cd84e9ead26329a4a1aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _staminaSlider: {fileID: 0}
 --- !u!212 &4126516024473503784
 SpriteRenderer:
   m_ObjectHideFlags: 0

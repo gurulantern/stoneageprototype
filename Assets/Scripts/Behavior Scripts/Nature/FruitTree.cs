@@ -1,37 +1,45 @@
 using UnityEngine;
 
-public class FruitTree : Gatherable
+public class FruitTree : Tree
 {
-    [SerializeField] Source _fruitTreeRef;
-    [SerializeField] private int foodTotal;
-    [SerializeField] private int harvestTrigger;
-    [SerializeField] private int foodTaken;
-    [SerializeField] private int foodRemaining;
-    Animator animator;
+    [SerializeField] private int fruitTotal;
+    [SerializeField] private int fruitTaken;
+    [SerializeField] private int fruitRemaining;  
+    [SerializeField] private int seedsTotal;
+    [SerializeField] private int seedsTaken;
+    [SerializeField] private int seedsRemaining;  
 
     protected override void Awake()
     {
         base.Awake();
-        animator = GetComponent<Animator>();
-        foodTotal = _fruitTreeRef.FoodTotal;
-        foodRemaining = _fruitTreeRef.FoodTotal; 
-        harvestTrigger = _fruitTreeRef.HarvestTriggerInt;
-        foodTaken = _fruitTreeRef.FoodTaken;
+        fruitTotal = _resourceRef.FoodTotal;
+        fruitRemaining = _resourceRef.FoodTotal; 
+        fruitTaken = _resourceRef.FoodTaken;
+        seedsTotal = _resourceRef.SeedTotal;
+        seedsTaken = _resourceRef.SeedTaken;
+        seedsRemaining = _resourceRef.SeedTotal;
+        harvestTrigger = _resourceRef.HarvestTriggerInt;
     }
     //Left click decreases food remaining and triggers the animation for food to disappear
-    public void Harvest()
+    protected override void Harvest()
     {
-        Debug.Log("Harvest is firing with playerNear = " + playerNear + " FoodRemaining = " + foodRemaining);
-        if (playerNear == true && foodRemaining > 1) {
-            gameObject.GetComponent<Animator>().SetTrigger("Harvest " + harvestTrigger.ToString());
-            harvestTrigger ++;
-            foodRemaining = Mathf.Clamp(foodRemaining - foodTaken, 0, foodTotal);
-            Debug.Log("Gathered invoked and foodRemaining = " + foodRemaining);
-        } else if (playerNear == true && foodRemaining == 1) {
-            gameObject.GetComponent<Animator>().SetTrigger("Harvest " + harvestTrigger.ToString());
-            harvestTrigger ++;
-            foodRemaining = Mathf.Clamp(foodRemaining - foodTaken, 0, foodTotal);
-            gameObject.tag = "Tree";       
+        if (gameObject.tag == "Tree") {
+            base.Harvest();
+        } else {
+            Debug.Log($"Harvest is firing with playerNear = {playerNear}, fruitRemaining = {fruitRemaining}, seedsRemaing = {seedsRemaining}");
+            if (playerNear == true && fruitRemaining > 1) {
+                gameObject.GetComponent<Animator>().SetTrigger("Harvest " + harvestTrigger.ToString());
+                harvestTrigger ++;
+                fruitRemaining = Mathf.Clamp(fruitRemaining - fruitTaken, 0, fruitTotal);
+                seedsRemaining = Mathf.Clamp(seedsRemaining - seedsTaken, 0, seedsTotal);
+                Debug.Log($"Gathered invoked and fruitRemaining = {fruitRemaining}");
+            } else if (playerNear == true && fruitRemaining == 1) {
+                gameObject.GetComponent<Animator>().SetTrigger("Harvest " + harvestTrigger.ToString());
+                harvestTrigger ++;
+                fruitRemaining = Mathf.Clamp(fruitRemaining - fruitTaken, 0, fruitTotal);
+                seedsRemaining = Mathf.Clamp(seedsRemaining - seedsTaken, 0, seedsTotal);
+                gameObject.tag = "Tree";       
+            }
         }
     }
 

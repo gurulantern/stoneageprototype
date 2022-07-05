@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6f9cf9cff1bd74e47b996998d1e80bd0, type: 3}
-  m_Name: Dead Aurochs
+  m_Name: Tree
   m_EditorClassIdentifier: 
-  foodTotal: 7
+  foodTotal: 0
   woodTotal: 10
-  seedTotal: 20
+  seedTotal: 0
   harvestTriggerInt: 1
-  foodTaken: 7
+  foodTaken: 1
   woodTaken: 1
   seedTaken: 1

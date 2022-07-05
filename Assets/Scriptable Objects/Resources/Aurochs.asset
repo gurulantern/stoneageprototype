@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f9cf9cff1bd74e47b996998d1e80bd0, type: 3}
   m_Name: Aurochs
   m_EditorClassIdentifier: 
-  foodTotal: 14
-  woodTotal: 10
-  seedTotal: 20
+  foodTotal: 1
+  woodTotal: 0
+  seedTotal: 0
   harvestTriggerInt: 1
-  foodTaken: 14
-  woodTaken: 1
-  seedTaken: 1
+  foodTaken: 1
+  woodTaken: 0
+  seedTaken: 0

@@ -9,12 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5970820396506311815}
+  - component: {fileID: 693752124241253390}
   - component: {fileID: 8771322925193516166}
   - component: {fileID: -4337857359468232000}
   - component: {fileID: 5973295655972482279}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: 'Dead Aurochs '
-  m_TagString: Animal
+  m_TagString: Aurochs
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -34,6 +35,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &693752124241253390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2799567607216923735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95d12f7aaa4cc6443b350361bc51dfa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _resourceRef: {fileID: 11400000, guid: 1762de71bc68a2d4d9f0ebac938b9647, type: 2}
+  resourceTotal: 0
+  harvestTrigger: 0
+  resourceTaken: 0
+  resourceRemaining: 0
+  alive: 0
 --- !u!212 &8771322925193516166
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -125,6 +144,6 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.03050617, y: 0.34846333}
+  m_Offset: {x: 0.03050617, y: 0.33104214}
   serializedVersion: 2
-  m_Radius: 0.8927132
+  m_Radius: 0.80422354

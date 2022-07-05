@@ -51,8 +51,7 @@ public class CharControllerMulti : NetworkedEntityView
     Rigidbody2D rb;
     Vector2 lookDirection = new Vector2(1,0);
     private Vector2 spawnPosition;
-    public event Action ChangedFood;
-    public event Action ChangedWood;
+    public event Action<int> ChangedResource;
     
     protected override void Awake() {
         base.Awake();
@@ -318,18 +317,26 @@ public class CharControllerMulti : NetworkedEntityView
                 case "Fruit Tree":
                     _gatherFruitEvent?.Invoke();
                     icon = 0;
+                    animator.SetBool("Gather", true);
                     break;
                 case "Tree":
                     _gatherWoodEvent?.Invoke();
+                    if (GameController.Instance.create) {    
+                        animator.SetBool("Gather", true);
+                    }
                     icon = 1;
                     break;
                 case "Aurochs":
                     _gatherMeatEvent?.Invoke();
+                    animator.SetBool("Gather", true);
                     icon = 2;
                     break;
                 case "OtherPlayer":
                     _gatherFruitEvent?.Invoke();
                     icon = 0;
+                    if (GameController.Instance.steal ) {
+                        animator.SetBool("Gather", true);
+                    }
                     break;
                 case "Cave":
                     _gatherFruitEvent?.Invoke();
@@ -342,6 +349,7 @@ public class CharControllerMulti : NetworkedEntityView
             }
             animator.SetBool("Gather", true);
             _gatherIcons[icon].gameObject.SetActive(true);
+
         }
     }
 
@@ -351,17 +359,7 @@ public class CharControllerMulti : NetworkedEntityView
         Debug.Log("Gathering is finished");
         _gatherIcons[icon].gameObject.SetActive(false);
         animator.SetBool("Gather", false);
-        switch(icon) {
-            case 0:
-                AddFood(icon);
-                if (GameController.Instance.create) {
-                    AddSeeds();
-                }
-                break;
-            case 1:
-                AddWood();
-                break;
-        }
+        AddResource(icon);
     }    
     
     //Function for right clicking and observing a nearby object
@@ -392,43 +390,47 @@ public class CharControllerMulti : NetworkedEntityView
         _observeDone?.Invoke();
     }
 
-    public void AddFood(int icon)
+    public void AddResource(int icon)
     {
         if (icon == 0) {
             state.food += 1f;
+            food = (int)state.food;
+            if (GameController.Instance.create) {
+                state.seeds +=  5f;
+                seeds = (int)state.seeds;
+            }
+        } else if (icon == 1 && GameController.Instance.create) {
+                state.wood += 1f;
+                wood = (int)state.wood;
         } else if (icon == 2) {
-            state.food += 15f;
-        }
-        Debug.Log(state.food);
-    }
-
-    public void AddWood()
-    {
-        state.wood += 1f;
-        Debug.Log(state.wood);
-    }
-
-    public void AddSeeds()
-    {
-        state.seeds += 5f;
-        Debug.Log(state.seeds);
+                state.food += 10f;
+                food = (int)state.food;
+        } 
+        ChangedResource?.Invoke(icon);
+        Debug.Log($"Food = {food}, Wood = {wood}, Seeds = {seeds}");
     }
 
     public void Robbed()
     {
         state.food -= 1f;
-        ChangedFood?.Invoke();
+        food = (int)state.food;
+        ChangedResource?.Invoke(0);
+        Debug.Log(state.seeds + "+" + seeds);
+
     }
 
     public void DropOff()
     {
         state.food -= state.food;
-        ChangedFood?.Invoke();
+        ChangedResource?.Invoke(0);
+        Debug.Log(state.food + "+" + food);
     }
 
-    public void UseWood()
+    public void UseWood(int woodUsed)
     {
-        state.wood -= state.wood;
-        ChangedWood?.Invoke();
+        state.wood -= (float)woodUsed;
+        wood = (int)state.wood;
+        ChangedResource?.Invoke(1);
+        Debug.Log(state.wood + "+" + wood);
     }
 }

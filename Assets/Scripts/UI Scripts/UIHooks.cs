@@ -19,7 +19,6 @@ public class UIHooks : MonoBehaviour
     {
         character = this.gameObject.GetComponent<CharControllerMulti>();
         _staminaSlider.value = character.maxStamina;
-        
     }
     
     void FixedUpdate()
@@ -27,6 +26,31 @@ public class UIHooks : MonoBehaviour
         if (character.IsMine) //&& GameController.Instance.gamePlaying)
         {
             _staminaSlider.value = character.currentStamina;
+        }
+    }
+
+    void OnDestroy() 
+    {
+        character.ChangedResource -= UpdateText;
+    }
+    void OnEnable() 
+    {
+        character.ChangedResource += UpdateText;
+    }
+
+    void UpdateText(int icon) 
+    {
+        switch(icon) {
+            case  0:
+                _personalFoodCount.text = character.food.ToString();
+                _personalSeedsCount.text = character.seeds.ToString();
+                break;
+            case 1:
+                _personalWoodCount.text = character.wood.ToString();
+                break;
+            case 2:
+                _personalFoodCount.text = character.food.ToString();
+                break;
         }
     }
 }

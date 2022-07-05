@@ -9,8 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5021513890683486726}
+  - component: {fileID: -6303122396650619967}
   - component: {fileID: 5021513890683486721}
   - component: {fileID: -7023927870176676266}
+  - component: {fileID: 74452392956110182}
   m_Layer: 6
   m_Name: Tree
   m_TagString: Tree
@@ -33,6 +35,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-6303122396650619967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5021513890683486720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3965b63fc60a064980fde258a8d15df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _resourceRef: {fileID: 11400000, guid: d066c1bd4064b074ba5b3142a6cf2219, type: 2}
+  resourceTotal: 0
+  harvestTrigger: 0
+  resourceTaken: 0
+  resourceRemaining: 0
 --- !u!212 &5021513890683486721
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -111,3 +130,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8515186, y: 0.7996967}
   m_EdgeRadius: 0
+--- !u!58 &74452392956110182
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5021513890683486720}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.79999995}
+  serializedVersion: 2
+  m_Radius: 1

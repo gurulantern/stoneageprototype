@@ -39,8 +39,7 @@ public class GameController : MonoBehaviour
     private List<StoneAgeTeam> teams = new List<StoneAgeTeam>();
     public  Cave[] homeCaves;
     public SpawnPoint[] aurochsSpawnPoints;
- 
-
+    public SpawnPoint[] deadAurochsSpawnPounts;
 
 
     private void Awake() 

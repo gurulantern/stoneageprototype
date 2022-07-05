@@ -14,8 +14,8 @@ TagManager:
   - Blue Cave
   - Red Cave
   - Fruit
+  - Aurochs
   - Animal
-  - OtherPlayer
   layers:
   - Default
   - TransparentFX
