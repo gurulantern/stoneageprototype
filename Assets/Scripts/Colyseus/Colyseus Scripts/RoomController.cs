@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,9 +9,11 @@ using GameDevWare.Serialization;
 using LucidSightTools;
 using NativeWebSocket;
 using UnityEngine;
+using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 ///     Manages the rooms of a server connection.
-[Serializable] public class RoomController
+[Serializable] public class RoomController: MonoBehaviour
 {
     /// Network Events
     //==========================
@@ -359,14 +362,9 @@ using UnityEngine;
             _waitForPong = false;
         });
 
-        Room.OnMessage<ObjectGatherMessage>("objectGathered", (msg) =>
+        _room.OnMessage<ObjectUsedMessage>("objectUsed", (msg) =>
         {
-            StartCoroutine(AwaitObjectInteraction(msg.gatheredObjectID, msg.gatheringStateID));
-        });
-
-        Room.OnMessage<ObjectScoreMessage>("objectScored", (msg) =>
-        {
-            StartCoroutine(AwaitObjectInteraction(msg.scoredObjectID, msg.scoringStateID));
+            StartCoroutine(AwaitObjectInteraction(msg.gatheredObjectID, msg.gatheringStateID, msg.gatherOrScore));
         });
 
         //Custom game logic
@@ -454,6 +452,30 @@ using UnityEngine;
 
         _room = null;
         _currentNetworkedUser = null;
+    }
+
+    ///Coroutine for object interaction
+    private IEnumerator AwaitObjectInteraction(string objectID, string entityID, string gatherOrScore)
+    {
+        if (gatherOrScore == "gather") {
+            while (!Room.State.gatherableObjects.ContainsKey(objectID))
+            {
+                //Wait for the room to be aware of the object
+                yield return new WaitForEndOfFrame();
+            }
+
+            NetworkedEntity entity = NetworkedEntityFactory.Instance.GetEntityByID(entityID);
+            EnvironmentController.Instance.ObjectGathered(Room.State.gatherableObjects[objectID], entity);
+        } else if (gatherOrScore == "score") {
+            while (!Room.State.scorableObjects.ContainsKey(objectID))
+            {
+                //Wait for the room to be aware of the object
+                yield return new WaitForEndOfFrame();
+            }
+
+            NetworkedEntity entity = NetworkedEntityFactory.Instance.GetEntityByID(entityID);
+            EnvironmentController.Instance.ObjectScored(Room.State.scorableObjects[objectID], entity);
+        }
     }
 
     ///     Asynchronously gets all the available rooms of the _client

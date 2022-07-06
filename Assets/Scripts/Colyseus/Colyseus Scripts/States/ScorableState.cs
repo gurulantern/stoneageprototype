@@ -7,15 +7,15 @@
 
 using Colyseus.Schema;
 
-public partial class GatherableState : Schema {
+public partial class ScorableState : Schema {
 	[Type(0, "string")]
 	public string id = default(string);
 
 	[Type(1, "string")]
-	public string gatherableType = default(string);
+	public string scorableType = default(string);
 
-    [Type(2, "boolean")]
-	public bool destroyed = default(bool);
+    [Type(2, "number")]
+    public float score = default(float);
 
     [Type(3, "number")]
 	public float xPos = default(float);
@@ -27,17 +27,8 @@ public partial class GatherableState : Schema {
 	public float availableTimestamp = default(float);
 
 	[Type(6, "number")]
-	public float foodTotal = default(float);
+	public float woodCost = default(float);
 
     [Type(7, "number")]
-	public float woodTotal = default(float);
-
-	[Type(8, "number")]
-	public float seedsTotal = default(float);
-
-    [Type(9, "number")]
-	public float harvestTrigger = default(float);
-
-    [Type(10, "number")]
-	public float resourceTaken = default(float);
+	public float seedsCost = default(float);
 }

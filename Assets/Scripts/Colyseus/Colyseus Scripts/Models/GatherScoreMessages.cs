@@ -9,15 +9,12 @@ public class EntityMessage
     public string entityID;
 }
 
-public class ObjectGatherMessage
+public class ObjectUsedMessage
 {
     public string gatheredObjectID;
     public string gatheringStateID;
+    public string gatherOrScore;
 }
 
-public class ObjectScoreMessage
-{
-    public string scoredObjectID;
-    public string scoringStateID;
-}
+
 

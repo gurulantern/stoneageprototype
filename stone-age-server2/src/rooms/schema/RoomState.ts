@@ -31,19 +31,23 @@ export class GatherableState extends Schema {
   @type("number") xPos: number = 0;
   @type("number") yPos: number = 0;
   @type("number") availableTimestamp: number = 0.0;
-  @type("number") resourceTotal: number = 0;
+  @type("number") foodTotal: number = 0;
+  @type("number") woodTotal: number = 0;
   @type("number") seedsTotal: number = 0;
-  @type("number") harvestTrigger: number = 0;  
+  @type("number") harvestTrigger: number = 0;
+  @type("number") resourceTaken: number = 0;
 }
 
 export class ScorableState extends Schema {
   @type("string") id: string = "ID";
   @type("string") scorableType: string = "";
+  @type("number") score: number = 0;
   @type("number") xPos: number = 0;
   @type("number") yPos: number = 0;
   @type("number") availableTimestamp: number = 0.0;
-  @type("number") score: number = 0.0;
-}
+  @type("number") woodCost: number = 0;
+  @type("number") seedsCost: number = 0;
+} 
 
 export class NetworkedUser extends Schema {
     @type("string") sessionId: string;

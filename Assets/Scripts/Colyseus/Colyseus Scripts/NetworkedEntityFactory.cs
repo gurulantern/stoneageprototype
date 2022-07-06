@@ -9,6 +9,19 @@ using LucidSightTools;
 /// Responsible for carrying out the creation of network entities and registering them with the Colyseus Manager.
 public class NetworkedEntityFactory
 {
+    private static NetworkedEntityFactory instance;
+
+    public static NetworkedEntityFactory Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                LSLog.LogError("No NetworkedEntityFactory in scene!");
+            }
+            return instance;
+        }
+    }
     private readonly Dictionary<string, Action<NetworkedEntity>> _creationCallbacks;
     // TODO: replace GameDevWare stuff
     private readonly IndexedDictionary<string, NetworkedEntity> _entities;
@@ -199,5 +212,15 @@ public class NetworkedEntityFactory
 
         _entityViews.Remove(model.id);
         view.SendMessage("OnEntityViewUnregistered", SendMessageOptions.DontRequireReceiver);
+    }
+
+    public NetworkedEntity GetEntityByID(string sessionId)
+    {
+        if (_entities.ContainsKey(sessionId))
+        {
+            return _entities[sessionId];
+        }
+
+        return null;
     }
 }

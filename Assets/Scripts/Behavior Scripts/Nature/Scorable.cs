@@ -9,19 +9,17 @@ using UnityEngine.Events;
 
 
 /// <summary>
-/// The base representation of a server-interactable object.
+/// The base representation of a server-scorable object.
 /// An object placed in a grid position that can be interacted with by players and are linked to a schema state on the server side
 /// </summary>
-public abstract class Gatherable : Interactable
+public abstract class Scorable : Interactable
 {
-    public bool isGatherable = true;
-
     /// <summary>
     /// The schema state provided from the server
     /// </summary>
-    protected GatherableState _state;
+    protected ScorableState _state;
 
-    public GatherableState State
+    public ScorableState State
     {
         get
         {
@@ -81,7 +79,7 @@ public abstract class Gatherable : Interactable
     /// Hand off the <see cref="InteractableState"/> from the server
     /// </summary>
     /// <param name="state"></param>
-    public void SetState(GatherableState state)
+    public void SetState(ScorableState state)
     {
         _state = state;
         _state.OnChange += OnStateChange;

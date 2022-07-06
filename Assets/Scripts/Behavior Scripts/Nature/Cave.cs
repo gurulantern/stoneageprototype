@@ -6,7 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 
-public class Cave : Gatherable
+public class Cave : Scorable
 {
     [SerializeField] private FoodCollection _foodCollection;
     public int teamIndex;

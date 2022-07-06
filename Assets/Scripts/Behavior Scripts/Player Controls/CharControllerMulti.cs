@@ -24,6 +24,8 @@ public class CharControllerMulti : NetworkedEntityView
     [SerializeField] private UIHooks uiHooks; 
 
     [SerializeField] private SpriteRenderer[] _gatherIcons;
+    private Gatherable currentGatherable;
+    private Scorable currentScorable;
     private ICollection entities;
     public PlayerStats _playerStats;
     private NetworkedEntity updatedEntity;
@@ -251,7 +253,7 @@ public class CharControllerMulti : NetworkedEntityView
     {
         currentStamina = Mathf.Clamp(currentStamina + amount, 0, maxStamina); 
     }
-
+/*
     //Trigger Exits and Enters to set whether objects are near for interactions
     private void OnTriggerEnter2D(Collider2D other) {
         if (other && i == 0) {
@@ -265,7 +267,7 @@ public class CharControllerMulti : NetworkedEntityView
             i = 0;
         }
     }
-
+*/
     //function for sleeping
     private void OnSleep()
     {
@@ -311,8 +313,9 @@ public class CharControllerMulti : NetworkedEntityView
 
         hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
         tag = hit.collider.tag;
-        if(tag == tagNear) {
+        if(tag == currentGatherable.gameObject.tag) {
             Debug.Log(tag + " clicked.");
+            currentGatherable.PlayerAttemptedUse(this);
             switch(tag) {
                 case "Fruit Tree":
                     _gatherFruitEvent?.Invoke();
@@ -330,21 +333,6 @@ public class CharControllerMulti : NetworkedEntityView
                     _gatherMeatEvent?.Invoke();
                     animator.SetBool("Gather", true);
                     icon = 2;
-                    break;
-                case "OtherPlayer":
-                    _gatherFruitEvent?.Invoke();
-                    icon = 0;
-                    if (GameController.Instance.steal ) {
-                        animator.SetBool("Gather", true);
-                    }
-                    break;
-                case "Cave":
-                    _gatherFruitEvent?.Invoke();
-                    icon = 0;
-                    break;
-                default:
-                    Debug.Log("No gather event called.");
-                    icon = -1;
                     break;
             }
             animator.SetBool("Gather", true);
@@ -432,5 +420,14 @@ public class CharControllerMulti : NetworkedEntityView
         wood = (int)state.wood;
         ChangedResource?.Invoke(1);
         Debug.Log(state.wood + "+" + wood);
+    }
+
+    public void EntityNearInteractable(Interactable interactable)
+    {
+        if (interactable.GetComponent<Gatherable>()) {
+            currentGatherable = interactable.GetComponent<Gatherable>();
+        } else if (interactable.GetComponent<Scorable>()) {
+            currentScorable  = interactable.GetComponent<Scorable>();
+        }
     }
 }

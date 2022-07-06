@@ -199,6 +199,17 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
         NetSend("customMethod", new CustomMethodMessage {method = methodName, param = param});
     }
 
+    /// <summary>
+    /// Sends a message to the room on the server that an <see cref="Interactable"/> has been used
+    /// </summary>
+    /// <param name="interactable">The <see cref="Interactable"/> used.</param>
+    /// <param name="entity">The entity that has used the <see cref="Interactable"/>.</param>
+    public void SendObjectInteraction(Interactable interactable, NetworkedEntityView entity)
+    {
+        //LSLog.Log("Sending object interaction for ID " + interactable.ID);
+        NetSend("objectInteracted", new object[] {interactable.ID, interactable.GetServerType()});
+    }
+
     public void ClearCollectionsAndUser()
     {
         _roomController.ClearCollectionsAndUser();
