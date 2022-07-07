@@ -40,15 +40,18 @@ public abstract class Gatherable : Interactable
     protected int i;
     protected bool playerNear; 
     protected string clickedTag;
-    Animator animator;
+    protected Animator animator;
 
-    protected virtual void Awake() {
+    protected override void Awake() {
+        base.Awake();
         animator = GetComponent<Animator>();
     }
 
     private void Start() {
         i = 0;
     }
+
+    /*
     protected void OnTriggerEnter2D(Collider2D other) {
         
         if (other.gameObject.GetComponent<CharControllerMulti>().IsMine && i == 0) {
@@ -65,6 +68,7 @@ public abstract class Gatherable : Interactable
             i = 0 ;
         }
     }
+    */
 
     protected virtual void Harvest()
     {

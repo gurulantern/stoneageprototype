@@ -9,7 +9,7 @@ public class InteractableTrigger : MonoBehaviour
 {
     public Interactable owner;
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerEnter2D(Collider2D other)
     {
         CharControllerMulti entity = other.GetComponent<CharControllerMulti>();
         if (entity != null)
@@ -18,7 +18,7 @@ public class InteractableTrigger : MonoBehaviour
         }
     }
 
-    void OnTriggerExit(Collider other)
+    void OnTriggerExit2D(Collider2D other)
     {
         CharControllerMulti entity = other.GetComponent<CharControllerMulti>();
         if (entity != null)

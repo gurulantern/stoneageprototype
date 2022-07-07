@@ -198,7 +198,7 @@ public class CharControllerMulti : NetworkedEntityView
             animator.SetFloat("Look X", lookDirection.x);
             animator.SetFloat("Look Y", lookDirection.y);
             animator.SetFloat("Speed", localPositionDelta.magnitude * 100);
-        }
+        } 
     }
     
     /// Animator code for players that are not mine

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3422698852695282501}
   - component: {fileID: 85219021294307374}
   - component: {fileID: 3422698852695282504}
-  - component: {fileID: 3422698852695282502}
   m_Layer: 0
   m_Name: Fruit
   m_TagString: Fruit
@@ -31,7 +30,8 @@ Transform:
   m_LocalPosition: {x: 3.64, y: -2.62, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1635322336870752835}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -47,6 +47,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5448b04d3a3c0140a94283e7e90129a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnSuccessfulUseEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _itemID: 
+  serverType: DEFAULT
+  triggers: []
+  isGatherable: 1
+  _resourceRef: {fileID: 0}
+  resourceTotal: 0
+  harvestTrigger: 0
+  resourceTaken: 0
+  resourceRemaining: 0
   _eaten: {fileID: 11400000, guid: db6dd929ff08b3c4a95979c12a359bfd, type: 2}
 --- !u!114 &85219021294307374
 MonoBehaviour:
@@ -116,29 +128,51 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &3422698852695282502
-BoxCollider2D:
+--- !u!1 &5273011976861014288
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3422698852695282505}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1635322336870752835}
+  - component: {fileID: 7168152642240075647}
+  m_Layer: 0
+  m_Name: Trigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1635322336870752835
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5273011976861014288}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3422698852695282503}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &7168152642240075647
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5273011976861014288}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0023913383, y: 0.019517899}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 0.32, y: 0.32}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Offset: {x: 0, y: 0.0053426027}
   serializedVersion: 2
-  m_Size: {x: 0.1937666, y: 0.2351222}
-  m_EdgeRadius: 0
+  m_Radius: 0.12422907

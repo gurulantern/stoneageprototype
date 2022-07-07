@@ -1,5 +1,53 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1043423081725058018
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5698725874322570358}
+  - component: {fileID: 770028936321076928}
+  m_Layer: 6
+  m_Name: Trigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5698725874322570358
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043423081725058018}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4223449609587997409}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &770028936321076928
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043423081725058018}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0032285452, y: 0.79896355}
+  serializedVersion: 2
+  m_Radius: 1.0116322
 --- !u!1 &5492570035467929356
 GameObject:
   m_ObjectHideFlags: 0
@@ -14,7 +62,7 @@ GameObject:
   - component: {fileID: 739293710868112597}
   - component: {fileID: 5804568076964361385}
   - component: {fileID: 6648273047993850818}
-  - component: {fileID: 7587098824650898209}
+  - component: {fileID: 5496927656134364200}
   m_Layer: 6
   m_Name: FruitTree
   m_TagString: Fruit Tree
@@ -33,7 +81,8 @@ Transform:
   m_LocalPosition: {x: 4.57, y: -2.95, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5698725874322570358}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -49,6 +98,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc312664545e44498b1ed3ed42a27a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnSuccessfulUseEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _itemID: 
+  serverType: DEFAULT
+  triggers: []
+  isGatherable: 1
   _resourceRef: {fileID: 11400000, guid: 367196d7d9b4a05459554e9862e7f729, type: 2}
   resourceTotal: 0
   harvestTrigger: 0
@@ -186,19 +242,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.82676697, y: 1.2534802}
   m_EdgeRadius: 0
---- !u!58 &7587098824650898209
-CircleCollider2D:
+--- !u!208 &5496927656134364200
+NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5492570035467929356}
   m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.007371187, y: 0.79999995}
-  serializedVersion: 2
-  m_Radius: 1.0073712
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 1, y: 1, z: 1}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.8, z: 0}
+  m_TimeToStationary: 0.5

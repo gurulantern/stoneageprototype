@@ -1,5 +1,53 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4257691019255794217
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2124995452233588542}
+  - component: {fileID: 7994159405960869866}
+  m_Layer: 6
+  m_Name: Trigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2124995452233588542
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4257691019255794217}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5021513890683486726}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &7994159405960869866
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4257691019255794217}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.8167057}
+  serializedVersion: 2
+  m_Radius: 1.011632
 --- !u!1 &5021513890683486720
 GameObject:
   m_ObjectHideFlags: 0
@@ -12,7 +60,7 @@ GameObject:
   - component: {fileID: -6303122396650619967}
   - component: {fileID: 5021513890683486721}
   - component: {fileID: -7023927870176676266}
-  - component: {fileID: 74452392956110182}
+  - component: {fileID: 3082194628542990963}
   m_Layer: 6
   m_Name: Tree
   m_TagString: Tree
@@ -31,7 +79,8 @@ Transform:
   m_LocalPosition: {x: -2.81, y: 0.11, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2124995452233588542}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -47,6 +96,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3965b63fc60a064980fde258a8d15df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnSuccessfulUseEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _itemID: 
+  serverType: DEFAULT
+  triggers: []
+  isGatherable: 1
   _resourceRef: {fileID: 11400000, guid: d066c1bd4064b074ba5b3142a6cf2219, type: 2}
   resourceTotal: 0
   harvestTrigger: 0
@@ -130,19 +186,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8515186, y: 0.7996967}
   m_EdgeRadius: 0
---- !u!58 &74452392956110182
-CircleCollider2D:
+--- !u!208 &3082194628542990963
+NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5021513890683486720}
   m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.79999995}
-  serializedVersion: 2
-  m_Radius: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 1, y: 1, z: 1}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.8, z: 0}
+  m_TimeToStationary: 0.5

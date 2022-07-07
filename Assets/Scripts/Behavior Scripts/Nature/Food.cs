@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Food : MonoBehaviour
+public class Food : Gatherable
 {
     [SerializeField] private GameEvent _eaten;
     void OnTriggerEnter2D(Collider2D other) 

@@ -9,6 +9,7 @@ using Colyseus;
 using Colyseus.Schema;
 using LucidSightTools;
 using UnityEngine.SceneManagement;
+using UnityEngine.AI;
 
 public class GameController : MonoBehaviour
 {
@@ -34,6 +35,7 @@ public class GameController : MonoBehaviour
     private float elapsedTime;
     private bool _showCountDown = false;
     public bool gamePlaying { get; private set; } = false;
+    public NavMeshSurface2d Surface2D;
 
     [SerializeField] 
     private List<StoneAgeTeam> teams = new List<StoneAgeTeam>();
@@ -173,7 +175,8 @@ public class GameController : MonoBehaviour
         if (elapsedTime < roundTimeLimit && gamePlaying == true)
         {
             uiController.timer.DecrementTime((roundTimeLimit - elapsedTime) / roundTimeLimit);
-        } 
+        }
+        //Surface2D.UpdateNavMesh(Surface2D.navMeshData); 
     }
 
     public void BeginGame()
