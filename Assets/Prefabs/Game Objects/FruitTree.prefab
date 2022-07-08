@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5698725874322570358}
   - component: {fileID: 770028936321076928}
+  - component: {fileID: 8514854755283966527}
   m_Layer: 6
   m_Name: Trigger
   m_TagString: Untagged
@@ -45,9 +46,22 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0032285452, y: 0.79896355}
+  m_Offset: {x: -0.0032285452, y: 0.75242543}
   serializedVersion: 2
-  m_Radius: 1.0116322
+  m_Radius: 1.176631
+--- !u!114 &8514854755283966527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043423081725058018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e087197523bc014ab87ee7b70da230d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: -6419844421664405122}
 --- !u!1 &5492570035467929356
 GameObject:
   m_ObjectHideFlags: 0
@@ -102,20 +116,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _itemID: 
-  serverType: DEFAULT
-  triggers: []
-  isGatherable: 1
-  _resourceRef: {fileID: 11400000, guid: 367196d7d9b4a05459554e9862e7f729, type: 2}
-  resourceTotal: 0
+  serverType: FRUIT_TREE
+  trigger: {fileID: 8514854755283966527}
   harvestTrigger: 0
-  resourceTaken: 0
-  resourceRemaining: 0
-  fruitTotal: 0
-  fruitTaken: 0
-  fruitRemaining: 0
+  foodTotal: 0
+  foodTaken: 0
+  foodRemaining: 0
   seedsTotal: 0
   seedsTaken: 0
   seedsRemaining: 0
+  resourceTotal: 0
+  resourceTaken: 0
+  resourceRemaining: 0
 --- !u!114 &4886264188954558651
 MonoBehaviour:
   m_ObjectHideFlags: 0

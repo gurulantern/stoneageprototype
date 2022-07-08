@@ -1,7 +1,7 @@
 import { Room, Client, generateId } from "colyseus";
-import { RoomState, NetworkedEntity, NetworkedUser, GatherableState } from "./schema/RoomState";
+import { RoomState, NetworkedEntity, NetworkedUser, GatherableState, ScorableState } from "./schema/RoomState";
 import * as gatherableObjectFactory from "../helpers/gatherableObjectFactory";
-//import * as scorableObjectFactory from "../helpers/scorableObjectFactory";
+import * as scorableObjectFactory from "../helpers/scorableObjectFactory";
 const logger = require("../helpers/logger");
 
 export class MyRoom extends Room<RoomState> {
@@ -287,11 +287,11 @@ export class MyRoom extends Room<RoomState> {
         this.onMessage("objectGathered", (client, objectInfoArray) => {
             this.handleGatherInteraction(client, objectInfoArray);
         });
-/*
+
         this.onMessage("scoreChange", (client, objectInfoArray) => {
             this.handleScoreInteraction(client, objectInfoArray);
         });
-*/
+
         // Set the callback for the "removeFunctionCall" message
         this.onMessage("remoteFunctionCall", (client, RFCMessage) => {
             //Confirm Sending Client is Owner 
@@ -441,7 +441,7 @@ export class MyRoom extends Room<RoomState> {
           
         }
       }
-/*
+
       async handleScoreInteraction(client: Client, objectInfo: any) {
 
         //const userRepo = DI.em.fork().getRepository(User);
@@ -462,18 +462,19 @@ export class MyRoom extends Room<RoomState> {
         let scoringState = this.state.networkedUsers.get(client.id);
         if (scoringState != null && scorableObject != null) {
             this.broadcast("scoreChanged", { scoredObjectID: scorableObject.id, scoringStateID: scoringState.sessionId });
-            
+            /*
             let userObj: User = await userRepo.findOne({ activeSessionId: client.sessionId });
 
             if (userObj) {
             userObj.coins = interactingState.coins;
 
             await userRepo.flush();
-            }
+            */
+        }
             
           
-        }
+    }
     
-      }
-*/
 }
+    
+

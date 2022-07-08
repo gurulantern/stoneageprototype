@@ -14,7 +14,16 @@ using UnityEngine.Events;
 /// </summary>
 public abstract class Gatherable : Interactable
 {
-    public bool isGatherable = true;
+    [SerializeField] protected int harvestTrigger; 
+    [SerializeField] protected int foodTotal;
+    [SerializeField] protected int foodTaken;
+    [SerializeField] protected int foodRemaining;  
+    [SerializeField] protected int seedsTotal;
+    [SerializeField] protected int seedsTaken;
+    [SerializeField] protected int seedsRemaining; 
+    [SerializeField] protected int resourceTotal;
+    [SerializeField] protected int resourceTaken;
+    [SerializeField] protected int resourceRemaining; 
 
     /// <summary>
     /// The schema state provided from the server
@@ -29,26 +38,14 @@ public abstract class Gatherable : Interactable
         }
     }
 
-
-
-
-    [SerializeField] protected Source _resourceRef;
-    [SerializeField] protected int resourceTotal;
-    [SerializeField] protected int harvestTrigger;
-    [SerializeField] protected int resourceTaken;
-    [SerializeField] protected int resourceRemaining;
     protected int i;
     protected bool playerNear; 
     protected string clickedTag;
-    protected Animator animator;
+    [SerializeField] protected Animator animator;
 
     protected override void Awake() {
         base.Awake();
         animator = GetComponent<Animator>();
-    }
-
-    private void Start() {
-        i = 0;
     }
 
     /*
@@ -82,7 +79,7 @@ public abstract class Gatherable : Interactable
     }
 
         /// <summary>
-    /// Hand off the <see cref="InteractableState"/> from the server
+    /// Hand off the <see cref="GatherableState"/> from the server
     /// </summary>
     /// <param name="state"></param>
     public void SetState(GatherableState state)
@@ -90,6 +87,13 @@ public abstract class Gatherable : Interactable
         _state = state;
         _state.OnChange += OnStateChange;
         //UpdateForState();
+    }
+
+    public override void PlayerAttemptedUse(NetworkedEntityView entity)
+    {
+        base.PlayerAttemptedUse(entity);
+        //Tell the server that this entity is attempting to use this interactable
+        ColyseusManager.Instance.SendObjectGather(this, entity);
     }
 
     /// <summary>

@@ -52,16 +52,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _itemID: 
-  serverType: DEFAULT
-  triggers: []
-  isGatherable: 1
-  _resourceRef: {fileID: 11400000, guid: 1762de71bc68a2d4d9f0ebac938b9647, type: 2}
-  resourceTotal: 0
+  serverType: DEAD_AUROCHS
+  trigger: {fileID: 7678455202590433476}
   harvestTrigger: 0
+  foodTotal: 0
+  foodTaken: 0
+  foodRemaining: 0
+  seedsTotal: 0
+  seedsTaken: 0
+  seedsRemaining: 0
+  resourceTotal: 0
   resourceTaken: 0
   resourceRemaining: 0
   alive: 0
   target: {fileID: 0}
+  startSpawn: 0
+  agent: {fileID: 0}
 --- !u!212 &8771322925193516166
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -204,6 +210,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5361861808998229114}
   - component: {fileID: 5644859213991985984}
+  - component: {fileID: 7678455202590433476}
   m_Layer: 6
   m_Name: Trigger
   m_TagString: Untagged
@@ -242,3 +249,16 @@ CircleCollider2D:
   m_Offset: {x: -0.003864765, y: 0.3310421}
   serializedVersion: 2
   m_Radius: 0.8042235
+--- !u!114 &7678455202590433476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5338179955401654257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e087197523bc014ab87ee7b70da230d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 693752124241253390}

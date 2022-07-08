@@ -30,7 +30,7 @@ public class Interactable : MonoBehaviour
     [SerializeField]
     protected string serverType = "DEFAULT";
 
-        /// <summary>
+    /// <summary>
     /// Flag to tell local entities whether or not they can attempt to use this object
     /// </summary>
     protected bool isInUse;
@@ -39,15 +39,17 @@ public class Interactable : MonoBehaviour
     /// Array of <see cref="InteractableTrigger"/> colliders that a user can enter to initialize an interaction with this object
     /// </summary>
     [SerializeField]
-    protected InteractableTrigger[] triggers;
+    protected InteractableTrigger trigger;
 
     protected virtual void Awake()
     {
         //Loop through the triggers and tell them who their owner is
+        /*
         foreach (InteractableTrigger t in triggers)
         {
             t.owner = this;
         }
+        */
     }
 
         /// <summary>
@@ -64,11 +66,8 @@ public class Interactable : MonoBehaviour
 
         isInUse = inUse;
 
-        //Don't allow interaction when in use
-        for (int i = 0; i < triggers.Length; ++i)
-        {
-            triggers[i].enabled = !isInUse;
-        }
+ 
+        //trigger[i].enabled = !isInUse;
     }
 
     /// <summary>
@@ -114,9 +113,6 @@ public class Interactable : MonoBehaviour
 
         //Hide the interaction message
         ///HideInRangeMessage();
-        
-        //Tell the server that this entity is attempting to use this interactable
-        ColyseusManager.Instance.SendObjectInteraction(this, entity);
     }
 
     /// <summary>

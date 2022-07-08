@@ -36,6 +36,7 @@ export class GatherableState extends Schema {
   @type("number") seedsTotal: number = 0;
   @type("number") harvestTrigger: number = 0;
   @type("number") resourceTaken: number = 0;
+  @type("number") seedsTaken: number = 0;
 }
 
 export class ScorableState extends Schema {

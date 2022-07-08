@@ -86,6 +86,13 @@ public abstract class Scorable : Interactable
         //UpdateForState();
     }
 
+    public override void PlayerAttemptedUse(NetworkedEntityView entity)
+    {
+        base.PlayerAttemptedUse(entity);
+        //Tell the server that this entity is attempting to use this interactable
+        ColyseusManager.Instance.SendObjectScore(this, entity);
+    }
+
     /// <summary>
     /// Clean-up delegates
     /// </summary>

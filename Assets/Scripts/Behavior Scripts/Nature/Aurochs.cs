@@ -12,14 +12,15 @@ public class Aurochs : Gatherable
     protected override void Awake()
     {
         base.Awake();
-        resourceTotal = _resourceRef.FoodTotal;
-        resourceRemaining = _resourceRef.FoodTotal; 
-        harvestTrigger = _resourceRef.HarvestTriggerInt;
-        resourceTaken = _resourceRef.FoodTaken;
+        resourceTotal = (int) _state.foodTotal;
+        resourceRemaining = (int) _state.foodTotal; 
+        harvestTrigger = (int) _state.harvestTrigger;
+        resourceTaken = (int) _state.resourceTaken;
     }
 
     void Start()
     {
+        Debug.Log($"{this} is starting");
         startSpawn = 0;
         target = GameController.Instance.aurochsSpawnPoints[startSpawn + 1].transform;
         agent = GetComponent<NavMeshAgent>();
@@ -30,6 +31,7 @@ public class Aurochs : Gatherable
 
     void FixedUpdate()
     {
+        /*
         if(!Mathf.Approximately(localPositionDelta.x, 0.0f) || !Mathf.Approximately(localPositionDelta.y, 0.0f))
         {
             lookDirection.Set(localPositionDelta.x, localPositionDelta.y);
@@ -39,6 +41,11 @@ public class Aurochs : Gatherable
         animator.SetFloat("Look X", lookDirection.x);
         animator.SetFloat("Look Y", lookDirection.y);
         animator.SetFloat("Speed", localPositionDelta.magnitude * 100);
+        */
+    }
+    private void Update() {
+        agent.SetDestination(target.position);
+
     }
 
     //Left click decreases food remaining and triggers the animation for food to disappear

@@ -35,7 +35,6 @@ public class GameController : MonoBehaviour
     private float elapsedTime;
     private bool _showCountDown = false;
     public bool gamePlaying { get; private set; } = false;
-    public NavMeshSurface2d Surface2D;
 
     [SerializeField] 
     private List<StoneAgeTeam> teams = new List<StoneAgeTeam>();

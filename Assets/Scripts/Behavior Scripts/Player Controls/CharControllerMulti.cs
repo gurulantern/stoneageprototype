@@ -173,11 +173,6 @@ public class CharControllerMulti : NetworkedEntityView
         entity.yPos = myTransform.localPosition.y;
     }
 
-    public void SetWakeState(NetworkedEntity entity, bool wakeState) 
-    {
-
-    }
-
     public override void OnEntityRemoved()
     {
         base.OnEntityRemoved();

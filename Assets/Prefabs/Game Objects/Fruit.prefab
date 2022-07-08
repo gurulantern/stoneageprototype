@@ -51,12 +51,16 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _itemID: 
-  serverType: DEFAULT
-  triggers: []
-  isGatherable: 1
-  _resourceRef: {fileID: 0}
-  resourceTotal: 0
+  serverType: FRUIT
+  trigger: {fileID: 4496140932118678904}
   harvestTrigger: 0
+  foodTotal: 0
+  foodTaken: 0
+  foodRemaining: 0
+  seedsTotal: 0
+  seedsTaken: 0
+  seedsRemaining: 0
+  resourceTotal: 0
   resourceTaken: 0
   resourceRemaining: 0
   _eaten: {fileID: 11400000, guid: db6dd929ff08b3c4a95979c12a359bfd, type: 2}
@@ -138,6 +142,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1635322336870752835}
   - component: {fileID: 7168152642240075647}
+  - component: {fileID: 4496140932118678904}
   m_Layer: 0
   m_Name: Trigger
   m_TagString: Untagged
@@ -176,3 +181,16 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0.0053426027}
   serializedVersion: 2
   m_Radius: 0.12422907
+--- !u!114 &4496140932118678904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5273011976861014288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e087197523bc014ab87ee7b70da230d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 3422698852695282501}

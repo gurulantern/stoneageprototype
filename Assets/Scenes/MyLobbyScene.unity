@@ -1768,8 +1768,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _colyseusSettings: {fileID: 11400000, guid: a61d158c14f17d24b817ab670d7e9936, type: 2}
-  _roomController:
-    roomName: NO_ROOM_NAME_PROVIDED
+  _roomController: {fileID: 0}
 --- !u!1 &643199157
 GameObject:
   m_ObjectHideFlags: 0

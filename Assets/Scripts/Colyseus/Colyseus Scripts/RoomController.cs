@@ -362,9 +362,14 @@ using UnityEngine.SceneManagement;
             _waitForPong = false;
         });
 
-        _room.OnMessage<ObjectUsedMessage>("objectUsed", (msg) =>
+        _room.OnMessage<ObjectGatheredMessage>("objectGathered", (msg) =>
         {
             StartCoroutine(AwaitObjectInteraction(msg.gatheredObjectID, msg.gatheringStateID, msg.gatherOrScore));
+        });
+
+        _room.OnMessage<ObjectScoredMessage>("objectScored", (msg) =>
+        {
+            StartCoroutine(AwaitObjectInteraction(msg.scoredObjectID, msg.scoringStateID, msg.gatherOrScore));
         });
 
         //Custom game logic

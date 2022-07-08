@@ -200,14 +200,24 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
     }
 
     /// <summary>
-    /// Sends a message to the room on the server that an <see cref="Interactable"/> has been used
+    /// Sends a message to the room on the server that an <see cref="Gatherable"/> has been used
     /// </summary>
-    /// <param name="interactable">The <see cref="Interactable"/> used.</param>
-    /// <param name="entity">The entity that has used the <see cref="Interactable"/>.</param>
-    public void SendObjectInteraction(Interactable interactable, NetworkedEntityView entity)
+    /// <param name="gatherable">The <see cref="Gatherable"/> used.</param>
+    /// <param name="entity">The entity that has used the <see cref="Gatherable"/>.</param>
+    public void SendObjectGather(Gatherable gatherable, NetworkedEntityView entity)
     {
-        //LSLog.Log("Sending object interaction for ID " + interactable.ID);
-        NetSend("objectInteracted", new object[] {interactable.ID, interactable.GetServerType()});
+        LSLog.Log("Sending object interaction for ID " + gatherable.ID);
+        NetSend("objectGathered", new object[] {gatherable.ID, gatherable.GetServerType()});
+    }
+    /// <summary>
+    /// Sends a message to the room on the server that an <see cref="Scorable"/> has been used
+    /// </summary>
+    /// <param name="scorable">The <see cref="Scorable"/> used.</param>
+    /// <param name="entity">The entity that has used the <see cref="Scorable"/>.</param>
+    public void SendObjectScore(Scorable scorable, NetworkedEntityView entity)
+    {
+        LSLog.Log("Sending object scoring for ID " + scorable.ID);
+        NetSend("scoreChange", new object[] {scorable.ID, scorable.GetServerType()});
     }
 
     public void ClearCollectionsAndUser()

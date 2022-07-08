@@ -1,4 +1,4 @@
-import { GatherableState } from "../rooms/schema/RoomState"
+import { ScorableState } from "../rooms/schema/RoomState"
 
  /**
  * Begin the process to matchmake into a room.
@@ -10,57 +10,43 @@ import { GatherableState } from "../rooms/schema/RoomState"
 //     return await matchMaker.joinOrCreate(room, { progress });
 // }
 
-export function getStateForType(type: string) : GatherableState {
-    let state : GatherableState = new GatherableState();
+export function getStateForType(type: string) : ScorableState {
+    let state : ScorableState = new ScorableState();
 
     //Any new types need an appropriate constructor in here or they will return empty
     switch(type){
-        case("FRUIT"):
+        case("CAVE"):
         {
             state.assign({
-                gatherableType : type,
+                scorableType : type,
             });
             break;
         }
-        case("TREE"):
+        case("FARM_1"):
         {
             state.assign({
-                gatherableType : type,
-                woodTotal : 10,
-                harvestTrigger : 1,
-                resourceTaken : 1
+                scorableType : type,
             });
             break;
         }
-        case("FRUIT_TREE"):
+        case("FARM_2"):
         {
             state.assign({
-                gatherableType : type,
-                foodTotal : 7,
-                woodTotal : 10,
-                seedsTotal : 20,
-                harvestTrigger : 1,
-                resourceTaken : 1
+                scorableType : type,
             });
             break;
         }
-        case("DEAD_AUROCHS"):
+        case("AUROCHS_PEN"):
         {
             state.assign({
-                gatherableType : type,
-                foodTotal : 5,
-                harvestTrigger : 1,
-                resourceTaken : 5
+                scorableType : type,
             });
             break;
         }
-        case("LIVE_AUROCHS"):
+        case("SAPLING"):
         {
             state.assign({
-                gatherableType : type,
-                foodTotal : 10,
-                harvestTrigger : 1,
-                resourceTaken : 10
+                scorableType : type,
             });
             break;
         }

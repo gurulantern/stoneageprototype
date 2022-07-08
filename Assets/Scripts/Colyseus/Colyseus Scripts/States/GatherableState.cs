@@ -40,4 +40,7 @@ public partial class GatherableState : Schema {
 
     [Type(10, "number")]
 	public float resourceTaken = default(float);
+
+	[Type(11, "number")]
+	public float seedsTaken = default(float);
 }
