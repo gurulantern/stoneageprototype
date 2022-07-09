@@ -199,6 +199,12 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
         NetSend("customMethod", new CustomMethodMessage {method = methodName, param = param});
     }
 
+    public void SendObjectInit(Gatherable gatherable)
+    {
+        LSLog.Log("Initializing " + gatherable.ID);
+        NetSend("objectInit", new object[] {gatherable.ID, gatherable.GetServerType()});
+    }
+
     /// <summary>
     /// Sends a message to the room on the server that an <see cref="Gatherable"/> has been used
     /// </summary>

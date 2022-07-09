@@ -87,6 +87,11 @@ public abstract class Gatherable : Interactable
         _state = state;
         _state.OnChange += OnStateChange;
         //UpdateForState();
+    } 
+
+    public void SetID(int num)
+    {
+        _itemID = $"{gameObject.tag}_{num}";
     }
 
     public override void PlayerAttemptedUse(NetworkedEntityView entity)

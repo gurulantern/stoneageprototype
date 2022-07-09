@@ -312,19 +312,28 @@ public class CharControllerMulti : NetworkedEntityView
             Debug.Log(tag + " clicked.");
             currentGatherable.PlayerAttemptedUse(this);
             switch(tag) {
-                case "Fruit Tree":
+                case "Fruit_Tree":
                     _gatherFruitEvent?.Invoke();
-                    icon = 0;
+                    if (GameController.Instance.create) {
+                        icon = 3;
+                    } else {
+                        icon = 0;    
+                    }
                     animator.SetBool("Gather", true);
                     break;
                 case "Tree":
-                    _gatherWoodEvent?.Invoke();
-                    if (GameController.Instance.create) {    
+                    if (GameController.Instance.create) {
+                        _gatherWoodEvent?.Invoke();    
                         animator.SetBool("Gather", true);
+                        icon = 1;
                     }
-                    icon = 1;
                     break;
-                case "Aurochs":
+                case "Live_Aurochs":
+                    _gatherMeatEvent?.Invoke();
+                    animator.SetBool("Gather", true);
+                    icon = 2;
+                    break;
+                case "Dead_Aurochs":
                     _gatherMeatEvent?.Invoke();
                     animator.SetBool("Gather", true);
                     icon = 2;
@@ -378,17 +387,18 @@ public class CharControllerMulti : NetworkedEntityView
         if (icon == 0) {
             state.food += 1f;
             food = (int)state.food;
-            if (GameController.Instance.create) {
-                state.seeds +=  5f;
-                seeds = (int)state.seeds;
-            }
         } else if (icon == 1 && GameController.Instance.create) {
                 state.wood += 1f;
                 wood = (int)state.wood;
         } else if (icon == 2) {
                 state.food += 10f;
                 food = (int)state.food;
-        } 
+        }  else if (icon == 3) {
+            state.food += 1f;
+            food = (int)state.food;
+            state.seeds += 5f;
+            seeds = (int)state.seeds;
+        }
         ChangedResource?.Invoke(icon);
         Debug.Log($"Food = {food}, Wood = {wood}, Seeds = {seeds}");
     }

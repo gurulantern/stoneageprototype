@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -4337857359468232000}
   m_Layer: 6
   m_Name: 'Dead Aurochs '
-  m_TagString: Aurochs
+  m_TagString: Dead_Aurochs
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -64,6 +64,7 @@ MonoBehaviour:
   resourceTotal: 0
   resourceTaken: 0
   resourceRemaining: 0
+  animator: {fileID: 0}
   alive: 0
   target: {fileID: 0}
   startSpawn: 0

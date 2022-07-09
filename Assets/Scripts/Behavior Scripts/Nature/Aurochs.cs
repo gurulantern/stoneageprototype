@@ -9,6 +9,8 @@ public class Aurochs : Gatherable
     [SerializeField] Transform target;
     [SerializeField] int startSpawn;
     [SerializeField] private NavMeshAgent agent;
+
+    /*
     protected override void Awake()
     {
         base.Awake();
@@ -17,11 +19,10 @@ public class Aurochs : Gatherable
         harvestTrigger = (int) _state.harvestTrigger;
         resourceTaken = (int) _state.resourceTaken;
     }
-
+    */
     void Start()
     {
         Debug.Log($"{this} is starting");
-        startSpawn = 0;
         target = GameController.Instance.aurochsSpawnPoints[startSpawn + 1].transform;
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
@@ -45,12 +46,13 @@ public class Aurochs : Gatherable
     }
     private void Update() {
         agent.SetDestination(target.position);
-
     }
 
+    /*
     //Left click decreases food remaining and triggers the animation for food to disappear
     protected override void Harvest()
     {
         base.Harvest();
     }
+    */
 }

@@ -43,7 +43,6 @@ public class UIHooks : MonoBehaviour
         switch(icon) {
             case  0:
                 _personalFoodCount.text = character.food.ToString();
-                _personalSeedsCount.text = character.seeds.ToString();
                 break;
             case 1:
                 _personalWoodCount.text = character.wood.ToString();
@@ -51,6 +50,11 @@ public class UIHooks : MonoBehaviour
             case 2:
                 _personalFoodCount.text = character.food.ToString();
                 break;
+            case 3:
+                _personalFoodCount.text = character.food.ToString();
+                _personalSeedsCount.text = character.seeds.ToString();
+                break;
+
         }
     }
 }

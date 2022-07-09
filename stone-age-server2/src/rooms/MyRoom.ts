@@ -283,6 +283,10 @@ export class MyRoom extends Room<RoomState> {
             this.onEntityUpdate(client.sessionId, entityUpdateArray);
         });
 
+        this.onMessage("objectInit", (client, objectInfoArray) => {
+            this.handleObjectInit(client, objectInfoArray);
+        })
+
         
         this.onMessage("objectGathered", (client, objectInfoArray) => {
             this.handleGatherInteraction(client, objectInfoArray);
@@ -409,36 +413,34 @@ export class MyRoom extends Room<RoomState> {
         this.broadcast("playerJoined", {userName: userName}, {except : client});
     }
 
-    async handleGatherInteraction(client: Client, objectInfo: any) {
-
-        //const userRepo = DI.em.fork().getRepository(User);
-    
-        //If the server is not yet aware of this item, lets change that
+    async handleObjectInit(client: Client, objectInfo: any) {
         if (this.state.gatherableObjects.has(objectInfo[0]) === false) {
-          let gatherable = gatherableObjectFactory.getStateForType(objectInfo[1]);
-          gatherable.assign({
-            id: objectInfo[0],
-          });
-          this.state.gatherableObjects.set(objectInfo[0], gatherable);
+            let gatherable = gatherableObjectFactory.getStateForType(objectInfo[1]);
+            gatherable.assign({
+              id: objectInfo[0],
+            });
+            this.state.gatherableObjects.set(objectInfo[0], gatherable);
+            logger.silly(`**** Initializing ${gatherable.id} ***`);
         }
-    
+        logger.info(`**** Gatherables already contains ${objectInfo[0]} ****`);
+    }
+
+    async handleGatherInteraction(client: Client, objectInfo: any) {
         //Get the interactable item
         let gatherableObject = this.state.gatherableObjects.get(objectInfo[0]);
 
     
         let gatheringState = this.state.networkedUsers.get(client.id);
+        if(gatherableObject.foodTotal == 0)
+        {
+            gatherableObject.woodTotal - gatherableObject.resourceTaken;
+        }
+        gatherableObject.foodTotal - gatherableObject.resourceTaken;
+        gatherableObject.seedsTotal - gatherableObject.seedsTaken;
+
+        gatherableObject.harvestTrigger += 1;
         if (gatheringState != null && gatherableObject != null) {
-            this.broadcast("objectGathered", { gatheredObjectID: gatherableObject.id, gatheringStateID: gatheringState.sessionId /*, gatherOrScore: interactionType*/ });
-            /*
-            let userObj: User = await userRepo.findOne({ activeSessionId: client.sessionId });
-
-            if (userObj) {
-            userObj.coins = interactingState.coins;
-
-            await userRepo.flush();
-            }
-            */
-          
+            this.broadcast("objectGathered", { gatheredObjectID: gatherableObject.id, gatheringStateID: gatheringState.sessionId});
         }
       }
 
@@ -461,7 +463,7 @@ export class MyRoom extends Room<RoomState> {
     
         let scoringState = this.state.networkedUsers.get(client.id);
         if (scoringState != null && scorableObject != null) {
-            this.broadcast("scoreChanged", { scoredObjectID: scorableObject.id, scoringStateID: scoringState.sessionId });
+            this.broadcast("objectScored", { scoredObjectID: scorableObject.id, scoringStateID: scoringState.sessionId });
             /*
             let userObj: User = await userRepo.findOne({ activeSessionId: client.sessionId });
 

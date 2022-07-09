@@ -19,6 +19,7 @@ public class EnvironmentController : MonoBehaviour
             return instance;
         }
     }
+    private int fruitCount = -1, treeCount = -1, fruitTreeCount = -1, aurochsCount = -1, deadAurochsCount = -1;
 
     [SerializeField]
     private Scorable[] scorables;
@@ -31,6 +32,7 @@ public class EnvironmentController : MonoBehaviour
     {   
         gatherables = GetComponentsInChildren<Gatherable>();
         scorables = GetComponentsInChildren<Scorable>();
+        InitializeGatherables();
     }
 
     public void ObjectScored(ScorableState state, NetworkedEntity usingEntity)
@@ -93,5 +95,30 @@ public class EnvironmentController : MonoBehaviour
 
         LSLog.LogError("Room has no reference to a scorable with ID " + state.id + " but it was requested!");
         return null;
+    }
+
+    public void InitializeGatherables() 
+    {
+        foreach (Gatherable g in gatherables)
+        {
+            switch(g.gameObject.tag) {
+                case "Fruit_Tree":
+                    g.SetID(fruitTreeCount += 1);
+                    break;
+                case "Fruit":
+                    g.SetID(fruitCount += 1);
+                    break;
+                case "Tree":
+                    g.SetID(treeCount += 1);
+                    break;
+                case "Live_Aurochs":
+                    g.SetID(aurochsCount += 1);
+                    break;
+                case "Dead_Aurochs":
+                    g.SetID(deadAurochsCount += 1);
+                    break;
+            }
+            ColyseusManager.Instance.SendObjectInit(g);
+        }
     }
 }
