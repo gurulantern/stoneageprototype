@@ -5,6 +5,7 @@ public class FruitTree : Tree
     protected override void Awake()
     {
         base.Awake();
+        /*
         foodTotal = (int)_state.foodTotal;
         foodRemaining = (int)_state.foodTotal; 
         foodTaken = (int)_state.resourceTaken;
@@ -12,8 +13,19 @@ public class FruitTree : Tree
         seedsTaken = (int)_state.seedsTaken;
         seedsRemaining = (int)_state.seedsTotal;
         harvestTrigger = (int)_state.harvestTrigger;
+        */
     }
     //Left click decreases food remaining and triggers the animation for food to disappear
+
+    public override void SetState(GatherableState state)
+    {
+        base.SetState(state);
+        foodTotal = (int)_state.foodTotal;
+        foodRemaining = (int)_state.foodTotal;
+        seedsTotal = (int)_state.seedsTotal;
+        seedsTaken = (int)_state.seedsTaken;
+        seedsRemaining = (int)_state.seedsTotal;
+    }
     protected override void Harvest()
     {
         if (gameObject.tag == "Tree") {

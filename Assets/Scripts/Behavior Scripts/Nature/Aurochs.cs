@@ -10,19 +10,8 @@ public class Aurochs : Gatherable
     [SerializeField] int startSpawn;
     [SerializeField] private NavMeshAgent agent;
 
-    /*
-    protected override void Awake()
-    {
-        base.Awake();
-        resourceTotal = (int) _state.foodTotal;
-        resourceRemaining = (int) _state.foodTotal; 
-        harvestTrigger = (int) _state.harvestTrigger;
-        resourceTaken = (int) _state.resourceTaken;
-    }
-    */
     void Start()
     {
-        Debug.Log($"{this} is starting");
         target = GameController.Instance.aurochsSpawnPoints[startSpawn + 1].transform;
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
@@ -46,6 +35,13 @@ public class Aurochs : Gatherable
     }
     private void Update() {
         agent.SetDestination(target.position);
+    }
+
+    public override void SetState(GatherableState state)
+    {
+        base.SetState(state);
+        resourceTotal = (int) _state.foodTotal;
+        resourceRemaining = (int) _state.foodTotal; 
     }
 
     /*

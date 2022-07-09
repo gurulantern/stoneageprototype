@@ -154,9 +154,9 @@ public class CharControllerMulti : NetworkedEntityView
         {
             SetStartPos(entity, teamIndex, teamNum);
             SetPlayerColor(teamColors[teamIndex]);
-            if (GameController.Instance.uiController.loadCover.activeInHierarchy)
+            if (GameController.Instance._uiController.loadCover.activeInHierarchy)
             {
-                GameController.Instance.uiController.loadCover.SetActive(false);
+                GameController.Instance._uiController.loadCover.SetActive(false);
             }
         }
     }

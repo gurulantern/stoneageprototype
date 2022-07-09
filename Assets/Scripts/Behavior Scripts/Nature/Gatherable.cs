@@ -82,10 +82,12 @@ public abstract class Gatherable : Interactable
     /// Hand off the <see cref="GatherableState"/> from the server
     /// </summary>
     /// <param name="state"></param>
-    public void SetState(GatherableState state)
+    public virtual void SetState(GatherableState state)
     {
         _state = state;
         _state.OnChange += OnStateChange;
+        resourceTaken = (int)_state.resourceTaken;
+        harvestTrigger = (int)_state.harvestTrigger;
         //UpdateForState();
     } 
 

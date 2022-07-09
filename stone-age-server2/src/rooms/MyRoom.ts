@@ -421,8 +421,10 @@ export class MyRoom extends Room<RoomState> {
             });
             this.state.gatherableObjects.set(objectInfo[0], gatherable);
             logger.silly(`**** Initializing ${gatherable.id} ***`);
-        }
+            this.broadcast("objectInitialized", { objectID : gatherable.id });
+        } else {
         logger.info(`**** Gatherables already contains ${objectInfo[0]} ****`);
+        }
     }
 
     async handleGatherInteraction(client: Client, objectInfo: any) {
@@ -442,9 +444,9 @@ export class MyRoom extends Room<RoomState> {
         if (gatheringState != null && gatherableObject != null) {
             this.broadcast("objectGathered", { gatheredObjectID: gatherableObject.id, gatheringStateID: gatheringState.sessionId});
         }
-      }
+    }
 
-      async handleScoreInteraction(client: Client, objectInfo: any) {
+    async handleScoreInteraction(client: Client, objectInfo: any) {
 
         //const userRepo = DI.em.fork().getRepository(User);
 

@@ -32,8 +32,9 @@ public class EnvironmentController : MonoBehaviour
     {   
         gatherables = GetComponentsInChildren<Gatherable>();
         scorables = GetComponentsInChildren<Scorable>();
-        InitializeGatherables();
+        instance = this;
     }
+
 
     public void ObjectScored(ScorableState state, NetworkedEntity usingEntity)
     {
@@ -60,9 +61,8 @@ public class EnvironmentController : MonoBehaviour
             if (!t.ID.Equals(state.id))
             {
                 continue;
-            }
-
-            //This gatherable has the correct ID but it has not yet been given a state, so correct that!
+            } 
+            
             if (t.State == null)
             {
                 t.SetState(state);

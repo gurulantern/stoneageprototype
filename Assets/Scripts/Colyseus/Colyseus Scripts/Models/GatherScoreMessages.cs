@@ -9,6 +9,11 @@ public class EntityMessage
     public string entityID;
 }
 
+public class ObjectInitMessage
+{
+    public string objectID;
+}
+
 public class ObjectGatheredMessage
 {
     public string gatheredObjectID;

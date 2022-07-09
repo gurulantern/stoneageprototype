@@ -20,7 +20,8 @@ public class GameController : MonoBehaviour
 
     public delegate void OnViewRemoved(StoneColyseusNetworkedEntityView view);
     public static event OnViewRemoved onViewRemoved;
-    public UIController uiController;
+    public UIController _uiController;
+    public EnvironmentController  _environmentController;
     public static GameController Instance { get; private set; }
     private TextMeshProUGUI scoreBoard;
     private string currentGameState = "";
@@ -69,14 +70,13 @@ public class GameController : MonoBehaviour
         RoomController.onJoined += OnJoinedRoom;
         RoomController.onAddNetworkEntity += OnNetworkAdd;
         RoomController.onRemoveNetworkEntity += OnNetworkRemove;
-        RoomController.onJoined += OnJoinedRoom;
         RoomController.onTeamUpdate += OnTeamUpdate;
         RoomController.onTeamReceive += OnFullTeamUpdate;
 
         onViewAdded += OnPlayerCreated;
 
-        uiController.UpdateCountDownMessage("");
-        uiController.UpdateGeneralMessageText("");
+        _uiController.UpdateCountDownMessage("");
+        _uiController.UpdateGeneralMessageText("");
     }
 
     private void OnDisable() 
@@ -90,7 +90,6 @@ public class GameController : MonoBehaviour
         RoomController.onJoined -= OnJoinedRoom;
         RoomController.onAddNetworkEntity -= OnNetworkAdd;
         RoomController.onRemoveNetworkEntity -= OnNetworkRemove;
-        RoomController.onJoined -= OnJoinedRoom;
         RoomController.onTeamUpdate -= OnTeamUpdate;
         RoomController.onTeamReceive -= OnFullTeamUpdate;
 
@@ -143,7 +142,7 @@ public class GameController : MonoBehaviour
     /// </summary>
     public void PlayerReadyToPlay()
     {
-        uiController.UpdatePlayerReadiness(false);
+        _uiController.UpdatePlayerReadiness(false);
 
         SetCurrentUserAttributes(new Dictionary<string, string> { { "readyState", "ready" } });
     }
@@ -173,7 +172,7 @@ public class GameController : MonoBehaviour
     {
         if (elapsedTime < roundTimeLimit && gamePlaying == true)
         {
-            uiController.timer.DecrementTime((roundTimeLimit - elapsedTime) / roundTimeLimit);
+            _uiController.timer.DecrementTime((roundTimeLimit - elapsedTime) / roundTimeLimit);
         }
         //Surface2D.UpdateNavMesh(Surface2D.navMeshData); 
     }
@@ -187,7 +186,7 @@ public class GameController : MonoBehaviour
     private void EndGame()
     {
         gamePlaying = false;
-        uiController.ShowGameOverScreen();
+        _uiController.ShowGameOverScreen();
         Time.timeScale = 0f;
     }
 
@@ -249,7 +248,7 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
 
         _showCountDown = false;
-        uiController.UpdateCountDownMessage("");
+        _uiController.UpdateCountDownMessage("");
     }
 
     private void OnBeginPaint(float time)
@@ -290,7 +289,7 @@ public class GameController : MonoBehaviour
         //StartCoroutine(HoldForWinner());
 
         //ResetAllShipDamage();
-        uiController.UpdatePlayerReadiness(true);
+        _uiController.UpdatePlayerReadiness(true);
         yield break;
     }
 
@@ -337,7 +336,7 @@ public class GameController : MonoBehaviour
 
         if(attributes.TryGetValue("countDown", out string countDown))
         {
-            uiController.UpdateCountDownMessage(countDown);
+            _uiController.UpdateCountDownMessage(countDown);
         }
     }
 
@@ -345,7 +344,7 @@ public class GameController : MonoBehaviour
     {
         if (attributes.TryGetValue("generalMessage", out string generalMessage))
         {
-            uiController.UpdateGeneralMessageText(generalMessage);
+            _uiController.UpdateGeneralMessageText(generalMessage);
         }
     }
 
@@ -363,7 +362,7 @@ public class GameController : MonoBehaviour
     private void OnTeamUpdate(int teamIdx, string clientID, bool added)
     {
         StoneAgeTeam team = GetOrCreateTeam(teamIdx);
-        scoreBoard = uiController.scoreBoards[teamIdx];
+        scoreBoard = _uiController.scoreBoards[teamIdx];
 
         if (added)
         {
@@ -390,7 +389,7 @@ public class GameController : MonoBehaviour
     private void OnFullTeamUpdate(int teamIdx, string[] clients)
     {
         StoneAgeTeam team = GetOrCreateTeam(teamIdx);
-        scoreBoard = uiController.scoreBoards[teamIdx];
+        scoreBoard = _uiController.scoreBoards[teamIdx];
 
         for (int i = 0; i < clients.Length; ++i)
         {

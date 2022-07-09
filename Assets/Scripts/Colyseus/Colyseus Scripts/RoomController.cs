@@ -332,6 +332,8 @@ using UnityEngine.SceneManagement;
 
         _room.OnStateChange += OnStateChangeHandler;
 
+        GameController.Instance._environmentController.InitializeGatherables();
+
         _room.OnMessage<OnJoinMessage>("onJoin", msg =>
         {
             _currentNetworkedUser = msg.newNetworkedUser;
@@ -360,6 +362,13 @@ using UnityEngine.SceneManagement;
             _lastPong = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             _serverTime = message.serverTime;
             _waitForPong = false;
+        });
+
+        
+        _room.OnMessage<ObjectInitMessage>("objectInitialized", (msg) =>
+        {
+            Debug.Log(EnvironmentController.Instance);
+            EnvironmentController.Instance.GetGatherableByState(Room.State.gatherableObjects[msg.objectID]);
         });
 
         _room.OnMessage<ObjectGatheredMessage>("objectGathered", (msg) =>
