@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4126516024473503799}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &721778478633175771
 SpriteRenderer:
@@ -155,8 +155,8 @@ Transform:
   m_Children:
   - {fileID: 7513604032869072228}
   - {fileID: 5129661309810660163}
-  - {fileID: 470144764182198863}
   - {fileID: 8804590798129819320}
+  - {fileID: 470144764182198863}
   - {fileID: 7798927041408572498}
   - {fileID: 7320758633847052250}
   m_Father: {fileID: 0}
@@ -196,7 +196,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
-    food: 0
+    fruit: 0
+    meat: 0
     wood: 0
     seeds: 0
     observePoints: 0
@@ -209,7 +210,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
-    food: 0
+    fruit: 0
+    meat: 0
     wood: 0
     seeds: 0
     observePoints: 0
@@ -222,7 +224,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
-    food: 0
+    fruit: 0
+    meat: 0
     wood: 0
     seeds: 0
     observePoints: 0
@@ -235,7 +238,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
-    food: 0
+    fruit: 0
+    meat: 0
     wood: 0
     seeds: 0
     observePoints: 0
@@ -248,7 +252,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
-    food: 0
+    fruit: 0
+    meat: 0
     wood: 0
     seeds: 0
     observePoints: 0
@@ -261,7 +266,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
-    food: 0
+    fruit: 0
+    meat: 0
     wood: 0
     seeds: 0
     observePoints: 0
@@ -274,7 +280,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
-    food: 0
+    fruit: 0
+    meat: 0
     wood: 0
     seeds: 0
     observePoints: 0
@@ -287,7 +294,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
-    food: 0
+    fruit: 0
+    meat: 0
     wood: 0
     seeds: 0
     observePoints: 0
@@ -300,7 +308,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
-    food: 0
+    fruit: 0
+    meat: 0
     wood: 0
     seeds: 0
     observePoints: 0
@@ -313,7 +322,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
-    food: 0
+    fruit: 0
+    meat: 0
     wood: 0
     seeds: 0
     observePoints: 0
@@ -326,7 +336,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
-    food: 0
+    fruit: 0
+    meat: 0
     wood: 0
     seeds: 0
     observePoints: 0
@@ -339,7 +350,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
-    food: 0
+    fruit: 0
+    meat: 0
     wood: 0
     seeds: 0
     observePoints: 0
@@ -352,7 +364,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
-    food: 0
+    fruit: 0
+    meat: 0
     wood: 0
     seeds: 0
     observePoints: 0
@@ -365,7 +378,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
-    food: 0
+    fruit: 0
+    meat: 0
     wood: 0
     seeds: 0
     observePoints: 0
@@ -378,7 +392,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
-    food: 0
+    fruit: 0
+    meat: 0
     wood: 0
     seeds: 0
     observePoints: 0
@@ -391,7 +406,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
-    food: 0
+    fruit: 0
+    meat: 0
     wood: 0
     seeds: 0
     observePoints: 0
@@ -404,7 +420,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
-    food: 0
+    fruit: 0
+    meat: 0
     wood: 0
     seeds: 0
     observePoints: 0
@@ -417,7 +434,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
-    food: 0
+    fruit: 0
+    meat: 0
     wood: 0
     seeds: 0
     observePoints: 0
@@ -430,7 +448,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
-    food: 0
+    fruit: 0
+    meat: 0
     wood: 0
     seeds: 0
     observePoints: 0
@@ -443,7 +462,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
-    food: 0
+    fruit: 0
+    meat: 0
     wood: 0
     seeds: 0
     observePoints: 0
@@ -460,8 +480,8 @@ MonoBehaviour:
   uiHooks: {fileID: 4183993424342884441}
   _gatherIcons:
   - {fileID: 8474644410875550075}
-  - {fileID: 721778478633175771}
   - {fileID: 5543031323886416027}
+  - {fileID: 721778478633175771}
   - {fileID: 6708296087378314109}
   _playerStats: {fileID: 11400000, guid: 9db0846c5c3bc274da33171b82162da4, type: 2}
   maxStamina: 0
@@ -471,7 +491,8 @@ MonoBehaviour:
   tireLimit: 0
   tireRate: 0
   restoreRate: 0
-  food: 0
+  fruit: 0
+  meat: 0
   wood: 0
   seeds: 0
   teamIndex: -1
@@ -495,7 +516,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _staminaSlider: {fileID: 0}
   _observeSlider: {fileID: 0}
-  _personalFoodCount: {fileID: 0}
+  _personalFruitCount: {fileID: 0}
+  _personalMeatCount: {fileID: 0}
   _personalWoodCount: {fileID: 0}
   _personalSeedsCount: {fileID: 0}
 --- !u!114 &782909295415391657
@@ -733,12 +755,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4488469554542448495}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.00000002980232, y: 0.5000001, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5000001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4126516024473503799}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5543031323886416027
 SpriteRenderer:

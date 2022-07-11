@@ -37,6 +37,8 @@ public abstract class Gatherable : Interactable
             return _state;
         }
     }
+    protected GatherableState previousState;
+    protected GatherableState localUpdatedState;
 
     protected int i;
     protected bool playerNear; 
@@ -48,30 +50,11 @@ public abstract class Gatherable : Interactable
         animator = GetComponent<Animator>();
     }
 
-    /*
-    protected void OnTriggerEnter2D(Collider2D other) {
-        
-        if (other.gameObject.GetComponent<CharControllerMulti>().IsMine && i == 0) {
-            playerNear = true;
-            i++;
-        } else {
-            Debug.Log(other.gameObject.tag);
-        }
-    }
-
-    protected void OnTriggerExit2D(Collider2D other) {
-        if (other.gameObject.GetComponent<CharControllerMulti>().IsMine && i == 1) {
-            playerNear = false;
-            i = 0 ;
-        }
-    }
-    */
-
     protected virtual void Harvest()
     {
         Debug.Log("Harvest is firing with playerNear = " + playerNear + " ResourceRemaining = " + resourceRemaining);
         if (playerNear == true && resourceRemaining > 0) {
-            gameObject.GetComponent<Animator>().SetTrigger("Harvest " + harvestTrigger.ToString());
+            animator.SetTrigger("Harvest " + harvestTrigger.ToString());
             harvestTrigger ++;
             resourceRemaining = Mathf.Clamp(resourceRemaining - resourceTaken, 0, resourceTotal);
             Debug.Log("Gathered invoked and foodRemaining = " + resourceRemaining);
@@ -88,7 +71,7 @@ public abstract class Gatherable : Interactable
         _state.OnChange += OnStateChange;
         resourceTaken = (int)_state.resourceTaken;
         harvestTrigger = (int)_state.harvestTrigger;
-        //UpdateForState();
+        UpdateStateForView();
     } 
 
     public void SetID(int num)
@@ -96,12 +79,6 @@ public abstract class Gatherable : Interactable
         _itemID = $"{gameObject.tag}_{num}";
     }
 
-    public override void PlayerAttemptedUse(NetworkedEntityView entity)
-    {
-        base.PlayerAttemptedUse(entity);
-        //Tell the server that this entity is attempting to use this interactable
-        ColyseusManager.Instance.SendObjectGather(this, entity);
-    }
 
     /// <summary>
     /// Clean-up delegates
@@ -115,20 +92,30 @@ public abstract class Gatherable : Interactable
     }
 
     /// <summary>
+    /// Updates the state for other player views
+    /// </summary>
+    protected virtual void UpdateStateForView()
+    {
+
+    }
+
+    /// <summary>
     /// Event handler for state changes
     /// </summary>
     /// <param name="changes"></param>
     protected virtual void OnStateChange(List<DataChange> changes)
     {
-        //UpdateForState();
+        UpdateViewFromState();
     }
 
     /// <summary>
     /// Arranges the object based off of it's current state
     /// </summary>
-/*
-    protected virtual void UpdateForState()
+    protected virtual void UpdateViewFromState()
     {
+        harvestTrigger = (int)_state.harvestTrigger;
+        animator.SetTrigger("Harvest " + harvestTrigger.ToString());
+        /*
         //The current in use status is not what the State indicates
         if (isInUse != State.inUse)
         {
@@ -140,6 +127,13 @@ public abstract class Gatherable : Interactable
             //Set the interactable's inUse status
             SetInUse(State.inUse);
         }
+        */
+        
     }
-*/
+    public override void PlayerAttemptedUse(NetworkedEntityView entity)
+    {
+        base.PlayerAttemptedUse(entity);
+        //Tell the server that this entity is attempting to use this interactable
+        ColyseusManager.Instance.SendObjectGather(this, entity);
+    }
 }

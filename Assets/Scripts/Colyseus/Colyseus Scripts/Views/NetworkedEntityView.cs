@@ -86,7 +86,8 @@ public class NetworkedEntityView : StoneColyseusNetworkedEntityView
         public bool wake;
         public bool observe;
         public bool gather;
-        public int food;
+        public int fruit;
+        public int meat;
         public int wood;
         public int seeds;
         public int observePoints;
@@ -201,7 +202,8 @@ public class NetworkedEntityView : StoneColyseusNetworkedEntityView
         bool wake = (bool)state.wake;
         bool observe = (bool)state.observe;
         bool gather = (bool)state.gather;
-        int food = (int)state.food;
+        int fruit = (int)state.fruit;
+        int meat = (int)state.meat;
         int wood = (int)state.wood;
         int seeds = (int)state.seeds;
         int observePoints = (int)state.observePoints;
@@ -244,7 +246,8 @@ public class NetworkedEntityView : StoneColyseusNetworkedEntityView
         newState.wake = wake;
         newState.observe = observe;
         newState.gather = gather;
-        newState.food = food;
+        newState.fruit = fruit;
+        newState.meat = meat;
         newState.wood = wood;
         newState.seeds = seeds;
         newState.observePoints = observePoints;

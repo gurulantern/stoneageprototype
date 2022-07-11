@@ -9,7 +9,8 @@ public class UIHooks : MonoBehaviour
 {
     [SerializeField] Slider _staminaSlider;
     [SerializeField] Slider _observeSlider;
-    [SerializeField] TextMeshProUGUI _personalFoodCount;
+    [SerializeField] TextMeshProUGUI _personalFruitCount;
+    [SerializeField] TextMeshProUGUI _personalMeatCount;
     [SerializeField] TextMeshProUGUI _personalWoodCount;
     [SerializeField] TextMeshProUGUI _personalSeedsCount;
     
@@ -42,16 +43,16 @@ public class UIHooks : MonoBehaviour
     {
         switch(icon) {
             case  0:
-                _personalFoodCount.text = character.food.ToString();
+                _personalFruitCount.text = character.fruit.ToString();
                 break;
             case 1:
-                _personalWoodCount.text = character.wood.ToString();
+                _personalMeatCount.text = character.meat.ToString();
                 break;
             case 2:
-                _personalFoodCount.text = character.food.ToString();
+                _personalWoodCount.text = character.wood.ToString();
                 break;
             case 3:
-                _personalFoodCount.text = character.food.ToString();
+                _personalFruitCount.text = character.fruit.ToString();
                 _personalSeedsCount.text = character.seeds.ToString();
                 break;
 

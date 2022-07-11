@@ -30,7 +30,7 @@ public class CharControllerMulti : NetworkedEntityView
     public PlayerStats _playerStats;
     private NetworkedEntity updatedEntity;
     public float maxStamina, currentStamina, speed, tiredSpeed, tireLimit, tireRate, restoreRate;
-    public int food, wood, seeds;
+    public int fruit, meat, wood, seeds;
     private int icon;
     private Vector2 moveInput;
     private bool treeNear, fruitTreeNear, aurochsNear, playerNear, caveNear;
@@ -66,8 +66,6 @@ public class CharControllerMulti : NetworkedEntityView
         tireLimit = _playerStats.TireLimit;
         tireRate = _playerStats.TireRate;
         restoreRate = _playerStats.RestoreRate;
-        food = _playerStats.Food;
-        wood = _playerStats.Wood;
     }
 
     private void OnEnable() 
@@ -321,22 +319,22 @@ public class CharControllerMulti : NetworkedEntityView
                     }
                     animator.SetBool("Gather", true);
                     break;
-                case "Tree":
-                    if (GameController.Instance.create) {
-                        _gatherWoodEvent?.Invoke();    
-                        animator.SetBool("Gather", true);
-                        icon = 1;
-                    }
-                    break;
                 case "Live_Aurochs":
                     _gatherMeatEvent?.Invoke();
                     animator.SetBool("Gather", true);
-                    icon = 2;
+                    icon = 1;
                     break;
                 case "Dead_Aurochs":
                     _gatherMeatEvent?.Invoke();
                     animator.SetBool("Gather", true);
-                    icon = 2;
+                    icon = 1;
+                    break;
+                case "Tree":
+                    if (GameController.Instance.create) {
+                        _gatherWoodEvent?.Invoke();    
+                        animator.SetBool("Gather", true);
+                        icon = 2;
+                    }
                     break;
             }
             animator.SetBool("Gather", true);
@@ -385,28 +383,28 @@ public class CharControllerMulti : NetworkedEntityView
     public void AddResource(int icon)
     {
         if (icon == 0) {
-            state.food += 1f;
-            food = (int)state.food;
-        } else if (icon == 1 && GameController.Instance.create) {
+            state.fruit += 1f;
+            fruit = (int)state.fruit;
+        } else if (icon == 1 ) {
+                state.meat += 1f;
+                meat = (int)state.meat;
+        } else if (icon == 2 && GameController.Instance.create) {
                 state.wood += 1f;
                 wood = (int)state.wood;
-        } else if (icon == 2) {
-                state.food += 10f;
-                food = (int)state.food;
-        }  else if (icon == 3) {
-            state.food += 1f;
-            food = (int)state.food;
+        }  else if (icon == 3 && GameController.Instance.create) {
+            state.fruit += 1f;
+            fruit = (int)state.fruit;
             state.seeds += 5f;
             seeds = (int)state.seeds;
         }
         ChangedResource?.Invoke(icon);
-        Debug.Log($"Food = {food}, Wood = {wood}, Seeds = {seeds}");
+        Debug.Log($"Fruit = {fruit}, Meat = {meat}, Wood = {wood}, Seeds = {seeds}");
     }
 
     public void Robbed()
     {
-        state.food -= 1f;
-        food = (int)state.food;
+        state.fruit -= 1f;
+        fruit = (int)state.fruit;
         ChangedResource?.Invoke(0);
         Debug.Log(state.seeds + "+" + seeds);
 
@@ -414,9 +412,10 @@ public class CharControllerMulti : NetworkedEntityView
 
     public void DropOff()
     {
-        state.food -= state.food;
+        state.fruit -= state.fruit;
+        state.meat -= state.meat;
         ChangedResource?.Invoke(0);
-        Debug.Log(state.food + "+" + food);
+        Debug.Log(state.fruit + "+" + fruit);
     }
 
     public void UseWood(int woodUsed)

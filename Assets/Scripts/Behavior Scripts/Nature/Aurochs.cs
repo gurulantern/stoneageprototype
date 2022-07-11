@@ -5,6 +5,41 @@ using UnityEngine.AI;
 
 public class Aurochs : Gatherable
 {
+    // Clients store twenty states with "playback" information from the server. This
+    // array contains the official state of this object at different times according to
+    // the server.
+    [SerializeField]
+    protected AurochsState[] proxyStates = new AurochsState[20];
+
+    // Keep track of what slots are used
+    protected int proxyStateCount;
+
+    /// Cached transform
+    protected Transform myTransform;
+    /// The change in position in the most recent frame. Applies
+    /// to all sessions including the owner
+    public Vector3 LocalPositionDelta
+    {
+        get
+        {
+            return localPositionDelta;
+        }
+    }
+    protected Vector3 localPositionDelta;
+
+    /// The position of this transform in the previous frame
+    protected Vector3 prevLocalPosition;
+
+    /// Synchronized object state
+    [System.Serializable]
+    protected struct AurochsState
+    {
+        public double timestamp;
+        public Vector2 pos;
+        public Vector2 vel;
+        public int food;
+        public Colyseus.Schema.MapSchema<string> attributes;
+    }
     [SerializeField] private bool alive;
     [SerializeField] Transform target;
     [SerializeField] int startSpawn;

@@ -48,4 +48,10 @@ public class FruitTree : Tree
         }
     }
 
+    protected override void UpdateStateForView()
+    {
+        base.UpdateStateForView();
+        
+    }
+
 }
