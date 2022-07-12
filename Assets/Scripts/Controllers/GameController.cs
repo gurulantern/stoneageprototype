@@ -310,7 +310,7 @@ public class GameController : MonoBehaviour
         if (attributes.TryGetValue("currentGameState", out string currentServerGameState))
         {
             currentGameState = currentServerGameState;
-            Debug.Log(currentGameState + " / " + currentServerGameState);
+            //Debug.Log(currentGameState + " / " + currentServerGameState);
         }
 
         if (attributes.TryGetValue("lastGameState", out string lastServerGameState))

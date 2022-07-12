@@ -36,7 +36,7 @@ public class EnvironmentController : MonoBehaviour
     }
 
 
-    public void ObjectScored(ScorableState state, NetworkedEntity usingEntity)
+    public void ObjectScored(ScorableState state, NetworkedEntityView usingEntity)
     {
         Scorable scorable = GetScorableByState(state);
         if (scorable != null)
@@ -45,7 +45,7 @@ public class EnvironmentController : MonoBehaviour
         }
     }
 
-    public void ObjectGathered(GatherableState state, NetworkedEntity usingEntity)
+    public void ObjectGathered(GatherableState state, NetworkedEntityView usingEntity)
     {
         Gatherable gatherable = GetGatherableByState(state);
         if (gatherable != null)

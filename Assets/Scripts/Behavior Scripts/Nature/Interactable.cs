@@ -41,6 +41,9 @@ public class Interactable : MonoBehaviour
     [SerializeField]
     protected InteractableTrigger trigger;
 
+    protected bool playerNear; 
+
+
     protected virtual void Awake()
     {
         //Loop through the triggers and tell them who their owner is
@@ -89,6 +92,7 @@ public class Interactable : MonoBehaviour
             return;
 
         entity.EntityNearInteractable(this);
+        Debug.Log($"Player is near {this}");
         ///DisplayInRangeMessage();
     }
 
@@ -98,7 +102,8 @@ public class Interactable : MonoBehaviour
     /// <param name="entity"></param>
     public virtual void PlayerLeftRange(CharControllerMulti entity)
     {
-        entity.EntityNearInteractable(null);
+        entity.EntityLeftInteractable(this);
+        Debug.Log($"Player left {this}");
         ///HideInRangeMessage();
     }
 
@@ -119,7 +124,7 @@ public class Interactable : MonoBehaviour
     /// Sent by the <see cref="EnvironmentController"/> after the server sends a <see cref="ObjectUseMessage"/>
     /// </summary>
     /// <param name="entity"></param>
-    public virtual void OnSuccessfulUse(NetworkedEntity entity)
+    public virtual void OnSuccessfulUse(NetworkedEntityView entity)
     {
         OnSuccessfulUseEvent?.Invoke();
     }

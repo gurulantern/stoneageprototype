@@ -420,7 +420,7 @@ export class MyRoom extends Room<RoomState> {
               id: objectInfo[0],
             });
             this.state.gatherableObjects.set(objectInfo[0], gatherable);
-            logger.silly(`**** Initializing ${gatherable.id} ***`);
+            //logger.silly(`**** Initializing ${gatherable.id} ***`);
             this.broadcast("objectInitialized", { objectID : gatherable.id });
         } else {
         logger.info(`**** Gatherables already contains ${objectInfo[0]} ****`);
@@ -431,16 +431,14 @@ export class MyRoom extends Room<RoomState> {
         //Get the interactable item
         let gatherableObject = this.state.gatherableObjects.get(objectInfo[0]);
 
-    
         let gatheringState = this.state.networkedUsers.get(client.id);
-        if(gatherableObject.foodTotal == 0)
-        {
-            gatherableObject.woodTotal - gatherableObject.resourceTaken;
+        if (gatherableObject.harvestTrigger >= 0) {
+            gatherableObject.harvestTrigger -= 1;
+            logger.info(`**** ${gatherableObject} is at ${gatherableObject.harvestTrigger} **** `)
+        } else {
+            logger.info(`**** ${gatherableObject} is out of resources **** `)
+            gatherableObject = null;
         }
-        gatherableObject.foodTotal - gatherableObject.resourceTaken;
-        gatherableObject.seedsTotal - gatherableObject.seedsTaken;
-
-        gatherableObject.harvestTrigger += 1;
         if (gatheringState != null && gatherableObject != null) {
             this.broadcast("objectGathered", { gatheredObjectID: gatherableObject.id, gatheringStateID: gatheringState.sessionId});
         }

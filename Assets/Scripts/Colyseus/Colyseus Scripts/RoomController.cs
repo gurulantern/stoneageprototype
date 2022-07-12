@@ -367,18 +367,17 @@ using UnityEngine.SceneManagement;
         
         _room.OnMessage<ObjectInitMessage>("objectInitialized", (msg) =>
         {
-            Debug.Log(EnvironmentController.Instance);
             EnvironmentController.Instance.GetGatherableByState(Room.State.gatherableObjects[msg.objectID]);
         });
 
         _room.OnMessage<ObjectGatheredMessage>("objectGathered", (msg) =>
         {
-            StartCoroutine(AwaitObjectInteraction(msg.gatheredObjectID, msg.gatheringStateID, msg.gatherOrScore));
+            ObjectInteraction(msg.gatheredObjectID, msg.gatheringStateID, msg.gatherOrScore);
         });
 
         _room.OnMessage<ObjectScoredMessage>("objectScored", (msg) =>
         {
-            StartCoroutine(AwaitObjectInteraction(msg.scoredObjectID, msg.scoringStateID, msg.gatherOrScore));
+            //StartCoroutine(AwaitObjectInteraction(msg.scoredObjectID, msg.scoringStateID, msg.gatherOrScore));
         });
 
         //Custom game logic
@@ -469,25 +468,25 @@ using UnityEngine.SceneManagement;
     }
 
     ///Coroutine for object interaction
-    private IEnumerator AwaitObjectInteraction(string objectID, string entityID, string gatherOrScore)
+    private void ObjectInteraction(string objectID, string entityID, string gatherOrScore)
     {
         if (gatherOrScore == "gather") {
             while (!Room.State.gatherableObjects.ContainsKey(objectID))
             {
                 //Wait for the room to be aware of the object
-                yield return new WaitForEndOfFrame();
+                //yield return new WaitForEndOfFrame();
             }
 
-            NetworkedEntity entity = NetworkedEntityFactory.Instance.GetEntityByID(entityID);
+            NetworkedEntityView entity = GetEntityViewByID(entityID);
             EnvironmentController.Instance.ObjectGathered(Room.State.gatherableObjects[objectID], entity);
         } else if (gatherOrScore == "score") {
             while (!Room.State.scorableObjects.ContainsKey(objectID))
             {
                 //Wait for the room to be aware of the object
-                yield return new WaitForEndOfFrame();
+                //yield return new WaitForEndOfFrame();
             }
 
-            NetworkedEntity entity = NetworkedEntityFactory.Instance.GetEntityByID(entityID);
+            NetworkedEntityView entity = GetEntityViewByID(entityID);
             EnvironmentController.Instance.ObjectScored(Room.State.scorableObjects[objectID], entity);
         }
     }
@@ -635,7 +634,7 @@ using UnityEngine.SceneManagement;
     private static void OnStateChangeHandler(RoomState state, bool isFirstState)
     {
         onRoomStateChanged?.Invoke(state.attributes);
-        LSLog.LogImportant("State has been updated!");
+        //LSLog.LogImportant("State has been updated!");
     }
 
     ///     Sends "ping" message to current room to help measure latency to the server.
@@ -719,5 +718,25 @@ using UnityEngine.SceneManagement;
             roomOptionsDictionary.Clear();
 
         _currentNetworkedUser = null;
+    }
+
+    public NetworkedEntity GetEntityByID(string sessionId)
+    {
+        if (_entities.ContainsKey(sessionId))
+        {
+            return _entities[sessionId];
+        }
+
+        return null;
+    }
+
+    public NetworkedEntityView GetEntityViewByID(string sessionId)
+    {
+        if (_entityViews.ContainsKey(sessionId))
+        {
+            return _entityViews[sessionId];
+        }
+
+        return null;
     }
 }

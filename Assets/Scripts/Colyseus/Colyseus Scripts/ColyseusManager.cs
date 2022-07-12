@@ -201,7 +201,7 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
 
     public void SendObjectInit(Gatherable gatherable)
     {
-        LSLog.Log("Initializing " + gatherable.ID);
+        //LSLog.Log("Initializing " + gatherable.ID);
         NetSend("objectInit", new object[] {gatherable.ID, gatherable.GetServerType()});
     }
 

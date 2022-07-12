@@ -20,14 +20,15 @@ public class FruitTree : Tree
     public override void SetState(GatherableState state)
     {
         base.SetState(state);
-        foodTotal = (int)_state.foodTotal;
-        foodRemaining = (int)_state.foodTotal;
-        seedsTotal = (int)_state.seedsTotal;
-        seedsTaken = (int)_state.seedsTaken;
-        seedsRemaining = (int)_state.seedsTotal;
+        prevHarvestTrigger = (int)_state.harvestTrigger;
     }
     protected override void Harvest()
     {
+        _treeStates[prevHarvestTrigger].gameObject.SetActive(false);
+        prevHarvestTrigger = (int)_state.harvestTrigger;
+        _treeStates[prevHarvestTrigger].gameObject.SetActive(true);
+
+        /*
         if (gameObject.tag == "Tree") {
             base.Harvest();
         } else {
@@ -46,12 +47,19 @@ public class FruitTree : Tree
                 gameObject.tag = "Tree";       
             }
         }
+        */
     }
 
     protected override void UpdateStateForView()
     {
         base.UpdateStateForView();
-        
+
+    }
+
+    public override void OnSuccessfulUse(NetworkedEntityView entity)
+    {
+        Harvest();
+        entity.gameObject.GetComponent<CharControllerMulti>().StartGather();
     }
 
 }

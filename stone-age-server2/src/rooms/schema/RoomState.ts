@@ -32,12 +32,7 @@ export class GatherableState extends Schema {
   @type("number") xPos: number = 0;
   @type("number") yPos: number = 0;
   @type("number") availableTimestamp: number = 0.0;
-  @type("number") foodTotal: number = 0;
-  @type("number") woodTotal: number = 0;
-  @type("number") seedsTotal: number = 0;
   @type("number") harvestTrigger: number = 0;
-  @type("number") resourceTaken: number = 0;
-  @type("number") seedsTaken: number = 0;
 }
 
 export class ScorableState extends Schema {

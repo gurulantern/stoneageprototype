@@ -14,6 +14,7 @@ using UnityEngine.Events;
 /// </summary>
 public abstract class Gatherable : Interactable
 {
+    [SerializeField] private int previousHarvest;
     [SerializeField] protected int harvestTrigger; 
     [SerializeField] protected int foodTotal;
     [SerializeField] protected int foodTaken;
@@ -40,27 +41,18 @@ public abstract class Gatherable : Interactable
     protected GatherableState previousState;
     protected GatherableState localUpdatedState;
 
-    protected int i;
-    protected bool playerNear; 
+    protected int prevHarvestTrigger;
     protected string clickedTag;
-    [SerializeField] protected Animator animator;
 
     protected override void Awake() {
         base.Awake();
-        animator = GetComponent<Animator>();
     }
-
+/*
     protected virtual void Harvest()
     {
-        Debug.Log("Harvest is firing with playerNear = " + playerNear + " ResourceRemaining = " + resourceRemaining);
-        if (playerNear == true && resourceRemaining > 0) {
-            animator.SetTrigger("Harvest " + harvestTrigger.ToString());
-            harvestTrigger ++;
-            resourceRemaining = Mathf.Clamp(resourceRemaining - resourceTaken, 0, resourceTotal);
-            Debug.Log("Gathered invoked and foodRemaining = " + resourceRemaining);
-        }
-    }
 
+    }
+*/
         /// <summary>
     /// Hand off the <see cref="GatherableState"/> from the server
     /// </summary>
@@ -69,7 +61,6 @@ public abstract class Gatherable : Interactable
     {
         _state = state;
         _state.OnChange += OnStateChange;
-        resourceTaken = (int)_state.resourceTaken;
         harvestTrigger = (int)_state.harvestTrigger;
         UpdateStateForView();
     } 
@@ -114,7 +105,6 @@ public abstract class Gatherable : Interactable
     protected virtual void UpdateViewFromState()
     {
         harvestTrigger = (int)_state.harvestTrigger;
-        animator.SetTrigger("Harvest " + harvestTrigger.ToString());
         /*
         //The current in use status is not what the State indicates
         if (isInUse != State.inUse)

@@ -20,9 +20,7 @@ export function getStateForType(type: string) : GatherableState {
         {
             state.assign({
                 gatherableType : type,
-                woodTotal : 10,
-                harvestTrigger : 1,
-                resourceTaken : 1
+                harvestTrigger : 9
             });
             break;
         }
@@ -30,12 +28,7 @@ export function getStateForType(type: string) : GatherableState {
         {
             state.assign({
                 gatherableType : type,
-                foodTotal : 7,
-                woodTotal : 10,
-                seedsTotal : 20,
-                harvestTrigger : 1,
-                resourceTaken : 1, 
-                seedsTaken : 5
+                harvestTrigger : 16 
             });
             break;
         }
@@ -43,9 +36,7 @@ export function getStateForType(type: string) : GatherableState {
         {
             state.assign({
                 gatherableType : type,
-                foodTotal : 5,
-                harvestTrigger : 1,
-                resourceTaken : 5
+                harvestTrigger : 0
             });
             break;
         }
@@ -53,9 +44,7 @@ export function getStateForType(type: string) : GatherableState {
         {
             state.assign({
                 gatherableType : type,
-                foodTotal : 10,
-                harvestTrigger : 1,
-                resourceTaken : 10
+                harvestTrigger : 0
             });
             break;
         }

@@ -24,6 +24,8 @@ public class CharControllerMulti : NetworkedEntityView
     [SerializeField] private UIHooks uiHooks; 
 
     [SerializeField] private SpriteRenderer[] _gatherIcons;
+    private List<Gatherable> currentGatherables;
+    private List<Scorable> currentScorables;
     private Gatherable currentGatherable;
     private Scorable currentScorable;
     private ICollection entities;
@@ -57,6 +59,8 @@ public class CharControllerMulti : NetworkedEntityView
     
     protected override void Awake() {
         base.Awake();
+        currentGatherables = new List<Gatherable>();
+        currentScorables = new List<Scorable>();
         _playerControls = new PlayerControls();
         rb = GetComponent<Rigidbody2D>();
         maxStamina = _playerStats.MaxStamina;
@@ -301,15 +305,15 @@ public class CharControllerMulti : NetworkedEntityView
     private void OnFoodAction()
     {
         RaycastHit2D hit;
-        string tag;
         Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
         hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
-        tag = hit.collider.tag;
-        if(tag == currentGatherable.gameObject.tag) {
-            Debug.Log(tag + " clicked.");
+        currentGatherable = hit.collider.gameObject.GetComponent<Gatherable>();
+        if(currentGatherables.Contains(currentGatherable)) {
+            Debug.Log(currentGatherable + " clicked.");
             currentGatherable.PlayerAttemptedUse(this);
-            switch(tag) {
+/*
+            switch(currentGatherable.gameObject.tag) {
                 case "Fruit_Tree":
                     _gatherFruitEvent?.Invoke();
                     if (GameController.Instance.create) {
@@ -339,9 +343,45 @@ public class CharControllerMulti : NetworkedEntityView
             }
             animator.SetBool("Gather", true);
             _gatherIcons[icon].gameObject.SetActive(true);
-
+*/
         }
     }
+
+    //If attempted use is successful this function will fire
+    public void StartGather()
+    {
+        switch(currentGatherable.gameObject.tag) {
+                case "Fruit_Tree":
+                    _gatherFruitEvent?.Invoke();
+                    if (GameController.Instance.create) {
+                        icon = 3;
+                    } else {
+                        icon = 0;    
+                    }
+                    animator.SetBool("Gather", true);
+                    break;
+                case "Live_Aurochs":
+                    _gatherMeatEvent?.Invoke();
+                    animator.SetBool("Gather", true);
+                    icon = 1;
+                    break;
+                case "Dead_Aurochs":
+                    _gatherMeatEvent?.Invoke();
+                    animator.SetBool("Gather", true);
+                    icon = 1;
+                    break;
+                case "Tree":
+                    if (GameController.Instance.create) {
+                        _gatherWoodEvent?.Invoke();    
+                        animator.SetBool("Gather", true);
+                        icon = 2;
+                    }
+                    break;
+            }
+        animator.SetBool("Gather", true);
+        _gatherIcons[icon].gameObject.SetActive(true);
+    }
+
 
     //The function to stop the gather aciton called when animation has finished;
     public void StopGather() {
@@ -429,9 +469,22 @@ public class CharControllerMulti : NetworkedEntityView
     public void EntityNearInteractable(Interactable interactable)
     {
         if (interactable.GetComponent<Gatherable>()) {
-            currentGatherable = interactable.GetComponent<Gatherable>();
+            currentGatherables.Add(interactable.GetComponent<Gatherable>());
+            Debug.Log($"{currentGatherables}");
         } else if (interactable.GetComponent<Scorable>()) {
-            currentScorable  = interactable.GetComponent<Scorable>();
+            currentScorables.Add(interactable.GetComponent<Scorable>());
+            Debug.Log($"{currentScorables}");
+        }
+    }
+
+    public void EntityLeftInteractable(Interactable interactable)
+    {
+        if (interactable.GetComponent<Gatherable>()) {
+            currentGatherables.Remove(interactable.GetComponent<Gatherable>());
+            Debug.Log($"{currentGatherables}");
+        } else if (interactable.GetComponent<Scorable>()) {
+            currentScorables.Remove(interactable.GetComponent<Scorable>());
+            Debug.Log($"{currentScorables}");
         }
     }
 }

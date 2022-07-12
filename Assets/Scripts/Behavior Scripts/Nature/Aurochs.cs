@@ -48,10 +48,12 @@ public class Aurochs : Gatherable
     void Start()
     {
         target = GameController.Instance.aurochsSpawnPoints[startSpawn + 1].transform;
-        agent = GetComponent<NavMeshAgent>();
-        agent.updateRotation = false;
-        agent.updateUpAxis = false;
-        agent.SetDestination(target.position);
+        if (alive) {
+            agent = GetComponent<NavMeshAgent>();
+            agent.updateRotation = false;
+            agent.updateUpAxis = false;
+            agent.SetDestination(target.position);
+        }
     }
 
     void FixedUpdate()
@@ -69,14 +71,14 @@ public class Aurochs : Gatherable
         */
     }
     private void Update() {
-        agent.SetDestination(target.position);
+        if(alive) {
+            agent.SetDestination(target.position);
+        }
     }
 
     public override void SetState(GatherableState state)
     {
         base.SetState(state);
-        resourceTotal = (int) _state.foodTotal;
-        resourceRemaining = (int) _state.foodTotal; 
     }
 
     /*

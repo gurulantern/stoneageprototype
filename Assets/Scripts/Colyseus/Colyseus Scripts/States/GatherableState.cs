@@ -26,21 +26,6 @@ public partial class GatherableState : Schema {
 	[Type(5, "number")]
 	public float availableTimestamp = default(float);
 
-	[Type(6, "number")]
-	public float foodTotal = default(float);
-
-    [Type(7, "number")]
-	public float woodTotal = default(float);
-
-	[Type(8, "number")]
-	public float seedsTotal = default(float);
-
-    [Type(9, "number")]
+    [Type(6, "number")]
 	public float harvestTrigger = default(float);
-
-    [Type(10, "number")]
-	public float resourceTaken = default(float);
-
-	[Type(11, "number")]
-	public float seedsTaken = default(float);
 }
