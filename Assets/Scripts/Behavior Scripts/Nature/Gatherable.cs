@@ -133,6 +133,8 @@ public abstract class Gatherable : Interactable
                 this.gameObject.GetComponent<Aurochs>().Harvest();
                 break;
         }
-        entity.gameObject.GetComponent<CharControllerMulti>().StartGather();
+        if (entity != null) {
+            entity.gameObject.GetComponent<CharControllerMulti>().StartGather();
+        }
     }
 }

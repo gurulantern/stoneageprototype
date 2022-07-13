@@ -478,8 +478,16 @@ using UnityEngine.SceneManagement;
             }
             int harvest;
             int.TryParse(gatheredObjectHarvest, out harvest);
-            CharControllerMulti entity = GetEntityViewByID(entityID).GetComponent<CharControllerMulti>();
-            EnvironmentController.Instance.ObjectGathered(Room.State.gatherableObjects[objectID], harvest, gatheredObjectType, entity);
+            if (GetEntityView(entityID)) {
+                CharControllerMulti entity = GetEntityView(entityID).GetComponent<CharControllerMulti>();
+                EnvironmentController.Instance.ObjectGathered(Room.State.gatherableObjects[objectID], 
+                    harvest, gatheredObjectType, entity);
+
+            } else { 
+                CharControllerMulti entity = null;
+                EnvironmentController.Instance.ObjectGathered(Room.State.gatherableObjects[objectID], 
+                    harvest, gatheredObjectType, entity);
+            }
         } else if (gatherOrScore == "score") {
             while (!Room.State.scorableObjects.ContainsKey(objectID))
             {
@@ -487,7 +495,7 @@ using UnityEngine.SceneManagement;
                 //yield return new WaitForEndOfFrame();
             }
 
-            CharControllerMulti entity = GetEntityViewByID(entityID).GetComponent<CharControllerMulti>();
+            CharControllerMulti entity = GetEntityView(entityID).GetComponent<CharControllerMulti>();
             EnvironmentController.Instance.ObjectScored(Room.State.scorableObjects[objectID], entity);
         }
     }
@@ -721,23 +729,4 @@ using UnityEngine.SceneManagement;
         _currentNetworkedUser = null;
     }
 
-    public NetworkedEntity GetEntityByID(string sessionId)
-    {
-        if (_entities.ContainsKey(sessionId))
-        {
-            return _entities[sessionId];
-        }
-
-        return null;
-    }
-
-    public NetworkedEntityView GetEntityViewByID(string id)
-    {
-        if (_entityViews.ContainsKey(id))
-        {
-            return _entityViews[id];
-        }
-
-        return null;
-    }
 }
