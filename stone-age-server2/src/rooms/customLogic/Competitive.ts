@@ -94,7 +94,7 @@ const customMethods: any = {};
  * @param client The reporting client
  * @param request In order, the Gatherer's ID and the Source's ID, for scoring purposes
  */
-customMethods.foodCollected =  function (roomRef: MyRoom, client: Client, request: any) {
+customMethods.gather =  function (roomRef: MyRoom, client: Client, request: any) {
     
     //Don't count gathering until a round is going
     if(getGameState(roomRef, CurrentState) != StoneAgeServerGameState.SimulateRound) {
@@ -111,26 +111,20 @@ customMethods.foodCollected =  function (roomRef: MyRoom, client: Client, reques
     }
 
     const gathererID = param[0];
-    const foodSourceID = param[1];
+    const foodChange = Number(param[1]);
+    const teamIndex = Number(param[2]);
     
     let gatherer = roomRef.state.networkedEntities.get(gathererID);
-    ///good for stealing from each other
-    let foodSource = roomRef.state.networkedEntities.get(foodSourceID);
     
-    if(gatherer != null){
-        //Update the gathering player's stats and score
-        let inventoryFood: number = getAttributeNumber(gatherer, "food", 0);
-        inventoryFood += 1;
-        let score: number = inventoryFood * FoodScoreMultiplier;
-        roomRef.setAttribute(null, { entityId: gathererID, attributesToSet: { food: inventoryFood.toString(), score: score.toString() } });
-
+    if(roomRef.teams.get(teamIndex).has(gathererID)){
+        let score: number = foodChange * FoodScoreMultiplier;
         /// Update the team's score PLACE THIS IN THE CAVE SCRIPT
-        updateTeamScore(roomRef, gathererID, "gather", 1);
+        updateTeamScores(roomRef, gathererID, "gather", score );
     }
     else{
         logger.silly(`No gatherer entity found with Id: ${gathererID}`)
     }
-
+/*
     if(foodSource != null){
         //Update death count of the dead player
         let foodTaken: number = getAttributeNumber(foodSource, "food", 0);
@@ -140,14 +134,19 @@ customMethods.foodCollected =  function (roomRef: MyRoom, client: Client, reques
         roomRef.setAttribute(null, {entityId: foodSourceID, attributesToSet: {food: foodTaken.toString(), score: score.toString() } });
         
         /// PLACE THIS IN CAVE SCRIPT
-        updateTeamScore(roomRef, gathererID, "gather", -1);
+        updateTeamScores(roomRef, gathererID, "gather", -1);
     }
     else{
         logger.silly(`No dead entity found with Id: ${foodSourceID}`)
     }
+*/
 }
 
-customMethods.observation = function (roomRef: MyRoom, client: Client, request: any) {
+customMethods.observe = function (roomRef: MyRoom, client: Client, request: any) {
+
+}
+
+customMethods.create = function (roomRef: MyRoom, client: Client, request: any) {
 
 }
 //====================================== END Client Request Logic
@@ -206,8 +205,9 @@ let getAttributeNumber = function(entity: NetworkedEntity, attributeName: string
  * @param roomRef Reference to the room
  * @param teamIndex The index of the team who's score we want
  */
-let getTeamScore = function(roomRef: MyRoom, teamIndex: number, scoreType: string): number {
-    let score: number = Number(roomRef.state.attributes.get(`team_${teamIndex.toString()}_${scoreType}`));
+let getTeamScores = function(roomRef: MyRoom, teamIndex: number, scoreType: string): number {
+
+    let score: number = Number(roomRef.teamScores.get(teamIndex).get(scoreType));
 
 
     if(isNaN(score)) {
@@ -215,6 +215,11 @@ let getTeamScore = function(roomRef: MyRoom, teamIndex: number, scoreType: strin
     }
     
     return score;
+}
+
+let setTeamScores = function(roomRef: MyRoom, teamIndex: number, scoreType: string, newTeamScore: number) {
+    roomRef.teamScores.get(teamIndex).set(scoreType, newTeamScore);
+    logger.info(`**** Updated team ${teamIndex} with a score of ${newTeamScore}`);
 }
 
 /**
@@ -234,11 +239,6 @@ let resetForNewRound = function (roomRef: MyRoom) {
 }
 
 let resetPlayerData = function(roomRef: MyRoom) {
-    // Reset all player scores
-    setEntitiesAttribute(roomRef, "food", "0");
-    setEntitiesAttribute(roomRef, "wood", "0");
-    setEntitiesAttribute(roomRef, "seeds", "0");
-    setEntitiesAttribute(roomRef, "observe", "0");
     //Remove winning team
     if(roomRef.state.attributes.has(WinningTeamId))
     {
@@ -261,11 +261,11 @@ let resetTeamScores = function(roomRef: MyRoom) {
     
 }
 
-let updateTeamScore = function(roomRef: MyRoom, teamMateId: string, scoreType: string, amount: number) {
+let updateTeamScores = function(roomRef: MyRoom, teamMateId: string, scoreType: string, amount: number) {
 
     let teamIdx: number = -1;
     let clientId: string = "";
-    let teamScore: number = -1;
+    let teamScore: number = 0;
 
     // Get client Id from entity
     let entity: NetworkedEntity = roomRef.state.networkedEntities.get(teamMateId);
@@ -281,11 +281,11 @@ let updateTeamScore = function(roomRef: MyRoom, teamMateId: string, scoreType: s
         });
 
         if(teamIdx >= 0) {
-            teamScore = getTeamScore(roomRef, teamIdx, scoreType);
+            teamScore = getTeamScores(roomRef, teamIdx, scoreType);
 
             teamScore += amount;
 
-            setRoomAttribute(roomRef, `team_${teamIdx.toString()}_${scoreType}`, teamScore.toString());
+            setTeamScores(roomRef, teamIdx, scoreType, teamScore);
         }
         else {
             logger.error(`Update Team Score - Error - No team found for client Id: ${clientId}`);
@@ -662,9 +662,17 @@ exports.InitializeLogic = function (roomRef: MyRoom, options: any) {
     roomRef.teamScores.set(2, new Map());
     roomRef.teamScores.set(3, new Map());
 
+    roomRef.teamScores.forEach(function(value) {
+        value.set("gather", 0);
+        value.set("observe", 0);
+        value.set("create", 0);
+        value.set("total", 0);
+    })
+
     roomRef.alliances = new Map();
     roomRef.alliances.set(0, []);
-    roomRef.alliances.set(0, []);
+    roomRef.alliances.set(1, []);
+    roomRef.alliances.set(2, []);
 
     // Set initial game state to waiting for all clients to be ready
     setRoomAttribute(roomRef, CurrentState, StoneAgeServerGameState.Waiting)

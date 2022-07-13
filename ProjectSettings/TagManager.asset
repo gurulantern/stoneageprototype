@@ -24,7 +24,7 @@ TagManager:
   - Water
   - UI
   - Raycast
-  - 
+  - Ground
   - 
   - 
   - 
@@ -52,6 +52,12 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Ground
+    uniqueID: 512075731
+    locked: 0
+  - name: Objects
+    uniqueID: 2314109765
     locked: 0
   - name: Gather Icons
     uniqueID: 3222394325

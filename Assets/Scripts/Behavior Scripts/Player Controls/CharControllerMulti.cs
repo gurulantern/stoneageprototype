@@ -16,7 +16,6 @@ public class CharControllerMulti : NetworkedEntityView
     [SerializeField] PlayerControls _playerControls;
     [SerializeField] Camera _camera;
     [SerializeField] GameEvent _dropOffEvent;
-    [SerializeField] GameEvent _observeDone;
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private UIHooks uiHooks; 
 
@@ -108,7 +107,7 @@ public class CharControllerMulti : NetworkedEntityView
         {
             Destroy(uiHooks);
         }
-        gameObject.tag = "OtherPlayer";
+        gameObject.tag = "Other_Player";
 
         /*
         if (TryGetComponent(out PlayerSpaceshipInputBehaviour inputBehaviour))
@@ -278,6 +277,7 @@ public class CharControllerMulti : NetworkedEntityView
     //Sets look direction and set speed for animator
     private void OnMove(InputValue value) 
     {
+        if (!sleeping && !observing && !gathering)
         moveInput = value.Get<Vector2>();
 
         if(!Mathf.Approximately(moveInput.x, 0.0f) || !Mathf.Approximately(moveInput.y, 0.0f))
@@ -298,42 +298,14 @@ public class CharControllerMulti : NetworkedEntityView
         Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
         hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
-        currentGatherable = hit.collider.gameObject.GetComponent<Gatherable>();
-        if(currentGatherables.Contains(currentGatherable) && !animator.GetBool("Gather")) {
-            Debug.Log(currentGatherable + " clicked.");
-            currentGatherable.PlayerAttemptedUse(this);
-/*
-            switch(currentGatherable.gameObject.tag) {
-                case "Fruit_Tree":
-                    _gatherFruitEvent?.Invoke();
-                    if (GameController.Instance.create) {
-                        icon = 3;
-                    } else {
-                        icon = 0;    
-                    }
-                    animator.SetBool("Gather", true);
-                    break;
-                case "Live_Aurochs":
-                    _gatherMeatEvent?.Invoke();
-                    animator.SetBool("Gather", true);
-                    icon = 1;
-                    break;
-                case "Dead_Aurochs":
-                    _gatherMeatEvent?.Invoke();
-                    animator.SetBool("Gather", true);
-                    icon = 1;
-                    break;
-                case "Tree":
-                    if (GameController.Instance.create) {
-                        _gatherWoodEvent?.Invoke();    
-                        animator.SetBool("Gather", true);
-                        icon = 2;
-                    }
-                    break;
-            }
-            animator.SetBool("Gather", true);
-            _gatherIcons[icon].gameObject.SetActive(true);
-*/
+        if (hit.collider.gameObject.tag == "OtherPlayer" && hit.collider.gameObject.GetComponent<CharControllerMulti>().sleeping) {
+            
+        } else {
+            currentGatherable = hit.collider.gameObject.GetComponent<Gatherable>();
+            if(currentGatherables.Contains(currentGatherable) && !animator.GetBool("Gather")) {
+                Debug.Log(currentGatherable + " clicked.");
+                currentGatherable.PlayerAttemptedUse(this);
+        }
         }
     }
 
@@ -347,23 +319,23 @@ public class CharControllerMulti : NetworkedEntityView
                     } else {
                         icon = 0;    
                     }
-                    animator.SetBool("Gather", true);
                     break;
                 case "Live_Aurochs":
-                    animator.SetBool("Gather", true);
                     icon = 1;
                     break;
                 case "Dead_Aurochs":
-                    animator.SetBool("Gather", true);
                     icon = 1;
                     break;
                 case "Tree":
                     if (GameController.Instance.create) {
-                        animator.SetBool("Gather", true);
                         icon = 2;
                     }
                     break;
+                case "Fish":
+                    icon = 4;
+                    break;
             }
+        gathering = true;
         animator.SetBool("Gather", true);
         _gatherIcons[icon].gameObject.SetActive(true);
     }
@@ -375,6 +347,7 @@ public class CharControllerMulti : NetworkedEntityView
         Debug.Log("Gathering is finished");
         _gatherIcons[icon].gameObject.SetActive(false);
         animator.SetBool("Gather", false);
+        gathering = false;
         AddResource(icon);
     }    
     
@@ -385,25 +358,24 @@ public class CharControllerMulti : NetworkedEntityView
         Debug.Log("there was a right click at " + Mouse.current.position.ReadValue());
         Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
         hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
-        if (hit.collider.tag == "Fruit Tree") {
+        tagNear = hit.collider.gameObject.tag;
+        if(tagNear != null) {
+            observing = true;
             animator.SetBool("Observe", true);
             Debug.Log("Player observes");
-        } else if (hit.collider.tag == "Tree") {
-            animator.SetBool("Observe", true);
-            Debug.Log("Player observes");
-        } else if (hit.collider.tag == "OtherPlayer") {
-            animator.SetBool("Observe", true);
-            Debug.Log("Player observes");
-        } else if (hit.collider.tag == "Aurochs") {
-            animator.SetBool("Observe", true);
         }
+    }
+
+    public void RegisterObserved()
+    {
+        
     }
 
     // function to notify when Obsering is done, called when animation is finished
     public void StopObserve()
     {
         animator.SetBool("Observe", false);
-        _observeDone?.Invoke();
+        observing = false;
     }
 
     public void AddResource(int icon)
@@ -411,7 +383,7 @@ public class CharControllerMulti : NetworkedEntityView
         if (icon == 0) {
             state.fruit += 1f;
             fruit = (int)state.fruit;
-        } else if (icon == 1 ) {
+        } else if (icon == 1  || icon == 4) {
                 state.meat += 1f;
                 meat = (int)state.meat;
         } else if (icon == 2 && GameController.Instance.create) {
@@ -427,12 +399,23 @@ public class CharControllerMulti : NetworkedEntityView
         Debug.Log($"Fruit = {fruit}, Meat = {meat}, Wood = {wood}, Seeds = {seeds}");
     }
 
-    public void Robbed()
+    public void Robbed(string robberID) 
     {
-        state.fruit -= 1f;
-        fruit = (int)state.fruit;
-        ChangedResource?.Invoke(0);
-        Debug.Log(state.seeds + "+" + seeds);
+        //ColyseusManager.RFC(this, "RobbedRFC", );
+    }
+
+    public void RobbedRFC()
+    {
+
+    }
+
+    public void Give(string receiverID)
+    {
+
+    }
+
+    public void GiveRFC(string receiverID)
+    {
 
     }
 

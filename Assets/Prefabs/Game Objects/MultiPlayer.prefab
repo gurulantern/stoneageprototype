@@ -71,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1072572971
-  m_SortingLayer: 1
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f15f5f6baca42a54fbfbfb85bf2368d0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -126,7 +126,6 @@ GameObject:
   - component: {fileID: 4126516024473503799}
   - component: {fileID: -2674248606795513031}
   - component: {fileID: 4183993424342884441}
-  - component: {fileID: 782909295415391657}
   - component: {fileID: 4126516024473503784}
   - component: {fileID: 1156100682316801019}
   - component: {fileID: 6086085549515622760}
@@ -469,9 +468,6 @@ MonoBehaviour:
     observePoints: 0
   _spriteRenderer: {fileID: 4126516024473503784}
   _camera: {fileID: 0}
-  _gatherFruitEvent: {fileID: 11400000, guid: 39547941a8e8c7c41920f5b9cc33e448, type: 2}
-  _gatherMeatEvent: {fileID: 11400000, guid: 0721fdd1515da30459668d54c8e8256f, type: 2}
-  _gatherWoodEvent: {fileID: 11400000, guid: 6c858e26e7111634b9e6544f5826139f, type: 2}
   _dropOffEvent: {fileID: 11400000, guid: 2d0bef7205864cb4ab42c2f9cc282272, type: 2}
   _observeDone: {fileID: 11400000, guid: dc22a70e3b7057a4fa78d073f33966de, type: 2}
   _layerMask:
@@ -520,34 +516,6 @@ MonoBehaviour:
   _personalMeatCount: {fileID: 0}
   _personalWoodCount: {fileID: 0}
   _personalSeedsCount: {fileID: 0}
---- !u!114 &782909295415391657
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4126516024473503786}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3642061a092171f4bb2a09e9c197cf02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gameEvent: {fileID: 11400000, guid: db6dd929ff08b3c4a95979c12a359bfd, type: 2}
-  _unityEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: -2674248606795513031}
-        m_TargetAssemblyTypeName: CharControllerMulti, Assembly-CSharp
-        m_MethodName: FoodStamina
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 30
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!212 &4126516024473503784
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -801,7 +769,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1072572971
-  m_SortingLayer: 1
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 7f4e93df1af7268469781e61af7316e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -885,7 +853,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1072572971
-  m_SortingLayer: 1
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -2103020377, guid: 1b264d8a1ae5ccf4d954473ffa0a063a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1017,7 +985,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1072572971
-  m_SortingLayer: 1
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 02a24a27841d7bb4c927eb4e39dbd840, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -499,4 +499,19 @@ public class GameController : MonoBehaviour
         LSLog.LogError($"No player controller with id {entityID} found!");
         return null;
     }
+
+    public void RegisterGather(string entityID, string foodChange, string teamIndex)
+    {
+        ColyseusManager.CustomServerMethod("gather", new object[] { entityID, foodChange, teamIndex});
+    }
+
+    public void RegisterObserve(string entityID, string observedObject, string teamIndex)
+    {
+        ColyseusManager.CustomServerMethod("observe", new object[] { entityID, observedObject, teamIndex});
+    }
+
+    public void RegisterCreate(string entityID, string createType, string teamIndex)
+    {
+        ColyseusManager.CustomServerMethod("create", new object[] { entityID, createType, teamIndex });
+    }
 }

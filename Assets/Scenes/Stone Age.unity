@@ -1082,7 +1082,7 @@ GameObject:
   - component: {fileID: 221079660}
   - component: {fileID: 221079659}
   - component: {fileID: 221079658}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1153,7 +1153,7 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 5
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
@@ -1176,7 +1176,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -3952,7 +3952,7 @@ PrefabInstance:
     - target: {fileID: 2277645938194218942, guid: 89ff8681bf747634899edaa4b0a546e4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.7
+      value: 9.03
       objectReference: {fileID: 0}
     - target: {fileID: 2277645938194218942, guid: 89ff8681bf747634899edaa4b0a546e4,
         type: 3}
@@ -3998,6 +3998,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2277645938194218943, guid: 89ff8681bf747634899edaa4b0a546e4,
+        type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 2147483651
       objectReference: {fileID: 0}
     - target: {fileID: 7813661911691709772, guid: 89ff8681bf747634899edaa4b0a546e4,
         type: 3}
@@ -5898,7 +5903,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7771429, y: 1}
+    m_SensorSize: {x: 1.7787879, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -8022,7 +8027,7 @@ TilemapRenderer:
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
-  m_Mode: 0
+  m_Mode: 1
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
 --- !u!1839735485 &1841248825
