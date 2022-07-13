@@ -1075,8 +1075,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4223449609587997409}
   - component: {fileID: -6419844421664405122}
-  - component: {fileID: 4886264188954558651}
-  - component: {fileID: 5804568076964361385}
   - component: {fileID: 6648273047993850818}
   - component: {fileID: -3432109334408713459}
   m_Layer: 6
@@ -1118,46 +1116,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnSuccessfulUseEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5492570035467929356}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   _itemID: 
   serverType: FRUIT_TREE
   trigger: {fileID: 8514854755283966527}
-  previousHarvest: 0
-  harvestTrigger: 0
-  foodTotal: 0
-  foodTaken: 0
-  foodRemaining: 0
-  seedsTotal: 0
-  seedsTaken: 0
-  seedsRemaining: 0
-  resourceTotal: 0
-  resourceTaken: 0
-  resourceRemaining: 0
-  animator: {fileID: 0}
+  prevHarvestTrigger: 0
+  currHarvestTrigger: 0
   _treeStates:
   - {fileID: 7928193471969424024}
   - {fileID: 7420646780978534150}
@@ -1176,54 +1140,6 @@ MonoBehaviour:
   - {fileID: 6377405642846119721}
   - {fileID: 8156963256922159570}
   - {fileID: 2399723140314102414}
---- !u!114 &4886264188954558651
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5492570035467929356}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3642061a092171f4bb2a09e9c197cf02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gameEvent: {fileID: 11400000, guid: 39547941a8e8c7c41920f5b9cc33e448, type: 2}
-  _unityEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: -6419844421664405122}
-        m_TargetAssemblyTypeName: FruitTree, Assembly-CSharp
-        m_MethodName: Harvest
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!95 &5804568076964361385
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5492570035467929356}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 28f02b9460d42ea4895276032a9cab75, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!61 &6648273047993850818
 BoxCollider2D:
   m_ObjectHideFlags: 0

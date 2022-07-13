@@ -36,21 +36,21 @@ public class EnvironmentController : MonoBehaviour
     }
 
 
-    public void ObjectScored(ScorableState state, NetworkedEntityView usingEntity)
+    public void ObjectScored(ScorableState state, CharControllerMulti usingEntity)
     {
         Scorable scorable = GetScorableByState(state);
         if (scorable != null)
         {
-            scorable.OnSuccessfulUse(usingEntity);
+            scorable.OnSuccessfulUse(usingEntity, "", 0);
         }
     }
 
-    public void ObjectGathered(GatherableState state, NetworkedEntityView usingEntity)
+    public void ObjectGathered(GatherableState state, int harvest, string type, CharControllerMulti usingEntity)
     {
         Gatherable gatherable = GetGatherableByState(state);
         if (gatherable != null)
         {
-            gatherable.OnSuccessfulUse(usingEntity);
+            gatherable.OnSuccessfulUse(usingEntity, type, harvest);
         }
     }
 

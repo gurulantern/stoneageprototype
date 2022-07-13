@@ -81,11 +81,10 @@ public class Aurochs : Gatherable
         base.SetState(state);
     }
 
-    /*
+
     //Left click decreases food remaining and triggers the animation for food to disappear
-    protected override void Harvest()
+    public virtual void Harvest()
     {
-        base.Harvest();
+        Destroy(this.gameObject);
     }
-    */
 }

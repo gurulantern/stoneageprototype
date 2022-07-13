@@ -14,17 +14,8 @@ using UnityEngine.Events;
 /// </summary>
 public abstract class Gatherable : Interactable
 {
-    [SerializeField] private int previousHarvest;
-    [SerializeField] protected int harvestTrigger; 
-    [SerializeField] protected int foodTotal;
-    [SerializeField] protected int foodTaken;
-    [SerializeField] protected int foodRemaining;  
-    [SerializeField] protected int seedsTotal;
-    [SerializeField] protected int seedsTaken;
-    [SerializeField] protected int seedsRemaining; 
-    [SerializeField] protected int resourceTotal;
-    [SerializeField] protected int resourceTaken;
-    [SerializeField] protected int resourceRemaining; 
+    [SerializeField] protected int prevHarvestTrigger;
+    [SerializeField] protected int currHarvestTrigger;
 
     /// <summary>
     /// The schema state provided from the server
@@ -40,8 +31,6 @@ public abstract class Gatherable : Interactable
     }
     protected GatherableState previousState;
     protected GatherableState localUpdatedState;
-
-    protected int prevHarvestTrigger;
     protected string clickedTag;
 
     protected override void Awake() {
@@ -61,7 +50,7 @@ public abstract class Gatherable : Interactable
     {
         _state = state;
         _state.OnChange += OnStateChange;
-        harvestTrigger = (int)_state.harvestTrigger;
+        prevHarvestTrigger = (int)_state.harvestTrigger;
         UpdateStateForView();
     } 
 
@@ -104,7 +93,6 @@ public abstract class Gatherable : Interactable
     /// </summary>
     protected virtual void UpdateViewFromState()
     {
-        harvestTrigger = (int)_state.harvestTrigger;
         /*
         //The current in use status is not what the State indicates
         if (isInUse != State.inUse)
@@ -125,5 +113,26 @@ public abstract class Gatherable : Interactable
         base.PlayerAttemptedUse(entity);
         //Tell the server that this entity is attempting to use this interactable
         ColyseusManager.Instance.SendObjectGather(this, entity);
+    }
+
+    public override void OnSuccessfulUse(CharControllerMulti entity, string type, int harvest)
+    {
+        base.OnSuccessfulUse(entity, type, harvest);
+        currHarvestTrigger = harvest;
+        switch(type) {
+            case "TREE":
+                this.gameObject.GetComponent<Tree>().Harvest();
+                break;
+            case "FRUIT_TREE":
+                this.gameObject.GetComponent<FruitTree>().Harvest();
+                break;
+            case "DEAD_AUROCHS":
+                this.gameObject.GetComponent<Aurochs>().Harvest();
+                break;
+            case "LIVE_AUROCHS":
+                this.gameObject.GetComponent<Aurochs>().Harvest();
+                break;
+        }
+        entity.gameObject.GetComponent<CharControllerMulti>().StartGather();
     }
 }

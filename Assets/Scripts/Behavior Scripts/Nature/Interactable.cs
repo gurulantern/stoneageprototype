@@ -124,7 +124,7 @@ public class Interactable : MonoBehaviour
     /// Sent by the <see cref="EnvironmentController"/> after the server sends a <see cref="ObjectUseMessage"/>
     /// </summary>
     /// <param name="entity"></param>
-    public virtual void OnSuccessfulUse(NetworkedEntityView entity)
+    public virtual void OnSuccessfulUse(CharControllerMulti entity, string type, int harvest)
     {
         OnSuccessfulUseEvent?.Invoke();
     }

@@ -431,8 +431,8 @@ export class MyRoom extends Room<RoomState> {
         //Get the interactable item
         let gatherableObject = this.state.gatherableObjects.get(objectInfo[0]);
 
-        let gatheringState = this.state.networkedUsers.get(client.id);
-        if (gatherableObject.harvestTrigger >= 0) {
+        let gatheringState = this.state.networkedEntities.get(objectInfo[1]);
+        if (gatherableObject.harvestTrigger > 0) {
             gatherableObject.harvestTrigger -= 1;
             logger.info(`**** ${gatherableObject} is at ${gatherableObject.harvestTrigger} **** `)
         } else {
@@ -440,7 +440,8 @@ export class MyRoom extends Room<RoomState> {
             gatherableObject = null;
         }
         if (gatheringState != null && gatherableObject != null) {
-            this.broadcast("objectGathered", { gatheredObjectID: gatherableObject.id, gatheringStateID: gatheringState.sessionId});
+            this.broadcast("objectGathered", { gatheredObjectID: gatherableObject.id, gatheringStateID: gatheringState.id, 
+                gatheredObjectHarvest : gatherableObject.harvestTrigger, gatheredObjectType : gatherableObject.gatherableType});
         }
     }
 

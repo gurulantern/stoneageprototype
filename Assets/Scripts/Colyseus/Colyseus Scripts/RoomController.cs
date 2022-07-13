@@ -372,7 +372,7 @@ using UnityEngine.SceneManagement;
 
         _room.OnMessage<ObjectGatheredMessage>("objectGathered", (msg) =>
         {
-            ObjectInteraction(msg.gatheredObjectID, msg.gatheringStateID, msg.gatherOrScore);
+            ObjectInteraction(msg.gatheredObjectID, msg.gatheringStateID, msg.gatheredObjectHarvest, msg.gatheredObjectType, msg.gatherOrScore);
         });
 
         _room.OnMessage<ObjectScoredMessage>("objectScored", (msg) =>
@@ -468,7 +468,7 @@ using UnityEngine.SceneManagement;
     }
 
     ///Coroutine for object interaction
-    private void ObjectInteraction(string objectID, string entityID, string gatherOrScore)
+    private void ObjectInteraction(string objectID, string entityID, string gatheredObjectHarvest, string gatheredObjectType, string gatherOrScore)
     {
         if (gatherOrScore == "gather") {
             while (!Room.State.gatherableObjects.ContainsKey(objectID))
@@ -476,9 +476,10 @@ using UnityEngine.SceneManagement;
                 //Wait for the room to be aware of the object
                 //yield return new WaitForEndOfFrame();
             }
-
-            NetworkedEntityView entity = GetEntityViewByID(entityID);
-            EnvironmentController.Instance.ObjectGathered(Room.State.gatherableObjects[objectID], entity);
+            int harvest;
+            int.TryParse(gatheredObjectHarvest, out harvest);
+            CharControllerMulti entity = GetEntityViewByID(entityID).GetComponent<CharControllerMulti>();
+            EnvironmentController.Instance.ObjectGathered(Room.State.gatherableObjects[objectID], harvest, gatheredObjectType, entity);
         } else if (gatherOrScore == "score") {
             while (!Room.State.scorableObjects.ContainsKey(objectID))
             {
@@ -486,7 +487,7 @@ using UnityEngine.SceneManagement;
                 //yield return new WaitForEndOfFrame();
             }
 
-            NetworkedEntityView entity = GetEntityViewByID(entityID);
+            CharControllerMulti entity = GetEntityViewByID(entityID).GetComponent<CharControllerMulti>();
             EnvironmentController.Instance.ObjectScored(Room.State.scorableObjects[objectID], entity);
         }
     }
@@ -730,11 +731,11 @@ using UnityEngine.SceneManagement;
         return null;
     }
 
-    public NetworkedEntityView GetEntityViewByID(string sessionId)
+    public NetworkedEntityView GetEntityViewByID(string id)
     {
-        if (_entityViews.ContainsKey(sessionId))
+        if (_entityViews.ContainsKey(id))
         {
-            return _entityViews[sessionId];
+            return _entityViews[id];
         }
 
         return null;

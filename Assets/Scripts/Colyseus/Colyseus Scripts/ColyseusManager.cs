@@ -213,7 +213,7 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
     public void SendObjectGather(Gatherable gatherable, NetworkedEntityView entity)
     {
         LSLog.Log("Sending object interaction for ID " + gatherable.ID);
-        NetSend("objectGathered", new object[] {gatherable.ID, gatherable.GetServerType()});
+        NetSend("objectGathered", new object[] {gatherable.ID, entity.Id, gatherable.GetServerType()});
     }
     /// <summary>
     /// Sends a message to the room on the server that an <see cref="Scorable"/> has been used

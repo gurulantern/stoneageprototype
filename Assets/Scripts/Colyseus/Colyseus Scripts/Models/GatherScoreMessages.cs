@@ -18,6 +18,8 @@ public class ObjectGatheredMessage
 {
     public string gatheredObjectID;
     public string gatheringStateID;
+    public string gatheredObjectHarvest;
+    public string gatheredObjectType;
     public string gatherOrScore = "gather";
 }
 

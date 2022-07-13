@@ -4,17 +4,28 @@ using UnityEngine;
 
 public class Tree : Gatherable
 {
+    protected Vector2 colliderOffset; 
+    protected Vector2 colliderSize;
     [SerializeField] protected SpriteRenderer[] _treeStates;
     protected override void Awake()
     {
         base.Awake();
+        colliderOffset.x = -0.019f;
+        colliderOffset.y = 0.216f;
+        colliderSize.x = .827f;
+        colliderSize.y = .397f;
     }
     //Left click decreases food remaining and triggers the animation for food to disappear
-    protected virtual void Harvest()
+    public virtual void Harvest()
     {
         _treeStates[prevHarvestTrigger].gameObject.SetActive(false);
-        prevHarvestTrigger = (int)_state.harvestTrigger;
-        _treeStates[prevHarvestTrigger].gameObject.SetActive(true);    }
+        _treeStates[currHarvestTrigger].gameObject.SetActive(true);
+        prevHarvestTrigger = currHarvestTrigger; 
+        if (prevHarvestTrigger == 1) {
+            this.gameObject.GetComponent<BoxCollider2D>().offset = colliderOffset;
+            this.gameObject.GetComponent<BoxCollider2D>().size = colliderSize;
+        }
+    }
 
     public override void SetState(GatherableState state)
     {
