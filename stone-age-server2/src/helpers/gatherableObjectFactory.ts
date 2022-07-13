@@ -13,6 +13,7 @@ export function getStateForType(type: string) : GatherableState {
         {
             state.assign({
                 gatherableType : type,
+                harvestTrigger : 1
             });
             break;
         }

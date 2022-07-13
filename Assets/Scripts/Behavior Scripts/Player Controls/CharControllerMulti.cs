@@ -233,18 +233,12 @@ public class CharControllerMulti : NetworkedEntityView
     }
 //Function for changing stamina over time
 
-    private void ChangeStamina(float rate)
+    public void ChangeStamina(float rate)
     {
         if (uiHooks && IsMine)
         {
             currentStamina = Mathf.Clamp(currentStamina + rate, 0, maxStamina);
         }
-    }
-
-    //Function for edible objects to change player stamina
-    public void FoodStamina(int amount)
-    {
-        currentStamina = Mathf.Clamp(currentStamina + amount, 0, maxStamina); 
     }
 /*
     //Trigger Exits and Enters to set whether objects are near for interactions

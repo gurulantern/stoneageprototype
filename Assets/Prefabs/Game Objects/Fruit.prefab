@@ -53,18 +53,9 @@ MonoBehaviour:
   _itemID: 
   serverType: FRUIT
   trigger: {fileID: 4496140932118678904}
-  harvestTrigger: 0
-  foodTotal: 0
-  foodTaken: 0
-  foodRemaining: 0
-  seedsTotal: 0
-  seedsTaken: 0
-  seedsRemaining: 0
-  resourceTotal: 0
-  resourceTaken: 0
-  resourceRemaining: 0
-  animator: {fileID: 0}
-  _eaten: {fileID: 11400000, guid: db6dd929ff08b3c4a95979c12a359bfd, type: 2}
+  prevHarvestTrigger: 0
+  currHarvestTrigger: 0
+  restoreAmount: 20
 --- !u!114 &85219021294307374
 MonoBehaviour:
   m_ObjectHideFlags: 0

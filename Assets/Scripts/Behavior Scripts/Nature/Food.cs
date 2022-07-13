@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class Food : Gatherable
 {
-    [SerializeField] private GameEvent _eaten;
-    void OnTriggerEnter2D(Collider2D other) 
+    public float restoreAmount;
+
+    private void Awake()
     {
-        CharControllerMulti controller = other.GetComponent<CharControllerMulti>();
-        if (controller.IsMine)
-        {
-            if (controller.currentStamina < controller.maxStamina) 
-            {
-                _eaten?.Invoke();
-                Destroy(gameObject);
-            }
-        }    
+        restoreAmount = 20f;
+    }
+    public override void PlayerInRange(CharControllerMulti entity)
+    {
+        PlayerAttemptedUse(entity);
+        Debug.Log($"Player is trying to eat {this}");
+    }
+
+    public virtual void Harvest()
+    {
+        Destroy(this.gameObject);
     }
 }

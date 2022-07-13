@@ -17,7 +17,7 @@ public abstract class Gatherable : Interactable
     [SerializeField] protected int prevHarvestTrigger;
     [SerializeField] protected int currHarvestTrigger;
 
-    /// <summary>
+    /// <summary> 
     /// The schema state provided from the server
     /// </summary>
     protected GatherableState _state;
@@ -33,9 +33,6 @@ public abstract class Gatherable : Interactable
     protected GatherableState localUpdatedState;
     protected string clickedTag;
 
-    protected override void Awake() {
-        base.Awake();
-    }
 /*
     protected virtual void Harvest()
     {
@@ -120,6 +117,13 @@ public abstract class Gatherable : Interactable
         base.OnSuccessfulUse(entity, type, harvest);
         currHarvestTrigger = harvest;
         switch(type) {
+            case "FRUIT":
+                this.gameObject.GetComponent<Food>().Harvest();
+                if(entity != null)
+                {
+                    entity.ChangeStamina(this.gameObject.GetComponent<Food>().restoreAmount);
+                }
+                break;
             case "TREE":
                 this.gameObject.GetComponent<Tree>().Harvest();
                 break;
@@ -133,7 +137,7 @@ public abstract class Gatherable : Interactable
                 this.gameObject.GetComponent<Aurochs>().Harvest();
                 break;
         }
-        if (entity != null) {
+        if (entity != null && type != "FRUIT") {
             entity.gameObject.GetComponent<CharControllerMulti>().StartGather();
         }
     }

@@ -55,17 +55,89 @@ MonoBehaviour:
   _itemID: 
   serverType: LIVE_AUROCHS
   trigger: {fileID: 2325955414933307815}
-  harvestTrigger: 0
-  foodTotal: 0
-  foodTaken: 0
-  foodRemaining: 0
-  seedsTotal: 0
-  seedsTaken: 0
-  seedsRemaining: 0
-  resourceTotal: 0
-  resourceTaken: 0
-  resourceRemaining: 0
-  animator: {fileID: 0}
+  prevHarvestTrigger: 0
+  currHarvestTrigger: 0
+  proxyStates:
+  - timestamp: 0
+    pos: {x: 0, y: 0}
+    vel: {x: 0, y: 0}
+    food: 0
+  - timestamp: 0
+    pos: {x: 0, y: 0}
+    vel: {x: 0, y: 0}
+    food: 0
+  - timestamp: 0
+    pos: {x: 0, y: 0}
+    vel: {x: 0, y: 0}
+    food: 0
+  - timestamp: 0
+    pos: {x: 0, y: 0}
+    vel: {x: 0, y: 0}
+    food: 0
+  - timestamp: 0
+    pos: {x: 0, y: 0}
+    vel: {x: 0, y: 0}
+    food: 0
+  - timestamp: 0
+    pos: {x: 0, y: 0}
+    vel: {x: 0, y: 0}
+    food: 0
+  - timestamp: 0
+    pos: {x: 0, y: 0}
+    vel: {x: 0, y: 0}
+    food: 0
+  - timestamp: 0
+    pos: {x: 0, y: 0}
+    vel: {x: 0, y: 0}
+    food: 0
+  - timestamp: 0
+    pos: {x: 0, y: 0}
+    vel: {x: 0, y: 0}
+    food: 0
+  - timestamp: 0
+    pos: {x: 0, y: 0}
+    vel: {x: 0, y: 0}
+    food: 0
+  - timestamp: 0
+    pos: {x: 0, y: 0}
+    vel: {x: 0, y: 0}
+    food: 0
+  - timestamp: 0
+    pos: {x: 0, y: 0}
+    vel: {x: 0, y: 0}
+    food: 0
+  - timestamp: 0
+    pos: {x: 0, y: 0}
+    vel: {x: 0, y: 0}
+    food: 0
+  - timestamp: 0
+    pos: {x: 0, y: 0}
+    vel: {x: 0, y: 0}
+    food: 0
+  - timestamp: 0
+    pos: {x: 0, y: 0}
+    vel: {x: 0, y: 0}
+    food: 0
+  - timestamp: 0
+    pos: {x: 0, y: 0}
+    vel: {x: 0, y: 0}
+    food: 0
+  - timestamp: 0
+    pos: {x: 0, y: 0}
+    vel: {x: 0, y: 0}
+    food: 0
+  - timestamp: 0
+    pos: {x: 0, y: 0}
+    vel: {x: 0, y: 0}
+    food: 0
+  - timestamp: 0
+    pos: {x: 0, y: 0}
+    vel: {x: 0, y: 0}
+    food: 0
+  - timestamp: 0
+    pos: {x: 0, y: 0}
+    vel: {x: 0, y: 0}
+    food: 0
   alive: 1
   target: {fileID: 0}
   startSpawn: 0
@@ -236,9 +308,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.018379519, y: 0.46982715}
+  m_Offset: {x: 0.018379519, y: 0.47537395}
   serializedVersion: 2
-  m_Radius: 0.907885
+  m_Radius: 1.0403197
 --- !u!114 &2325955414933307815
 MonoBehaviour:
   m_ObjectHideFlags: 0

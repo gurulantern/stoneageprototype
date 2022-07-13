@@ -43,18 +43,6 @@ public class Interactable : MonoBehaviour
 
     protected bool playerNear; 
 
-
-    protected virtual void Awake()
-    {
-        //Loop through the triggers and tell them who their owner is
-        /*
-        foreach (InteractableTrigger t in triggers)
-        {
-            t.owner = this;
-        }
-        */
-    }
-
         /// <summary>
     /// Set <see cref="isInUse"/> when the <see cref="InteractableState"/> changes
     /// </summary>
@@ -108,7 +96,7 @@ public class Interactable : MonoBehaviour
     }
 
     /// <summary>
-    /// Sent by a <see cref="NetworkedEntity"/> when they press the <see cref="interactionKey"/> while within range
+    /// Sent by a <see cref="NetworkedEntity"/> when they press the <see cref="interactionKey"/> while within range or if they run over it.
     /// </summary>
     /// <param name="entity"></param>
     public virtual void PlayerAttemptedUse(NetworkedEntityView entity)

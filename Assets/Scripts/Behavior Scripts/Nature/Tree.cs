@@ -7,9 +7,8 @@ public class Tree : Gatherable
     protected Vector2 colliderOffset; 
     protected Vector2 colliderSize;
     [SerializeField] protected SpriteRenderer[] _treeStates;
-    protected override void Awake()
+    protected virtual void Awake()
     {
-        base.Awake();
         colliderOffset.x = -0.019f;
         colliderOffset.y = 0.216f;
         colliderSize.x = .827f;
