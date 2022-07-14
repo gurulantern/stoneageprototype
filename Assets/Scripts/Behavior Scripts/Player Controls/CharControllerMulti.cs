@@ -20,6 +20,8 @@ public class CharControllerMulti : NetworkedEntityView
     [SerializeField] private UIHooks uiHooks; 
 
     [SerializeField] private SpriteRenderer[] _gatherIcons;
+    [SerializeField] private SpriteRenderer[] _spendIcons;
+
     private List<Gatherable> currentGatherables;
     private List<Scorable> currentScorables;
     private Gatherable currentGatherable;
@@ -108,20 +110,6 @@ public class CharControllerMulti : NetworkedEntityView
             Destroy(uiHooks);
         }
         gameObject.tag = "Other_Player";
-
-        /*
-        if (TryGetComponent(out PlayerSpaceshipInputBehaviour inputBehaviour))
-        {
-            Destroy(inputBehaviour);
-        }
-        if (TryGetComponent(out PlayerCameraController cameraController))
-        {
-            Destroy(cameraController);
-        }
-
-        gameObject.tag = "OtherShip";
-        gameObject.layer = 11;  //This is "OtherShip" in the physics layer
-        */
     }
 
     public override void InitiView(NetworkedEntity entity)
@@ -239,21 +227,6 @@ public class CharControllerMulti : NetworkedEntityView
             currentStamina = Mathf.Clamp(currentStamina + rate, 0, maxStamina);
         }
     }
-/*
-    //Trigger Exits and Enters to set whether objects are near for interactions
-    private void OnTriggerEnter2D(Collider2D other) {
-        if (other && i == 0) {
-            tagNear = other.gameObject.tag;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D other) {
-        if (other && i == 1) {
-            tagNear = "";
-            i = 0;
-        }
-    }
-*/
     //function for sleeping
     private void OnSleep()
     {
@@ -277,7 +250,7 @@ public class CharControllerMulti : NetworkedEntityView
     //Sets look direction and set speed for animator
     private void OnMove(InputValue value) 
     {
-        if (!sleeping && !observing && !gathering)
+        if (!sleeping && !observing && !gathering) {
         moveInput = value.Get<Vector2>();
 
         if(!Mathf.Approximately(moveInput.x, 0.0f) || !Mathf.Approximately(moveInput.y, 0.0f))
@@ -289,9 +262,11 @@ public class CharControllerMulti : NetworkedEntityView
         animator.SetFloat("Look X", lookDirection.x);
         animator.SetFloat("Look Y", lookDirection.y);
         animator.SetFloat("Speed", moveInput.magnitude);
+        }
     }
 
-    //Functions for interacting with food objects (Fruit trees, caves, and other players)
+    /// Functions for interacting with food objects (Fruit trees, caves, and other players)
+    /// Checks if the gatherable has a resource requirement and if the current player has the resource
     private void OnFoodAction()
     {
         RaycastHit2D hit;
@@ -302,10 +277,40 @@ public class CharControllerMulti : NetworkedEntityView
             
         } else {
             currentGatherable = hit.collider.gameObject.GetComponent<Gatherable>();
+            currentScorable = hit.collider.gameObject.GetComponent<Scorable>();
             if(currentGatherables.Contains(currentGatherable) && !animator.GetBool("Gather")) {
                 Debug.Log(currentGatherable + " clicked.");
                 currentGatherable.PlayerAttemptedUse(this);
-        }
+            } else if (currentScorables.Contains(currentScorable) && !animator.GetBool("Gather")) {
+                Debug.Log(currentScorable + " clicked");
+                switch(currentScorable.requiredResource) {
+                    case "food":
+                        if(state.fruit > 0 && state.meat > 0) {
+                            icon = 2;
+                        } else if (state.fruit > 0) {
+                            icon = 0;
+                        } else if (state.meat > 0) {
+                            icon = 1;
+                        }
+                        break;
+                    case "wood":
+                        if(state.wood > 0) {
+                            icon = 3;
+                        }
+                        break;
+                    case "wood + seeds":
+                        if(state.wood > 0  && state.seeds > 0) {
+                            icon = 5;
+                        } else if (state.wood > 0) {
+                            icon = 3;
+                        } else if (state.seeds > 0) {
+                            icon = 4;
+                        }
+                        break;
+                }
+                currentScorable.PlayerAttemptedUse(this);
+
+            }
         }
     }
 
@@ -349,7 +354,39 @@ public class CharControllerMulti : NetworkedEntityView
         animator.SetBool("Gather", false);
         gathering = false;
         AddResource(icon);
+    }
+
+    public void StartSpend() {
+        switch(currentGatherable.gameObject.tag) {
+                case "Cave":
+
+                    break;
+                case "Farm_1":
+
+                    break;
+                case "Farm_2":
+
+                    break;
+                case "Aurochs_Pen":
+
+                    break;
+                case "Fish_Trap":
+
+                    break;
+            }
+        gathering = true;
+        animator.SetBool("Gather", true);
+        _spendIcons[icon].gameObject.SetActive(true);
     }    
+
+    public void StopSpend() {
+        //Triggers at the end of the gather animation
+        Debug.Log("Spending is finished");
+        _spendIcons[icon].gameObject.SetActive(false);
+        animator.SetBool("Gather", false);
+        gathering = false;
+        SubtractResource(icon);
+    }
     
     //Function for right clicking and observing a nearby object
     public void OnObserve()
@@ -379,6 +416,27 @@ public class CharControllerMulti : NetworkedEntityView
     }
 
     public void AddResource(int icon)
+    {
+        if (icon == 0) {
+            state.fruit += 1f;
+            fruit = (int)state.fruit;
+        } else if (icon == 1  || icon == 4) {
+                state.meat += 1f;
+                meat = (int)state.meat;
+        } else if (icon == 2 && GameController.Instance.create) {
+                state.wood += 1f;
+                wood = (int)state.wood;
+        }  else if (icon == 3 && GameController.Instance.create) {
+            state.fruit += 1f;
+            fruit = (int)state.fruit;
+            state.seeds += 5f;
+            seeds = (int)state.seeds;
+        }
+        ChangedResource?.Invoke(icon);
+        Debug.Log($"Fruit = {fruit}, Meat = {meat}, Wood = {wood}, Seeds = {seeds}");
+    }
+
+    public void SubtractResource(int icon)
     {
         if (icon == 0) {
             state.fruit += 1f;

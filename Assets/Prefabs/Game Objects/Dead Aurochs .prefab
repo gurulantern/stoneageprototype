@@ -54,18 +54,8 @@ MonoBehaviour:
   _itemID: 
   serverType: DEAD_AUROCHS
   trigger: {fileID: 7678455202590433476}
-  previousHarvest: 0
-  harvestTrigger: 0
-  foodTotal: 0
-  foodTaken: 0
-  foodRemaining: 0
-  seedsTotal: 0
-  seedsTaken: 0
-  seedsRemaining: 0
-  resourceTotal: 0
-  resourceTaken: 0
-  resourceRemaining: 0
-  animator: {fileID: 0}
+  prevHarvestTrigger: 0
+  currHarvestTrigger: 0
   proxyStates:
   - timestamp: 0
     pos: {x: 0, y: 0}

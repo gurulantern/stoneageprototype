@@ -207,7 +207,7 @@ let getAttributeNumber = function(entity: NetworkedEntity, attributeName: string
  */
 let getTeamScores = function(roomRef: MyRoom, teamIndex: number, scoreType: string): number {
 
-    let score: number = Number(roomRef.teamScores.get(teamIndex).get(scoreType));
+    let score: number = Number(roomRef.state.attributes.get(`team${teamIndex.toString()}_${scoreType}Score`));
 
 
     if(isNaN(score)) {
@@ -251,12 +251,12 @@ let resetPlayerData = function(roomRef: MyRoom) {
  * @param roomRef Reference to the room
  */
 let resetTeamScores = function(roomRef: MyRoom) {
-
     // Set teams initial score
-    roomRef.teamScores.forEach((scoreMap, teamIdx) => {
-        scoreMap.forEach((score, scoreType) => {
-            setRoomAttribute(roomRef, `team_${teamIdx.toString()}_${scoreType}`, "0");
-        })
+    roomRef.teamScores.forEach((teamIdx) => {
+        setRoomAttribute(roomRef, `team${teamIdx.toString()}_gatherScore`, "0");
+        setRoomAttribute(roomRef, `team${teamIdx.toString()}_observeScore`, "0");
+        setRoomAttribute(roomRef, `team${teamIdx.toString()}_createScore`, "0");
+        setRoomAttribute(roomRef, `team${teamIdx.toString()}_totalScore`, "0");
     });
     
 }
@@ -285,7 +285,7 @@ let updateTeamScores = function(roomRef: MyRoom, teamMateId: string, scoreType: 
 
             teamScore += amount;
 
-            setTeamScores(roomRef, teamIdx, scoreType, teamScore);
+            setRoomAttribute(roomRef, `team${teamIdx.toString()}_${scoreType}Score`, teamScore.toString());
         }
         else {
             logger.error(`Update Team Score - Error - No team found for client Id: ${clientId}`);
@@ -655,19 +655,6 @@ exports.InitializeLogic = function (roomRef: MyRoom, options: any) {
     roomRef.teams.set(1, new Map());
     roomRef.teams.set(2, new Map());
     roomRef.teams.set(3, new Map());
-
-    roomRef.teamScores = new Map();
-    roomRef.teamScores.set(0, new Map());
-    roomRef.teamScores.set(1, new Map());
-    roomRef.teamScores.set(2, new Map());
-    roomRef.teamScores.set(3, new Map());
-
-    roomRef.teamScores.forEach(function(value) {
-        value.set("gather", 0);
-        value.set("observe", 0);
-        value.set("create", 0);
-        value.set("total", 0);
-    })
 
     roomRef.alliances = new Map();
     roomRef.alliances.set(0, []);

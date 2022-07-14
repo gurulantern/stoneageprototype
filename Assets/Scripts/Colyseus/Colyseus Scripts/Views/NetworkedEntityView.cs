@@ -22,9 +22,9 @@ public class NetworkedEntityView : StoneColyseusNetworkedEntityView
     //public configs
     [HeaderAttribute("Position Sync")]
     public float positionLerpSpeed = 5f;
-    [HeaderAttribute("Rotation Sync")]
+    //[HeaderAttribute("Rotation Sync")]
     public float snapIfAngleIsGreater = 100f;
-    public float rotationLerpSpeed = 5f;
+    //public float rotationLerpSpeed = 5f;
 
     public float stateSyncUpdateRateMs = 100f;
 
@@ -34,7 +34,7 @@ public class NetworkedEntityView : StoneColyseusNetworkedEntityView
     public float maxSpeedDeltaSqr = 9f;
 
     public bool syncLocalPosition = true;
-    public bool syncLocalRotation = true;
+    //public bool syncLocalRotation = true;
     public bool checkForSpeedHacks = false;
 
     [SerializeField]

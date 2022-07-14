@@ -6,16 +6,13 @@ TagManager:
   tags:
   - Cave
   - Tree
-  - Cyan Cave
-  - Magenta Cave
-  - Lime Cave
-  - Gold Cave
-  - Blue Cave
-  - Red Cave
   - Fruit
   - Fruit_Tree
   - Live_Aurochs
   - Dead_Aurochs
+  - Other_Player
+  - Fishing_Spot
+  - Rival_Cave
   layers:
   - Default
   - TransparentFX

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1b264d8a1ae5ccf4d954473ffa0a063a
+guid: ab6d47827943a274a8a8faf0d1f52e8a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -104,7 +104,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Fruit+Seed Gather_0
+      name: Food Spend_0
       rect:
         serializedVersion: 2
         x: 0
@@ -112,14 +112,14 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 9
-      pivot: {x: 0.4939613, y: 0.03804355}
+      pivot: {x: 0.5, y: 0.04}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5d5bb9b64fcd46748a15dc5729451f0d
-      internalID: -2103020377
+      spriteID: e0e3be11898b42941adfdf45fba1a166
+      internalID: 2090495156
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Fruit+Seed Gather_0: -2103020377
+      Food Spend_0: 2090495156
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

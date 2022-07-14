@@ -302,6 +302,7 @@ public class GameController : MonoBehaviour
         if (gamePlaying)
         {
             UpdateRoundTime(attributes);
+            UpdateScores(attributes);
         }
     }
 
@@ -357,6 +358,19 @@ public class GameController : MonoBehaviour
                 elapsedTime = serverTime/1000;
             }
         }
+    }
+
+    private void UpdateScores(MapSchema<string> attributes)
+    {
+        /*
+        if (attributes.TryGetValue())
+        {
+            if (float.TryParse(scoreBoard, out int score))
+            {
+
+            }
+        }
+        */
     }
 
     private void OnTeamUpdate(int teamIdx, string clientID, bool added)

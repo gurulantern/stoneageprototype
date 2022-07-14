@@ -16,7 +16,6 @@ public abstract class Gatherable : Interactable
 {
     [SerializeField] protected int prevHarvestTrigger;
     [SerializeField] protected int currHarvestTrigger;
-
     /// <summary> 
     /// The schema state provided from the server
     /// </summary>
@@ -137,8 +136,10 @@ public abstract class Gatherable : Interactable
                 this.gameObject.GetComponent<Aurochs>().Harvest();
                 break;
         }
-        if (entity != null && type != "FRUIT") {
+        if (entity != null && type != "FRUIT" && type != "CAVE") {
             entity.gameObject.GetComponent<CharControllerMulti>().StartGather();
+        } else {
+            entity.gameObject.GetComponent<CharControllerMulti>().StartSpend();
         }
     }
 }
