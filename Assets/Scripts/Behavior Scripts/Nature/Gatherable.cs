@@ -136,10 +136,8 @@ public abstract class Gatherable : Interactable
                 this.gameObject.GetComponent<Aurochs>().Harvest();
                 break;
         }
-        if (entity != null && type != "FRUIT" && type != "CAVE") {
+        if (entity != null && type != "FRUIT") {
             entity.gameObject.GetComponent<CharControllerMulti>().StartGather();
-        } else {
-            entity.gameObject.GetComponent<CharControllerMulti>().StartSpend();
         }
     }
 }

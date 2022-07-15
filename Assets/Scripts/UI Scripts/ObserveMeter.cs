@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class ObserveMeter : MonoBehaviour
 {
-    public ObserveAmount _observeAmount;
     public Slider observeSlider { get; set; }
     public float increment;
     float originalSize;

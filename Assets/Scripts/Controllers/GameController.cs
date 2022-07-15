@@ -128,7 +128,6 @@ public class GameController : MonoBehaviour
         {
             LSLog.LogImportant("No View found for " + entity.id);
             CreateView(entity);
-
         }
     }
 

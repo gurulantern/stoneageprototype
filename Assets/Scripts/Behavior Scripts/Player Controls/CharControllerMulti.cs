@@ -15,7 +15,6 @@ public class CharControllerMulti : NetworkedEntityView
     [SerializeField] SpriteRenderer _spriteRenderer;
     [SerializeField] PlayerControls _playerControls;
     [SerializeField] Camera _camera;
-    [SerializeField] GameEvent _dropOffEvent;
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private UIHooks uiHooks; 
 
@@ -136,9 +135,9 @@ public class CharControllerMulti : NetworkedEntityView
     {
         teamIndex = idx;
         if (teamIndex >= 0)
-        {
-            SetStartPos(entity, teamIndex, teamNum);
+        {            
             SetPlayerColor(teamColors[teamIndex]);
+            SetStartPos(entity, teamIndex, teamNum);
             if (GameController.Instance._uiController.loadCover.activeInHierarchy)
             {
                 GameController.Instance._uiController.loadCover.SetActive(false);
@@ -150,6 +149,7 @@ public class CharControllerMulti : NetworkedEntityView
     {
         _spriteRenderer.color = color;
     }
+    
     /// Sets player's spawn point using home cave refs and spawn point refs based on team number
     protected virtual void SetStartPos(NetworkedEntity entity, int idx, int spawnNum)
     {
@@ -309,7 +309,6 @@ public class CharControllerMulti : NetworkedEntityView
                         break;
                 }
                 currentScorable.PlayerAttemptedUse(this);
-
             }
         }
     }
