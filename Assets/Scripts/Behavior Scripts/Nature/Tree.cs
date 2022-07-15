@@ -7,27 +7,40 @@ public class Tree : Gatherable
     protected Vector2 colliderOffset; 
     protected Vector2 colliderSize;
     [SerializeField] protected SpriteRenderer[] _treeStates;
-    protected virtual void Awake()
+    private void Awake()
     {
+        startingHarvest = _treeStates.Length - 1; 
         colliderOffset.x = -0.019f;
         colliderOffset.y = 0.216f;
         colliderSize.x = .827f;
         colliderSize.y = .397f;
+        this.gameObject.tag = "Tree";
+        type = "Tree";
+    }
+
+    public override void SetState(GatherableState gatherable)
+    {
+        base.SetState(gatherable);
+        if(currHarvestTrigger != startingHarvest) {
+            _treeStates[startingHarvest].gameObject.SetActive(false);
+        }
+        UpdateStateForView();
     }
     //Left click decreases food remaining and triggers the animation for food to disappear
     public virtual void Harvest()
     {
-        _treeStates[prevHarvestTrigger].gameObject.SetActive(false);
-        _treeStates[currHarvestTrigger].gameObject.SetActive(true);
-        prevHarvestTrigger = currHarvestTrigger; 
+        UpdateStateForView();
         if (prevHarvestTrigger == 1) {
             this.gameObject.GetComponent<BoxCollider2D>().offset = colliderOffset;
             this.gameObject.GetComponent<BoxCollider2D>().size = colliderSize;
         }
     }
 
-    public override void SetState(GatherableState state)
+    protected override void UpdateStateForView()
     {
-        base.SetState(state);
+        base.UpdateStateForView();
+        _treeStates[prevHarvestTrigger].gameObject.SetActive(false);
+        _treeStates[currHarvestTrigger].gameObject.SetActive(true);
+        prevHarvestTrigger = currHarvestTrigger;
     }
 }

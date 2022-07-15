@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3422698852695282503}
   - component: {fileID: 3422698852695282501}
-  - component: {fileID: 85219021294307374}
   - component: {fileID: 3422698852695282504}
   m_Layer: 0
   m_Name: Fruit
@@ -53,25 +52,10 @@ MonoBehaviour:
   _itemID: 
   serverType: FRUIT
   trigger: {fileID: 4496140932118678904}
+  startingHarvest: 0
   prevHarvestTrigger: 0
   currHarvestTrigger: 0
   restoreAmount: 20
---- !u!114 &85219021294307374
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3422698852695282505}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3642061a092171f4bb2a09e9c197cf02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gameEvent: {fileID: 11400000, guid: db6dd929ff08b3c4a95979c12a359bfd, type: 2}
-  _unityEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!212 &3422698852695282504
 SpriteRenderer:
   m_ObjectHideFlags: 0

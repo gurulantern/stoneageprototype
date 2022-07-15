@@ -150,12 +150,16 @@ public class CharControllerMulti : NetworkedEntityView
         _spriteRenderer.color = color;
     }
     
-    /// Sets player's spawn point using home cave refs and spawn point refs based on team number
+    /// Sets player's home cave with array of refs and starting location based on spawn point refs from team number
     protected virtual void SetStartPos(NetworkedEntity entity, int idx, int spawnNum)
     {
-        myTransform.localPosition = GameController.Instance.homeCaves[idx].spawnPoints[spawnNum].spawn;
+        Cave myHomeCave = GameController.Instance.homeCaves[idx];
+        myTransform.localPosition = myHomeCave.spawnPoints[spawnNum].spawn;
         entity.xPos = myTransform.localPosition.x;
         entity.yPos = myTransform.localPosition.y;
+        if (IsMine) {
+            myHomeCave.gameObject.tag = "Cave";
+        }
     }
 
     public override void OnEntityRemoved()
@@ -273,11 +277,14 @@ public class CharControllerMulti : NetworkedEntityView
         Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
         hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
+        Debug.Log("Cicked on " + hit.collider.gameObject);
+    
         if (hit.collider.gameObject.tag == "OtherPlayer" && hit.collider.gameObject.GetComponent<CharControllerMulti>().sleeping) {
-            
         } else {
             currentGatherable = hit.collider.gameObject.GetComponent<Gatherable>();
+            Debug.Log($"Is {currentGatherable} in CurrentGatherables? " + currentGatherables.Contains(currentGatherable));
             currentScorable = hit.collider.gameObject.GetComponent<Scorable>();
+            Debug.Log("Current Scorable in CurrentScorables? " + currentScorables.Contains(currentScorable));
             if(currentGatherables.Contains(currentGatherable) && !animator.GetBool("Gather")) {
                 Debug.Log(currentGatherable + " clicked.");
                 currentGatherable.PlayerAttemptedUse(this);
@@ -316,7 +323,7 @@ public class CharControllerMulti : NetworkedEntityView
     //If attempted use is successful this function will fire
     public void StartGather()
     {
-        switch(currentGatherable.gameObject.tag) {
+        switch(currentGatherable.type) {
                 case "Fruit_Tree":
                     if (GameController.Instance.create) {
                         icon = 3;
@@ -496,7 +503,7 @@ public class CharControllerMulti : NetworkedEntityView
     {
         if (interactable.GetComponent<Gatherable>()) {
             currentGatherables.Add(interactable.GetComponent<Gatherable>());
-            Debug.Log($"{currentGatherables}");
+            Debug.Log($"Added {interactable.GetComponent<Gatherable>()}");
         } else if (interactable.GetComponent<Scorable>()) {
             currentScorables.Add(interactable.GetComponent<Scorable>());
             Debug.Log($"{currentScorables}");
@@ -507,7 +514,7 @@ public class CharControllerMulti : NetworkedEntityView
     {
         if (interactable.GetComponent<Gatherable>()) {
             currentGatherables.Remove(interactable.GetComponent<Gatherable>());
-            Debug.Log($"{currentGatherables}");
+            Debug.Log($"Removing {interactable.GetComponent<Gatherable>()}");
         } else if (interactable.GetComponent<Scorable>()) {
             currentScorables.Remove(interactable.GetComponent<Scorable>());
             Debug.Log($"{currentScorables}");

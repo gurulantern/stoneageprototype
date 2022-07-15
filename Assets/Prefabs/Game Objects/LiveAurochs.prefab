@@ -55,6 +55,8 @@ MonoBehaviour:
   _itemID: 
   serverType: LIVE_AUROCHS
   trigger: {fileID: 2325955414933307815}
+  type: 
+  startingHarvest: 0
   prevHarvestTrigger: 0
   currHarvestTrigger: 0
   proxyStates:
@@ -273,7 +275,7 @@ GameObject:
   - component: {fileID: 4890341531276436101}
   - component: {fileID: 7842492903193672192}
   - component: {fileID: 2325955414933307815}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}

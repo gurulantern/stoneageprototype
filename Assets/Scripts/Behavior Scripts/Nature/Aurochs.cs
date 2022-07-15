@@ -45,6 +45,17 @@ public class Aurochs : Gatherable
     [SerializeField] int startSpawn;
     [SerializeField] private NavMeshAgent agent;
 
+    private void Awake()
+    {
+        if (alive) {
+            this.gameObject.tag = "Live_Aurochs";
+            type = "Live_Aurochs";
+        } else {
+            this.gameObject.tag = "Dead_Aurochs";
+            type = "Dead_Aurochs";
+        }
+    }
+
     void Start()
     {
         target = GameController.Instance.aurochsSpawnPoints[startSpawn + 1].transform;
@@ -79,6 +90,9 @@ public class Aurochs : Gatherable
     public override void SetState(GatherableState state)
     {
         base.SetState(state);
+        if (currHarvestTrigger == 0) {
+            Destroy(this.gameObject);
+        }
     }
 
 

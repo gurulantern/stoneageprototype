@@ -54,6 +54,8 @@ MonoBehaviour:
   _itemID: 
   serverType: DEAD_AUROCHS
   trigger: {fileID: 7678455202590433476}
+  type: 
+  startingHarvest: 0
   prevHarvestTrigger: 0
   currHarvestTrigger: 0
   proxyStates:
@@ -284,7 +286,7 @@ GameObject:
   - component: {fileID: 5361861808998229114}
   - component: {fileID: 5644859213991985984}
   - component: {fileID: 7678455202590433476}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}

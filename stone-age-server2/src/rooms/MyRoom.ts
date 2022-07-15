@@ -423,7 +423,7 @@ export class MyRoom extends Room<RoomState> {
             //logger.silly(`**** Initializing ${gatherable.id} ***`);
             this.broadcast("objectInitialized", { objectID : gatherable.id });
         } else {
-        logger.info(`**** Gatherables already contains ${objectInfo[0]} ****`);
+            logger.info(`**** Gatherables already contains ${objectInfo[0]} ****`);
         }
     }
 

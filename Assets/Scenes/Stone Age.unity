@@ -4183,6 +4183,16 @@ PrefabInstance:
       propertyPath: _gatherIcons.Array.data[4]
       value: 
       objectReference: {fileID: 839770018}
+    - target: {fileID: 481533145882933389, guid: 3d1628db331f9124aad8c8281d5f333b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 481533145882933389, guid: 3d1628db331f9124aad8c8281d5f333b,
+        type: 3}
+      propertyPath: m_ShadowIntensity
+      value: 0.505
+      objectReference: {fileID: 0}
     - target: {fileID: 633395259616343184, guid: 3d1628db331f9124aad8c8281d5f333b,
         type: 3}
       propertyPath: m_Enabled
@@ -4308,6 +4318,16 @@ PrefabInstance:
       propertyPath: _personalSeedsCount
       value: 
       objectReference: {fileID: 278274773}
+    - target: {fileID: 6051327307060498207, guid: 3d1628db331f9124aad8c8281d5f333b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 6051327307060498207, guid: 3d1628db331f9124aad8c8281d5f333b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 8718431485451752186, guid: 3d1628db331f9124aad8c8281d5f333b,
         type: 3}
       propertyPath: m_IsActive
@@ -4724,7 +4744,7 @@ GameObject:
   - component: {fileID: 901276656}
   - component: {fileID: 901276655}
   m_Layer: 0
-  m_Name: Light 2D
+  m_Name: Global Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5943,7 +5963,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7777778, y: 1}
+    m_SensorSize: {x: 1.7769784, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -28429,6 +28449,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1637951098}
     m_Modifications:
+    - target: {fileID: 105599378576823095, guid: 7c7a4f6af31bfb74da85dd6941f3216a,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 105599378576823095, guid: 7c7a4f6af31bfb74da85dd6941f3216a,
+        type: 3}
+      propertyPath: m_PointLightOuterRadius
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 166549102549434425, guid: 7c7a4f6af31bfb74da85dd6941f3216a,
         type: 3}
       propertyPath: m_RootOrder

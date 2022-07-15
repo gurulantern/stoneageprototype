@@ -9,6 +9,8 @@ public class Food : Gatherable
     private void Awake()
     {
         restoreAmount = 20f;
+        this.gameObject.tag = "Fruit";
+        type = "Fruit";
     }
     public override void PlayerInRange(CharControllerMulti entity)
     {

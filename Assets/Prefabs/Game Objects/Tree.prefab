@@ -640,7 +640,7 @@ GameObject:
   - component: {fileID: 2124995452233588542}
   - component: {fileID: 7994159405960869866}
   - component: {fileID: 958214788945308405}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -829,18 +829,10 @@ MonoBehaviour:
   _itemID: 
   serverType: TREE
   trigger: {fileID: 958214788945308405}
-  previousHarvest: 0
-  harvestTrigger: 0
-  foodTotal: 0
-  foodTaken: 0
-  foodRemaining: 0
-  seedsTotal: 0
-  seedsTaken: 0
-  seedsRemaining: 0
-  resourceTotal: 0
-  resourceTaken: 0
-  resourceRemaining: 0
-  animator: {fileID: 0}
+  type: 
+  startingHarvest: 0
+  prevHarvestTrigger: 0
+  currHarvestTrigger: 0
   _treeStates:
   - {fileID: 5065874783997730819}
   - {fileID: 7917311671557791001}

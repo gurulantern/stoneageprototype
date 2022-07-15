@@ -63,10 +63,9 @@ public class EnvironmentController : MonoBehaviour
                 continue;
             } 
             
-            if (t.State == null)
-            {
-                t.SetState(state);
-            }
+
+            t.SetState(state);
+    
 
             return t;
         }

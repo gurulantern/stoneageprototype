@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5698725874322570358}
   - component: {fileID: 770028936321076928}
   - component: {fileID: 8514854755283966527}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1120,6 +1120,8 @@ MonoBehaviour:
   _itemID: 
   serverType: FRUIT_TREE
   trigger: {fileID: 8514854755283966527}
+  type: 
+  startingHarvest: 0
   prevHarvestTrigger: 0
   currHarvestTrigger: 0
   _treeStates:

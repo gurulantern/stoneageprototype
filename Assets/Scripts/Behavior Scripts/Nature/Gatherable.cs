@@ -14,6 +14,8 @@ using UnityEngine.Events;
 /// </summary>
 public abstract class Gatherable : Interactable
 {
+    public string type;
+    [SerializeField] protected int startingHarvest;
     [SerializeField] protected int prevHarvestTrigger;
     [SerializeField] protected int currHarvestTrigger;
     /// <summary> 
@@ -32,12 +34,7 @@ public abstract class Gatherable : Interactable
     protected GatherableState localUpdatedState;
     protected string clickedTag;
 
-/*
-    protected virtual void Harvest()
-    {
 
-    }
-*/
         /// <summary>
     /// Hand off the <see cref="GatherableState"/> from the server
     /// </summary>
@@ -46,8 +43,8 @@ public abstract class Gatherable : Interactable
     {
         _state = state;
         _state.OnChange += OnStateChange;
-        prevHarvestTrigger = (int)_state.harvestTrigger;
-        UpdateStateForView();
+        currHarvestTrigger = (int)_state.harvestTrigger;
+        prevHarvestTrigger = (int)_state.harvestTrigger - 1;
     } 
 
     public void SetID(int num)
@@ -72,7 +69,6 @@ public abstract class Gatherable : Interactable
     /// </summary>
     protected virtual void UpdateStateForView()
     {
-
     }
 
     /// <summary>
@@ -89,19 +85,6 @@ public abstract class Gatherable : Interactable
     /// </summary>
     protected virtual void UpdateViewFromState()
     {
-        /*
-        //The current in use status is not what the State indicates
-        if (isInUse != State.inUse)
-        {
-            if (isInUse && !State.inUse)
-            {
-                //Was previously in use but not anymore!
-                OnInteractableReset();
-            }
-            //Set the interactable's inUse status
-            SetInUse(State.inUse);
-        }
-        */
         
     }
     public override void PlayerAttemptedUse(NetworkedEntityView entity)
