@@ -21,9 +21,16 @@ public class Scoreboard : MonoBehaviour
         open = false;
     }
 
+    public void UpdateScores(int teamIdx)
+    {
+
+    }
+
+    /// Reorganizes the team scoreboards using the active score list while acounting for the extra child that is the header
     public void AddTeamScore(int teamIdx)
     {
         TeamScore addedScores = scoreList[teamIdx];
+        addedScores.gameObject.GetComponent<RectTransform>().SetSiblingIndex(activeScoreList.Count);
         activeScoreList.Add(addedScores);
         addedScores.Initialize(teamIdx);
     }

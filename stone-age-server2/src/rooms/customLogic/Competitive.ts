@@ -274,6 +274,7 @@ let updateTeamScores = function(roomRef: MyRoom, teamMateId: string, scoreType: 
             teamScore += amount;
 
             setRoomAttribute(roomRef, `team${teamIdx.toString()}_${scoreType}Score`, teamScore.toString());
+            logger.info(`team${teamIdx.toString()}_${scoreType}Score: ${teamScore.toString()}` )
         }
         else {
             logger.error(`Update Team Score - Error - No team found for client Id: ${clientId}`);

@@ -42,6 +42,7 @@ public class GameController : MonoBehaviour
     public SpawnPoint[] aurochsSpawnPoints;
     public SpawnPoint[] deadAurochsSpawnPounts;
     [SerializeField] private Color[] teamColors;
+    private  string[] scoreTypes = new string[] {"food", "observe", "create", "total"};
 
 
     private void Awake() 
@@ -301,7 +302,7 @@ public class GameController : MonoBehaviour
         if (gamePlaying)
         {
             UpdateRoundTime(attributes);
-            //UpdateScores(attributes);
+            UpdateScores(attributes);
         }
     }
 
@@ -358,18 +359,21 @@ public class GameController : MonoBehaviour
             }
         }
     }
-/*
+
     private void UpdateScores(MapSchema<string> attributes)
     {
-        if (attributes.TryGetValue())
+        for (int i = 0; i < teams.Count; ++i)
         {
-            if (float.TryParse(scoreBoard, out int score))
-            {
-
-            }
+            for (int j = 0; j < _uiController.scoreboard.scoreList[i].scores.Length; j++)
+                if (attributes.TryGetValue($"team{i.ToString()}_{scoreTypes[j]}Score", out string score))
+                {
+                    _uiController.scoreboard.scoreList[i].scores[j].text = score;
+                    Debug.Log($"team{i.ToString()}_{scoreTypes[j]}Score: {score}");
+                }
         }
+
     }
-*/
+
     private void OnTeamUpdate(int teamIdx, string clientID, bool added)
     {
         StoneAgeTeam team = GetOrCreateTeam(teamIdx);

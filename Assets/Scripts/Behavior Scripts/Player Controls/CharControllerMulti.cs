@@ -287,34 +287,36 @@ public class CharControllerMulti : NetworkedEntityView
                         if(state.fruit > 0 && state.meat > 0) {
                             icon = 2;
                             GameController.Instance.RegisterGather(this.Id, state.fruit.ToString(), state.meat.ToString(), teamIndex.ToString());
+                            StartGather(false);
                         } else if (state.fruit > 0) {
                             icon = 0;
                             GameController.Instance.RegisterGather(this.Id, state.fruit.ToString(), "0", teamIndex.ToString());
+                            StartGather(false);
                         } else if (state.meat > 0) {
                             icon = 1;
                             GameController.Instance.RegisterGather(this.Id, "0", state.meat.ToString(), teamIndex.ToString());
+                            StartGather(false);
                         } else {
                             icon = -1;
                         }
-                        StartGather(false);
                         break;
                     case "wood":
                         if (state.wood > 0) {
                             icon = 3;
                             currentScorable.PlayerAttemptedUse(this, (int)state.wood);
+                            StartGather(false);
                         } else {
                             icon = -1;
                         }
-                        StartGather(false);
                         break;
                     case "seeds":
                         if (state.seeds > 0) {
                             icon = 4;
                             currentScorable.PlayerAttemptedUse(this, (int)state.seeds);
+                            StartGather(false);
                         } else {
                             icon = -1;
                         }
-                        StartGather(false);
                         break;
                 }
             }
