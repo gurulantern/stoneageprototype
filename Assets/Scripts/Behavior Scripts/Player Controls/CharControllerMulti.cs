@@ -5,6 +5,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using LucidSightTools;
+using StoneAge.Controllers;
+using StoneAge.Interactables;
 
 public class CharControllerMulti : NetworkedEntityView
 {
@@ -29,7 +31,7 @@ public class CharControllerMulti : NetworkedEntityView
     public PlayerStats _playerStats;
     private NetworkedEntity updatedEntity;
     public float maxStamina, currentStamina, speed, tiredSpeed, tireLimit, tireRate, restoreRate;
-    public int fruit, meat, wood, seeds;
+    public int fruit, meat, wood, seeds, pointsToScore;
     private int icon;
     private Vector2 moveInput;
     private string tagNear;
@@ -271,7 +273,7 @@ public class CharControllerMulti : NetworkedEntityView
 
     /// Functions for interacting with food objects (Fruit trees, caves, and other players)
     /// Checks if the gatherable has a resource requirement and if the current player has the resource
-    private void OnFoodAction()
+    private void OnInteractAction()
     {
         RaycastHit2D hit;
         Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
@@ -294,28 +296,37 @@ public class CharControllerMulti : NetworkedEntityView
                     case "food":
                         if(state.fruit > 0 && state.meat > 0) {
                             icon = 2;
+                            GameController.Instance.RegisterGather(this.Id, state.fruit.ToString(), state.meat.ToString(), teamIndex.ToString());
                         } else if (state.fruit > 0) {
                             icon = 0;
+                            GameController.Instance.RegisterGather(this.Id, state.fruit.ToString(), "0", teamIndex.ToString());
                         } else if (state.meat > 0) {
                             icon = 1;
+                            GameController.Instance.RegisterGather(this.Id, "0", state.meat.ToString(), teamIndex.ToString());
+                        } else {
+                            icon = -1;
                         }
+                        StartSpend();
                         break;
                     case "wood":
-                        if(state.wood > 0) {
+                        if (state.wood > 0) {
                             icon = 3;
+                            currentScorable.PlayerAttemptedUse(this, (int)state.wood);
+                        } else {
+                            icon = -1;
                         }
+                        StartSpend();
                         break;
-                    case "wood + seeds":
-                        if(state.wood > 0  && state.seeds > 0) {
-                            icon = 5;
-                        } else if (state.wood > 0) {
-                            icon = 3;
-                        } else if (state.seeds > 0) {
+                    case "seeds":
+                        if (state.seeds > 0) {
                             icon = 4;
+                            currentScorable.PlayerAttemptedUse(this, (int)state.seeds);
+                        } else {
+                            icon = -1;
                         }
+                        StartSpend();
                         break;
                 }
-                currentScorable.PlayerAttemptedUse(this);
             }
         }
     }
@@ -342,7 +353,7 @@ public class CharControllerMulti : NetworkedEntityView
                         icon = 2;
                     }
                     break;
-                case "Fish":
+                case "Fishing_Spot":
                     icon = 4;
                     break;
             }
@@ -363,23 +374,6 @@ public class CharControllerMulti : NetworkedEntityView
     }
 
     public void StartSpend() {
-        switch(currentGatherable.gameObject.tag) {
-                case "Cave":
-
-                    break;
-                case "Farm_1":
-
-                    break;
-                case "Farm_2":
-
-                    break;
-                case "Aurochs_Pen":
-
-                    break;
-                case "Fish_Trap":
-
-                    break;
-            }
         gathering = true;
         animator.SetBool("Gather", true);
         _spendIcons[icon].gameObject.SetActive(true);
@@ -389,9 +383,9 @@ public class CharControllerMulti : NetworkedEntityView
         //Triggers at the end of the gather animation
         Debug.Log("Spending is finished");
         _spendIcons[icon].gameObject.SetActive(false);
+        SubtractResource(icon);
         animator.SetBool("Gather", false);
         gathering = false;
-        SubtractResource(icon);
     }
     
     //Function for right clicking and observing a nearby object
@@ -445,18 +439,26 @@ public class CharControllerMulti : NetworkedEntityView
     public void SubtractResource(int icon)
     {
         if (icon == 0) {
-            state.fruit += 1f;
+            state.fruit -= state.fruit;
             fruit = (int)state.fruit;
-        } else if (icon == 1  || icon == 4) {
-                state.meat += 1f;
+        } else if (icon == 1) {
+                state.meat -= state.meat;
                 meat = (int)state.meat;
-        } else if (icon == 2 && GameController.Instance.create) {
-                state.wood += 1f;
+        } else if (icon == 2) {
+                state.fruit -= state.fruit;
+                fruit = (int)state.fruit;
+                state.meat -= state.meat;
+                meat = (int)state.meat;
+        } else if (icon == 3 && GameController.Instance.create) {
+                state.wood -= state.wood;
                 wood = (int)state.wood;
         }  else if (icon == 3 && GameController.Instance.create) {
-            state.fruit += 1f;
-            fruit = (int)state.fruit;
-            state.seeds += 5f;
+                state.seeds -= state.seeds;
+                seeds = (int)state.seeds;
+        } else if (icon == 5 && GameController.Instance.create) {
+            state.wood -= state.wood;
+            wood = (int)state.wood;
+            state.seeds -= state.seeds;
             seeds = (int)state.seeds;
         }
         ChangedResource?.Invoke(icon);
@@ -481,22 +483,6 @@ public class CharControllerMulti : NetworkedEntityView
     public void GiveRFC(string receiverID)
     {
 
-    }
-
-    public void DropOff()
-    {
-        state.fruit -= state.fruit;
-        state.meat -= state.meat;
-        ChangedResource?.Invoke(0);
-        Debug.Log(state.fruit + "+" + fruit);
-    }
-
-    public void UseWood(int woodUsed)
-    {
-        state.wood -= (float)woodUsed;
-        wood = (int)state.wood;
-        ChangedResource?.Invoke(1);
-        Debug.Log(state.wood + "+" + wood);
     }
 
     public void EntityNearInteractable(Interactable interactable)

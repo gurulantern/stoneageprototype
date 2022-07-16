@@ -98,52 +98,49 @@ customMethods.gather =  function (roomRef: MyRoom, client: Client, request: any)
     
     //Don't count gathering until a round is going
     if(getGameState(roomRef, CurrentState) != StoneAgeServerGameState.SimulateRound) {
-        logger.silly("Cannot gather until the game has begun or in gather round!");
+        logger.silly("Cannot score gathered food until the game has begun or in gather round!");
         return;
     }
 
     const param = request.param;
 
-    // 0 = Gatherer ID | 1 = Food Source ID
+    // 0 = Gatherer ID | 1 = fruit gathered | 2 = meat gathered | 3 = teamIndex
     if(param == null || param.length < 2){
         throw "Missing food parameters";
         return;
     }
 
     const gathererID = param[0];
-    const foodChange = Number(param[1]);
-    const teamIndex = Number(param[2]);
+    const fruitScored = Number(param[1]);
+    const meatScored = Number(param[2]);
+    const teamIndex = Number(param[3]);
     
     let gatherer = roomRef.state.networkedEntities.get(gathererID);
     
     if(roomRef.teams.get(teamIndex).has(gathererID)){
-        let score: number = foodChange * FoodScoreMultiplier;
-        /// Update the team's score PLACE THIS IN THE CAVE SCRIPT
+        let score: number = (fruitScored + (meatScored * 10)) * FoodScoreMultiplier;
         updateTeamScores(roomRef, gathererID, "gather", score );
+        logger.silly(`${gathererID} scored ${score} for team ${teamIndex}`);
     }
     else{
         logger.silly(`No gatherer entity found with Id: ${gathererID}`)
     }
-/*
-    if(foodSource != null){
-        //Update death count of the dead player
-        let foodTaken: number = getAttributeNumber(foodSource, "food", 0);
-        foodTaken += 1;
-        let score: number = (-foodTaken) * FoodScoreMultiplier;
-
-        roomRef.setAttribute(null, {entityId: foodSourceID, attributesToSet: {food: foodTaken.toString(), score: score.toString() } });
-        
-        /// PLACE THIS IN CAVE SCRIPT
-        updateTeamScores(roomRef, gathererID, "gather", -1);
-    }
-    else{
-        logger.silly(`No dead entity found with Id: ${foodSourceID}`)
-    }
-*/
 }
 
 customMethods.observe = function (roomRef: MyRoom, client: Client, request: any) {
-
+        //Don't count gathering until a round is going
+        if(getGameState(roomRef, CurrentState) != StoneAgeServerGameState.SimulateRound) {
+            logger.silly("Cannot score observed food until the game has begun or in gather round!");
+            return;
+        }
+    
+        const param = request.param;
+    
+        // 0 = Gatherer ID | 1 = observed object | 2 = teamIndex
+        if(param == null || param.length < 2){
+            throw "Missing observe parameters";
+            return;
+        }
 }
 
 customMethods.create = function (roomRef: MyRoom, client: Client, request: any) {
@@ -215,11 +212,6 @@ let getTeamScores = function(roomRef: MyRoom, teamIndex: number, scoreType: stri
     }
     
     return score;
-}
-
-let setTeamScores = function(roomRef: MyRoom, teamIndex: number, scoreType: string, newTeamScore: number) {
-    roomRef.teamScores.get(teamIndex).set(scoreType, newTeamScore);
-    logger.info(`**** Updated team ${teamIndex} with a score of ${newTeamScore}`);
 }
 
 /**
@@ -533,20 +525,11 @@ let simulateRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
         }
     }
     
-/*
     roomRef.teams.forEach((teamMap, teamIdx) => {
-        let teamScore: number = getTeamScore(roomRef, teamIdx);
-
-        // Check if the team score is enough to win
-        if(getGameState(roomRef, CurrentState) == StoneAgeServerGameState.SimulateRound && teamScore >= roomRef.tdmScoreToWin) {
-            
-            setRoomAttribute(roomRef, WinningTeamId, teamIdx.toString());
-
-            moveToState(roomRef, StoneAgeServerGameState.EndRound);
-        }
-
+        let teamScore: number = getTeamScores(roomRef, teamIdx);
     });
-*/
+
+    //setRoomAttribute(roomRef, WinningTeamId, teamIdx.toString());
 }
 
 let beginPaintRoundLogic = function (roomRef: MyRoom, deltaTime: number) {

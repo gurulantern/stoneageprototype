@@ -38,26 +38,13 @@ export class GatherableState extends Schema {
 export class ScorableState extends Schema {
   @type("string") id: string = "ID";
   @type("string") scorableType: string = "";
-  @type("number") score: number = 0;
   @type("number") xPos: number = 0;
   @type("number") yPos: number = 0;
   @type("number") availableTimestamp: number = 0.0;
   @type("number") woodCost: number = 0;
   @type("number") seedsCost: number = 0;
 } 
-/*
-export class TeamState extends Schema {
-  @type("string") id: string = "";
-  @type("number") gatherScore: number = 0;
-  @type("number") observeScore: number = 0;
-  @type("number") createScore: number = 0;
-  @type("number") paintScore: number = 0;
-  @type("number") totalScore: number = 0;
-  @type("boolean") create: boolean;
-  @type("boolean") steal: boolean;
-  @type("boolean") scare: boolean;
-}
-*/
+
 export class NetworkedUser extends Schema {
     @type("string") sessionId: string;
     @type("boolean") connected: boolean;

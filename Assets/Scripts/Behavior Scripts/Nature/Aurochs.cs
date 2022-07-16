@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using StoneAge.Interactables;
+using StoneAge.Controllers;
 
 public class Aurochs : Gatherable
 {

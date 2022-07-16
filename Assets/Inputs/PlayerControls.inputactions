@@ -24,7 +24,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Food Action",
+                    "name": "Interact Action",
                     "type": "Button",
                     "id": "4b6b990f-7c76-4f51-b6f4-3781b9c760e3",
                     "expectedControlType": "Button",
@@ -79,7 +79,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Desktop Control Scheme",
-                    "action": "Food Action",
+                    "action": "Interact Action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

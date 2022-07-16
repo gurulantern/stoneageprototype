@@ -43,7 +43,7 @@ export function getStateForType(type: string) : ScorableState {
             });
             break;
         }
-        case("SAPLING"):
+        case("FISH_TRAP"):
         {
             state.assign({
                 scorableType : type,

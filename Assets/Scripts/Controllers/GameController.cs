@@ -11,520 +11,520 @@ using LucidSightTools;
 using UnityEngine.SceneManagement;
 using UnityEngine.AI;
 
-public class GameController : MonoBehaviour
+namespace StoneAge.Controllers
 {
-    public StoneColyseusNetworkedEntityView prefab;
-    public bool create, steal, scare;
-    public delegate void OnViewAdded(StoneColyseusNetworkedEntityView view);
-    public static event OnViewAdded onViewAdded;
-
-    public delegate void OnViewRemoved(StoneColyseusNetworkedEntityView view);
-    public static event OnViewRemoved onViewRemoved;
-    public UIController _uiController;
-    public EnvironmentController  _environmentController;
-    public static GameController Instance { get; private set; }
-    private TextMeshProUGUI scoreBoard;
-    private string currentGameState = "";
-    private string lastGameState = "";
-    public bool JoinComplete { get; private set; } = false;
-    public bool IsCoop { get; private set; }
-    public delegate void OnUpdateClientTeam(int teamIndex, string clientID);
-    public static event OnUpdateClientTeam onUpdateClientTeam;
-    public int winningTeam = -1;
-    public float roundTimeLimit;
-    public float paintTimeLimit = 60f;
-    private float elapsedTime;
-    private bool _showCountDown = false;
-    public bool gamePlaying { get; private set; } = false;
-
-    [SerializeField] 
-    private List<StoneAgeTeam> teams = new List<StoneAgeTeam>();
-    public  Cave[] homeCaves;
-    public SpawnPoint[] aurochsSpawnPoints;
-    public SpawnPoint[] deadAurochsSpawnPounts;
-
-
-    private void Awake() 
+    public class GameController : MonoBehaviour
     {
-        if (Instance != null && Instance != this)
+        public StoneColyseusNetworkedEntityView prefab;
+        public bool create, steal, scare;
+        public delegate void OnViewAdded(StoneColyseusNetworkedEntityView view);
+        public static event OnViewAdded onViewAdded;
+        public delegate void OnViewRemoved(StoneColyseusNetworkedEntityView view);
+        public static event OnViewRemoved onViewRemoved;
+        public UIController _uiController;
+        public EnvironmentController  _environmentController;
+        public static GameController Instance { get; private set; }
+        private TextMeshProUGUI scoreBoard;
+        private string currentGameState = "";
+        private string lastGameState = "";
+        public bool JoinComplete { get; private set; } = false;
+        public bool IsCoop { get; private set; }
+        public delegate void OnUpdateClientTeam(int teamIndex, string clientID);
+        public static event OnUpdateClientTeam onUpdateClientTeam;
+        public int winningTeam = -1;
+        public float roundTimeLimit;
+        public float paintTimeLimit = 60f;
+        private float elapsedTime;
+        private bool _showCountDown = false;
+        public bool gamePlaying { get; private set; } = false;
+
+        [SerializeField] 
+        private List<StoneAgeTeam> teams = new List<StoneAgeTeam>();
+        public  Cave[] homeCaves;
+        public SpawnPoint[] aurochsSpawnPoints;
+        public SpawnPoint[] deadAurochsSpawnPounts;
+
+
+        private void Awake() 
         {
-            Destroy(gameObject);
-            return;
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            Instance = this;
         }
-        Instance = this;
-    }
-    private void Start() 
-    {
-        gamePlaying = false;
-    }
+        private void Start() 
+        {
+            gamePlaying = false;
+        }
 
-    private void OnEnable() 
-    {
+        private void OnEnable() 
+        {
+            
+            RoomController.onRoomStateChanged += OnRoomStateChanged;
+            RoomController.onBeginRoundCountDown += OnBeginRoundCountDown;
+            RoomController.onBeginRound += OnBeginRound;
+            RoomController.onBeginPaint += OnBeginPaint;
+            RoomController.onBeginVote += OnBeginVote;
+            RoomController.onRoundEnd += OnRoundEnd;
+            RoomController.onJoined += OnJoinedRoom;
+            RoomController.onAddNetworkEntity += OnNetworkAdd;
+            RoomController.onRemoveNetworkEntity += OnNetworkRemove;
+            RoomController.onTeamUpdate += OnTeamUpdate;
+            RoomController.onTeamReceive += OnFullTeamUpdate;
+
+            onViewAdded += OnPlayerCreated;
+
+            _uiController.UpdateCountDownMessage("");
+            _uiController.UpdateGeneralMessageText("");
+        }
+
+        private void OnDisable() 
+        {
+            RoomController.onRoomStateChanged -= OnRoomStateChanged;
+            RoomController.onBeginRoundCountDown -= OnBeginRoundCountDown;
+            RoomController.onBeginRound -= OnBeginRound;
+            RoomController.onBeginPaint -= OnBeginPaint;
+            RoomController.onBeginVote -= OnBeginVote;
+            RoomController.onRoundEnd -= OnRoundEnd;
+            RoomController.onJoined -= OnJoinedRoom;
+            RoomController.onAddNetworkEntity -= OnNetworkAdd;
+            RoomController.onRemoveNetworkEntity -= OnNetworkRemove;
+            RoomController.onTeamUpdate -= OnTeamUpdate;
+            RoomController.onTeamReceive -= OnFullTeamUpdate;
+
+            onViewAdded -= OnPlayerCreated;
+        }
+
+        /// <summary>
+        /// Used with button input when the user wants to return to the lobby
+        /// </summary>
+        public void OnQuitGame()
+        {
+            if (ColyseusManager.Instance.IsInRoom)
+            {
+                //Find playerController for this player
+                CharControllerMulti pc = GetPlayerView< CharControllerMulti>(ColyseusManager.Instance.CurrentNetworkedEntity.id);
+                if (pc != null)
+                {
+                    pc.enabled = false; //Stop all the messages and updates
+                }
+
+                ColyseusManager.Instance.LeaveAllRooms(() =>
+                {
+                    ColyseusManager.Instance.ClearCollectionsAndUser();
+                    SceneManager.LoadScene(0);
+                });
+            }
+        }
+
+        private void OnNetworkAdd(NetworkedEntity entity)
+        {
+            if (ColyseusManager.Instance.HasEntityView(entity.id))
+            {
+                LSLog.LogImportant("View found! For " + entity.id);
+            }
+            else
+            {
+                LSLog.LogImportant("No View found for " + entity.id);
+                CreateView(entity);
+            }
+        }
+
+        private void OnNetworkRemove(NetworkedEntity entity, StoneColyseusNetworkedEntityView view)
+        {
+            RemoveView(view);
+        }
+
+        /// <summary>
+        /// Used with button input when the user is ready to start a round of play
+        /// </summary>
+        public void PlayerReadyToPlay()
+        {
+            _uiController.UpdatePlayerReadiness(false);
+
+            SetCurrentUserAttributes(new Dictionary<string, string> { { "readyState", "ready" } });
+        }
+
+        public void SetOptions()
+        {
+            
+        }
         
-        RoomController.onRoomStateChanged += OnRoomStateChanged;
-        RoomController.onBeginRoundCountDown += OnBeginRoundCountDown;
-        RoomController.onBeginRound += OnBeginRound;
-        RoomController.onBeginPaint += OnBeginPaint;
-        RoomController.onBeginVote += OnBeginVote;
-        RoomController.onRoundEnd += OnRoundEnd;
-        RoomController.onJoined += OnJoinedRoom;
-        RoomController.onAddNetworkEntity += OnNetworkAdd;
-        RoomController.onRemoveNetworkEntity += OnNetworkRemove;
-        RoomController.onTeamUpdate += OnTeamUpdate;
-        RoomController.onTeamReceive += OnFullTeamUpdate;
-
-        onViewAdded += OnPlayerCreated;
-
-        _uiController.UpdateCountDownMessage("");
-        _uiController.UpdateGeneralMessageText("");
-    }
-
-    private void OnDisable() 
-    {
-        RoomController.onRoomStateChanged -= OnRoomStateChanged;
-        RoomController.onBeginRoundCountDown -= OnBeginRoundCountDown;
-        RoomController.onBeginRound -= OnBeginRound;
-        RoomController.onBeginPaint -= OnBeginPaint;
-        RoomController.onBeginVote -= OnBeginVote;
-        RoomController.onRoundEnd -= OnRoundEnd;
-        RoomController.onJoined -= OnJoinedRoom;
-        RoomController.onAddNetworkEntity -= OnNetworkAdd;
-        RoomController.onRemoveNetworkEntity -= OnNetworkRemove;
-        RoomController.onTeamUpdate -= OnTeamUpdate;
-        RoomController.onTeamReceive -= OnFullTeamUpdate;
-
-        onViewAdded -= OnPlayerCreated;
-    }
-
-    /// <summary>
-    /// Used with button input when the user wants to return to the lobby
-    /// </summary>
-    public void OnQuitGame()
-    {
-        if (ColyseusManager.Instance.IsInRoom)
+        private void CreateView(NetworkedEntity entity)
         {
-            //Find playerController for this player
-            CharControllerMulti pc = GetPlayerView< CharControllerMulti>(ColyseusManager.Instance.CurrentNetworkedEntity.id);
-            if (pc != null)
+            LSLog.LogImportant("print: " + JsonUtility.ToJson(entity));
+            StoneColyseusNetworkedEntityView newView = Instantiate(prefab);
+            ColyseusManager.Instance.RegisterNetworkedEntityView(entity, newView);
+            newView.gameObject.SetActive(true);
+
+            LSLog.LogImportant($"Game Manager - New View Created!");
+
+            onViewAdded?.Invoke(newView);
+        }
+
+        private void RemoveView(StoneColyseusNetworkedEntityView view)
+        {
+            view.SendMessage("OnEntityRemoved", SendMessageOptions.DontRequireReceiver);
+        }
+        private void FixedUpdate()
+        {
+            if (elapsedTime < roundTimeLimit && gamePlaying == true)
             {
-                pc.enabled = false; //Stop all the messages and updates
+                _uiController.timer.DecrementTime((roundTimeLimit - elapsedTime) / roundTimeLimit);
+            }
+            //Surface2D.UpdateNavMesh(Surface2D.navMeshData); 
+        }
+
+        public void BeginGame()
+        {
+            gamePlaying = true;
+            Time.timeScale = 1.0f;
+        }
+
+        private void EndGame()
+        {
+            gamePlaying = false;
+            _uiController.ShowGameOverScreen();
+            Time.timeScale = 0f;
+        }
+
+        public void SetCurrentUserAttributes(Dictionary<string, string> attributes)
+        {
+            ColyseusManager.NetSend("setAttribute",
+                new AttributeUpdateMessage
+                {
+                    userId = ColyseusManager.Instance.CurrentUser.sessionId,
+                    attributesToSet = attributes
+                });
+        }
+
+        private void OnJoinedRoom(string customLogic)
+        {
+            IsCoop = string.Equals(customLogic, "collaborative");
+            JoinComplete = true;
+        }
+
+        private void OnBeginRoundCountDown()
+        {
+            LSLog.LogImportant($"Round Count Down Has Begun!", LSLog.LogColor.cyan);
+
+            _showCountDown = true;
+        }
+
+        private void OnBeginRound(float time)
+        {
+            StartCoroutine(BeginRoutine(time));
+        }
+
+        private IEnumerator BeginRoutine(float time)
+        {
+            /*
+            if (IsCoop == false)
+            {
+                Debug.Log("Game has started!");
+                CharControllerMulti pc = GetPlayer();
+
+                if (pc)
+                {
+                    pc.PositionAtSpawn();
+                }
             }
 
-            ColyseusManager.Instance.LeaveAllRooms(() =>
-            {
-                ColyseusManager.Instance.ClearCollectionsAndUser();
-                SceneManager.LoadScene(0);
-            });
-        }
-    }
-
-    private void OnNetworkAdd(NetworkedEntity entity)
-    {
-        if (ColyseusManager.Instance.HasEntityView(entity.id))
-        {
-            LSLog.LogImportant("View found! For " + entity.id);
-        }
-        else
-        {
-            LSLog.LogImportant("No View found for " + entity.id);
-            CreateView(entity);
-        }
-    }
-
-    private void OnNetworkRemove(NetworkedEntity entity, StoneColyseusNetworkedEntityView view)
-    {
-        RemoveView(view);
-    }
-
-    /// <summary>
-    /// Used with button input when the user is ready to start a round of play
-    /// </summary>
-    public void PlayerReadyToPlay()
-    {
-        _uiController.UpdatePlayerReadiness(false);
-
-        SetCurrentUserAttributes(new Dictionary<string, string> { { "readyState", "ready" } });
-    }
-
-    public void SetOptions()
-    {
-        
-    }
-    
-    private void CreateView(NetworkedEntity entity)
-    {
-        LSLog.LogImportant("print: " + JsonUtility.ToJson(entity));
-        StoneColyseusNetworkedEntityView newView = Instantiate(prefab);
-        ColyseusManager.Instance.RegisterNetworkedEntityView(entity, newView);
-        newView.gameObject.SetActive(true);
-
-        LSLog.LogImportant($"Game Manager - New View Created!");
-
-        onViewAdded?.Invoke(newView);
-    }
-
-    private void RemoveView(StoneColyseusNetworkedEntityView view)
-    {
-        view.SendMessage("OnEntityRemoved", SendMessageOptions.DontRequireReceiver);
-    }
-    private void FixedUpdate()
-    {
-        if (elapsedTime < roundTimeLimit && gamePlaying == true)
-        {
-            _uiController.timer.DecrementTime((roundTimeLimit - elapsedTime) / roundTimeLimit);
-        }
-        //Surface2D.UpdateNavMesh(Surface2D.navMeshData); 
-    }
-
-    public void BeginGame()
-    {
-        gamePlaying = true;
-        Time.timeScale = 1.0f;
-    }
-
-    private void EndGame()
-    {
-        gamePlaying = false;
-        _uiController.ShowGameOverScreen();
-        Time.timeScale = 0f;
-    }
-
-    public void SetCurrentUserAttributes(Dictionary<string, string> attributes)
-    {
-        ColyseusManager.NetSend("setAttribute",
-            new AttributeUpdateMessage
-            {
-                userId = ColyseusManager.Instance.CurrentUser.sessionId,
-                attributesToSet = attributes
-            });
-    }
-
-    private void OnJoinedRoom(string customLogic)
-    {
-        IsCoop = string.Equals(customLogic, "collaborative");
-        JoinComplete = true;
-    }
-
-       private void OnBeginRoundCountDown()
-    {
-        LSLog.LogImportant($"Round Count Down Has Begun!", LSLog.LogColor.cyan);
-
-        _showCountDown = true;
-    }
-
-    private void OnBeginRound(float time)
-    {
-        StartCoroutine(BeginRoutine(time));
-    }
-
-    private IEnumerator BeginRoutine(float time)
-    {
-        /*
-        if (IsCoop == false)
-        {
-            Debug.Log("Game has started!");
-            CharControllerMulti pc = GetPlayer();
-
-            if (pc)
-            {
-                pc.PositionAtSpawn();
-            }
-        }
-
-        if (IsCoop)
-        {
-
-        }
-        else
-        {
-            winningTeam = -1;
-        }
-        */
-        roundTimeLimit = time;
-        gamePlaying = true;
-        Debug.Log("Game has started - round time: " + roundTimeLimit);
-
-        yield return new WaitForSeconds(1.0f);
-
-        _showCountDown = false;
-        _uiController.UpdateCountDownMessage("");
-    }
-
-    private void OnBeginPaint(float time)
-    {
-        StartCoroutine(BeginPaint(time));
-    }
-
-    private IEnumerator BeginPaint(float time)
-    {
-        roundTimeLimit = time;
-        Debug.Log("Paint has started, round time: " + roundTimeLimit);
-        yield break;
-    }
-
-    private void OnBeginVote(float time)
-    {
-        StartCoroutine(BeginVote(time));
-    }
-
-    private IEnumerator BeginVote(float time)
-    {
-        roundTimeLimit = time;
-        Debug.Log("Vote has started, round time: " + roundTimeLimit);
-        yield break;
-    }
-
-    private void OnRoundEnd()
-    {
-        LSLog.LogImportant($"Round Ended!", LSLog.LogColor.lime);
-        StartCoroutine(RoundEndRoutine());
-    }
-
-    private IEnumerator RoundEndRoutine()
-    {
-        gamePlaying = false;
-        
-            //We may not have the winning team yet, need to hold here
-        //StartCoroutine(HoldForWinner());
-
-        //ResetAllShipDamage();
-        _uiController.UpdatePlayerReadiness(true);
-        yield break;
-    }
-
-
-    private void OnRoomStateChanged(MapSchema<string> attributes)
-    {
-        UpdateGameStates(attributes);
-        UpdateGeneralMessage(attributes);
-        UpdateCountDown(attributes);
-        if (gamePlaying)
-        {
-            UpdateRoundTime(attributes);
-            UpdateScores(attributes);
-        }
-    }
-
-    private void UpdateGameStates(MapSchema<string> attributes)
-    {
-        if (attributes.TryGetValue("currentGameState", out string currentServerGameState))
-        {
-            currentGameState = currentServerGameState;
-            //Debug.Log(currentGameState + " / " + currentServerGameState);
-        }
-
-        if (attributes.TryGetValue("lastGameState", out string lastServerGameState))
-        {
-            lastGameState = lastServerGameState;
-        }
-
-        if (attributes.TryGetValue("winningTeamId", out string currentWinningTeam))
-        {
-            if(!int.TryParse(currentWinningTeam, out winningTeam))
-            {
-                LSLog.LogError($"Failed to parse currentWinningTeam: {currentWinningTeam}");
-            }
-        }
-    }
-
-    private void UpdateCountDown(MapSchema<string> attributes)
-    {
-        if (!_showCountDown)
-        {
-            return;
-        }
-
-        if(attributes.TryGetValue("countDown", out string countDown))
-        {
-            _uiController.UpdateCountDownMessage(countDown);
-        }
-    }
-
-    private void UpdateGeneralMessage(MapSchema<string> attributes)
-    {
-        if (attributes.TryGetValue("generalMessage", out string generalMessage))
-        {
-            _uiController.UpdateGeneralMessageText(generalMessage);
-        }
-    }
-
-    private void UpdateRoundTime(MapSchema<string> attributes)
-    {
-        if (attributes.TryGetValue("elapsedTime", out string time))
-        {
-            if (float.TryParse(time, out float serverTime))
-            {
-                elapsedTime = serverTime/1000;
-            }
-        }
-    }
-
-    private void UpdateScores(MapSchema<string> attributes)
-    {
-        /*
-        if (attributes.TryGetValue())
-        {
-            if (float.TryParse(scoreBoard, out int score))
+            if (IsCoop)
             {
 
             }
-        }
-        */
-    }
+            else
+            {
+                winningTeam = -1;
+            }
+            */
+            roundTimeLimit = time;
+            gamePlaying = true;
+            Debug.Log("Game has started - round time: " + roundTimeLimit);
 
-    private void OnTeamUpdate(int teamIdx, string clientID, bool added)
-    {
-        StoneAgeTeam team = GetOrCreateTeam(teamIdx);
-        scoreBoard = _uiController.scoreBoards[teamIdx];
+            yield return new WaitForSeconds(1.0f);
 
-        if (added)
-        {
-            if (team.AddPlayer(clientID))
-            {
-                //Alert anyone that needs to know, clientID has been added to teamIdx
-                onUpdateClientTeam?.Invoke(teamIdx, clientID);
-            }
-            if (team.clientsOnTeam.Count == 1)
-            {
-                scoreBoard.gameObject.SetActive(true);
-            }
-        }
-        else
-        {
-            team.RemovePlayer(clientID);
-            if(team.clientsOnTeam.Count == 0)
-            {
-                scoreBoard.gameObject.SetActive(false);
-            }
-        }
-    }
-
-    private void OnFullTeamUpdate(int teamIdx, string[] clients)
-    {
-        StoneAgeTeam team = GetOrCreateTeam(teamIdx);
-        scoreBoard = _uiController.scoreBoards[teamIdx];
-
-        for (int i = 0; i < clients.Length; ++i)
-        {
-            if (team.AddPlayer(clients[i]))
-            {
-                //Alert anyone that needs to know, clientID has been added to teamIdx
-                onUpdateClientTeam?.Invoke(teamIdx, clients[i]);
-            }
-            if (team.clientsOnTeam.Count == 1)
-            {
-                scoreBoard.gameObject.SetActive(true);
-            }
-        }
-    }
-
-    private StoneAgeTeam GetOrCreateTeam(int teamIdx)
-    {
-        StoneAgeTeam team = null;
-        for (int i = 0; i < teams.Count; ++i)
-        {
-            if (teams[i].teamIndex.Equals(teamIdx))
-            {
-                team = teams[i];
-            }
+            _showCountDown = false;
+            _uiController.UpdateCountDownMessage("");
         }
 
-        if (team == null)
+        private void OnBeginPaint(float time)
         {
-            //We have not created this team yet
-            team = new StoneAgeTeam();
-            team.teamIndex = teamIdx;
-            teams.Add(team);
+            StartCoroutine(BeginPaint(time));
         }
 
-        return team;
-    }
-
-    public int GetTeamIndex(string clientID)
-    {
-        for (int i = 0; i < teams.Count; ++i)
+        private IEnumerator BeginPaint(float time)
         {
-            if (teams[i].ContainsClient(clientID))
+            roundTimeLimit = time;
+            Debug.Log("Paint has started, round time: " + roundTimeLimit);
+            yield break;
+        }
+
+        private void OnBeginVote(float time)
+        {
+            StartCoroutine(BeginVote(time));
+        }
+
+        private IEnumerator BeginVote(float time)
+        {
+            roundTimeLimit = time;
+            Debug.Log("Vote has started, round time: " + roundTimeLimit);
+            yield break;
+        }
+
+        private void OnRoundEnd()
+        {
+            LSLog.LogImportant($"Round Ended!", LSLog.LogColor.lime);
+            StartCoroutine(RoundEndRoutine());
+        }
+
+        private IEnumerator RoundEndRoutine()
+        {
+            gamePlaying = false;
+            
+                //We may not have the winning team yet, need to hold here
+            //StartCoroutine(HoldForWinner());
+
+            //ResetAllShipDamage();
+            _uiController.UpdatePlayerReadiness(true);
+            yield break;
+        }
+
+
+        private void OnRoomStateChanged(MapSchema<string> attributes)
+        {
+            UpdateGameStates(attributes);
+            UpdateGeneralMessage(attributes);
+            UpdateCountDown(attributes);
+            if (gamePlaying)
             {
-                return teams[i].teamIndex;
+                UpdateRoundTime(attributes);
+                //UpdateScores(attributes);
             }
         }
 
-        LSLog.LogError($"Client {clientID} is not on a team!"); //We should not be asking for teams if we're not expecting to have them
-        return -1;
-    }
-
-    public int GetTeamNumber(int teamIdx)
-    {
-        if(teams[teamIdx].clientsOnTeam.Count <= 10)
+        private void UpdateGameStates(MapSchema<string> attributes)
         {
-            return teams[teamIdx].clientsOnTeam.Count - 1;
-        } else {
-            LSLog.LogError($"Team of {teamIdx} full");
+            if (attributes.TryGetValue("currentGameState", out string currentServerGameState))
+            {
+                currentGameState = currentServerGameState;
+                //Debug.Log(currentGameState + " / " + currentServerGameState);
+            }
+
+            if (attributes.TryGetValue("lastGameState", out string lastServerGameState))
+            {
+                lastGameState = lastServerGameState;
+            }
+
+            if (attributes.TryGetValue("winningTeamId", out string currentWinningTeam))
+            {
+                if(!int.TryParse(currentWinningTeam, out winningTeam))
+                {
+                    LSLog.LogError($"Failed to parse currentWinningTeam: {currentWinningTeam}");
+                }
+            }
+        }
+
+        private void UpdateCountDown(MapSchema<string> attributes)
+        {
+            if (!_showCountDown)
+            {
+                return;
+            }
+
+            if(attributes.TryGetValue("countDown", out string countDown))
+            {
+                _uiController.UpdateCountDownMessage(countDown);
+            }
+        }
+
+        private void UpdateGeneralMessage(MapSchema<string> attributes)
+        {
+            if (attributes.TryGetValue("generalMessage", out string generalMessage))
+            {
+                _uiController.UpdateGeneralMessageText(generalMessage);
+            }
+        }
+
+        private void UpdateRoundTime(MapSchema<string> attributes)
+        {
+            if (attributes.TryGetValue("elapsedTime", out string time))
+            {
+                if (float.TryParse(time, out float serverTime))
+                {
+                    elapsedTime = serverTime/1000;
+                }
+            }
+        }
+/*
+        private void UpdateScores(MapSchema<string> attributes)
+        {
+            if (attributes.TryGetValue())
+            {
+                if (float.TryParse(scoreBoard, out int score))
+                {
+
+                }
+            }
+        }
+*/
+        private void OnTeamUpdate(int teamIdx, string clientID, bool added)
+        {
+            StoneAgeTeam team = GetOrCreateTeam(teamIdx);
+            scoreBoard = _uiController.scoreBoards[teamIdx];
+
+            if (added)
+            {
+                if (team.AddPlayer(clientID))
+                {
+                    //Alert anyone that needs to know, clientID has been added to teamIdx
+                    onUpdateClientTeam?.Invoke(teamIdx, clientID);
+                }
+                if (team.clientsOnTeam.Count == 1)
+                {
+                    scoreBoard.gameObject.SetActive(true);
+                }
+            }
+            else
+            {
+                team.RemovePlayer(clientID);
+                if(team.clientsOnTeam.Count == 0)
+                {
+                    scoreBoard.gameObject.SetActive(false);
+                }
+            }
+        }
+
+        private void OnFullTeamUpdate(int teamIdx, string[] clients)
+        {
+            StoneAgeTeam team = GetOrCreateTeam(teamIdx);
+            scoreBoard = _uiController.scoreBoards[teamIdx];
+
+            for (int i = 0; i < clients.Length; ++i)
+            {
+                if (team.AddPlayer(clients[i]))
+                {
+                    //Alert anyone that needs to know, clientID has been added to teamIdx
+                    onUpdateClientTeam?.Invoke(teamIdx, clients[i]);
+                }
+                if (team.clientsOnTeam.Count == 1)
+                {
+                    scoreBoard.gameObject.SetActive(true);
+                }
+            }
+        }
+
+        private StoneAgeTeam GetOrCreateTeam(int teamIdx)
+        {
+            StoneAgeTeam team = null;
+            for (int i = 0; i < teams.Count; ++i)
+            {
+                if (teams[i].teamIndex.Equals(teamIdx))
+                {
+                    team = teams[i];
+                }
+            }
+
+            if (team == null)
+            {
+                //We have not created this team yet
+                team = new StoneAgeTeam();
+                team.teamIndex = teamIdx;
+                teams.Add(team);
+            }
+
+            return team;
+        }
+
+        public int GetTeamIndex(string clientID)
+        {
+            for (int i = 0; i < teams.Count; ++i)
+            {
+                if (teams[i].ContainsClient(clientID))
+                {
+                    return teams[i].teamIndex;
+                }
+            }
+
+            LSLog.LogError($"Client {clientID} is not on a team!"); //We should not be asking for teams if we're not expecting to have them
             return -1;
         }
-    }
 
-    public bool AreUsersSameTeam(CharControllerMulti clientA, CharControllerMulti clientB)
-    {
-        return clientA.TeamIndex.Equals(clientB.TeamIndex);
-    }
-
-    public CharControllerMulti GetPlayer()
-    {
-        NetworkedEntityView view = ColyseusManager.Instance.GetEntityView(ColyseusManager.Instance.CurrentNetworkedEntity.id);
-        if (view != null)
+        public int GetTeamNumber(int teamIdx)
         {
-            Debug.Log("Getting player");
-            CharControllerMulti pc = view as CharControllerMulti;
-            if (pc)
+            if(teams[teamIdx].clientsOnTeam.Count <= 10)
             {
-                return pc;
+                return teams[teamIdx].clientsOnTeam.Count - 1;
+            } else {
+                LSLog.LogError($"Team of {teamIdx} full");
+                return -1;
             }
         }
 
-        LSLog.LogError($"Could not find a player for owner with ID {ColyseusManager.Instance.CurrentNetworkedEntity.id}");
-        return null;
-    }
-
-    private void OnDestroy() 
-    {
-        ///ColyseusManager.Instance.OnEditorQuit();    
-    }
-
-    private void OnPlayerCreated(StoneColyseusNetworkedEntityView newView)
-    {
-        if (newView.TryGetComponent(out CharControllerMulti player))
+        public bool AreUsersSameTeam(CharControllerMulti clientA, CharControllerMulti clientB)
         {
-            if (!player.IsMine)
+            return clientA.TeamIndex.Equals(clientB.TeamIndex);
+        }
+
+        public CharControllerMulti GetPlayer()
+        {
+            NetworkedEntityView view = ColyseusManager.Instance.GetEntityView(ColyseusManager.Instance.CurrentNetworkedEntity.id);
+            if (view != null)
             {
-                player.InitializeObjectForRemote();
+                Debug.Log("Getting player");
+                CharControllerMulti pc = view as CharControllerMulti;
+                if (pc)
+                {
+                    return pc;
+                }
+            }
+
+            LSLog.LogError($"Could not find a player for owner with ID {ColyseusManager.Instance.CurrentNetworkedEntity.id}");
+            return null;
+        }
+
+        private void OnDestroy() 
+        {
+            ///ColyseusManager.Instance.OnEditorQuit();    
+        }
+
+        private void OnPlayerCreated(StoneColyseusNetworkedEntityView newView)
+        {
+            if (newView.TryGetComponent(out CharControllerMulti player))
+            {
+                if (!player.IsMine)
+                {
+                    player.InitializeObjectForRemote();
+                }
             }
         }
-    }
-    public T GetPlayerView<T>(string entityID) where T : StoneColyseusNetworkedEntityView
-    {
-        if (ColyseusManager.Instance.HasEntityView(entityID))
+        public T GetPlayerView<T>(string entityID) where T : StoneColyseusNetworkedEntityView
         {
-            return ColyseusManager.Instance.GetEntityView(entityID) as T;
+            if (ColyseusManager.Instance.HasEntityView(entityID))
+            {
+                return ColyseusManager.Instance.GetEntityView(entityID) as T;
+            }
+
+            LSLog.LogError($"No player controller with id {entityID} found!");
+            return null;
         }
 
-        LSLog.LogError($"No player controller with id {entityID} found!");
-        return null;
-    }
+        public void RegisterGather(string entityID, string fruit, string meat, string teamIndex)
+        {
+            ColyseusManager.CustomServerMethod("gather", new object[] { entityID, fruit, meat, teamIndex});
+        }
 
-    public void RegisterGather(string entityID, string foodChange, string teamIndex)
-    {
-        ColyseusManager.CustomServerMethod("gather", new object[] { entityID, foodChange, teamIndex});
-    }
+        public void RegisterObserve(string entityID, string observedObject, string teamIndex)
+        {
+            ColyseusManager.CustomServerMethod("observe", new object[] { entityID, observedObject, teamIndex});
+        }
 
-    public void RegisterObserve(string entityID, string observedObject, string teamIndex)
-    {
-        ColyseusManager.CustomServerMethod("observe", new object[] { entityID, observedObject, teamIndex});
-    }
-
-    public void RegisterCreate(string entityID, string createType, string teamIndex)
-    {
-        ColyseusManager.CustomServerMethod("create", new object[] { entityID, createType, teamIndex });
+        public void RegisterCreate(string entityID, string createType, string teamIndex)
+        {
+            ColyseusManager.CustomServerMethod("create", new object[] { entityID, createType, teamIndex });
+        }
     }
 }

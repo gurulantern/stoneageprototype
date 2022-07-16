@@ -5,15 +5,19 @@ using System;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using StoneAge.Interactables;
 
 public class Cave : Scorable
 {
     public int teamIndex;
     public SpawnPoint[] spawnPoints;
+    public Light fire;
+    public SpriteRenderer family;
+    public SpriteRenderer fireLog;
 
-    void Awake()
+    protected virtual void Awake()
     {
-        //foodCount = _foodCollection.FoodCount;
+        requiredResource = "food";
     }
     
 }

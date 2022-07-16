@@ -46,7 +46,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Food Action"",
+                    ""name"": ""Interact Action"",
                     ""type"": ""Button"",
                     ""id"": ""4b6b990f-7c76-4f51-b6f4-3781b9c760e3"",
                     ""expectedControlType"": ""Button"",
@@ -101,7 +101,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Desktop Control Scheme"",
-                    ""action"": ""Food Action"",
+                    ""action"": ""Interact Action"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -322,7 +322,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Sleep = m_Player.FindAction("Sleep", throwIfNotFound: true);
-        m_Player_FoodAction = m_Player.FindAction("Food Action", throwIfNotFound: true);
+        m_Player_InteractAction = m_Player.FindAction("Interact Action", throwIfNotFound: true);
         m_Player_Observe = m_Player.FindAction("Observe", throwIfNotFound: true);
         m_Player_Create = m_Player.FindAction("Create", throwIfNotFound: true);
         m_Player_Zoom = m_Player.FindAction("Zoom ", throwIfNotFound: true);
@@ -391,7 +391,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Sleep;
-    private readonly InputAction m_Player_FoodAction;
+    private readonly InputAction m_Player_InteractAction;
     private readonly InputAction m_Player_Observe;
     private readonly InputAction m_Player_Create;
     private readonly InputAction m_Player_Zoom;
@@ -401,7 +401,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public PlayerActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Sleep => m_Wrapper.m_Player_Sleep;
-        public InputAction @FoodAction => m_Wrapper.m_Player_FoodAction;
+        public InputAction @InteractAction => m_Wrapper.m_Player_InteractAction;
         public InputAction @Observe => m_Wrapper.m_Player_Observe;
         public InputAction @Create => m_Wrapper.m_Player_Create;
         public InputAction @Zoom => m_Wrapper.m_Player_Zoom;
@@ -420,9 +420,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Sleep.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSleep;
                 @Sleep.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSleep;
                 @Sleep.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSleep;
-                @FoodAction.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFoodAction;
-                @FoodAction.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFoodAction;
-                @FoodAction.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFoodAction;
+                @InteractAction.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteractAction;
+                @InteractAction.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteractAction;
+                @InteractAction.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteractAction;
                 @Observe.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnObserve;
                 @Observe.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnObserve;
                 @Observe.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnObserve;
@@ -442,9 +442,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Sleep.started += instance.OnSleep;
                 @Sleep.performed += instance.OnSleep;
                 @Sleep.canceled += instance.OnSleep;
-                @FoodAction.started += instance.OnFoodAction;
-                @FoodAction.performed += instance.OnFoodAction;
-                @FoodAction.canceled += instance.OnFoodAction;
+                @InteractAction.started += instance.OnInteractAction;
+                @InteractAction.performed += instance.OnInteractAction;
+                @InteractAction.canceled += instance.OnInteractAction;
                 @Observe.started += instance.OnObserve;
                 @Observe.performed += instance.OnObserve;
                 @Observe.canceled += instance.OnObserve;
@@ -512,7 +512,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnSleep(InputAction.CallbackContext context);
-        void OnFoodAction(InputAction.CallbackContext context);
+        void OnInteractAction(InputAction.CallbackContext context);
         void OnObserve(InputAction.CallbackContext context);
         void OnCreate(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
