@@ -14,18 +14,18 @@ public partial class ScorableState : Schema {
 	[Type(1, "string")]
 	public string scorableType = default(string);
 
-    [Type(4, "number")]
+    [Type(2, "number")]
 	public float xPos = default(float);
 
-    [Type(5, "number")]
+    [Type(3, "number")]
 	public float yPos = default(float);
 
-	[Type(6, "number")]
+	[Type(4, "number")]
 	public float availableTimestamp = default(float);
 
-	[Type(7, "number")]
+	[Type(5, "number")]
 	public float woodCost = default(float);
 
-    [Type(8, "number")]
+    [Type(6, "number")]
 	public float seedsCost = default(float);
 }

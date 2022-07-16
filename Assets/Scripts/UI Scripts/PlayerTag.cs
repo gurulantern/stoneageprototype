@@ -38,7 +38,7 @@ public class PlayerTag : MonoBehaviour
 
     private void SetColors(int teamIdx)
     {
-        playerTag.color = teamColors[teamIdx];
+        playerTag.color = GameController.Instance.GetTeamColor(teamIdx);    
     }
 }
 

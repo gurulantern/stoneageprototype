@@ -19,8 +19,6 @@ const BeginRoundCountDown = "countDown";
 const WinningTeamId = "winningTeamId";
 const ElapsedTime = "elapsedTime";
 
-const FoodScoreMultiplier = 10; //How many points 1 kill is worth
-
 /** Enum for game state */
 const StoneAgeServerGameState = {
     None: "None",
@@ -114,16 +112,14 @@ customMethods.gather =  function (roomRef: MyRoom, client: Client, request: any)
     const fruitScored = Number(param[1]);
     const meatScored = Number(param[2]);
     const teamIndex = Number(param[3]);
-    
-    let gatherer = roomRef.state.networkedEntities.get(gathererID);
-    
-    if(roomRef.teams.get(teamIndex).has(gathererID)){
-        let score: number = (fruitScored + (meatScored * 10)) * FoodScoreMultiplier;
+        
+    if(roomRef.teams.get(teamIndex).has(client.id)){
+        let score: number = (fruitScored + (meatScored * 5)) * roomRef.foodScoreMultiplier;
         updateTeamScores(roomRef, gathererID, "gather", score );
         logger.silly(`${gathererID} scored ${score} for team ${teamIndex}`);
     }
     else{
-        logger.silly(`No gatherer entity found with Id: ${gathererID}`)
+        logger.silly(`No client with id of ${client.id} to score.`)
     }
 }
 
@@ -524,10 +520,11 @@ let simulateRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
             moveToState(roomRef, StoneAgeServerGameState.EndRound);
         }
     }
-    
+    /*
     roomRef.teams.forEach((teamMap, teamIdx) => {
-        let teamScore: number = getTeamScores(roomRef, teamIdx);
+        let gatherScore: number = getTeamScores(roomRef, teamIdx, "gather");
     });
+    */
 
     //setRoomAttribute(roomRef, WinningTeamId, teamIdx.toString());
 }

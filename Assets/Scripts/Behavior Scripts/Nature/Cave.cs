@@ -5,7 +5,6 @@ using System;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
-using StoneAge.Interactables;
 
 public class Cave : Scorable
 {

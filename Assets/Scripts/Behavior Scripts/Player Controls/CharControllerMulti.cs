@@ -5,8 +5,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using LucidSightTools;
-using StoneAge.Controllers;
-using StoneAge.Interactables;
 
 public class CharControllerMulti : NetworkedEntityView
 {
@@ -31,11 +29,11 @@ public class CharControllerMulti : NetworkedEntityView
     public PlayerStats _playerStats;
     private NetworkedEntity updatedEntity;
     public float maxStamina, currentStamina, speed, tiredSpeed, tireLimit, tireRate, restoreRate;
-    public int fruit, meat, wood, seeds, pointsToScore;
+    public int fruit, meat, wood, seeds, fish;
     private int icon;
     private Vector2 moveInput;
     private string tagNear;
-    private bool sleeping, observing, gathering, tired;
+    private bool sleeping, observing, gathering, spending, tired;
     //Iterator variable for debugging Trigger Enter and Exit
     private int i = 0;
     [SerializeField]
@@ -49,7 +47,6 @@ public class CharControllerMulti : NetworkedEntityView
             return teamIndex; 
         }
     }
-    public Color[] teamColors;
     Rigidbody2D rb;
     Vector2 lookDirection = new Vector2(1,0);
     private Vector2 spawnPosition;
@@ -138,18 +135,13 @@ public class CharControllerMulti : NetworkedEntityView
         teamIndex = idx;
         if (teamIndex >= 0)
         {            
-            SetPlayerColor(teamColors[teamIndex]);
+            _spriteRenderer.color = GameController.Instance.GetTeamColor(idx);
             SetStartPos(entity, teamIndex, teamNum);
             if (GameController.Instance._uiController.loadCover.activeInHierarchy)
             {
                 GameController.Instance._uiController.loadCover.SetActive(false);
             }
         }
-    }
-
-    public void SetPlayerColor(Color color)
-    {
-        _spriteRenderer.color = color;
     }
     
     /// Sets player's home cave with array of refs and starting location based on spawn point refs from team number
@@ -256,7 +248,7 @@ public class CharControllerMulti : NetworkedEntityView
     //Sets look direction and set speed for animator
     private void OnMove(InputValue value) 
     {
-        if (!sleeping && !observing && !gathering) {
+        if (!sleeping && !observing && !gathering && !spending) {
         moveInput = value.Get<Vector2>();
 
         if(!Mathf.Approximately(moveInput.x, 0.0f) || !Mathf.Approximately(moveInput.y, 0.0f))
@@ -284,9 +276,7 @@ public class CharControllerMulti : NetworkedEntityView
         if (hit.collider.gameObject.tag == "OtherPlayer" && hit.collider.gameObject.GetComponent<CharControllerMulti>().sleeping) {
         } else {
             currentGatherable = hit.collider.gameObject.GetComponent<Gatherable>();
-            Debug.Log($"Is {currentGatherable} in CurrentGatherables? " + currentGatherables.Contains(currentGatherable));
             currentScorable = hit.collider.gameObject.GetComponent<Scorable>();
-            Debug.Log("Current Scorable in CurrentScorables? " + currentScorables.Contains(currentScorable));
             if(currentGatherables.Contains(currentGatherable) && !animator.GetBool("Gather")) {
                 Debug.Log(currentGatherable + " clicked.");
                 currentGatherable.PlayerAttemptedUse(this);
@@ -306,7 +296,7 @@ public class CharControllerMulti : NetworkedEntityView
                         } else {
                             icon = -1;
                         }
-                        StartSpend();
+                        StartGather(false);
                         break;
                     case "wood":
                         if (state.wood > 0) {
@@ -315,7 +305,7 @@ public class CharControllerMulti : NetworkedEntityView
                         } else {
                             icon = -1;
                         }
-                        StartSpend();
+                        StartGather(false);
                         break;
                     case "seeds":
                         if (state.seeds > 0) {
@@ -324,7 +314,7 @@ public class CharControllerMulti : NetworkedEntityView
                         } else {
                             icon = -1;
                         }
-                        StartSpend();
+                        StartGather(false);
                         break;
                 }
             }
@@ -332,60 +322,59 @@ public class CharControllerMulti : NetworkedEntityView
     }
 
     //If attempted use is successful this function will fire
-    public void StartGather()
+    public void StartGather(bool gatherOrSpend)
     {
-        switch(currentGatherable.type) {
-                case "Fruit_Tree":
-                    if (GameController.Instance.create) {
-                        icon = 3;
-                    } else {
-                        icon = 0;    
-                    }
-                    break;
-                case "Live_Aurochs":
-                    icon = 1;
-                    break;
-                case "Dead_Aurochs":
-                    icon = 1;
-                    break;
-                case "Tree":
-                    if (GameController.Instance.create) {
-                        icon = 2;
-                    }
-                    break;
-                case "Fishing_Spot":
-                    icon = 4;
-                    break;
-            }
-        gathering = true;
-        animator.SetBool("Gather", true);
-        _gatherIcons[icon].gameObject.SetActive(true);
+        if (gatherOrSpend) {
+            switch(currentGatherable.type) {
+                    case "Fruit_Tree":
+                        if (GameController.Instance.create) {
+                            icon = 3;
+                        } else {
+                            icon = 0;    
+                        }
+                        break;
+                    case "Live_Aurochs":
+                        icon = 1;
+                        break;
+                    case "Dead_Aurochs":
+                        icon = 1;
+                        break;
+                    case "Tree":
+                        if (GameController.Instance.create) {
+                            icon = 2;
+                        }
+                        break;
+                    case "Fishing_Spot":
+                        icon = 4;
+                        break;
+                }
+            gathering = true;
+            animator.SetBool("Gather", true);
+            _gatherIcons[icon].gameObject.SetActive(true);
+        } else {
+            spending = true;
+            animator.SetBool("Gather", true);
+            _spendIcons[icon].gameObject.SetActive(true);
+        }
     }
 
 
     //The function to stop the gather aciton called when animation has finished;
     public void StopGather() {
         //Triggers at the end of the gather animation
-        Debug.Log("Gathering is finished");
-        _gatherIcons[icon].gameObject.SetActive(false);
-        animator.SetBool("Gather", false);
-        gathering = false;
-        AddResource(icon);
-    }
-
-    public void StartSpend() {
-        gathering = true;
-        animator.SetBool("Gather", true);
-        _spendIcons[icon].gameObject.SetActive(true);
-    }    
-
-    public void StopSpend() {
-        //Triggers at the end of the gather animation
-        Debug.Log("Spending is finished");
-        _spendIcons[icon].gameObject.SetActive(false);
-        SubtractResource(icon);
-        animator.SetBool("Gather", false);
-        gathering = false;
+        if (gathering) {
+            Debug.Log("Gathering is finished");
+            _gatherIcons[icon].gameObject.SetActive(false);
+            AddResource(icon);
+            animator.SetBool("Gather", false);
+            gathering = false;
+        } else if (spending) {
+            Debug.Log("Spending is finished");
+            _spendIcons[icon].gameObject.SetActive(false);
+            SubtractResource(icon);
+            animator.SetBool("Gather", false);
+            spending = false;
+        }
     }
     
     //Function for right clicking and observing a nearby object
@@ -452,14 +441,14 @@ public class CharControllerMulti : NetworkedEntityView
         } else if (icon == 3 && GameController.Instance.create) {
                 state.wood -= state.wood;
                 wood = (int)state.wood;
-        }  else if (icon == 3 && GameController.Instance.create) {
+        }  else if (icon == 4 && GameController.Instance.create) {
                 state.seeds -= state.seeds;
                 seeds = (int)state.seeds;
         } else if (icon == 5 && GameController.Instance.create) {
             state.wood -= state.wood;
             wood = (int)state.wood;
             state.seeds -= state.seeds;
-            seeds = (int)state.seeds;
+            seeds = (int)state.seeds; 
         }
         ChangedResource?.Invoke(icon);
         Debug.Log($"Fruit = {fruit}, Meat = {meat}, Wood = {wood}, Seeds = {seeds}");
@@ -489,10 +478,10 @@ public class CharControllerMulti : NetworkedEntityView
     {
         if (interactable.GetComponent<Gatherable>()) {
             currentGatherables.Add(interactable.GetComponent<Gatherable>());
-            Debug.Log($"Added {interactable.GetComponent<Gatherable>()}");
+            //Debug.Log($"Added {interactable.GetComponent<Gatherable>()}");
         } else if (interactable.GetComponent<Scorable>()) {
             currentScorables.Add(interactable.GetComponent<Scorable>());
-            Debug.Log($"{currentScorables}");
+            //Debug.Log($"{currentScorables}");
         }
     }
 
@@ -500,10 +489,10 @@ public class CharControllerMulti : NetworkedEntityView
     {
         if (interactable.GetComponent<Gatherable>()) {
             currentGatherables.Remove(interactable.GetComponent<Gatherable>());
-            Debug.Log($"Removing {interactable.GetComponent<Gatherable>()}");
+            //Debug.Log($"Removing {interactable.GetComponent<Gatherable>()}");
         } else if (interactable.GetComponent<Scorable>()) {
             currentScorables.Remove(interactable.GetComponent<Scorable>());
-            Debug.Log($"{currentScorables}");
+            //Debug.Log($"{currentScorables}");
         }
     }
 }

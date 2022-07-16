@@ -13,6 +13,8 @@ public class UIHooks : MonoBehaviour
     [SerializeField] TextMeshProUGUI _personalMeatCount;
     [SerializeField] TextMeshProUGUI _personalWoodCount;
     [SerializeField] TextMeshProUGUI _personalSeedsCount;
+    [SerializeField] TextMeshProUGUI _personalFishCount;
+
     
     CharControllerMulti character;
     // Start is called before the first frame update
@@ -41,21 +43,10 @@ public class UIHooks : MonoBehaviour
 
     void UpdateText(int icon) 
     {
-        switch(icon) {
-            case  0:
-                _personalFruitCount.text = character.fruit.ToString();
-                break;
-            case 1:
-                _personalMeatCount.text = character.meat.ToString();
-                break;
-            case 2:
-                _personalWoodCount.text = character.wood.ToString();
-                break;
-            case 3:
-                _personalFruitCount.text = character.fruit.ToString();
-                _personalSeedsCount.text = character.seeds.ToString();
-                break;
-
-        }
+        _personalFruitCount.text = character.fruit.ToString();
+        _personalMeatCount.text = character.meat.ToString();
+        _personalWoodCount.text = character.wood.ToString();
+        _personalSeedsCount.text = character.seeds.ToString();
+        //_personalFishCount.text = character.fish.ToString();
     }
 }
