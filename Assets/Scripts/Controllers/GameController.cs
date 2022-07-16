@@ -10,6 +10,7 @@ using Colyseus.Schema;
 using LucidSightTools;
 using UnityEngine.SceneManagement;
 using UnityEngine.AI;
+using System;
 
 public class GameController : MonoBehaviour
 {
@@ -42,7 +43,7 @@ public class GameController : MonoBehaviour
     public SpawnPoint[] aurochsSpawnPoints;
     public SpawnPoint[] deadAurochsSpawnPounts;
     [SerializeField] private Color[] teamColors;
-    private  string[] scoreTypes = new string[] {"food", "observe", "create", "total"};
+    private  string[] scoreTypes = new string[] {"gather", "observe", "create", "total"};
 
 
     private void Awake() 
@@ -302,7 +303,6 @@ public class GameController : MonoBehaviour
         if (gamePlaying)
         {
             UpdateRoundTime(attributes);
-            UpdateScores(attributes);
         }
     }
 
@@ -360,8 +360,12 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void UpdateScores(MapSchema<string> attributes)
+    public void UpdateScores(string teamIndex, string scoreType, string updatedScore)
     {
+        int scoreIndex = Array.IndexOf(scoreTypes, scoreType);
+
+        _uiController.scoreboard.scoreList[int.Parse(teamIndex)].scores[scoreIndex].text = updatedScore;
+        /*
         for (int i = 0; i < teams.Count; ++i)
         {
             for (int j = 0; j < _uiController.scoreboard.scoreList[i].scores.Length; j++)
@@ -371,6 +375,7 @@ public class GameController : MonoBehaviour
                     Debug.Log($"team{i.ToString()}_{scoreTypes[j]}Score: {score}");
                 }
         }
+        */
 
     }
 

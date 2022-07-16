@@ -373,13 +373,14 @@ using UnityEngine.SceneManagement;
 
         _room.OnMessage<ObjectGatheredMessage>("objectGathered", (msg) =>
         {
-            ObjectInteraction(msg.gatheredObjectID, msg.gatheringStateID, msg.gatheredObjectHarvest, msg.gatheredObjectType, msg.gatherOrScore);
+            ObjectInteraction(msg.gatheredObjectID, msg.gatheringStateID, msg.gatheredObjectHarvest, msg.gatheredObjectType, msg.gatherOrSpend);
+        });
+        
+        _room.OnMessage<StoneAgeScoreMessage>("onScoreUpdate", msg => 
+        { 
+            GameController.Instance.UpdateScores(msg.teamIndex, msg.scoreType, msg.updatedScore); 
         });
 
-        _room.OnMessage<ObjectScoredMessage>("objectScored", (msg) =>
-        {
-            //StartCoroutine(AwaitObjectInteraction(msg.scoredObjectID, msg.scoringStateID, msg.gatherOrScore));
-        });
 
         //Custom game logic
         //_room.OnMessage<YOUR_CUSTOM_MESSAGE>("messageNameInCustomLogic", objectOfTypeYOUR_CUSTOM_MESSAGE => {  });
@@ -392,6 +393,7 @@ using UnityEngine.SceneManagement;
         _room.OnMessage<StoneAgeBeginRoundMessage>("beginVoteRound", beginRound => { onBeginVote?.Invoke(beginRound.time); });
         
         _room.OnMessage<EmptyMessage>("onRoundEnd", msg => { onRoundEnd?.Invoke(); });
+
 
         _room.OnMessage<StoneAgePlayerJoinedMessage>("playerJoined", msg => { onPlayerJoined?.Invoke(msg.userName); });
 

@@ -9,12 +9,6 @@ public class TeamScore : MonoBehaviour
 {
     public Image color;
     public TextMeshProUGUI[] scores;
-    /*
-    [SerializeField] private TextMeshProUGUI foodScore;
-    [SerializeField] private TextMeshProUGUI observeScore;
-    [SerializeField] private TextMeshProUGUI createScore;
-    [SerializeField] private TextMeshProUGUI totalScore;
-    */
     public int team;
     // Start is called before the first frame update
     void Start()

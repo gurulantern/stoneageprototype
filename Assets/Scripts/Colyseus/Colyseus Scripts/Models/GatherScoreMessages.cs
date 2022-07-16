@@ -20,12 +20,12 @@ public class ObjectGatheredMessage
     public string gatheringStateID;
     public string gatheredObjectHarvest;
     public string gatheredObjectType;
-    public string gatherOrScore = "gather";
+    public string gatherOrSpend = "gather";
 }
 
-public class ObjectScoredMessage
+public class StoneAgeScoreMessage
 {
-    public string scoredObjectID;
-    public string scoringStateID;
-    public string gatherOrScore = "score";
+    public string teamIndex;
+    public string scoreType;
+    public string updatedScore;
 }
