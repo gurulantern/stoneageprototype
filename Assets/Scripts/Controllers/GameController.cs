@@ -384,7 +384,7 @@ public class GameController : MonoBehaviour
             }
             if (team.clientsOnTeam.Count == 1)
             {
-                //_uiController.scoreboard.AddTeamScore(teamIdx);
+                _uiController.scoreboard.AddTeamScore(teamIdx);
             }
         }
         else
@@ -392,7 +392,7 @@ public class GameController : MonoBehaviour
             team.RemovePlayer(clientID);
             if(team.clientsOnTeam.Count == 0)
             {
-                //_uiController.scoreboard.RemoveTeamScore(teamIdx);
+                _uiController.scoreboard.RemoveTeamScore(teamIdx);
             }
         }
     }
@@ -411,9 +411,9 @@ public class GameController : MonoBehaviour
             }
             if (team.clientsOnTeam.Count == 1)
             {
-                //_uiController.scoreboard.AddTeamScore(teamIdx);
+                _uiController.scoreboard.AddTeamScore(teamIdx);
             } else if (team.clientsOnTeam.Count == 0) {
-                //_uiController.scoreboard.RemoveTeamScore(teamIdx);
+                _uiController.scoreboard.RemoveTeamScore(teamIdx);
             }
         }
     }

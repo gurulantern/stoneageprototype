@@ -7,13 +7,15 @@ using UnityEngine.Events;
 
 public class TeamScore : MonoBehaviour
 {
-    [SerializeField] private Image color;
+    public Image color;
+    public TextMeshProUGUI[] scores;
+    /*
     [SerializeField] private TextMeshProUGUI foodScore;
     [SerializeField] private TextMeshProUGUI observeScore;
     [SerializeField] private TextMeshProUGUI createScore;
     [SerializeField] private TextMeshProUGUI totalScore;
+    */
     public int team;
-    public UnityEvent onToggleScores;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,28 +33,22 @@ public class TeamScore : MonoBehaviour
     {
         color.color = GameController.Instance.GetTeamColor(teamIdx);
         team = teamIdx;
-        this.gameObject.SetActive(true);
+        color.gameObject.SetActive(true);
     }
 
     public void Deinitialize(int teamIdx)
     {
-        this.gameObject.SetActive(false);
+        color.gameObject.SetActive(false);
         color.color = Color.white;
         team = -1;
     }
 
-    public void Hide(bool open)
+    public void Toggle(bool open)
     {
         this.GetComponent<Image>().enabled = open;
-        foodScore.gameObject.SetActive(open);
-        observeScore.gameObject.SetActive(open);
-        createScore.gameObject.SetActive(open);
-        totalScore.gameObject.SetActive(open);
-    }
-
-    public void OnToggleButton()
-    {
-        onToggleScores?.Invoke();
+        foreach (TextMeshProUGUI score in scores) {
+            score.gameObject.SetActive(open);
+        }
     }
 }
 
