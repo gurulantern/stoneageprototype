@@ -15,7 +15,7 @@ using System;
 public class GameController : MonoBehaviour
 {
     public StoneColyseusNetworkedEntityView prefab;
-    public bool create, steal, scare;
+    public bool observe, create, steal, scare;
     public delegate void OnViewAdded(StoneColyseusNetworkedEntityView view);
     public static event OnViewAdded onViewAdded;
     public delegate void OnViewRemoved(StoneColyseusNetworkedEntityView view);

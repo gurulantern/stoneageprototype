@@ -8,6 +8,7 @@ using UnityEngine.Events;
 public class TeamScore : MonoBehaviour
 {
     public Image color;
+    public GameObject _scoreParent;
     public TextMeshProUGUI[] scores;
     public int team;
     // Start is called before the first frame update
@@ -39,10 +40,7 @@ public class TeamScore : MonoBehaviour
 
     public void Toggle(bool open)
     {
-        this.GetComponent<Image>().enabled = open;
-        foreach (TextMeshProUGUI score in scores) {
-            score.gameObject.SetActive(open);
-        }
+        _scoreParent.gameObject.SetActive(open);
     }
 }
 

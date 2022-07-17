@@ -270,9 +270,7 @@ public class CharControllerMulti : NetworkedEntityView
         RaycastHit2D hit;
         Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
-        hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
-        Debug.Log("Cicked on " + hit.collider.gameObject);
-    
+        hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);   
         if (hit.collider.gameObject.tag == "OtherPlayer" && hit.collider.gameObject.GetComponent<CharControllerMulti>().sleeping) {
         } else {
             currentGatherable = hit.collider.gameObject.GetComponent<Gatherable>();

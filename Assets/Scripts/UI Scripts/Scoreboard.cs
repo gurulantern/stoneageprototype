@@ -8,7 +8,7 @@ using TMPro;
 public class Scoreboard : MonoBehaviour
 {
     [SerializeField] private GameObject teamScore;
-    [SerializeField] private Image headerBG;
+    public GameObject _headerParent;
     public List<GameObject> _headers;
     public List<TeamScore> scoreList;
     public List<TeamScore> activeScoreList;
@@ -18,7 +18,8 @@ public class Scoreboard : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        open = false;
+        open = true;
+
     }
 
     public void UpdateScores(int teamIdx)
@@ -30,7 +31,7 @@ public class Scoreboard : MonoBehaviour
     public void AddTeamScore(int teamIdx)
     {
         TeamScore addedScores = scoreList[teamIdx];
-        addedScores.gameObject.GetComponent<RectTransform>().SetSiblingIndex(activeScoreList.Count);
+        addedScores.gameObject.GetComponent<RectTransform>().SetSiblingIndex(activeScoreList.Count - 1);
         activeScoreList.Add(addedScores);
         addedScores.Initialize(teamIdx);
     }
@@ -49,11 +50,7 @@ public class Scoreboard : MonoBehaviour
     public void ToggleScores()
     {
         open = !open;
-        headerBG.GetComponent<Image>().enabled = open;
-        foreach(GameObject header in _headers)
-        {
-            header.SetActive(open);
-        }
+        _headerParent.gameObject.SetActive(open);
         foreach(TeamScore score in activeScoreList)
         {
             score.Toggle(open);
@@ -67,6 +64,15 @@ public class Scoreboard : MonoBehaviour
             _openButton.gameObject.SetActive(true);
         }
 
+    }
+
+    public void UpdateShowScore(int scoreType, bool show)
+    {
+        _headers[scoreType].gameObject.SetActive(show);
+        foreach(TeamScore score in activeScoreList)
+        {
+            score.scores[scoreType].gameObject.SetActive(show);
+        }
     }
 
 }
