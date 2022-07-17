@@ -126,7 +126,7 @@ customMethods.gather =  function (roomRef: MyRoom, client: Client, request: any)
 customMethods.observe = function (roomRef: MyRoom, client: Client, request: any) {
         //Don't count gathering until a round is going
         if(getGameState(roomRef, CurrentState) != StoneAgeServerGameState.SimulateRound) {
-            logger.silly("Cannot score observed food until the game has begun or in gather round!");
+            logger.silly("Cannot score observe until the game has begun or in gather round!");
             return;
         }
     
@@ -137,6 +137,10 @@ customMethods.observe = function (roomRef: MyRoom, client: Client, request: any)
             throw "Missing observe parameters";
             return;
         }
+
+        const observerID = param[0];
+        const observedType = Number(param[1]);
+        const teamIndex = Number(param[2]);
 }
 
 customMethods.create = function (roomRef: MyRoom, client: Client, request: any) {
