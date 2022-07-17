@@ -441,7 +441,7 @@ export class MyRoom extends Room<RoomState> {
         }
         if (gatheringState != null && gatherableObject != null) {
             this.broadcast("objectGathered", { gatheredObjectID: gatherableObject.id, gatheringStateID: gatheringState.id, 
-                gatheredObjectHarvest : gatherableObject.harvestTrigger, gatheredObjectType : gatherableObject.gatherableType});
+                gatheredObjectType : gatherableObject.gatherableType});
         }
     }
 

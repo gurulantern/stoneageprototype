@@ -43,7 +43,6 @@ public abstract class Gatherable : Interactable
         _state = state;
         _state.OnChange += OnStateChange;
         currHarvestTrigger = (int)_state.harvestTrigger;
-        prevHarvestTrigger = (int)_state.harvestTrigger - 1;
     } 
 
     public void SetID(int num)
@@ -68,6 +67,7 @@ public abstract class Gatherable : Interactable
     /// </summary>
     protected virtual void UpdateStateForView()
     {
+        _state.harvestTrigger = (float)currHarvestTrigger; 
     }
 
     /// <summary>
@@ -84,7 +84,8 @@ public abstract class Gatherable : Interactable
     /// </summary>
     protected virtual void UpdateViewFromState()
     {
-        
+        currHarvestTrigger = (int)_state.harvestTrigger;
+        prevHarvestTrigger = currHarvestTrigger + 1;
     }
     public virtual void PlayerAttemptedUse(NetworkedEntityView entity)
     {
@@ -92,10 +93,10 @@ public abstract class Gatherable : Interactable
         ColyseusManager.Instance.SendObjectGather(this, entity);
     }
 
-    public override void OnSuccessfulUse(CharControllerMulti entity, string type, int harvest)
+    public override void OnSuccessfulUse(CharControllerMulti entity, string type)
     {
-        base.OnSuccessfulUse(entity, type, harvest);
-        currHarvestTrigger = harvest;
+        base.OnSuccessfulUse(entity, type);
+        //currHarvestTrigger = harvest;
         switch(type) {
             case "FRUIT":
                 this.gameObject.GetComponent<Food>().Harvest();

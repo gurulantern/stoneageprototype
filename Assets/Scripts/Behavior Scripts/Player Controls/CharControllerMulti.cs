@@ -277,7 +277,11 @@ public class CharControllerMulti : NetworkedEntityView
             currentScorable = hit.collider.gameObject.GetComponent<Scorable>();
             if(currentGatherables.Contains(currentGatherable) && !animator.GetBool("Gather")) {
                 Debug.Log(currentGatherable + " clicked.");
-                currentGatherable.PlayerAttemptedUse(this);
+                if (currentGatherable.gameObject.tag == "Tree" && GameController.Instance.create == false) {
+                    return;
+                } else {
+                    currentGatherable.PlayerAttemptedUse(this);
+                }
             } else if (currentScorables.Contains(currentScorable) && !animator.GetBool("Gather")) {
                 Debug.Log(currentScorable + " clicked");
                 switch(currentScorable.requiredResource) {
@@ -325,7 +329,7 @@ public class CharControllerMulti : NetworkedEntityView
     public void StartGather(bool gatherOrSpend)
     {
         if (gatherOrSpend) {
-            switch(currentGatherable.type) {
+            switch(currentGatherable.gameObject.tag) {
                     case "Fruit_Tree":
                         if (GameController.Instance.create) {
                             icon = 3;
@@ -340,9 +344,7 @@ public class CharControllerMulti : NetworkedEntityView
                         icon = 1;
                         break;
                     case "Tree":
-                        if (GameController.Instance.create) {
-                            icon = 2;
-                        }
+                        icon = 2;
                         break;
                     case "Fishing_Spot":
                         icon = 4;

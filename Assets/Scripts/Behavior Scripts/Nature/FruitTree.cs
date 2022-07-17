@@ -12,11 +12,11 @@ public class FruitTree : Tree
         this.gameObject.tag = "Fruit_Tree";
         type = "Fruit_Tree";
     }
-    //Left click decreases food remaining and triggers the animation for food to disappear
-    public override void Harvest()
+
+    protected override void UpdateViewFromState()
     {
-        base.Harvest();
-        if (prevHarvestTrigger == 8)
+        base.UpdateViewFromState();
+        if (prevHarvestTrigger == 10)
         {
             this.gameObject.tag = "Tree";
             type = "Tree";
@@ -24,5 +24,11 @@ public class FruitTree : Tree
             this.gameObject.GetComponent<BoxCollider2D>().offset = colliderOffset;
             this.gameObject.GetComponent<BoxCollider2D>().size = colliderSize;
         }
+
+    }
+    //Left click decreases food remaining and triggers the animation for food to disappear
+    public override void Harvest()
+    {
+        base.Harvest();
     }
 }

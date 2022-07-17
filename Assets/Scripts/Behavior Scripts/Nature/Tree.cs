@@ -25,7 +25,13 @@ public class Tree : Gatherable
         if(currHarvestTrigger != startingHarvest) {
             _treeStates[startingHarvest].gameObject.SetActive(false);
         }
-        UpdateStateForView();
+    }
+
+    protected override void UpdateViewFromState()
+    {
+        base.UpdateViewFromState();
+        _treeStates[currHarvestTrigger].gameObject.SetActive(true);
+        _treeStates[prevHarvestTrigger].gameObject.SetActive(false);
     }
     //Left click decreases food remaining and triggers the animation for food to disappear
     public virtual void Harvest()
@@ -35,6 +41,7 @@ public class Tree : Gatherable
             this.gameObject.GetComponent<BoxCollider2D>().offset = colliderOffset;
             this.gameObject.GetComponent<BoxCollider2D>().size = colliderSize;
         }
+        //prevHarvestTrigger += 1;
     }
 
     protected override void UpdateStateForView()
@@ -42,6 +49,5 @@ public class Tree : Gatherable
         base.UpdateStateForView();
         _treeStates[prevHarvestTrigger].gameObject.SetActive(false);
         _treeStates[currHarvestTrigger].gameObject.SetActive(true);
-        prevHarvestTrigger = currHarvestTrigger;
     }
 }

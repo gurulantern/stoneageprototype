@@ -373,7 +373,7 @@ using UnityEngine.SceneManagement;
 
         _room.OnMessage<ObjectGatheredMessage>("objectGathered", (msg) =>
         {
-            ObjectInteraction(msg.gatheredObjectID, msg.gatheringStateID, msg.gatheredObjectHarvest, msg.gatheredObjectType, msg.gatherOrSpend);
+            ObjectInteraction(msg.gatheredObjectID, msg.gatheringStateID, msg.gatheredObjectType, msg.gatherOrSpend);
         });
         
         _room.OnMessage<StoneAgeScoreMessage>("onScoreUpdate", msg => 
@@ -471,7 +471,7 @@ using UnityEngine.SceneManagement;
     }
 
     ///Coroutine for object interaction
-    private void ObjectInteraction(string objectID, string entityID, string gatheredObjectHarvest, string gatheredObjectType, string gatherOrScore)
+    private void ObjectInteraction(string objectID, string entityID, string gatheredObjectType, string gatherOrScore)
     {
         if (gatherOrScore == "gather") {
             while (!Room.State.gatherableObjects.ContainsKey(objectID))
@@ -480,16 +480,15 @@ using UnityEngine.SceneManagement;
                 //yield return new WaitForEndOfFrame();
             }
             int harvest;
-            int.TryParse(gatheredObjectHarvest, out harvest);
             if (GetEntityView(entityID)) {
                 CharControllerMulti entity = GetEntityView(entityID).GetComponent<CharControllerMulti>();
                 EnvironmentController.Instance.ObjectGathered(Room.State.gatherableObjects[objectID], 
-                    harvest, gatheredObjectType, entity);
+                    gatheredObjectType, entity);
 
             } else { 
                 CharControllerMulti entity = null;
                 EnvironmentController.Instance.ObjectGathered(Room.State.gatherableObjects[objectID], 
-                    harvest, gatheredObjectType, entity);
+                    gatheredObjectType, entity);
             }
         } else if (gatherOrScore == "score") {
             while (!Room.State.scorableObjects.ContainsKey(objectID))

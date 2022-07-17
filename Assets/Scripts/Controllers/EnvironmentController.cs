@@ -42,16 +42,16 @@ public class EnvironmentController : MonoBehaviour
         Scorable scorable = GetScorableByState(state);
         if (scorable != null)
         {
-            scorable.OnSuccessfulUse(usingEntity, "", 0);
+            scorable.OnSuccessfulUse(usingEntity, "");
         }
     }
 
-    public void ObjectGathered(GatherableState state, int harvest, string type, CharControllerMulti usingEntity)
+    public void ObjectGathered(GatherableState state, string type, CharControllerMulti usingEntity)
     {
         Gatherable gatherable = GetGatherableByState(state);
         if (gatherable != null)
         {
-            gatherable.OnSuccessfulUse(usingEntity, type, harvest);
+            gatherable.OnSuccessfulUse(usingEntity, type);
         }
     }
 
