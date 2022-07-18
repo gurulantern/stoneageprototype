@@ -13,7 +13,6 @@ public class PlayerTag : MonoBehaviour
     [SerializeField]
     private RectTransform rectTransform;
     private int team;
-    public Color[] teamColors;
 #pragma warning restore 0649
     private bool rival = false;
 
@@ -28,7 +27,7 @@ public class PlayerTag : MonoBehaviour
         team = teamIndex;
     }
 
-    public void UpdateTag(Vector3 position, int teamIdx)
+    public void UpdateTag(Vector2 position, int teamIdx)
     {
         rectTransform.position = position;
         //canvasGroup.alpha = alpha;

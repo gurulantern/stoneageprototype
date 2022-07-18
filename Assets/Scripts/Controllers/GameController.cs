@@ -365,18 +365,6 @@ public class GameController : MonoBehaviour
         int scoreIndex = Array.IndexOf(scoreTypes, scoreType);
 
         _uiController.scoreboard.scoreList[int.Parse(teamIndex)].scores[scoreIndex].text = updatedScore;
-        /*
-        for (int i = 0; i < teams.Count; ++i)
-        {
-            for (int j = 0; j < _uiController.scoreboard.scoreList[i].scores.Length; j++)
-                if (attributes.TryGetValue($"team{i.ToString()}_{scoreTypes[j]}Score", out string score))
-                {
-                    _uiController.scoreboard.scoreList[i].scores[j].text = score;
-                    Debug.Log($"team{i.ToString()}_{scoreTypes[j]}Score: {score}");
-                }
-        }
-        */
-
     }
 
     private void OnTeamUpdate(int teamIdx, string clientID, bool added)
