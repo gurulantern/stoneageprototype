@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class ObserveMeter : MonoBehaviour
 {
     public Slider observeSlider { get; set; }
-    public float increment;
     float originalSize;
     public GameObject createAction;
     
@@ -15,12 +14,18 @@ public class ObserveMeter : MonoBehaviour
         observeSlider = GetComponent<Slider>();
     }
     
-    public void Increment()
+    public void Increment(int teamObserve)
     {
+        observeSlider.value = teamObserve;
+    }
 
-        observeSlider.value += increment;
-        if (observeSlider.value >= 90f) {
-            createAction.SetActive(true);
-        }       
+    public void Unlock(string mostObserved)
+    {
+        if (GameController.Instance.create) {
+            if (observeSlider.value == 100f) {
+                Unlock(mostObserved);
+                createAction.SetActive(true);
+            } 
+        }
     }
 }

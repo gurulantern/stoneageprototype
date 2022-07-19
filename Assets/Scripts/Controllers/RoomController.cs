@@ -380,6 +380,10 @@ using UnityEngine.SceneManagement;
         { 
             GameController.Instance.UpdateScores(msg.teamIndex, msg.scoreType, msg.updatedScore); 
         });
+        
+        _room.OnMessage<StoneAgeUnlockMessage>("onUnlockCreate", msg => {
+            GameController.Instance.Unlock(msg.teamIndex, msg.createUnlocked);
+        });
 
 
         //Custom game logic

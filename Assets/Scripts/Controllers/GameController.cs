@@ -365,6 +365,17 @@ public class GameController : MonoBehaviour
         int scoreIndex = Array.IndexOf(scoreTypes, scoreType);
 
         _uiController.scoreboard.scoreList[int.Parse(teamIndex)].scores[scoreIndex].text = updatedScore;
+
+        if (scoreType == "observe") {
+            GameController.Instance._uiController._observeMeter.Increment(int.Parse(updatedScore));
+        }   else if (scoreType == "create") {
+
+        }
+    }
+
+    public void Unlock(string teamIdx, string observedObject)
+    {
+
     }
 
     private void OnTeamUpdate(int teamIdx, string clientID, bool added)

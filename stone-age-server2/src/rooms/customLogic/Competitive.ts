@@ -2,8 +2,6 @@ import { Client, Clock } from "colyseus";
 import { RoomState, NetworkedEntity, NetworkedUser } from "../schema/RoomState";
 import { MyRoom } from "../MyRoom";
 
-import { FoodSource, PlayerFood, CaveFood } from "./FoodSource";
-
 const logger = require("../../helpers/logger.js");
 const utilities = require('../../helpers/LSUtilities.js');
 
@@ -18,6 +16,8 @@ const GeneralMessage = "generalMessage";
 const BeginRoundCountDown = "countDown";
 const WinningTeamId = "winningTeamId";
 const ElapsedTime = "elapsedTime";
+const scoreTypes: Array<string> = ["gather", "observe", "create"];
+
 
 /** Enum for game state */
 const StoneAgeServerGameState = {
@@ -113,12 +113,11 @@ customMethods.gather =  function (roomRef: MyRoom, client: Client, request: any)
     const meatScored = Number(param[2]);
     const teamIndex = Number(param[3]);
         
-    if(roomRef.teams.get(teamIndex).has(client.id)){
+    if (roomRef.teams.get(teamIndex).has(client.id)) {
         let score: number = (fruitScored + (meatScored * 5)) * roomRef.foodScoreMultiplier;
         updateTeamScores(roomRef, gathererID, "gather", score );
-        logger.silly(`${gathererID} scored ${score} for team ${teamIndex}`);
-    }
-    else{
+        logger.silly(`${gathererID} scored ${score} gather for team ${teamIndex}`);
+    } else {
         logger.silly(`No client with id of ${client.id} to score.`)
     }
 }
@@ -139,8 +138,17 @@ customMethods.observe = function (roomRef: MyRoom, client: Client, request: any)
         }
 
         const observerID = param[0];
-        const observedType = Number(param[1]);
+        const observedType = param[1];
         const teamIndex = Number(param[2]);
+
+        if (roomRef.teams.get(teamIndex).has(client.id)) {
+            let score: number = 1 * roomRef.observeScoreMultiplier;
+            updateTeamScores(roomRef, observerID, "observe", score);
+            updateTypeAmount(roomRef, teamIndex, observedType);
+            logger.silly(`${observerID} scored ${score} observe for team${teamIndex}`);
+        } else {
+            logger.silly(`No client with id of ${client.id} to score.`)
+        }
 }
 
 customMethods.create = function (roomRef: MyRoom, client: Client, request: any) {
@@ -197,6 +205,37 @@ let getAttributeNumber = function(entity: NetworkedEntity, attributeName: string
 
     return playersReady;
 }
+
+/**
+ * Get the amount of object types observed of a given team
+ * @param roomRef Reference to the room
+ * @param teamIndex The index of the team who's score items we want
+ */
+ let updateTypeAmount = function(roomRef: MyRoom, teamIndex: number, scoreItem: string) {
+    let typeAmount: number = Number(roomRef.state.attributes.get(`team${teamIndex.toString()}_${scoreItem}Observed`));
+
+    if(isNaN(typeAmount)) {
+        typeAmount = 0;
+    }
+    typeAmount += 1;
+    setRoomAttribute(roomRef, `team${teamIndex.toString()}_${scoreItem}Observed`, typeAmount.toString());
+    logger.info(`team${teamIndex} has observed ${typeAmount} ${scoreItem}`);
+}
+
+let findMostObserved = function(roomRef: MyRoom, teamIndex: number, ): string {
+    let mostObservedAmt: number = 0;
+    let mostObserved: string = "";
+    roomRef.observeObjects.forEach(function(object) {
+        let currentObservedAmt: number = Number(roomRef.state.attributes.get(`team${teamIndex.toString()}_${object}Observed`));
+        if (currentObservedAmt > mostObservedAmt) {
+            mostObservedAmt = currentObservedAmt;
+            mostObserved = object;
+        }
+    })
+    setRoomAttribute(roomRef, `team${teamIndex.toString()}_${mostObserved}Observed`, "0");
+    return mostObserved;
+}
+
 /**
  * Get the score of a given team
  * @param roomRef Reference to the room
@@ -249,6 +288,11 @@ let resetTeamScores = function(roomRef: MyRoom) {
         setRoomAttribute(roomRef, `team${teamIdx.toString()}_observeScore`, "0");
         setRoomAttribute(roomRef, `team${teamIdx.toString()}_createScore`, "0");
         setRoomAttribute(roomRef, `team${teamIdx.toString()}_totalScore`, "0");
+        setRoomAttribute(roomRef, `team${teamIdx.toString()}_TreeObserved`, "0");
+        setRoomAttribute(roomRef, `team${teamIdx.toString()}_Fruit_TreeObserved`, "0");
+        setRoomAttribute(roomRef, `team${teamIdx.toString()}_AurochsObserved`, "0");
+        setRoomAttribute(roomRef, `team${teamIdx.toString()}_Other_PlayerObserved`, "0");
+        setRoomAttribute(roomRef, `team${teamIdx.toString()}_Fishing_SpotObserved`, "0");
     });
     
 }
@@ -258,6 +302,7 @@ let updateTeamScores = function(roomRef: MyRoom, teamMateId: string, scoreType: 
     let teamIdx: number = -1;
     let clientId: string = "";
     let teamScore: number = 0;
+    let totalScore: number = 0;
 
     // Get client Id from entity
     let entity: NetworkedEntity = roomRef.state.networkedEntities.get(teamMateId);
@@ -274,12 +319,24 @@ let updateTeamScores = function(roomRef: MyRoom, teamMateId: string, scoreType: 
 
         if(teamIdx >= 0) {
             teamScore = getTeamScores(roomRef, teamIdx, scoreType);
-
+            totalScore = getTeamScores(roomRef, teamIdx, "total");
+            
             teamScore += amount;
+            totalScore += amount;
+
+            if (scoreType == "observe" && teamScore == 100) {
+                let mostObserved: string = findMostObserved(roomRef, teamIdx);
+                roomRef.broadcast("onCreateUnlock", { teamIndex: teamIdx, mostObserved });
+                logger.info(`team${teamIdx.toString()} unlocked`);
+            }
 
             setRoomAttribute(roomRef, `team${teamIdx.toString()}_${scoreType}Score`, teamScore.toString());
+            setRoomAttribute(roomRef, `team${teamIdx.toString()}_totalScore`, totalScore.toString())
             roomRef.broadcast("onScoreUpdate", { teamIndex: teamIdx, scoreType: scoreType, updatedScore: teamScore.toString()});
-            logger.info(`team${teamIdx.toString()}_${scoreType}Score: ${teamScore.toString()}` )
+            roomRef.broadcast("onScoreUpdate", { teamIndex: teamIdx, scoreType: "total", updatedScore: totalScore.toString()})
+            logger.info(`team${teamIdx.toString()}_${scoreType}Score: ${teamScore.toString()}`);
+            logger.info(`team${teamIdx.toString()}_totalScore: ${totalScore.toString()}`);
+
         }
         else {
             logger.error(`Update Team Score - Error - No team found for client Id: ${clientId}`);
@@ -318,28 +375,28 @@ let setUsersAttribute = function(roomRef: MyRoom, key: string, value: string) {
  * @param {*} key The key for the attribute you want to set
  * @param {*} value The value of the attribute you want to set
  */
-  let setEntitiesAttribute = function(roomRef: MyRoom, key: string, value: string) {
+let setEntitiesAttribute = function(roomRef: MyRoom, key: string, value: string) {
     for(let entry of Array.from<any>(roomRef.state.networkedEntities)) {
-  
+
         let entityKey = entry[0];
         let entityValue = entry[1];
         let msg: any = {entityId: entityKey, attributesToSet: {}};
-  
+
         msg.attributesToSet[key] = value;
-  
+
         roomRef.setAttribute(null, msg);
     }
-  }
-  
-  /**
-  * Sets attriubte of the room
-  * @param {*} roomRef Reference to the room
-  * @param {*} key The key for the attribute you want to set
-  * @param {*} value The value of the attribute you want to set
-  */
-  let setRoomAttribute = function(roomRef: MyRoom, key: string, value: string) {
-    roomRef.state.attributes.set(key, value);
-  }
+}
+
+/**
+ * Sets attriubte of the room
+ * @param {*} roomRef Reference to the room
+ * @param {*} key The key for the attribute you want to set
+ * @param {*} value The value of the attribute you want to set
+ */
+let setRoomAttribute = function(roomRef: MyRoom, key: string, value: string) {
+roomRef.state.attributes.set(key, value);
+}
 
 let unlockIfAble = function (roomRef: MyRoom) {
     if(roomRef.hasReachedMaxClients() === false) {

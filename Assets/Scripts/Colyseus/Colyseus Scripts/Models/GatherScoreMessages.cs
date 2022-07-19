@@ -27,4 +27,10 @@ public class StoneAgeScoreMessage
     public string teamIndex;
     public string scoreType;
     public string updatedScore;
+    public string scoreItem;
+}
+
+public class StoneAgeUnlockMessage{
+    public string teamIndex;
+    public string createUnlocked;
 }

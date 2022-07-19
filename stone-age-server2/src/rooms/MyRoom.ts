@@ -20,7 +20,7 @@ export class MyRoom extends Room<RoomState> {
     stealToggle: boolean = false;
     tagsToggle: boolean = false;
     foodScoreMultiplier: number = 2;
-    observeScoreMultiplier: number = 2;
+    observeScoreMultiplier: number = 1;
     createScoreMultiplier: number = 2;
     tireRate: number = .5;
 
@@ -35,6 +35,8 @@ export class MyRoom extends Room<RoomState> {
     teams: Map<number, Map<string, Client>>;
     alliances: Map<number, number[]>;
 
+    observeObjects: Array<string> = ["Tree", "Fruit_Tree", "Aurochs", "Other_Player"];
+    scoreTypes: Array<string> = ["gather", "observe", "create"];
     /**
      * Getter function to retrieve the correct customLogic file. Will try .JS extension and then .TS
      * @param {*} fileName 
@@ -465,14 +467,6 @@ export class MyRoom extends Room<RoomState> {
         let scoringState = this.state.networkedUsers.get(client.id);
         if (scoringState != null && scorableObject != null) {
             this.broadcast("objectScored", { scoredObjectID: scorableObject.id, scoringStateID: scoringState.sessionId });
-            /*
-            let userObj: User = await userRepo.findOne({ activeSessionId: client.sessionId });
-
-            if (userObj) {
-            userObj.coins = interactingState.coins;
-
-            await userRepo.flush();
-            */
         }
             
           

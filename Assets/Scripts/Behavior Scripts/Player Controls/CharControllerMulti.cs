@@ -387,16 +387,12 @@ public class CharControllerMulti : NetworkedEntityView
         Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
         hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
         tagNear = hit.collider.gameObject.tag;
-        if(tagNear != null) {
+        if(tagNear != null && observing == false && gathering == false && sleeping == false && tired == false) {
             observing = true;
             animator.SetBool("Observe", true);
-            Debug.Log("Player observes");
+            GameController.Instance.RegisterObserve(this.Id, hit.collider.gameObject.tag, teamIndex.ToString());
+            Debug.Log($"Player observes {hit.collider.gameObject.tag}");
         }
-    }
-
-    public void RegisterObserved()
-    {
-        
     }
 
     // function to notify when Obsering is done, called when animation is finished

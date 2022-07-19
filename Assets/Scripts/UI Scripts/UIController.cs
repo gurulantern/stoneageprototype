@@ -54,8 +54,11 @@ public class UIController : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI pingLabel;
+
+    public ObserveMeter _observeMeter;
     public Camera cam;
     public Scoreboard scoreboard;
+
 
 
     private Dictionary<CharControllerMulti, PlayerTag> playerTags;

@@ -52,6 +52,7 @@ MonoBehaviour:
   _itemID: 
   serverType: FRUIT
   trigger: {fileID: 4496140932118678904}
+  type: 
   startingHarvest: 0
   prevHarvestTrigger: 0
   currHarvestTrigger: 0

@@ -8,11 +8,10 @@ TagManager:
   - Tree
   - Fruit
   - Fruit_Tree
-  - Live_Aurochs
-  - Dead_Aurochs
   - Other_Player
   - Fishing_Spot
   - Rival_Cave
+  - Aurochs
   layers:
   - Default
   - TransparentFX

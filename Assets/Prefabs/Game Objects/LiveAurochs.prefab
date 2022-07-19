@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7170455999657379450}
   m_Layer: 6
   m_Name: LiveAurochs
-  m_TagString: Live_Aurochs
+  m_TagString: Aurochs
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
