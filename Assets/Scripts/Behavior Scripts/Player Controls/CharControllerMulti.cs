@@ -17,6 +17,7 @@ public class CharControllerMulti : NetworkedEntityView
     [SerializeField] Camera _camera;
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private UIHooks uiHooks; 
+    [SerializeField] private Robbable robbable;
 
     [SerializeField] private SpriteRenderer[] _gatherIcons;
     [SerializeField] private SpriteRenderer[] _spendIcons;
@@ -25,6 +26,7 @@ public class CharControllerMulti : NetworkedEntityView
     private List<Scorable> currentScorables;
     private Gatherable currentGatherable;
     private Scorable currentScorable;
+
     private ICollection entities;
     public PlayerStats _playerStats;
     private NetworkedEntity updatedEntity;
@@ -113,6 +115,7 @@ public class CharControllerMulti : NetworkedEntityView
     public override void InitiView(NetworkedEntity entity)
     {
         base.InitiView(entity);
+        robbable.remoteEntityID = entity.id;
         onPlayerActivated?.Invoke(this);
         teamIndex = GameController.Instance.GetTeamIndex(OwnerId);
         Debug.Log("Initializing view");
@@ -271,7 +274,12 @@ public class CharControllerMulti : NetworkedEntityView
         Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
         hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);   
-        if (hit.collider.gameObject.tag == "OtherPlayer" && hit.collider.gameObject.GetComponent<CharControllerMulti>().sleeping) {
+        if (hit.collider.gameObject.TryGetComponent(out Robbable robbable) && hit.collider.gameObject.GetComponent<CharControllerMulti>().sleeping) {
+            robbable.Steal(new Robbable.StoneAgeStealMessage()
+            {
+                robber = OwnerId,
+                isRFC = hit.collider.gameObject.CompareTag("Other_Player")
+            });
         } else {
             currentGatherable = hit.collider.gameObject.GetComponent<Gatherable>();
             currentScorable = hit.collider.gameObject.GetComponent<Scorable>();
@@ -454,12 +462,15 @@ public class CharControllerMulti : NetworkedEntityView
 
     public void Robbed(string robberID) 
     {
-        //ColyseusManager.RFC(this, "RobbedRFC", );
+        ColyseusManager.RFC(this, "RobbedRFC", new object[]{ Id, robberID });
     }
 
-    public void RobbedRFC()
+    public void RobbedRFC(string entityID, string robberID)
     {
+        if (entityID.Equals(Id))
+        {
 
+        }
     }
 
     public void Give(string receiverID)

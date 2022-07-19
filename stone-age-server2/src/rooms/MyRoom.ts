@@ -31,7 +31,6 @@ export class MyRoom extends Room<RoomState> {
     CurrentCountDownState: string;
     currCountDown: number;
     currentTime: number;
-    teamScores: Map<number, Map<string, number>>;
     teams: Map<number, Map<string, Client>>;
     alliances: Map<number, number[]>;
 
@@ -118,7 +117,6 @@ export class MyRoom extends Room<RoomState> {
         this.roomOptions = options;
 
         this.teams = new Map<number, Map<string, Client>>();
-        this.teamScores = new Map<number, Map<string, number>>();
 
         if(options["roomId"] != null) {
             this.roomId = options["roomId"];           

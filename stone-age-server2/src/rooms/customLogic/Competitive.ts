@@ -122,6 +122,12 @@ customMethods.gather =  function (roomRef: MyRoom, client: Client, request: any)
     }
 }
 
+/**
+ * Called by the client when a player observes (self-reported)
+ * @param roomRef Reference to the room
+ * @param client The reporting client
+ * @param request In order, the Gatherer's ID and the Source's ID, for scoring purposes
+ */
 customMethods.observe = function (roomRef: MyRoom, client: Client, request: any) {
         //Don't count gathering until a round is going
         if(getGameState(roomRef, CurrentState) != StoneAgeServerGameState.SimulateRound) {
@@ -210,6 +216,7 @@ let getAttributeNumber = function(entity: NetworkedEntity, attributeName: string
  * Get the amount of object types observed of a given team
  * @param roomRef Reference to the room
  * @param teamIndex The index of the team who's score items we want
+ * @param scoreItem The id of the type of object to be checked and updated
  */
  let updateTypeAmount = function(roomRef: MyRoom, teamIndex: number, scoreItem: string) {
     let typeAmount: number = Number(roomRef.state.attributes.get(`team${teamIndex.toString()}_${scoreItem}Observed`));
@@ -222,7 +229,12 @@ let getAttributeNumber = function(entity: NetworkedEntity, attributeName: string
     logger.info(`team${teamIndex} has observed ${typeAmount} ${scoreItem}`);
 }
 
-let findMostObserved = function(roomRef: MyRoom, teamIndex: number, ): string {
+/**
+ * Returns the most observed object for the team
+ * @param roomRef Reference to the room
+ * @param teamIndex Team number to check number of observed objects
+ */
+let findMostObserved = function(roomRef: MyRoom, teamIndex: number ): string {
     let mostObservedAmt: number = 0;
     let mostObserved: string = "";
     roomRef.observeObjects.forEach(function(object) {
@@ -283,20 +295,27 @@ let resetPlayerData = function(roomRef: MyRoom) {
  */
 let resetTeamScores = function(roomRef: MyRoom) {
     // Set teams initial score
-    roomRef.teamScores.forEach((teamIdx) => {
-        setRoomAttribute(roomRef, `team${teamIdx.toString()}_gatherScore`, "0");
-        setRoomAttribute(roomRef, `team${teamIdx.toString()}_observeScore`, "0");
-        setRoomAttribute(roomRef, `team${teamIdx.toString()}_createScore`, "0");
-        setRoomAttribute(roomRef, `team${teamIdx.toString()}_totalScore`, "0");
-        setRoomAttribute(roomRef, `team${teamIdx.toString()}_TreeObserved`, "0");
-        setRoomAttribute(roomRef, `team${teamIdx.toString()}_Fruit_TreeObserved`, "0");
-        setRoomAttribute(roomRef, `team${teamIdx.toString()}_AurochsObserved`, "0");
-        setRoomAttribute(roomRef, `team${teamIdx.toString()}_Other_PlayerObserved`, "0");
-        setRoomAttribute(roomRef, `team${teamIdx.toString()}_Fishing_SpotObserved`, "0");
+    roomRef.teams.forEach((team) => {
+        setRoomAttribute(roomRef, `team${team.toString()}_gatherScore`, "0");
+        setRoomAttribute(roomRef, `team${team.toString()}_observeScore`, "0");
+        setRoomAttribute(roomRef, `team${team.toString()}_createScore`, "0");
+        setRoomAttribute(roomRef, `team${team.toString()}_totalScore`, "0");
+        setRoomAttribute(roomRef, `team${team.toString()}_TreeObserved`, "0");
+        setRoomAttribute(roomRef, `team${team.toString()}_Fruit_TreeObserved`, "0");
+        setRoomAttribute(roomRef, `team${team.toString()}_AurochsObserved`, "0");
+        setRoomAttribute(roomRef, `team${team.toString()}_Other_PlayerObserved`, "0");
+        setRoomAttribute(roomRef, `team${team.toString()}_Fishing_SpotObserved`, "0");
     });
     
 }
 
+/**
+ * Updates team's select score sent to server and adds it to the total score for that team
+ * @param roomRef Reference to the room
+ * @param teamMateId Team member scoring points
+ * @param scoreType The type of scoring sent to the server "gather," "observe," or "create"
+ * @param amount The amount to be added to the select score and the total score
+ */
 let updateTeamScores = function(roomRef: MyRoom, teamMateId: string, scoreType: string, amount: number) {
 
     let teamIdx: number = -1;

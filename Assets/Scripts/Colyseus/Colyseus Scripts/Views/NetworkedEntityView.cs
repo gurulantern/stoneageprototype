@@ -359,7 +359,7 @@ public class NetworkedEntityView : StoneColyseusNetworkedEntityView
     public void RemoteFunctionCallHandler(RFCMessage _rfc)
     {
         System.Type thisType = this.GetType();
-        //LSLog.Log("got RFC call for " + _rfc.function);
+        LSLog.Log("got RFC call for " + _rfc.function);
 
         MethodInfo theMethod = thisType.GetMethod(_rfc.function);
         if (theMethod != null)

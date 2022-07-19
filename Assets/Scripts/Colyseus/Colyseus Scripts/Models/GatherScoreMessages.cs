@@ -22,6 +22,17 @@ public class ObjectGatheredMessage
     public string gatherOrSpend = "gather";
 }
 
+partial class Robbable : MonoBehaviour
+{
+    public struct StoneAgeStealMessage
+    {
+        public string robber;
+        //public int stolenType;
+        //public int stolenAmount;
+        public bool isRFC;
+    }
+}
+
 public class StoneAgeScoreMessage
 {
     public string teamIndex;
