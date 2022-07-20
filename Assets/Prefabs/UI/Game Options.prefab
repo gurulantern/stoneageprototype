@@ -282,12 +282,12 @@ GameObject:
   m_Component:
   - component: {fileID: 6369816036129640540}
   m_Layer: 5
-  m_Name: Team 3
+  m_Name: Team2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6369816036129640540
 RectTransform:
   m_ObjectHideFlags: 0
@@ -304,10 +304,10 @@ RectTransform:
   m_Father: {fileID: 7366678145814633505}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 249.45154, y: -112.2551}
+  m_SizeDelta: {x: 498.90308, y: 224.5102}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &718388265428166479
 GameObject:
@@ -321,7 +321,7 @@ GameObject:
   - component: {fileID: 5634347368978770585}
   - component: {fileID: 6616208619893100094}
   m_Layer: 5
-  m_Name: 'Vote  Time '
+  m_Name: 'VoteTime '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1006,7 +1006,7 @@ GameObject:
   - component: {fileID: 3454612385450840030}
   - component: {fileID: 5297086765964987251}
   m_Layer: 5
-  m_Name: Food Multiplier
+  m_Name: FoodMultiplier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1143,7 +1143,7 @@ GameObject:
   - component: {fileID: 1537369456036253399}
   - component: {fileID: 2389663352592771126}
   m_Layer: 5
-  m_Name: Observe Multiplier
+  m_Name: ObserveMultiplier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1357,7 +1357,7 @@ GameObject:
   - component: {fileID: 691205810506522810}
   - component: {fileID: 6558873014593746286}
   m_Layer: 5
-  m_Name: PaintTimeInput
+  m_Name: VoteTimeInput
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1470,17 +1470,17 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 0
+  m_ContentType: 2
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 4
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 2
   m_RegexValue: 
   m_GlobalPointSize: 40
-  m_CharacterLimit: 0
+  m_CharacterLimit: 2
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
@@ -1934,7 +1934,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2112086500889206118}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3661452382059620017}
+        m_TargetAssemblyTypeName: GameOptions, Assembly-CSharp
+        m_MethodName: SetOptions
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2546354333167877768
 GameObject:
   m_ObjectHideFlags: 0
@@ -2176,12 +2188,12 @@ GameObject:
   m_Component:
   - component: {fileID: 5351595259053356870}
   m_Layer: 5
-  m_Name: Team 1
+  m_Name: Team0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5351595259053356870
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2198,10 +2210,10 @@ RectTransform:
   m_Father: {fileID: 7366678145814633505}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 249.45154, y: -56.12755}
+  m_SizeDelta: {x: 498.90308, y: 112.2551}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2967603177132441821
 GameObject:
@@ -2852,12 +2864,12 @@ GameObject:
   m_Component:
   - component: {fileID: 6005913024440117972}
   m_Layer: 5
-  m_Name: Team 4
+  m_Name: Team3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6005913024440117972
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2874,10 +2886,10 @@ RectTransform:
   m_Father: {fileID: 7366678145814633505}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 249.45154, y: -224.5102}
+  m_SizeDelta: {x: 498.90308, y: 449.0204}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4540967076597778090
 GameObject:
@@ -2995,12 +3007,12 @@ GameObject:
   m_Component:
   - component: {fileID: 3947601945464963733}
   m_Layer: 5
-  m_Name: Team 2
+  m_Name: Team1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3947601945464963733
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3017,10 +3029,10 @@ RectTransform:
   m_Father: {fileID: 7366678145814633505}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 249.45154, y: -74.83673}
+  m_SizeDelta: {x: 498.90308, y: 149.67346}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4739641213241282171
 GameObject:
@@ -3087,7 +3099,7 @@ GameObject:
   - component: {fileID: 8838258776948477349}
   - component: {fileID: 9189417661560126120}
   m_Layer: 5
-  m_Name: Time
+  m_Name: GatherTime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3369,15 +3381,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec1ca930b53f5f5429619c8b401a4a6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _roundTimeInput: {fileID: 0}
-  _paintTimeInput: {fileID: 0}
-  _voteTimeInput: {fileID: 0}
-  tireRateInput: {fileID: 4117596107819217171}
-  _foodMultiplier: {fileID: 0}
-  _observeMultiplier: {fileID: 0}
-  _createMultiplier: {fileID: 0}
-  _alliances: {fileID: 0}
-  _hideTags: {fileID: 0}
+  _gatherTimeInput: {fileID: 7901542812858123537}
+  _paintTimeInput: {fileID: 3126753414328989245}
+  _voteTimeInput: {fileID: 6558873014593746286}
+  _tireRateInput: {fileID: 4117596107819217171}
+  _foodMultiplier: {fileID: 7903727323134211656}
+  _observeMultiplier: {fileID: 4244304348336498898}
+  _createMultiplier: {fileID: 9116658360664669152}
+  _alliances: {fileID: 1703596108434073957}
+  _hideTags: {fileID: 1377110883249755689}
+  _toggle: {fileID: 0}
+  teamObjects:
+  - {fileID: 2925833333467972586}
+  - {fileID: 4666398717100654409}
+  - {fileID: 685246568773042001}
+  - {fileID: 4386754547001421310}
+  teamToggles: []
 --- !u!1 &5117356689868759736
 GameObject:
   m_ObjectHideFlags: 0
@@ -3528,7 +3547,7 @@ GameObject:
   - component: {fileID: 2771398173249898743}
   - component: {fileID: 7903727323134211656}
   m_Layer: 5
-  m_Name: Input
+  m_Name: FoodMultiplierInput
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3641,14 +3660,14 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 0
+  m_ContentType: 2
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 4
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 2
   m_RegexValue: 
   m_GlobalPointSize: 40
   m_CharacterLimit: 0
@@ -3765,7 +3784,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 146.04744, y: 0}
+  m_AnchoredPosition: {x: 145.1, y: 0}
   m_SizeDelta: {x: 192.4988, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1266330470916820044
@@ -3854,17 +3873,17 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 0
+  m_ContentType: 2
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 4
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 2
   m_RegexValue: 
   m_GlobalPointSize: 40
-  m_CharacterLimit: 0
+  m_CharacterLimit: 3
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
@@ -3969,7 +3988,7 @@ GameObject:
   - component: {fileID: 8651028204321428875}
   - component: {fileID: 6931071906217865018}
   m_Layer: 5
-  m_Name: Create Multiplier
+  m_Name: CreateMultiplier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4748,7 +4767,7 @@ GameObject:
   - component: {fileID: 4619470448515957448}
   - component: {fileID: 1703596108434073957}
   m_Layer: 5
-  m_Name: Toggle
+  m_Name: AllianceToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5057,7 +5076,7 @@ GameObject:
   - component: {fileID: 2852646547834953195}
   - component: {fileID: 7901542812858123537}
   m_Layer: 5
-  m_Name: TimeInput
+  m_Name: GatherTimeInput
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5081,7 +5100,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 143, y: -0.000026226}
+  m_AnchoredPosition: {x: 144.9, y: -0.000026226}
   m_SizeDelta: {x: 192.5902, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5203078733015566010
@@ -5170,17 +5189,17 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 0
+  m_ContentType: 2
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 4
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 2
   m_RegexValue: 
   m_GlobalPointSize: 40
-  m_CharacterLimit: 0
+  m_CharacterLimit: 3
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
@@ -5201,7 +5220,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -5589,7 +5620,7 @@ GameObject:
   - component: {fileID: 5472774506169597283}
   - component: {fileID: 4244304348336498898}
   m_Layer: 5
-  m_Name: Input
+  m_Name: ObserveMultiplierInput
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5702,14 +5733,14 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 0
+  m_ContentType: 2
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 4
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 2
   m_RegexValue: 
   m_GlobalPointSize: 40
   m_CharacterLimit: 0
@@ -6246,7 +6277,7 @@ GameObject:
   - component: {fileID: 6211016123177171952}
   - component: {fileID: 1377110883249755689}
   m_Layer: 5
-  m_Name: Toggle
+  m_Name: TagToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6358,7 +6389,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 143.48781, y: -0.000024796}
+  m_AnchoredPosition: {x: 144.5, y: -0.000024796}
   m_SizeDelta: {x: 192.1043, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2357209759116771910
@@ -6447,14 +6478,14 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 0
+  m_ContentType: 3
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 2
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 3
   m_RegexValue: 
   m_GlobalPointSize: 40
   m_CharacterLimit: 0
@@ -6720,7 +6751,7 @@ GameObject:
   - component: {fileID: 8149488400269498079}
   - component: {fileID: 9116658360664669152}
   m_Layer: 5
-  m_Name: Input
+  m_Name: CreateMultiplierInput
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6833,14 +6864,14 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 0
+  m_ContentType: 2
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 4
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 2
   m_RegexValue: 
   m_GlobalPointSize: 40
   m_CharacterLimit: 0
@@ -6895,7 +6926,7 @@ GameObject:
   - component: {fileID: 3378160231859503828}
   - component: {fileID: 8109229090708846325}
   m_Layer: 5
-  m_Name: Paint  Time
+  m_Name: PaintTime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7135,7 +7166,9 @@ PrefabInstance:
     - target: {fileID: 4494767243003903609, guid: 5dba128d61da71247977afe1ebb9e331,
         type: 3}
       propertyPath: m_text
-      value: Team 3
+      value: 'Lime
+
+'
       objectReference: {fileID: 0}
     - target: {fileID: 4494767243003903609, guid: 5dba128d61da71247977afe1ebb9e331,
         type: 3}
@@ -7160,7 +7193,7 @@ PrefabInstance:
     - target: {fileID: 5882665547473324066, guid: 5dba128d61da71247977afe1ebb9e331,
         type: 3}
       propertyPath: m_Name
-      value: Team 3
+      value: Team2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5dba128d61da71247977afe1ebb9e331, type: 3}
@@ -7420,7 +7453,9 @@ PrefabInstance:
     - target: {fileID: 4494767243003903609, guid: 5dba128d61da71247977afe1ebb9e331,
         type: 3}
       propertyPath: m_text
-      value: Team 2
+      value: 'Magenta
+
+'
       objectReference: {fileID: 0}
     - target: {fileID: 4494767243003903609, guid: 5dba128d61da71247977afe1ebb9e331,
         type: 3}
@@ -7445,7 +7480,7 @@ PrefabInstance:
     - target: {fileID: 5882665547473324066, guid: 5dba128d61da71247977afe1ebb9e331,
         type: 3}
       propertyPath: m_Name
-      value: Team 2
+      value: Team1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5dba128d61da71247977afe1ebb9e331, type: 3}
@@ -7837,10 +7872,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4494767243003903609, guid: 5dba128d61da71247977afe1ebb9e331,
+        type: 3}
+      propertyPath: m_text
+      value: Cyan
+      objectReference: {fileID: 0}
     - target: {fileID: 5882665547473324066, guid: 5dba128d61da71247977afe1ebb9e331,
         type: 3}
       propertyPath: m_Name
-      value: Team 1
+      value: Team0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5dba128d61da71247977afe1ebb9e331, type: 3}
@@ -8100,7 +8140,7 @@ PrefabInstance:
     - target: {fileID: 4494767243003903609, guid: 5dba128d61da71247977afe1ebb9e331,
         type: 3}
       propertyPath: m_text
-      value: Team 4
+      value: Gold
       objectReference: {fileID: 0}
     - target: {fileID: 4494767243003903609, guid: 5dba128d61da71247977afe1ebb9e331,
         type: 3}
@@ -8125,7 +8165,7 @@ PrefabInstance:
     - target: {fileID: 5882665547473324066, guid: 5dba128d61da71247977afe1ebb9e331,
         type: 3}
       propertyPath: m_Name
-      value: Team 4
+      value: Team3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5dba128d61da71247977afe1ebb9e331, type: 3}

@@ -111,10 +111,7 @@ public abstract class Gatherable : Interactable
             case "FRUIT_TREE":
                 this.gameObject.GetComponent<FruitTree>().Harvest();
                 break;
-            case "DEAD_AUROCHS":
-                this.gameObject.GetComponent<Aurochs>().Harvest();
-                break;
-            case "LIVE_AUROCHS":
+            case "AUROCHS":
                 this.gameObject.GetComponent<Aurochs>().Harvest();
                 break;
         }

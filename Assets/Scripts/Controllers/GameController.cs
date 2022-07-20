@@ -393,6 +393,8 @@ public class GameController : MonoBehaviour
             if (team.clientsOnTeam.Count == 1)
             {
                 _uiController.scoreboard.AddTeamScore(teamIdx);
+                _uiController.gameOptions.GetComponent<GameOptions>().AddTeamOptions(teamIdx);
+                _uiController.gameOptions.GetComponent<GameOptions>().RemoveTeamOptions(teamIdx);
             }
         }
         else
@@ -420,8 +422,10 @@ public class GameController : MonoBehaviour
             if (team.clientsOnTeam.Count == 1)
             {
                 _uiController.scoreboard.AddTeamScore(teamIdx);
+                _uiController.gameOptions.GetComponent<GameOptions>().AddTeamOptions(teamIdx);
             } else if (team.clientsOnTeam.Count == 0) {
                 _uiController.scoreboard.RemoveTeamScore(teamIdx);
+                _uiController.gameOptions.GetComponent<GameOptions>().RemoveTeamOptions(teamIdx);
             }
         }
     }
@@ -444,6 +448,7 @@ public class GameController : MonoBehaviour
             team.teamIndex = teamIdx;
             teams.Add(team);
         }
+        //Adds team color options to the menu
 
         return team;
     }
@@ -482,7 +487,7 @@ public class GameController : MonoBehaviour
     {
         return clientA.TeamIndex.Equals(clientB.TeamIndex);
     }
-
+ 
     public CharControllerMulti GetPlayer()
     {
         NetworkedEntityView view = ColyseusManager.Instance.GetEntityView(ColyseusManager.Instance.CurrentNetworkedEntity.id);

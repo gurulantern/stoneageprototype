@@ -20,7 +20,7 @@ public class EnvironmentController : MonoBehaviour
             return instance;
         }
     }
-    private int fruitCount = -1, treeCount = -1, fruitTreeCount = -1, aurochsCount = -1, deadAurochsCount = -1;
+    private int fruitCount = -1, treeCount = -1, fruitTreeCount = -1, aurochsCount = -1;
 
     [SerializeField]
     private Scorable[] scorables;
@@ -111,11 +111,8 @@ public class EnvironmentController : MonoBehaviour
                 case "Tree":
                     g.SetID(treeCount += 1);
                     break;
-                case "Live_Aurochs":
+                case "Aurochs":
                     g.SetID(aurochsCount += 1);
-                    break;
-                case "Dead_Aurochs":
-                    g.SetID(deadAurochsCount += 1);
                     break;
             }
             ColyseusManager.Instance.SendObjectInit(g);

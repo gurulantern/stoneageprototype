@@ -47,6 +47,7 @@ public class Aurochs : Gatherable
 
     private void Awake()
     {
+        /*
         if (alive) {
             this.gameObject.tag = "Live_Aurochs";
             type = "Live_Aurochs";
@@ -54,6 +55,7 @@ public class Aurochs : Gatherable
             this.gameObject.tag = "Dead_Aurochs";
             type = "Dead_Aurochs";
         }
+        */
     }
 
     void Start()

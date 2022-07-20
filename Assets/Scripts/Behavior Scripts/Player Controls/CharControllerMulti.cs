@@ -12,6 +12,7 @@ public class CharControllerMulti : NetworkedEntityView
     public static event OnPlayerActivated onPlayerActivated;
     public delegate void OnPlayerDeactivated(CharControllerMulti playerController);
     public static event OnPlayerDeactivated onPlayerDeactivated;
+    [SerializeField] GameObject _raycastCollider;
     [SerializeField] SpriteRenderer _spriteRenderer;
     [SerializeField] PlayerControls _playerControls;
     [SerializeField] Camera _camera;
@@ -109,7 +110,7 @@ public class CharControllerMulti : NetworkedEntityView
         {
             Destroy(uiHooks);
         }
-        gameObject.tag = "Other_Player";
+        _raycastCollider.tag = "Other_Player";
     }
 
     public override void InitiView(NetworkedEntity entity)
@@ -195,7 +196,7 @@ public class CharControllerMulti : NetworkedEntityView
 
     void FixedUpdate()
     {
-        if (IsMine) //&& GameController.Instance.gamePlaying)
+        if (IsMine)// && GameController.Instance.gamePlaying)
         {
             if (currentStamina == maxStamina && sleeping == true) {
                 //When stamina is full after sleeping call Wake
@@ -271,63 +272,70 @@ public class CharControllerMulti : NetworkedEntityView
     private void OnInteractAction()
     {
         RaycastHit2D hit;
-        Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
+        if (GameController.Instance.gamePlaying) {
+            Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
-        hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);   
-        if (hit.collider.gameObject.TryGetComponent(out Robbable robbable) && hit.collider.gameObject.GetComponent<CharControllerMulti>().sleeping) {
-            robbable.Steal(new Robbable.StoneAgeStealMessage()
-            {
-                robber = OwnerId,
-                isRFC = hit.collider.gameObject.CompareTag("Other_Player")
-            });
-        } else {
-            currentGatherable = hit.collider.gameObject.GetComponent<Gatherable>();
-            currentScorable = hit.collider.gameObject.GetComponent<Scorable>();
-            if(currentGatherables.Contains(currentGatherable) && !animator.GetBool("Gather")) {
-                Debug.Log(currentGatherable + " clicked.");
-                if (currentGatherable.gameObject.tag == "Tree" && GameController.Instance.create == false) {
-                    return;
-                } else {
-                    currentGatherable.PlayerAttemptedUse(this);
-                }
-            } else if (currentScorables.Contains(currentScorable) && !animator.GetBool("Gather")) {
-                Debug.Log(currentScorable + " clicked");
-                switch(currentScorable.requiredResource) {
-                    case "food":
-                        if(state.fruit > 0 && state.meat > 0) {
-                            icon = 2;
-                            GameController.Instance.RegisterGather(this.Id, state.fruit.ToString(), state.meat.ToString(), teamIndex.ToString());
-                            StartGather(false);
-                        } else if (state.fruit > 0) {
-                            icon = 0;
-                            GameController.Instance.RegisterGather(this.Id, state.fruit.ToString(), "0", teamIndex.ToString());
-                            StartGather(false);
-                        } else if (state.meat > 0) {
-                            icon = 1;
-                            GameController.Instance.RegisterGather(this.Id, "0", state.meat.ToString(), teamIndex.ToString());
-                            StartGather(false);
-                        } else {
-                            icon = -1;
-                        }
-                        break;
-                    case "wood":
-                        if (state.wood > 0) {
-                            icon = 3;
-                            currentScorable.PlayerAttemptedUse(this, (int)state.wood);
-                            StartGather(false);
-                        } else {
-                            icon = -1;
-                        }
-                        break;
-                    case "seeds":
-                        if (state.seeds > 0) {
-                            icon = 4;
-                            currentScorable.PlayerAttemptedUse(this, (int)state.seeds);
-                            StartGather(false);
-                        } else {
-                            icon = -1;
-                        }
-                        break;
+            hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
+   
+            if (hit.collider.gameObject.GetComponentInParent<Robbable>() != null && hit.collider.gameObject.GetComponentInParent<CharControllerMulti>().proxyStates[0].sleep) {
+                Robbable robbable = hit.collider.gameObject.GetComponentInParent<Robbable>(); 
+                robbable.Steal(new Robbable.StoneAgeStealMessage()
+                {
+                    robber = OwnerId,
+                    isRFC = hit.collider.gameObject.CompareTag("Other_Player")
+                    
+                });
+                Debug.Log($"Attempting to steal from {robbable}");
+            } else {
+                currentGatherable = hit.collider.gameObject.GetComponent<Gatherable>();
+                currentScorable = hit.collider.gameObject.GetComponent<Scorable>();
+                if(currentGatherables.Contains(currentGatherable) && !animator.GetBool("Gather")) {
+                    Debug.Log(currentGatherable + " clicked.");
+                    if (currentGatherable.gameObject.tag == "Tree" && GameController.Instance.create == false) {
+                        return;
+                    } else {
+                        currentGatherable.PlayerAttemptedUse(this);
+                        Debug.Log("Gathering");
+                    }
+                } else if (currentScorables.Contains(currentScorable) && !animator.GetBool("Gather")) {
+                    Debug.Log(currentScorable + " clicked");
+                    switch(currentScorable.requiredResource) {
+                        case "food":
+                            if(state.fruit > 0 && state.meat > 0) {
+                                icon = 2;
+                                GameController.Instance.RegisterGather(this.Id, state.fruit.ToString(), state.meat.ToString(), teamIndex.ToString());
+                                StartGather(false);
+                            } else if (state.fruit > 0) {
+                                icon = 0;
+                                GameController.Instance.RegisterGather(this.Id, state.fruit.ToString(), "0", teamIndex.ToString());
+                                StartGather(false);
+                            } else if (state.meat > 0) {
+                                icon = 1;
+                                GameController.Instance.RegisterGather(this.Id, "0", state.meat.ToString(), teamIndex.ToString());
+                                StartGather(false);
+                            } else {
+                                icon = -1;
+                            }
+                            break;
+                        case "wood":
+                            if (state.wood > 0) {
+                                icon = 3;
+                                currentScorable.PlayerAttemptedUse(this, (int)state.wood);
+                                StartGather(false);
+                            } else {
+                                icon = -1;
+                            }
+                            break;
+                        case "seeds":
+                            if (state.seeds > 0) {
+                                icon = 4;
+                                currentScorable.PlayerAttemptedUse(this, (int)state.seeds);
+                                StartGather(false);
+                            } else {
+                                icon = -1;
+                            }
+                            break;
+                    }
                 }
             }
         }
@@ -345,10 +353,7 @@ public class CharControllerMulti : NetworkedEntityView
                             icon = 0;    
                         }
                         break;
-                    case "Live_Aurochs":
-                        icon = 1;
-                        break;
-                    case "Dead_Aurochs":
+                    case "Aurochs":
                         icon = 1;
                         break;
                     case "Tree":
@@ -469,18 +474,70 @@ public class CharControllerMulti : NetworkedEntityView
     {
         if (entityID.Equals(Id))
         {
-            robbable.PickGoods();
+            int type = PickGoods();
+            Give(robberID, type);
         }
     }
 
-    public void Give(string receiverID)
+    public int PickGoods()
     {
+        int stolenIcon = Mathf.RoundToInt(UnityEngine.Random.Range(0.0f, 2.0f));
+        switch (stolenIcon) {
+            case 0:
+                if (fruit > 1) {
+                    state.fruit -= 2f;
+                    return stolenIcon;
+                } else {
+                    return 4;
+                }
+            case 1:
+                if (meat > 0) {
+                    state.meat -= 1f;
+                    return stolenIcon;
+                } else {
+                    return 4;
+                }
+            case 2:
+                if (wood > 1) {
+                    state.wood -= 2f;
+                    return stolenIcon;
+                } else {
+                    return 4;
+                }
+            default:
+                return 4;
+        }
+    }
+    
 
+    public void Give(string receiverID, int type)
+    {
+        ColyseusManager.RFC(this, "ReceiveRFC", new object[]{ Id, receiverID, type});
     }
 
-    public void GiveRFC(string receiverID)
+    public void ReceiveRFC(string receiverID, int type)
     {
-
+        if (receiverID.Equals(Id))
+        {
+            icon = type;
+            switch (type) {
+                case 0:
+                    state.fruit += 1f;
+                    fruit = (int)state.fruit;
+                    StartGather(true);
+                    break;
+                case 1:
+                    StartGather(true);
+                    break;
+                case 2:
+                    state.wood += 1f;
+                    wood = (int)state.wood;
+                    StartGather(true);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     public void EntityNearInteractable(Interactable interactable)

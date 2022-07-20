@@ -52,7 +52,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _itemID: 
-  serverType: DEAD_AUROCHS
+  serverType: AUROCHS
   trigger: {fileID: 7678455202590433476}
   type: 
   startingHarvest: 0

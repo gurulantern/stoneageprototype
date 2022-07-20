@@ -16,7 +16,7 @@ MonoBehaviour:
   food: 0
   wood: 0
   speed: 2.5
-  tiredSpeed: 0.5
+  tiredSpeed: 1
   tireLimit: 20
   tireRate: 0.01
-  restoreRate: 0.5
+  restoreRate: 0.005

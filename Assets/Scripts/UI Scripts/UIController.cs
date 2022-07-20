@@ -5,7 +5,7 @@ using TMPro;
 using System.Collections.Generic;
 using System.Collections;
 
-
+ 
 public class UIController : MonoBehaviour
 {
 #pragma warning disable 0649
@@ -23,8 +23,7 @@ public class UIController : MonoBehaviour
     private Button closeOptionsButton = null;
     [SerializeField]
     private Canvas _canvas = null;
-    [SerializeField]
-    private GameObject gameOptions = null;
+    public GameObject gameOptions;
     [SerializeField]
     private TextMeshProUGUI generalMessageText;
     [SerializeField]

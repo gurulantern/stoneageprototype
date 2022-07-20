@@ -33,15 +33,7 @@ export function getStateForType(type: string) : GatherableState {
             });
             break;
         }
-        case("DEAD_AUROCHS"):
-        {
-            state.assign({
-                gatherableType : type,
-                harvestTrigger : 1
-            });
-            break;
-        }
-        case("LIVE_AUROCHS"):
+        case("AUROCHS"):
         {
             state.assign({
                 gatherableType : type,

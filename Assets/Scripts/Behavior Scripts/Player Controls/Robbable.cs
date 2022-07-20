@@ -13,14 +13,7 @@ partial class Robbable : MonoBehaviour
             if (TryGetComponent(out CharControllerMulti controller))
             {
                 controller.Robbed(data.robber);
-
             }
         }
-    }
-
-    public string PickGoods()
-    {
-
-        return "Fruit ";
     }
 }

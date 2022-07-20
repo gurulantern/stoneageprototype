@@ -208,7 +208,7 @@ export class MyRoom extends Room<RoomState> {
             || (optionsMessage.userId == null)
             || optionsMessage.optionsToSet == null) {
             return; // Invalid Option Update Message
-        }
+        } 
     }
 
     // Callback when a client has left the room
@@ -305,6 +305,7 @@ export class MyRoom extends Room<RoomState> {
 
             // Broadcast the "remoteFunctionCall" to all clients except the one the message originated from
             this.broadcast("onRFC", RFCMessage, RFCMessage.target == 0 ? {} : {except : client});
+            logger.info(`*************** A Robbery took place! ${client} is robbing someone ***********`);
         });
 
         // Set the callback for the "setAttribute" message to set an entity or user attribute
@@ -315,6 +316,8 @@ export class MyRoom extends Room<RoomState> {
         // Set options for room
         this.onMessage("setOptions", (client, optionsMessage) => {
             this.setOptions(client, optionsMessage);
+            logger.info(`^^^^^^^^^^^^ Setting new options ^^^^^^^`);
+
         })
 
 
