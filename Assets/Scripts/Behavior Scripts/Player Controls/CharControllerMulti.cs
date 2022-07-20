@@ -469,7 +469,7 @@ public class CharControllerMulti : NetworkedEntityView
     {
         if (entityID.Equals(Id))
         {
-
+            robbable.PickGoods();
         }
     }
 
