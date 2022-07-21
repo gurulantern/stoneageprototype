@@ -15,6 +15,10 @@ public class GameOptions : MonoBehaviour
     [SerializeField]
     private TMP_InputField _tireRateInput;
     [SerializeField]
+    private TMP_InputField _restRateInput;
+    [SerializeField]
+    private TMP_InputField _aurochsInput;
+    [SerializeField]
     private TMP_InputField _foodMultiplier;
     [SerializeField]
     private TMP_InputField _observeMultiplier;
@@ -25,6 +29,8 @@ public class GameOptions : MonoBehaviour
     private Toggle _alliances;
     [SerializeField]
     private Toggle _hideTags;
+    [SerializeField]
+    private Toggle _night;
     [SerializeField]
     private Toggle _toggle;
 
@@ -57,11 +63,14 @@ public class GameOptions : MonoBehaviour
         options.Add("paintTime", PaintTime);
         options.Add("voteTime", VoteTime);
         options.Add("tireRate", TireRate);
+        options.Add("restRate", RestRate);
+        options.Add("aurochs", AurochsInput);
         options.Add("foodMulti", FoodMultiplier);
         options.Add("observeMulti", ObserveMultiplier);
         options.Add("createMulti", CreateMultiplier);
         options.Add("alliances", Alliances);
         options.Add("hideTags", Tags);
+        options.Add("night", Night);
         
         for (int i = 0; i < teamObjects.Count; i ++)
         {
@@ -146,6 +155,33 @@ public class GameOptions : MonoBehaviour
             return ".5";            
         }
     }
+
+    public string RestRate
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(_restRateInput.text) == false)
+            {
+                return _restRateInput.text;
+            }
+
+            return ".5";            
+        }
+    }
+
+    public string AurochsInput
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(_aurochsInput.text) == false)
+            {
+                return _aurochsInput.text;
+            }
+
+            return ".5";            
+        }
+    }
+
     public string FoodMultiplier
     {
         get
@@ -198,6 +234,14 @@ public class GameOptions : MonoBehaviour
         get
         {
             return _hideTags.isOn.ToString();
+        }
+    }
+
+    public string Night
+    {
+        get
+        {
+            return _night.isOn.ToString();
         }
     }
 
