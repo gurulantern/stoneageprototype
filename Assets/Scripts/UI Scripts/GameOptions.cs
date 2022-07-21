@@ -19,18 +19,21 @@ public class GameOptions : MonoBehaviour
     [SerializeField]
     private TMP_InputField _aurochsInput;
     [SerializeField]
+    private TMP_InputField _observeReqInput;
+    [SerializeField]
     private TMP_InputField _foodMultiplier;
     [SerializeField]
     private TMP_InputField _observeMultiplier;
     [SerializeField]
     private TMP_InputField _createMultiplier;
+    [SerializeField]
+    private TMP_InputField _night;
 
     [SerializeField]
     private Toggle _alliances;
     [SerializeField]
     private Toggle _hideTags;
-    [SerializeField]
-    private Toggle _night;
+
     [SerializeField]
     private Toggle _toggle;
 
@@ -38,8 +41,7 @@ public class GameOptions : MonoBehaviour
     private List<GameObject> teamObjects;
     [SerializeField]
     private Toggle[] teamToggles;
-    [SerializeField]
-    private List<Toggle[]> teamsOptions;
+
     [SerializeField]
     private string[] actions = {"steal", "scare", "create"};
 
@@ -51,7 +53,7 @@ public class GameOptions : MonoBehaviour
             new OptionsMessage
             {
                 userId = ColyseusManager.Instance.CurrentUser.sessionId,
-                attributesToSet = options
+                optionsToSet = options
             }
         );
     }
@@ -62,15 +64,18 @@ public class GameOptions : MonoBehaviour
         options.Add("gatherTime", GatherTime);
         options.Add("paintTime", PaintTime);
         options.Add("voteTime", VoteTime);
-        options.Add("tireRate", TireRate);
-        options.Add("restRate", RestRate);
-        options.Add("aurochs", AurochsInput);
         options.Add("foodMulti", FoodMultiplier);
         options.Add("observeMulti", ObserveMultiplier);
         options.Add("createMulti", CreateMultiplier);
+        options.Add("aurochs", AurochsInput);
+        options.Add("night", Night);
+
+        options.Add("observeReq", ObserveReqInput);
+        options.Add("tireRate", TireRate);
+        options.Add("restRate", RestRate);
         options.Add("alliances", Alliances);
         options.Add("hideTags", Tags);
-        options.Add("night", Night);
+
         
         for (int i = 0; i < teamObjects.Count; i ++)
         {
@@ -88,10 +93,8 @@ public class GameOptions : MonoBehaviour
 
     public void AddTeamOptions(int teamIdx)
     {
-        if (!teamObjects[teamIdx].activeSelf) {
+        if (teamObjects[teamIdx].activeSelf == false) {
             teamObjects[teamIdx].SetActive(true);
-            teamToggles = (teamObjects[teamIdx].GetComponentsInChildren<Toggle>());
-            teamsOptions.Add(teamToggles);
         }
     }
 
@@ -99,8 +102,6 @@ public class GameOptions : MonoBehaviour
     {
         if (teamObjects[teamIdx].activeSelf) {
             teamObjects[teamIdx].SetActive(false);
-            teamToggles = (teamObjects[teamIdx].GetComponentsInChildren<Toggle>());
-            teamsOptions.Remove(teamToggles);
         }
     }
 
@@ -152,7 +153,7 @@ public class GameOptions : MonoBehaviour
                 return _tireRateInput.text;
             }
 
-            return ".5";            
+            return ".01";            
         }
     }
 
@@ -165,7 +166,7 @@ public class GameOptions : MonoBehaviour
                 return _restRateInput.text;
             }
 
-            return ".5";            
+            return ".05";            
         }
     }
 
@@ -178,7 +179,20 @@ public class GameOptions : MonoBehaviour
                 return _aurochsInput.text;
             }
 
-            return ".5";            
+            return "8";            
+        }
+    }
+
+    public string ObserveReqInput
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(_observeReqInput.text) == false)
+            {
+                return _observeReqInput.text;
+            }
+
+            return "100";            
         }
     }
 
@@ -241,7 +255,12 @@ public class GameOptions : MonoBehaviour
     {
         get
         {
-            return _night.isOn.ToString();
+            if (string.IsNullOrEmpty(_night.text) == false)
+            {
+                return _night.text;
+            }
+
+            return "0";            
         }
     }
 
@@ -252,10 +271,4 @@ public class GameOptions : MonoBehaviour
             return _toggle.isOn.ToString();
         }
     }
-
-    public void ChangeValue()
-    {
-        
-    }
-
 }

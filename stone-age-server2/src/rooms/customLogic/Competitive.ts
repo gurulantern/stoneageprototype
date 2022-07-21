@@ -408,7 +408,7 @@ let setEntitiesAttribute = function(roomRef: MyRoom, key: string, value: string)
 }
 
 /**
- * Sets attriubte of the room
+ * Sets attribute of the room
  * @param {*} roomRef Reference to the room
  * @param {*} key The key for the attribute you want to set
  * @param {*} value The value of the attribute you want to set
@@ -558,7 +558,7 @@ let beginRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
             
             setRoomAttribute(roomRef, BeginRoundCountDown, "Start!");
             // TODO: beginRound is expecting a boss health
-            let time = roomRef.roundTime;
+            let time = roomRef.gatherTime;
             roomRef.broadcast("beginRound", { time });
 
             // Move to the Simulation state
@@ -593,7 +593,7 @@ let simulateRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
 
     setRoomAttribute(roomRef, ElapsedTime, String(clock.elapsedTime));
 
-    if(clock.elapsedTime >= (roomRef.roundTime * 1000))
+    if(clock.elapsedTime >= (roomRef.gatherTime * 1000))
     {
         if(roomRef.paintRound) {
             moveToState(roomRef, StoneAgeServerGameState.BeginPaintRound);
@@ -631,11 +631,11 @@ let paintRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
 
         return;
     }
-    let paintDiff = roomRef.roundTime * 1000;
+    let paintDiff = roomRef.gatherTime * 1000;
 
     setRoomAttribute(roomRef, ElapsedTime, String(clock.elapsedTime - paintDiff));
 
-    if(clock.elapsedTime >= ((roomRef.roundTime + roomRef.paintTime) * 1000))
+    if(clock.elapsedTime >= ((roomRef.gatherTime + roomRef.paintTime) * 1000))
     {
         moveToState(roomRef, StoneAgeServerGameState.BeginVoteRound);
         logger.info(clock.elapsedTime);
@@ -658,11 +658,11 @@ let voteRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
 
         return;
     }
-    let voteDiff = (roomRef.roundTime + roomRef.paintTime) *  1000;
+    let voteDiff = (roomRef.gatherTime + roomRef.paintTime) *  1000;
 
     setRoomAttribute(roomRef, ElapsedTime, String(clock.elapsedTime - voteDiff));
 
-    if (clock.elapsedTime >= ((roomRef.roundTime + roomRef.paintTime + roomRef.voteTime) * 1000))
+    if (clock.elapsedTime >= ((roomRef.gatherTime + roomRef.paintTime + roomRef.voteTime) * 1000))
     {
         moveToState(roomRef, StoneAgeServerGameState.EndRound);
         logger.info(clock.elapsedTime);

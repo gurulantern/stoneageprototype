@@ -42,8 +42,7 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private PlayerTag playerTagPrefab;
 
-    [SerializeField]
-    private RectTransform playerTagRoot;
+    public RectTransform playerTagRoot;
 
     [SerializeField]
     private TextMeshProUGUI playerJoinMsgPrefab;
@@ -71,6 +70,7 @@ public class UIController : MonoBehaviour
     public Timer timer;
     public GameObject hudContainer, gameOverPanel;
     public TextMeshProUGUI allianceTracker;
+    public GameObject woodCount, seedsCount, scareControl, createControl;
 
 
 

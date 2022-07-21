@@ -7,5 +7,25 @@ public class OptionsMessage
     public string userId;
 
     // Map of the options to update
-    public Dictionary<string, string> attributesToSet = new Dictionary<string, string>();
+    public Dictionary<string, string> optionsToSet = new Dictionary<string, string>();
+}
+
+public class SettingsMessage
+{
+    /*
+    public string[] keys;
+    public string[] values;
+    */
+    public Dictionary<string, string> optionsToSet;
+    /*
+    public Dictionary<string, string> makeDictionary()
+    {
+        optionsToSet = new Dictionary<string, string>();
+        for (int i = 0; i < keys.Length; i++)
+        {
+            optionsToSet.Add(keys[i], values[i]);
+        }
+        return optionsToSet;
+    }
+    */
 }

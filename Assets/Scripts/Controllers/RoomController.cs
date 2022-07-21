@@ -213,11 +213,6 @@ using UnityEngine.SceneManagement;
         roomOptionsDictionary = options;
     }
 
-    public void SetGameOptions()
-    {
-        
-    }
-
     ///     Set the NetworkedEntityFactoryy of the RoomManager.
     public void SetNetworkedEntityFactory(NetworkedEntityFactory factory)
     {
@@ -349,6 +344,11 @@ using UnityEngine.SceneManagement;
 */  
         });
 
+        _room.OnMessage<SettingsMessage>("newSettings", msg =>
+        {
+            GameController.Instance.UpdateSettings(msg.optionsToSet);
+        });
+
         _room.OnMessage<RFCMessage>("onRFC", _rfc =>
         {
             //Debug.Log($"Received 'onRFC' {_rfc.entityId}!");
@@ -384,7 +384,6 @@ using UnityEngine.SceneManagement;
         _room.OnMessage<StoneAgeUnlockMessage>("onUnlockCreate", msg => {
             GameController.Instance.Unlock(msg.teamIndex, msg.createUnlocked);
         });
-
 
         //Custom game logic
         //_room.OnMessage<YOUR_CUSTOM_MESSAGE>("messageNameInCustomLogic", objectOfTypeYOUR_CUSTOM_MESSAGE => {  });

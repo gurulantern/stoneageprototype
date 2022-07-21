@@ -22,11 +22,6 @@ public class Scoreboard : MonoBehaviour
 
     }
 
-    public void UpdateScores(int teamIdx)
-    {
-
-    }
-
     /// Reorganizes the team scoreboards using the active score list while acounting for the extra child that is the header
     public void AddTeamScore(int teamIdx)
     {

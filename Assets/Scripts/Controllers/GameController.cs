@@ -15,7 +15,7 @@ using System;
 public class GameController : MonoBehaviour
 {
     public StoneColyseusNetworkedEntityView prefab;
-    public bool observe, create, steal, scare;
+    public bool create, steal, scare, alliances;
     public delegate void OnViewAdded(StoneColyseusNetworkedEntityView view);
     public static event OnViewAdded onViewAdded;
     public delegate void OnViewRemoved(StoneColyseusNetworkedEntityView view);
@@ -106,7 +106,7 @@ public class GameController : MonoBehaviour
         if (ColyseusManager.Instance.IsInRoom)
         {
             //Find playerController for this player
-            CharControllerMulti pc = GetPlayerView< CharControllerMulti>(ColyseusManager.Instance.CurrentNetworkedEntity.id);
+            CharControllerMulti pc = GetPlayerView<CharControllerMulti>(ColyseusManager.Instance.CurrentNetworkedEntity.id);
             if (pc != null)
             {
                 pc.enabled = false; //Stop all the messages and updates
@@ -148,7 +148,7 @@ public class GameController : MonoBehaviour
         SetCurrentUserAttributes(new Dictionary<string, string> { { "readyState", "ready" } });
     }
 
-    public void SetOptions()
+    public void SetSettings()
     {
         
     }
@@ -306,6 +306,56 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void UpdateSettings(Dictionary<string, string> options)
+    {
+        CharControllerMulti pc = GetPlayer();
+        if (options.TryGetValue("observeReq", out string observeRequirement))
+        {
+            _uiController._observeMeter.observeSlider.maxValue = int.Parse(observeRequirement);
+            //Debug.Log("Setting observe req");
+        }
+
+        if (options.TryGetValue("tireRate", out string newTireRate))
+        {
+            pc.tireRate = float.Parse(newTireRate);
+        }
+
+        if (options.TryGetValue("restRate", out string newRestRate))
+        {
+            pc.restoreRate = float.Parse(newRestRate);
+        }
+
+        if (options.TryGetValue("alliances", out string alianceBool))
+        {
+            alliances = bool.Parse(alianceBool);
+        }
+
+        if (options.TryGetValue("hideTags", out string tagsBool))
+        {
+            _uiController.playerTagRoot.gameObject.SetActive(bool.Parse(tagsBool));
+        }
+
+        if (options.TryGetValue($"team{pc.TeamIndex}steal", out string stealBool))
+        {
+            steal = bool.Parse(stealBool);
+        }
+
+        if (options.TryGetValue($"team{pc.TeamIndex}scare", out string scareBool))
+        {
+            scare = bool.Parse(scareBool);
+            _uiController.scareControl.SetActive(scare);
+        }
+
+        if (options.TryGetValue($"team{pc.TeamIndex}create", out string createBool))
+        {
+            create = bool.Parse(createBool);
+            _uiController.scoreboard.UpdateShowScore(2, create);
+            _uiController.woodCount.SetActive(create);
+            _uiController.seedsCount.SetActive(create);
+            _uiController.createControl.SetActive(create);
+        }
+    }
+
     private void UpdateGameStates(MapSchema<string> attributes)
     {
         if (attributes.TryGetValue("currentGameState", out string currentServerGameState))
@@ -394,7 +444,6 @@ public class GameController : MonoBehaviour
             {
                 _uiController.scoreboard.AddTeamScore(teamIdx);
                 _uiController.gameOptions.GetComponent<GameOptions>().AddTeamOptions(teamIdx);
-                _uiController.gameOptions.GetComponent<GameOptions>().RemoveTeamOptions(teamIdx);
             }
         }
         else
@@ -403,6 +452,8 @@ public class GameController : MonoBehaviour
             if(team.clientsOnTeam.Count == 0)
             {
                 _uiController.scoreboard.RemoveTeamScore(teamIdx);
+                _uiController.gameOptions.GetComponent<GameOptions>().RemoveTeamOptions(teamIdx);
+
             }
         }
     }

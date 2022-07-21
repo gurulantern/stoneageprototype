@@ -2,31 +2,32 @@ import { Room, Client, generateId } from "colyseus";
 import { RoomState, NetworkedEntity, NetworkedUser, GatherableState, ScorableState } from "./schema/RoomState";
 import * as gatherableObjectFactory from "../helpers/gatherableObjectFactory";
 import * as scorableObjectFactory from "../helpers/scorableObjectFactory";
+import { MapSchema } from "@colyseus/schema";
 const logger = require("../helpers/logger");
 
 export class MyRoom extends Room<RoomState> {
 
     clientEntities = new Map<string, string[]>();
     serverTime: number = 0;
-    roundTime: number = 180;
+    gatherTime: number = 180;
     paintTime : number = 120;
     voteTime : number = 60;
+    foodScoreMultiplier: number = 2;
+    observeScoreMultiplier: number = 1;
+    createScoreMultiplier: number = 2;
+    aurochs: number = 9;
+    night: number = 60;
     currentRoundTime: number;
     customMethodController: any = null;
     roomOptions: any;
+    settingsKeys: string[] = [];
+    settingsValues: string[] = [];
 
     paintRound: boolean = true;
     allianceToggle: boolean = false;
     stealToggle: boolean = false;
     tagsToggle: boolean = false;
-    foodScoreMultiplier: number = 2;
-    observeScoreMultiplier: number = 1;
-    createScoreMultiplier: number = 2;
     tireRate: number = .5;
-
-    createOptions: Map<number, boolean>;
-    stealOptions: Map<number, boolean>;
-    scareOptions: Map<number, boolean>;
 
     CurrentCountDownState: string;
     currCountDown: number;
@@ -208,7 +209,73 @@ export class MyRoom extends Room<RoomState> {
             || (optionsMessage.userId == null)
             || optionsMessage.optionsToSet == null) {
             return; // Invalid Option Update Message
-        } 
+        }
+        
+        let newSettingsKeys: string[]; 
+        let newSettingsValues: string[]; 
+        
+        for (let index = 0; index < 8; index++) {
+            let key = Object.keys(optionsMessage.optionsToSet)[index];
+            let value = optionsMessage.optionsToSet[key];
+
+            switch(key) {
+                case "gatherTime":
+                    this.gatherTime = parseInt(value);
+                    logger.info(`Set the ${key} setting to ${value}`);
+                    break;
+                case "paintTme":
+                    if (parseInt(value) !== 0) {
+                        this.paintTime = parseInt(value);
+                        this.paintRound = true;
+                        logger.info(`Set the ${key} setting to ${value}`);
+                        break;
+                    } else {
+                        this.paintRound = false;
+                        break;
+                    }
+                case "voteTime":
+                    if (this.paintRound = true) {
+                        this.voteTime = parseInt(value);
+                        logger.info(`Set the ${key} setting to ${value}`);
+                        break;
+                    }
+                    break;
+                case "foodMulti":
+                    this.foodScoreMultiplier = parseInt(value);
+                    logger.info(`Set the ${key} setting to ${value}`);
+                    break;
+                case "observeMulti":
+                    this.observeScoreMultiplier = parseInt(value);
+                    logger.info(`Set the ${key} setting to ${value}`);
+                    break;
+                case "createMulti":
+                    this.createScoreMultiplier = parseInt(value);
+                    logger.info(`Set the ${key} setting to ${value}`);
+                    break;
+                case "aurochs":
+                    this.aurochs = parseInt(value);
+                    logger.info(`Set the ${key} setting to ${value}`);
+                    break;
+                case "night":
+                    this.night = parseInt(value);
+                    logger.info(`Set the ${key} setting to ${value}`);
+                    break;
+            }
+        }
+        logger.info(`Set the server settings!`);
+        /*
+        for (let index = 8; index < (Object.keys(optionsMessage.optionsToSet).length - 8); index++) {
+            let key = Object.keys(optionsMessage.optionsToSet)[index];
+            let value = optionsMessage.optionsToSet[key];
+            this.settingsKeys.push(key);
+            this.settingsValues.push(value);
+            logger.info(`Set the ${key} setting to ${value}`);
+        }
+        
+        this.broadcast("newSettings", { keys : this.settingsKeys, values : this.settingsValues });
+        */
+        this.broadcast("newSettings", { optionsToSet : optionsMessage.optionsToSet })
+        logger.info(`Sent client settings out!`);
     }
 
     // Callback when a client has left the room
@@ -315,9 +382,9 @@ export class MyRoom extends Room<RoomState> {
 
         // Set options for room
         this.onMessage("setOptions", (client, optionsMessage) => {
-            this.setOptions(client, optionsMessage);
             logger.info(`^^^^^^^^^^^^ Setting new options ^^^^^^^`);
-
+            this.setOptions(client, optionsMessage);
+            logger.info(`^^^^^^^^^^^^ Options set ^^^^^^^^^^^^^^^`);
         })
 
 
