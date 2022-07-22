@@ -31,6 +31,13 @@ partial class Robbable : MonoBehaviour
         //public int stolenAmount;
         public bool isRFC;
     }
+
+    public struct StoneAgeGiveMessage
+    {
+        public string giver;
+        public int type;
+        public bool isRFC;
+    }
 }
 
 public class StoneAgeScoreMessage

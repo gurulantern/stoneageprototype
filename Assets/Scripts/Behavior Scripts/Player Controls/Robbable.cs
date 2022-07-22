@@ -16,4 +16,15 @@ partial class Robbable : MonoBehaviour
             }
         }
     }
+
+    public void Give(StoneAgeGiveMessage data)
+    {
+        if (data.isRFC)
+        {
+            if(TryGetComponent(out CharControllerMulti controller))
+            {
+                controller.Receive(data.giver, data.type);
+            }
+        }
+    }
 }

@@ -36,7 +36,7 @@ public class CharControllerMulti : NetworkedEntityView
     private int icon;
     private Vector2 moveInput;
     private string tagNear;
-    private bool sleeping, observing, gathering, spending, tired;
+    private bool sleeping, observing, gathering, spending, tired, stealing;
     //Iterator variable for debugging Trigger Enter and Exit
     private int i = 0;
     [SerializeField]
@@ -111,6 +111,7 @@ public class CharControllerMulti : NetworkedEntityView
             Destroy(uiHooks);
         }
         _raycastCollider.tag = "Other_Player";
+        gameObject.tag = "Other_Player";
     }
 
     public override void InitiView(NetworkedEntity entity)
@@ -281,9 +282,8 @@ public class CharControllerMulti : NetworkedEntityView
                 Robbable robbable = hit.collider.gameObject.GetComponentInParent<Robbable>(); 
                 robbable.Steal(new Robbable.StoneAgeStealMessage()
                 {
-                    robber = OwnerId,
+                    robber = Id,
                     isRFC = hit.collider.gameObject.CompareTag("Other_Player")
-                    
                 });
                 Debug.Log($"Attempting to steal from {robbable}");
             } else {
@@ -345,24 +345,26 @@ public class CharControllerMulti : NetworkedEntityView
     public void StartGather(bool gatherOrSpend)
     {
         if (gatherOrSpend) {
-            switch(currentGatherable.gameObject.tag) {
-                    case "Fruit_Tree":
-                        if (GameController.Instance.create) {
-                            icon = 3;
-                        } else {
-                            icon = 0;    
-                        }
-                        break;
-                    case "Aurochs":
-                        icon = 1;
-                        break;
-                    case "Tree":
-                        icon = 2;
-                        break;
-                    case "Fishing_Spot":
-                        icon = 4;
-                        break;
+            if (!stealing) {
+                switch(currentGatherable.gameObject.tag) {
+                        case "Fruit_Tree":
+                            if (GameController.Instance.create) {
+                                icon = 3;
+                            } else {
+                                icon = 0;    
+                            }
+                            break;
+                        case "Aurochs":
+                            icon = 1;
+                            break;
+                        case "Tree":
+                            icon = 2;
+                            break;
+                        case "Fishing_Spot":
+                            icon = 4;
+                            break;
                 }
+            }
             gathering = true;
             animator.SetBool("Gather", true);
             _gatherIcons[icon].gameObject.SetActive(true);
@@ -383,6 +385,7 @@ public class CharControllerMulti : NetworkedEntityView
             AddResource(icon);
             animator.SetBool("Gather", false);
             gathering = false;
+            stealing = false;
         } else if (spending) {
             Debug.Log("Spending is finished");
             _spendIcons[icon].gameObject.SetActive(false);
@@ -420,7 +423,7 @@ public class CharControllerMulti : NetworkedEntityView
         if (icon == 0) {
             state.fruit += 1f;
             fruit = (int)state.fruit;
-        } else if (icon == 1  || icon == 4) {
+        } else if (icon == 1) {
                 state.meat += 1f;
                 meat = (int)state.meat;
         } else if (icon == 2 && GameController.Instance.create) {
@@ -467,7 +470,7 @@ public class CharControllerMulti : NetworkedEntityView
 
     public void Robbed(string robberID) 
     {
-        ColyseusManager.RFC(this, "RobbedRFC", new object[]{ Id, robberID });
+        ColyseusManager.RFC(this, "RobbedRFC", new object[]{ Id, robberID }, RFCTargets.OTHERS);
     }
 
     public void RobbedRFC(string entityID, string robberID)
@@ -475,32 +478,46 @@ public class CharControllerMulti : NetworkedEntityView
         if (entityID.Equals(Id))
         {
             int type = PickGoods();
-            Give(robberID, type);
+            bool thisView = ColyseusManager.Instance.HasEntityView(robberID);
+            Robbable robbable = ColyseusManager.Instance.GetEntityView(robberID).gameObject.GetComponent<Robbable>();
+            robbable.Give(new Robbable.StoneAgeGiveMessage()
+                {
+                    giver = OwnerId,
+                    type = type,
+                    isRFC = robbable.gameObject.CompareTag("Other_Player")
+                });
+            Debug.Log($"Attempting to give to {robbable}");
         }
     }
 
     public int PickGoods()
     {
-        int stolenIcon = Mathf.RoundToInt(UnityEngine.Random.Range(0.0f, 2.0f));
-        switch (stolenIcon) {
+        int icon = Mathf.RoundToInt(UnityEngine.Random.Range(0.0f, 2.0f));
+        switch (icon) {
             case 0:
-                if (fruit > 1) {
-                    state.fruit -= 2f;
-                    return stolenIcon;
+                if (fruit > 0) {
+                    state.fruit -= 1f;
+                    fruit = (int)state.fruit;
+                    ChangedResource?.Invoke(icon);
+                    return icon;
                 } else {
                     return 4;
                 }
             case 1:
                 if (meat > 0) {
                     state.meat -= 1f;
-                    return stolenIcon;
+                    meat = (int)state.meat;
+                    ChangedResource?.Invoke(icon);
+                    return icon;
                 } else {
                     return 4;
                 }
             case 2:
-                if (wood > 1) {
-                    state.wood -= 2f;
-                    return stolenIcon;
+                if (wood > 0) {
+                    state.wood -= 1f;
+                    wood = (int)state.wood;
+                    ChangedResource?.Invoke(icon);
+                    return icon;
                 } else {
                     return 4;
                 }
@@ -510,29 +527,30 @@ public class CharControllerMulti : NetworkedEntityView
     }
     
 
-    public void Give(string receiverID, int type)
+    public void Receive(string giverID, int type)
     {
-        ColyseusManager.RFC(this, "ReceiveRFC", new object[]{ Id, receiverID, type});
+        ColyseusManager.RFC(this, "ReceiveRFC", new object[]{ Id, giverID, type}, RFCTargets.OTHERS);
     }
 
-    public void ReceiveRFC(string receiverID, int type)
+    public void ReceiveRFC(string entityID, string giverId,  int type)
     {
-        if (receiverID.Equals(Id))
+        if (entityID.Equals(Id))
         {
+            Debug.Log("Ready to Receive!");
             icon = type;
+            stealing = true;
             switch (type) {
                 case 0:
-                    state.fruit += 1f;
-                    fruit = (int)state.fruit;
-                    StartGather(true);
+                    StartGather(stealing);
                     break;
                 case 1:
-                    StartGather(true);
+                    StartGather(stealing);
                     break;
                 case 2:
-                    state.wood += 1f;
-                    wood = (int)state.wood;
-                    StartGather(true);
+                    StartGather(stealing);
+                    break;
+                case 4:
+                    StartGather(stealing);
                     break;
                 default:
                     break;

@@ -764,7 +764,7 @@ GameObject:
   - component: {fileID: 2955475726884889708}
   - component: {fileID: 3328693769471626152}
   - component: {fileID: 6824516565650721925}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MultiPlayer
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1222,7 +1222,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4126516024473503786}
-  m_BodyType: 0
+  m_BodyType: 2
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0

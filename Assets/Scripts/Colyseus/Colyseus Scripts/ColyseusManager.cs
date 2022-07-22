@@ -177,7 +177,7 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
     /// param - the parameters of the function to call
     /// target - who should receive this RFC
     public static void RFC(StoneColyseusNetworkedEntityView entity, string function, object[] param,
-        RFCTargets target = RFCTargets.ALL)
+        RFCTargets target)
     {
         RFC(entity.Id, function, param, target);
     }
@@ -188,7 +188,7 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
     /// The parameters of the function to call
     /// Who should receive this RFC
     public static void RFC(string entityId, string function, object[] param,
-        RFCTargets target = RFCTargets.ALL)
+        RFCTargets target)
     {
         NetSend("remoteFunctionCall",
             new RFCMessage {entityId = entityId, function = function, param = param, target = target});

@@ -20,14 +20,13 @@ export class MyRoom extends Room<RoomState> {
     currentRoundTime: number;
     customMethodController: any = null;
     roomOptions: any;
-    settingsKeys: string[] = [];
-    settingsValues: string[] = [];
 
     paintRound: boolean = true;
     allianceToggle: boolean = false;
     stealToggle: boolean = false;
     tagsToggle: boolean = false;
     tireRate: number = .5;
+    aurochsTotal: number;
 
     CurrentCountDownState: string;
     currCountDown: number;
@@ -254,6 +253,7 @@ export class MyRoom extends Room<RoomState> {
                     break;
                 case "aurochs":
                     this.aurochs = parseInt(value);
+                    this.aurochsTotal = this.aurochs;
                     logger.info(`Set the ${key} setting to ${value}`);
                     break;
                 case "night":
@@ -262,18 +262,8 @@ export class MyRoom extends Room<RoomState> {
                     break;
             }
         }
-        logger.info(`Set the server settings!`);
-        /*
-        for (let index = 8; index < (Object.keys(optionsMessage.optionsToSet).length - 8); index++) {
-            let key = Object.keys(optionsMessage.optionsToSet)[index];
-            let value = optionsMessage.optionsToSet[key];
-            this.settingsKeys.push(key);
-            this.settingsValues.push(value);
-            logger.info(`Set the ${key} setting to ${value}`);
-        }
-        
-        this.broadcast("newSettings", { keys : this.settingsKeys, values : this.settingsValues });
-        */
+
+        this.roomOptions = optionsMessage.optionToSet; 
         this.broadcast("newSettings", { optionsToSet : optionsMessage.optionsToSet })
         logger.info(`Sent client settings out!`);
     }
@@ -372,7 +362,15 @@ export class MyRoom extends Room<RoomState> {
 
             // Broadcast the "remoteFunctionCall" to all clients except the one the message originated from
             this.broadcast("onRFC", RFCMessage, RFCMessage.target == 0 ? {} : {except : client});
-            logger.info(`*************** A Robbery took place! ${client} is robbing someone ***********`);
+            logger.info(`*************** RFC CALL from ${RFCMessage.entityId} ***********`);
+        });
+
+        this.onMessage("giveResource", (client, RFCMessage) => {
+            if(this.state.networkedEntities.has(`${RFCMessage.entityId}`) === false) return;
+
+            RFCMessage.clientId = client.sessionId;
+
+
         });
 
         // Set the callback for the "setAttribute" message to set an entity or user attribute
@@ -492,9 +490,12 @@ export class MyRoom extends Room<RoomState> {
             this.state.gatherableObjects.set(objectInfo[0], gatherable);
             //logger.silly(`**** Initializing ${gatherable.id} ***`);
             this.broadcast("objectInitialized", { objectID : gatherable.id });
-        } else {
+        } 
+        /*
+        else {
             logger.info(`**** Gatherables already contains ${objectInfo[0]} ****`);
         }
+        */
     }
 
     async handleGatherInteraction(client: Client, objectInfo: any) {

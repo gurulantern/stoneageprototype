@@ -12,7 +12,10 @@ public enum RFCTargets
 public class RFCMessage
 {
     // The target of the RFC
-    public RFCTargets target = RFCTargets.ALL;
+    public RFCTargets target = RFCTargets.OTHERS;
+
+    // Thg ID of the client sending this RFC
+    public string clientId;
 
     // The ID of the entity sending this RFC
     public string entityId;

@@ -332,7 +332,7 @@ public class GameController : MonoBehaviour
 
         if (options.TryGetValue("hideTags", out string tagsBool))
         {
-            _uiController.playerTagRoot.gameObject.SetActive(bool.Parse(tagsBool));
+            _uiController.playerTagRoot.gameObject.SetActive(!bool.Parse(tagsBool));
         }
 
         if (options.TryGetValue($"team{pc.TeamIndex}steal", out string stealBool))

@@ -5,6 +5,8 @@ import { MyRoom } from "../MyRoom";
 const logger = require("../../helpers/logger.js");
 const utilities = require('../../helpers/LSUtilities.js');
 
+let score: number;
+
 //Clock initializer
 let clock = new Clock(true);
 
@@ -158,7 +160,31 @@ customMethods.observe = function (roomRef: MyRoom, client: Client, request: any)
 }
 
 customMethods.create = function (roomRef: MyRoom, client: Client, request: any) {
+    const param = request.param;
+    
+    // 0 = Gatherer ID | 1 = observed object | 2 = teamIndex
+    if(param == null || param.length < 2){
+        throw "Missing observe parameters";
+        return;
+    }
 
+    const creatorID = param[0];
+    const createdType = param[1];
+    const createScore = param[2]
+    const teamIndex = Number(param[3]);
+
+    if (roomRef.teams.get(teamIndex).has(client.id)) {
+        if (createdType == "Tree" || roomRef.aurochs < roomRef.aurochsTotal) {
+            let score: number = -(createScore) * roomRef.createScoreMultiplier;
+        } else {
+            let score: number = createScore * roomRef.createScoreMultiplier;
+        }
+        updateTeamScores(roomRef, creatorID, "observe", score);
+        updateTypeAmount(roomRef, teamIndex, createdType);
+        logger.silly(`${creatorID} scored ${score} observe for team${teamIndex}`);
+    } else {
+        logger.silly(`No client with id of ${client.id} to score.`)
+    }
 }
 //====================================== END Client Request Logic
 
