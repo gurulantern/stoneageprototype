@@ -129,6 +129,11 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
         await _roomController.LeaveAllRooms(true, onLeave);
     }
 
+    public void AddEntityView(string entityId, NetworkedEntityView view)
+    {
+        _roomController.EntityViews.Add(entityId, view);
+    }
+
     /// Checks if ColyseusNetworkedEntityView exists for the given ID
     public bool HasEntityView(string entityId)
     {

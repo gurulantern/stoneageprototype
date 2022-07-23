@@ -123,10 +123,11 @@ public class CharControllerMulti : NetworkedEntityView
         Debug.Log("Initializing view");
 
         //If we're in team death match, we need our team index
-        if (!GameController.Instance.IsCoop)
+        if (!GameController.Instance.IsCoop && IsMine)
         {
             teamNumber = GameController.Instance.GetTeamNumber(teamIndex);
             SetTeam(entity, teamIndex, teamNumber);
+            uiHooks.Initialize();
         }
 
         if (IsMine)
@@ -478,14 +479,16 @@ public class CharControllerMulti : NetworkedEntityView
         if (entityID.Equals(Id))
         {
             int type = PickGoods();
-            bool thisView = ColyseusManager.Instance.HasEntityView(robberID);
+            if (ColyseusManager.Instance.HasEntityView(robberID) == false) {
+                //ColyseusManager.AddEntityView(robberID, )
+            }
             Robbable robbable = ColyseusManager.Instance.GetEntityView(robberID).gameObject.GetComponent<Robbable>();
             robbable.Give(new Robbable.StoneAgeGiveMessage()
-                {
-                    giver = OwnerId,
-                    type = type,
-                    isRFC = robbable.gameObject.CompareTag("Other_Player")
-                });
+            {
+                giver = OwnerId,
+                type = type,
+                isRFC = robbable.gameObject.CompareTag("Other_Player")
+            });
             Debug.Log($"Attempting to give to {robbable}");
         }
     }

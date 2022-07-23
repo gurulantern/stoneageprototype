@@ -18,15 +18,17 @@ public class UIHooks : MonoBehaviour
     
     CharControllerMulti character;
     // Start is called before the first frame update
-    void Awake()
-    {
+
+    public void Initialize() {
         character = this.gameObject.GetComponent<CharControllerMulti>();
         _staminaSlider.value = character.maxStamina;
+
+        character.ChangedResource += UpdateText;
     }
     
     void FixedUpdate()
     {
-        if (character.IsMine) //&& GameController.Instance.gamePlaying)
+        if (character.IsMine && character != null) //&& GameController.Instance.gamePlaying)
         {
             _staminaSlider.value = character.currentStamina;
         }
@@ -38,7 +40,7 @@ public class UIHooks : MonoBehaviour
     }
     void OnEnable() 
     {
-        character.ChangedResource += UpdateText;
+        //character.ChangedResource += UpdateText;
     }
 
     void UpdateText(int icon) 

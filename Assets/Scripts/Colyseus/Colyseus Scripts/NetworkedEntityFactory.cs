@@ -180,13 +180,14 @@ public class NetworkedEntityFactory: MonoBehaviour
         if (entityView && !entityView.HasInit)
         {
             entityView.InitiView(model);
-            Debug.Log("InititView");
+            Debug.Log($"InititView for {entityView.Id}");
         }
 
         if (entityView.IsMine)
+        {
             ColyseusManager.Instance.CurrentNetworkedEntity = model;
-
-        _entityViews.Add(model.id, (NetworkedEntityView)view);
+        }
+        _entityViews.Add(model.id, (NetworkedEntityView)view); 
         Debug.Log(model.id + " registered in entityViews");
         view.SendMessage("OnEntityViewRegistered", SendMessageOptions.DontRequireReceiver);
     }
