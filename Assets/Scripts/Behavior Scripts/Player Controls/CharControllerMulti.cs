@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 using Colyseus;
 using System;
 using System.Collections;
@@ -19,6 +20,7 @@ public class CharControllerMulti : NetworkedEntityView
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private UIHooks uiHooks; 
     [SerializeField] private Robbable robbable;
+    [SerializeField] private GameObject _scareableField;
 
     [SerializeField] private SpriteRenderer[] _gatherIcons;
     [SerializeField] private SpriteRenderer[] _spendIcons;
@@ -26,8 +28,7 @@ public class CharControllerMulti : NetworkedEntityView
     private List<Gatherable> currentGatherables;
     private List<Scorable> currentScorables;
     private Gatherable currentGatherable;
-    private Scorable currentScorable;
-
+    private Scorable currentScorable; 
     private ICollection entities;
     public PlayerStats _playerStats;
     private NetworkedEntity updatedEntity;
@@ -36,7 +37,7 @@ public class CharControllerMulti : NetworkedEntityView
     private int icon;
     private Vector2 moveInput;
     private string tagNear;
-    private bool sleeping, observing, gathering, spending, tired, stealing;
+    private bool sleeping, observing, gathering, spending, tired, stealing, scaring;
     //Iterator variable for debugging Trigger Enter and Exit
     private int i = 0;
     [SerializeField]
@@ -55,6 +56,8 @@ public class CharControllerMulti : NetworkedEntityView
     private Vector2 spawnPosition;
     public event Action<int> ChangedResource;
     
+
+    #region Initializers
     protected override void Awake() {
         base.Awake();
         currentGatherables = new List<Gatherable>();
@@ -99,7 +102,7 @@ public class CharControllerMulti : NetworkedEntityView
         }
     }
 
-    public void InitializeObjectForRemote()
+    public void InitializeObjectForRemote(NetworkedEntity entity)
     {
         //Arrange this prefab to work well as a remote view but disabling certain scripts (rather than have a unique second prefab)
         if (TryGetComponent(out PlayerInput playerInput))
@@ -112,6 +115,9 @@ public class CharControllerMulti : NetworkedEntityView
         }
         _raycastCollider.tag = "Other_Player";
         gameObject.tag = "Other_Player";
+        teamIndex = GameController.Instance.GetTeamIndex(OwnerId);
+        teamNumber = GameController.Instance.GetTeamNumber(teamIndex);
+        SetTeam( entity,teamIndex, teamNumber);
     }
 
     public override void InitiView(NetworkedEntity entity)
@@ -231,10 +237,13 @@ public class CharControllerMulti : NetworkedEntityView
             currentStamina = Mathf.Clamp(currentStamina + rate, 0, maxStamina);
         }
     }
+    #endregion
+
+    #region Inputs
     //function for sleeping
-    private void OnSleep()
+    public void OnSleep(InputAction.CallbackContext context)
     {
-        if(sleeping == false) {
+        if(!sleeping && !gathering && !spending && !observing && context.performed) {
             sleeping = true;
             animator.SetBool("Tired", false);
             animator.SetBool("Awake", false);
@@ -252,10 +261,10 @@ public class CharControllerMulti : NetworkedEntityView
     }
 
     //Sets look direction and set speed for animator
-    private void OnMove(InputValue value) 
+    public void OnMove(InputAction.CallbackContext context) 
     {
-        if (!sleeping && !observing && !gathering && !spending) {
-        moveInput = value.Get<Vector2>();
+        if (!sleeping && !observing && !gathering && !spending && !scaring && !stealing) {
+        moveInput = context.ReadValue<Vector2>();
 
         if(!Mathf.Approximately(moveInput.x, 0.0f) || !Mathf.Approximately(moveInput.y, 0.0f))
         {
@@ -271,10 +280,11 @@ public class CharControllerMulti : NetworkedEntityView
 
     /// Functions for interacting with food objects (Fruit trees, caves, and other players)
     /// Checks if the gatherable has a resource requirement and if the current player has the resource
-    private void OnInteractAction()
+    public void OnInteractAction(InputAction.CallbackContext context)
     {
+        Debug.Log("Gathering");
         RaycastHit2D hit;
-        if (GameController.Instance.gamePlaying) {
+        if (GameController.Instance.gamePlaying && !tired && !sleeping && !spending && !observing && context.performed) {
             Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
             hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
@@ -368,6 +378,7 @@ public class CharControllerMulti : NetworkedEntityView
             }
             gathering = true;
             animator.SetBool("Gather", true);
+            Debug.Log("Gathering with icon " + icon);
             _gatherIcons[icon].gameObject.SetActive(true);
         } else {
             spending = true;
@@ -397,14 +408,14 @@ public class CharControllerMulti : NetworkedEntityView
     }
     
     //Function for right clicking and observing a nearby object
-    public void OnObserve()
+    public void OnObserve(InputAction.CallbackContext context)
     {
         RaycastHit2D hit;
         Debug.Log("there was a right click at " + Mouse.current.position.ReadValue());
         Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
         hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
         tagNear = hit.collider.gameObject.tag;
-        if(tagNear != null && observing == false && gathering == false && sleeping == false && tired == false) {
+        if(tagNear != null && !observing && !gathering && !tired && !stealing && !spending && context.performed) {
             observing = true;
             animator.SetBool("Observe", true);
             GameController.Instance.RegisterObserve(this.Id, hit.collider.gameObject.tag, teamIndex.ToString());
@@ -469,6 +480,22 @@ public class CharControllerMulti : NetworkedEntityView
         Debug.Log($"Fruit = {fruit}, Meat = {meat}, Wood = {wood}, Seeds = {seeds}");
     }
 
+    public void OnScare(InputAction.CallbackContext context)
+    {
+        if (context.performed) {
+            scaring = true;
+            _scareableField.GetComponent<CircleCollider2D>().enabled = true;
+        }
+
+        if (context.canceled) {
+            scaring = false;
+            _scareableField.GetComponent<CircleCollider2D>().enabled = false;
+        } 
+    }
+
+    #endregion 
+
+    #region Remote Function Calls
     public void Robbed(string robberID) 
     {
         ColyseusManager.RFC(this, "RobbedRFC", new object[]{ Id, robberID }, RFCTargets.OTHERS);
@@ -582,4 +609,17 @@ public class CharControllerMulti : NetworkedEntityView
             //Debug.Log($"{currentScorables}");
         }
     }
+
+
+
+    public void Scared(Vector2 scarerPosition)
+    {
+
+    }
+
+    public void ScaredRFC()
+    {
+
+    }
+    #endregion
 }

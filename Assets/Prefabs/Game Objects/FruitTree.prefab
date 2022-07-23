@@ -145,7 +145,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!1 &1378781728212212654
 GameObject:
   m_ObjectHideFlags: 0
@@ -435,7 +435,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!1 &3804546572922490241
 GameObject:
   m_ObjectHideFlags: 0
@@ -519,7 +519,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!1 &3884750933309154202
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,7 +603,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!1 &4130832299715092701
 GameObject:
   m_ObjectHideFlags: 0
@@ -980,7 +980,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!1 &5006787463909819657
 GameObject:
   m_ObjectHideFlags: 0
@@ -1155,7 +1155,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.019338608, y: 0.64402163}
+  m_Offset: {x: -0.019338608, y: 0.5458207}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.1}
@@ -1166,7 +1166,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.82676697, y: 1.2534802}
+  m_Size: {x: 0.82676697, y: 1.0570784}
   m_EdgeRadius: 0
 --- !u!114 &-3432109334408713459
 MonoBehaviour:
@@ -1267,7 +1267,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!1 &6146095497159891031
 GameObject:
   m_ObjectHideFlags: 0
@@ -1435,7 +1435,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!1 &7631077365045172074
 GameObject:
   m_ObjectHideFlags: 0

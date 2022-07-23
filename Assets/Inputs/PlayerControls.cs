@@ -64,6 +64,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Scare"",
+                    ""type"": ""Button"",
+                    ""id"": ""e6aa7d19-0319-49ee-b9e7-572f849be89b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold"",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Create"",
                     ""type"": ""Button"",
                     ""id"": ""e2b23358-295d-42d8-a36c-3da8de285dc8"",
@@ -87,7 +96,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""7547b342-09fe-4758-8fc2-4b23b12fabec"",
                     ""path"": ""<Keyboard>/f"",
-                    ""interactions"": """",
+                    ""interactions"": ""Tap"",
                     ""processors"": """",
                     ""groups"": ""Desktop Control Scheme"",
                     ""action"": ""Sleep"",
@@ -247,6 +256,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""678076b5-a112-496f-9e5a-87af2fc69d9e"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scare"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -324,6 +344,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Player_Sleep = m_Player.FindAction("Sleep", throwIfNotFound: true);
         m_Player_InteractAction = m_Player.FindAction("Interact Action", throwIfNotFound: true);
         m_Player_Observe = m_Player.FindAction("Observe", throwIfNotFound: true);
+        m_Player_Scare = m_Player.FindAction("Scare", throwIfNotFound: true);
         m_Player_Create = m_Player.FindAction("Create", throwIfNotFound: true);
         m_Player_Zoom = m_Player.FindAction("Zoom ", throwIfNotFound: true);
         // Admin
@@ -393,6 +414,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Sleep;
     private readonly InputAction m_Player_InteractAction;
     private readonly InputAction m_Player_Observe;
+    private readonly InputAction m_Player_Scare;
     private readonly InputAction m_Player_Create;
     private readonly InputAction m_Player_Zoom;
     public struct PlayerActions
@@ -403,6 +425,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Sleep => m_Wrapper.m_Player_Sleep;
         public InputAction @InteractAction => m_Wrapper.m_Player_InteractAction;
         public InputAction @Observe => m_Wrapper.m_Player_Observe;
+        public InputAction @Scare => m_Wrapper.m_Player_Scare;
         public InputAction @Create => m_Wrapper.m_Player_Create;
         public InputAction @Zoom => m_Wrapper.m_Player_Zoom;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -426,6 +449,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Observe.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnObserve;
                 @Observe.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnObserve;
                 @Observe.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnObserve;
+                @Scare.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScare;
+                @Scare.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScare;
+                @Scare.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScare;
                 @Create.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCreate;
                 @Create.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCreate;
                 @Create.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCreate;
@@ -448,6 +474,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Observe.started += instance.OnObserve;
                 @Observe.performed += instance.OnObserve;
                 @Observe.canceled += instance.OnObserve;
+                @Scare.started += instance.OnScare;
+                @Scare.performed += instance.OnScare;
+                @Scare.canceled += instance.OnScare;
                 @Create.started += instance.OnCreate;
                 @Create.performed += instance.OnCreate;
                 @Create.canceled += instance.OnCreate;
@@ -514,6 +543,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnSleep(InputAction.CallbackContext context);
         void OnInteractAction(InputAction.CallbackContext context);
         void OnObserve(InputAction.CallbackContext context);
+        void OnScare(InputAction.CallbackContext context);
         void OnCreate(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
     }

@@ -6,5 +6,4 @@ public class Scareable : MonoBehaviour
 {
     public string remoteEntityID = string.Empty;
 
-    
 }

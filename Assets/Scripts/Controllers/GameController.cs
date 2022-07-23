@@ -16,7 +16,7 @@ public class GameController : MonoBehaviour
 {
     public StoneColyseusNetworkedEntityView prefab;
     public bool create, steal, scare, alliances;
-    public delegate void OnViewAdded(StoneColyseusNetworkedEntityView view);
+    public delegate void OnViewAdded(StoneColyseusNetworkedEntityView view, NetworkedEntity entity);
     public static event OnViewAdded onViewAdded;
     public delegate void OnViewRemoved(StoneColyseusNetworkedEntityView view);
     public static event OnViewRemoved onViewRemoved;
@@ -162,7 +162,7 @@ public class GameController : MonoBehaviour
 
         LSLog.LogImportant($"Game Manager - New View Created!");
 
-        onViewAdded?.Invoke(newView);
+        onViewAdded?.Invoke(newView, entity);
     }
 
     private void RemoveView(StoneColyseusNetworkedEntityView view)
@@ -561,13 +561,13 @@ public class GameController : MonoBehaviour
         ///ColyseusManager.Instance.OnEditorQuit();    
     }
 
-    private void OnPlayerCreated(StoneColyseusNetworkedEntityView newView)
+    private void OnPlayerCreated(StoneColyseusNetworkedEntityView newView, NetworkedEntity entity)
     {
         if (newView.TryGetComponent(out CharControllerMulti player))
         {
             if (!player.IsMine)
             {
-                player.InitializeObjectForRemote();
+                player.InitializeObjectForRemote(entity);
             }
         }
     }

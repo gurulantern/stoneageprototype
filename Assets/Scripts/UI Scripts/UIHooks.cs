@@ -36,7 +36,10 @@ public class UIHooks : MonoBehaviour
 
     void OnDestroy() 
     {
-        character.ChangedResource -= UpdateText;
+        if(character != null)
+        {
+            character.ChangedResource -= UpdateText;
+        }
     }
     void OnEnable() 
     {

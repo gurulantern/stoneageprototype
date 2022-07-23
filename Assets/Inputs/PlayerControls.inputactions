@@ -42,6 +42,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Scare",
+                    "type": "Button",
+                    "id": "e6aa7d19-0319-49ee-b9e7-572f849be89b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Create",
                     "type": "Button",
                     "id": "e2b23358-295d-42d8-a36c-3da8de285dc8",
@@ -65,7 +74,7 @@
                     "name": "",
                     "id": "7547b342-09fe-4758-8fc2-4b23b12fabec",
                     "path": "<Keyboard>/f",
-                    "interactions": "",
+                    "interactions": "Tap",
                     "processors": "",
                     "groups": "Desktop Control Scheme",
                     "action": "Sleep",
@@ -225,6 +234,17 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "678076b5-a112-496f-9e5a-87af2fc69d9e",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Scare",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

@@ -37,7 +37,7 @@ public class Tree : Gatherable
     public virtual void Harvest()
     {
         UpdateStateForView();
-        if (prevHarvestTrigger == 1) {
+        if (prevHarvestTrigger == 2) {
             this.gameObject.GetComponent<BoxCollider2D>().offset = colliderOffset;
             this.gameObject.GetComponent<BoxCollider2D>().size = colliderSize;
         }
