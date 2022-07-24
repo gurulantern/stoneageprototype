@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using LucidSightTools;
+using UnityEngine.AI;
 
 public class CharControllerMulti : NetworkedEntityView
 {
@@ -20,10 +21,11 @@ public class CharControllerMulti : NetworkedEntityView
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private UIHooks uiHooks; 
     [SerializeField] private Robbable robbable;
-    [SerializeField] private GameObject _scareableField;
-
+    [SerializeField] private ScareableTrigger scareableTrigger;
     [SerializeField] private SpriteRenderer[] _gatherIcons;
     [SerializeField] private SpriteRenderer[] _spendIcons;
+    [SerializeField] private Vector3 destination;
+    [SerializeField] private NavMeshAgent agent;
 
     private List<Gatherable> currentGatherables;
     private List<Scorable> currentScorables;
@@ -32,12 +34,12 @@ public class CharControllerMulti : NetworkedEntityView
     private ICollection entities;
     public PlayerStats _playerStats;
     private NetworkedEntity updatedEntity;
-    public float maxStamina, currentStamina, speed, tiredSpeed, tireLimit, tireRate, restoreRate;
+    public float maxStamina, currentStamina, speed, tiredSpeed, tireLimit, tireRate, restoreRate, scareDuration;
     public int fruit, meat, wood, seeds, fish;
     private int icon;
     private Vector2 moveInput;
     private string tagNear;
-    private bool sleeping, observing, gathering, spending, tired, stealing, scaring;
+    private bool sleeping, gathering, spending, tired, stealing, scaring, scared;
     //Iterator variable for debugging Trigger Enter and Exit
     private int i = 0;
     [SerializeField]
@@ -71,6 +73,9 @@ public class CharControllerMulti : NetworkedEntityView
         tireLimit = _playerStats.TireLimit;
         tireRate = _playerStats.TireRate;
         restoreRate = _playerStats.RestoreRate;
+        agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
     }
 
     private void OnEnable() 
@@ -124,6 +129,7 @@ public class CharControllerMulti : NetworkedEntityView
     {
         base.InitiView(entity);
         robbable.remoteEntityID = entity.id;
+        scareableTrigger.entityID = entity.id;
         onPlayerActivated?.Invoke(this);
         teamIndex = GameController.Instance.GetTeamIndex(OwnerId);
         Debug.Log("Initializing view");
@@ -206,23 +212,31 @@ public class CharControllerMulti : NetworkedEntityView
     {
         if (IsMine)// && GameController.Instance.gamePlaying)
         {
-            if (currentStamina == maxStamina && sleeping == true) {
+            if (currentStamina == maxStamina && sleeping) {
                 //When stamina is full after sleeping call Wake
                 Wake();
-            } else if (sleeping == true) {
-                //When sleep is true and stamina is not full, restore stamina
+            } else if (scared) {
+                if (currentStamina <= tireLimit) {
+                    animator.SetBool("Tired", true);
+                }
+                if (scareDuration > 0) {
+                    agent.SetDestination(destination);
+                    scareDuration -= Time.fixedDeltaTime;
+                } else {
+                    agent.enabled = false;
+                    _playerControls.Enable();
+                    scared = false;
+                }
+            } else if(!sleeping) {
+                ChangeStamina(-tireRate);
+                if (currentStamina <= tireLimit) {
+                    animator.SetBool("Tired", true);
+                    rb.MovePosition(rb.position + moveInput * tiredSpeed * Time.fixedDeltaTime);
+                } else {
+                    rb.MovePosition(rb.position + moveInput * speed * Time.fixedDeltaTime);
+                }
+            } else if (sleeping) {
                 ChangeStamina(restoreRate);
-            } else if (animator.GetBool("Observe") || animator.GetBool("Gather")) {    
-                ChangeStamina(-tireRate);
-            } else if (sleeping == false && currentStamina <= tireLimit) {
-                //When Awake and stamina is under tire limit, enter tired animation and slow down
-                animator.SetBool("Tired", true);
-                ChangeStamina(-tireRate);
-                rb.MovePosition(rb.position + moveInput * tiredSpeed * Time.fixedDeltaTime);
-            } else if (sleeping == false) {
-                //If sleep is false, decrease stamina and move at base speed
-                ChangeStamina(-tireRate);
-                rb.MovePosition(rb.position + moveInput * speed * Time.fixedDeltaTime);
             }
         } else {
             _playerControls.Disable();
@@ -243,7 +257,7 @@ public class CharControllerMulti : NetworkedEntityView
     //function for sleeping
     public void OnSleep(InputAction.CallbackContext context)
     {
-        if(!sleeping && !gathering && !spending && !observing && context.performed) {
+        if(!sleeping && context.performed) {
             sleeping = true;
             animator.SetBool("Tired", false);
             animator.SetBool("Awake", false);
@@ -257,24 +271,23 @@ public class CharControllerMulti : NetworkedEntityView
         animator.SetBool("Tired", false);
         animator.SetBool("Awake", true);
         sleeping = false;
-
     }
 
     //Sets look direction and set speed for animator
     public void OnMove(InputAction.CallbackContext context) 
     {
-        if (!sleeping && !observing && !gathering && !spending && !scaring && !stealing) {
-        moveInput = context.ReadValue<Vector2>();
+        if (!sleeping && !scaring && !scared) {
+            moveInput = context.ReadValue<Vector2>();
 
-        if(!Mathf.Approximately(moveInput.x, 0.0f) || !Mathf.Approximately(moveInput.y, 0.0f))
-        {
-            lookDirection.Set(moveInput.x, moveInput.y);
-            lookDirection.Normalize();
-        }
+            if(!Mathf.Approximately(moveInput.x, 0.0f) || !Mathf.Approximately(moveInput.y, 0.0f))
+            {
+                lookDirection.Set(moveInput.x, moveInput.y);
+                lookDirection.Normalize();
+            }
 
-        animator.SetFloat("Look X", lookDirection.x);
-        animator.SetFloat("Look Y", lookDirection.y);
-        animator.SetFloat("Speed", moveInput.magnitude);
+            animator.SetFloat("Look X", lookDirection.x);
+            animator.SetFloat("Look Y", lookDirection.y);
+            animator.SetFloat("Speed", moveInput.magnitude);
         }
     }
 
@@ -282,9 +295,8 @@ public class CharControllerMulti : NetworkedEntityView
     /// Checks if the gatherable has a resource requirement and if the current player has the resource
     public void OnInteractAction(InputAction.CallbackContext context)
     {
-        Debug.Log("Gathering");
         RaycastHit2D hit;
-        if (GameController.Instance.gamePlaying && !tired && !sleeping && !spending && !observing && context.performed) {
+        if (GameController.Instance.gamePlaying && !tired && !sleeping && context.performed) {
             Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
             hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
@@ -356,6 +368,7 @@ public class CharControllerMulti : NetworkedEntityView
     public void StartGather(bool gatherOrSpend)
     {
         if (gatherOrSpend) {
+            _playerControls.Disable();
             if (!stealing) {
                 switch(currentGatherable.gameObject.tag) {
                         case "Fruit_Tree":
@@ -381,6 +394,7 @@ public class CharControllerMulti : NetworkedEntityView
             Debug.Log("Gathering with icon " + icon);
             _gatherIcons[icon].gameObject.SetActive(true);
         } else {
+            _playerControls.Disable();
             spending = true;
             animator.SetBool("Gather", true);
             _spendIcons[icon].gameObject.SetActive(true);
@@ -392,6 +406,7 @@ public class CharControllerMulti : NetworkedEntityView
     public void StopGather() {
         //Triggers at the end of the gather animation
         if (gathering) {
+            _playerControls.Enable();
             Debug.Log("Gathering is finished");
             _gatherIcons[icon].gameObject.SetActive(false);
             AddResource(icon);
@@ -400,6 +415,7 @@ public class CharControllerMulti : NetworkedEntityView
             stealing = false;
         } else if (spending) {
             Debug.Log("Spending is finished");
+            _playerControls.Enable();
             _spendIcons[icon].gameObject.SetActive(false);
             SubtractResource(icon);
             animator.SetBool("Gather", false);
@@ -415,8 +431,8 @@ public class CharControllerMulti : NetworkedEntityView
         Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
         hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
         tagNear = hit.collider.gameObject.tag;
-        if(tagNear != null && !observing && !gathering && !tired && !stealing && !spending && context.performed) {
-            observing = true;
+        if(tagNear != null && !sleeping && !tired && context.performed) {
+            _playerControls.Disable();
             animator.SetBool("Observe", true);
             GameController.Instance.RegisterObserve(this.Id, hit.collider.gameObject.tag, teamIndex.ToString());
             Debug.Log($"Player observes {hit.collider.gameObject.tag}");
@@ -427,7 +443,7 @@ public class CharControllerMulti : NetworkedEntityView
     public void StopObserve()
     {
         animator.SetBool("Observe", false);
-        observing = false;
+        _playerControls.Enable();
     }
 
     public void AddResource(int icon)
@@ -482,14 +498,17 @@ public class CharControllerMulti : NetworkedEntityView
 
     public void OnScare(InputAction.CallbackContext context)
     {
-        if (context.performed) {
+        if (context.started & !sleeping && !tired) {
             scaring = true;
-            _scareableField.GetComponent<CircleCollider2D>().enabled = true;
+            ChangeStamina(-5);
+            animator.SetBool("Scare", true);
+            scareableTrigger.gameObject.GetComponent<CircleCollider2D>().enabled = true;
         }
 
         if (context.canceled) {
             scaring = false;
-            _scareableField.GetComponent<CircleCollider2D>().enabled = false;
+            animator.SetBool("Scare", false);
+            scareableTrigger.gameObject.GetComponent<CircleCollider2D>().enabled = false;
         } 
     }
 
@@ -506,9 +525,6 @@ public class CharControllerMulti : NetworkedEntityView
         if (entityID.Equals(Id))
         {
             int type = PickGoods();
-            if (ColyseusManager.Instance.HasEntityView(robberID) == false) {
-                //ColyseusManager.AddEntityView(robberID, )
-            }
             Robbable robbable = ColyseusManager.Instance.GetEntityView(robberID).gameObject.GetComponent<Robbable>();
             robbable.Give(new Robbable.StoneAgeGiveMessage()
             {
@@ -611,15 +627,25 @@ public class CharControllerMulti : NetworkedEntityView
     }
 
 
-
-    public void Scared(Vector2 scarerPosition)
+    public void Scared(string scarerID)
     {
-
+        ColyseusManager.RFC(this, "ScaredRFC", new object[]{ Id, scarerID }, RFCTargets.OTHERS);
     }
 
-    public void ScaredRFC()
+    public void ScaredRFC(string entityID, string scarerID)
     {
-
+        if (entityID.Equals(Id) && !sleeping)
+        {
+            Debug.Log(entityID + " is scared");
+            scareDuration = 5f;
+            _playerControls.Disable();
+            Vector2 scarerPos = ColyseusManager.Instance.GetEntityView(scarerID).gameObject.transform.position;
+            Vector2 myPos = this.gameObject.transform.position;
+            agent.enabled = true;
+            agent.Warp(myPos);
+            destination = Vector2.LerpUnclamped(scarerPos, myPos, 8f); 
+            scared = true;
+        }
     }
     #endregion
 }

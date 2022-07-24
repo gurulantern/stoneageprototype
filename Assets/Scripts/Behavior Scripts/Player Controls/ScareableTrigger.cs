@@ -4,25 +4,20 @@ using UnityEngine;
 
 public class ScareableTrigger : MonoBehaviour
 {
-    public Vector2 scarerPosition;
-    // Start is called before the first frame update
-    void OnTriggerEnter2D(Collider2D other)
+    public string entityID = string.Empty;
+
+    void OnTriggerStay2D(Collider2D other)
     {
-        CharControllerMulti entity = other.GetComponent<CharControllerMulti>();
-        //scarerPosition = this.gameObject.GetComponentInParent<CharControllerMulti>().gameObject.position;
-        if (entity != null)
+        if (other != null && other.gameObject.CompareTag("Other_Player"))
         {
-            //entity.Scared(scarerPosition);
+            CharControllerMulti entity = other.GetComponentInParent<CharControllerMulti>();
+            Debug.Log("Trying to scare " + entity);
+            //scarerPosition = this.gameObject.GetComponentInParent<CharControllerMulti>().gameObject.position;
+            if (entity != null && !GameController.Instance.AreUsersSameTeam(entity, this.gameObject.GetComponentInParent<CharControllerMulti>()))
+            {
+                Debug.Log("Scaring " + entity);
+                entity.Scared(entityID);
+            }
         }
     }
-    /*
-    void OnTriggerExit2D(Collider2D other)
-    {
-        CharControllerMulti entity = other.GetComponent<CharControllerMulti>();
-        if (entity != null)
-        {
-            owner.PlayerLeftRange(entity);
-        }
-    }
-    */
 }
