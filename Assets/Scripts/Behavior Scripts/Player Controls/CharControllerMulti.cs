@@ -206,6 +206,8 @@ public class CharControllerMulti : NetworkedEntityView
         animator.SetBool("Awake", proxyStates[0].wake);
         animator.SetBool("Observe", proxyStates[0].observe);
         animator.SetBool("Gather", proxyStates[0].gather);
+        animator.SetBool("Scare", proxyStates[0].scare);
+        animator.SetBool("Afraid", proxyStates[0].afraid);
     }
 
     void FixedUpdate()
@@ -216,14 +218,12 @@ public class CharControllerMulti : NetworkedEntityView
                 //When stamina is full after sleeping call Wake
                 Wake();
             } else if (scared) {
-                if (currentStamina <= tireLimit) {
-                    animator.SetBool("Tired", true);
-                }
                 if (scareDuration > 0) {
                     agent.SetDestination(destination);
                     scareDuration -= Time.fixedDeltaTime;
                 } else {
                     agent.enabled = false;
+                    animator.SetBool("Afraid", false);
                     _playerControls.Enable();
                     scared = false;
                 }
@@ -643,8 +643,10 @@ public class CharControllerMulti : NetworkedEntityView
             Vector2 myPos = this.gameObject.transform.position;
             agent.enabled = true;
             agent.Warp(myPos);
-            destination = Vector2.LerpUnclamped(scarerPos, myPos, 8f); 
+            destination = Vector2.LerpUnclamped(scarerPos, myPos, 8f);
+            animator.SetFloat("LookX", (myPos.x - destination.x)); 
             scared = true;
+            animator.SetBool("Afraid", true);
         }
     }
     #endregion

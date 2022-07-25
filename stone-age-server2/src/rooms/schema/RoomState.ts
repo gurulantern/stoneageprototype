@@ -17,6 +17,8 @@ export class NetworkedEntity extends Schema {
   @type("boolean") wake: boolean = true;
   @type("boolean") observe: boolean = false;
   @type("boolean") gather: boolean = false;
+  @type("boolean") scare: boolean = false;
+  @type("boolean") afraid: boolean = false;
   @type("number") fruit: number = 0;
   @type("number") meat: number = 0;
   @type("number") wood: number = 0;

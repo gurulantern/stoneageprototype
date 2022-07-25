@@ -86,6 +86,8 @@ public class NetworkedEntityView : StoneColyseusNetworkedEntityView
         public bool wake;
         public bool observe;
         public bool gather;
+        public bool scare;
+        public bool afraid;
         public int fruit;
         public int meat;
         public int wood;
@@ -202,6 +204,8 @@ public class NetworkedEntityView : StoneColyseusNetworkedEntityView
         bool wake = (bool)state.wake;
         bool observe = (bool)state.observe;
         bool gather = (bool)state.gather;
+        bool scare = (bool)state.scare;
+        bool afraid = (bool)state.afraid;
         int fruit = (int)state.fruit;
         int meat = (int)state.meat;
         int wood = (int)state.wood;
@@ -246,6 +250,8 @@ public class NetworkedEntityView : StoneColyseusNetworkedEntityView
         newState.wake = wake;
         newState.observe = observe;
         newState.gather = gather;
+        newState.scare = scare;
+        newState.afraid = afraid;
         newState.fruit = fruit;
         newState.meat = meat;
         newState.wood = wood;
@@ -293,6 +299,8 @@ public class NetworkedEntityView : StoneColyseusNetworkedEntityView
         state.wake = animator.GetBool("Awake");
         state.observe = animator.GetBool("Observe");
         state.gather = animator.GetBool("Gather");
+        state.scare = animator.GetBool("Scare");
+        state.afraid = animator.GetBool("Afraid");
 
 
         ////No need to update again if last sent state == current view modified state
