@@ -488,14 +488,11 @@ export class MyRoom extends Room<RoomState> {
               id: objectInfo[0],
             });
             this.state.gatherableObjects.set(objectInfo[0], gatherable);
-            //logger.silly(`**** Initializing ${gatherable.id} ***`);
+            logger.silly(`**** Initializing ${gatherable.id} ***`);
             this.broadcast("objectInitialized", { objectID : gatherable.id });
-        } 
-        /*
-        else {
+        } else {
             logger.info(`**** Gatherables already contains ${objectInfo[0]} ****`);
         }
-        */
     }
 
     async handleGatherInteraction(client: Client, objectInfo: any) {

@@ -34,7 +34,15 @@ public abstract class Gatherable : Interactable
     protected string clickedTag;
 
 
-        /// <summary>
+    private void Start()
+    {
+        if (ColyseusManager.Instance.IsInRoom) 
+        {
+            InitializeSelf();
+        }
+    }
+
+    /// <summary>
     /// Hand off the <see cref="GatherableState"/> from the server
     /// </summary>
     /// <param name="state"></param>
@@ -91,6 +99,25 @@ public abstract class Gatherable : Interactable
     {
         //Tell the server that this entity is attempting to use this interactable
         ColyseusManager.Instance.SendObjectGather(this, entity);
+    }
+
+    public void InitializeSelf()
+    {
+        switch(this.gameObject.tag) {
+            case "Fruit_Tree":
+                this.SetID(EnvironmentController.Instance.fruitTreeCount += 1);
+                break;
+            case "Fruit":
+                this.SetID(EnvironmentController.Instance.fruitCount += 1);
+                break;
+            case "Tree":
+                this.SetID(EnvironmentController.Instance.treeCount += 1);
+                break;
+            case "Aurochs":
+                this.SetID(EnvironmentController.Instance.aurochsCount += 1);
+                break;
+        }
+        ColyseusManager.Instance.SendObjectInit(this);
     }
 
     public override void OnSuccessfulUse(CharControllerMulti entity, string type)

@@ -40,8 +40,6 @@ public class GameController : MonoBehaviour
     [SerializeField] 
     private List<StoneAgeTeam> teams = new List<StoneAgeTeam>();
     public  Cave[] homeCaves;
-    public SpawnPoint[] aurochsSpawnPoints;
-    public SpawnPoint[] deadAurochsSpawnPounts;
     [SerializeField] private Color[] teamColors;
     private  string[] scoreTypes = new string[] {"gather", "observe", "create", "total"};
 
@@ -175,7 +173,6 @@ public class GameController : MonoBehaviour
         {
             _uiController.timer.DecrementTime((roundTimeLimit - elapsedTime) / roundTimeLimit);
         }
-        //Surface2D.UpdateNavMesh(Surface2D.navMeshData); 
     }
 
     public void BeginGame()

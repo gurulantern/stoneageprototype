@@ -415,6 +415,11 @@ using UnityEngine.SceneManagement;
             onTeamReceive?.Invoke(msg.teamIndex, msg.clients);
         });
 
+        _room.OnMessage<AurochsMessage>("spawnAurochs", msg =>
+        {
+            LSLog.Log("Spawning an Aurochs");
+            AurochsController.Instance.SpawnAurochs(msg.alive, msg.spawnPoint);
+        });
         //========================
         _room.State.networkedEntities.OnAdd += OnEntityAdd;
         _room.State.networkedEntities.OnRemove += OnEntityRemoved;

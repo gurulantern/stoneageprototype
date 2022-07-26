@@ -25,11 +25,12 @@ public class Aurochs : Gatherable
             return localPositionDelta;
         }
     }
-    protected Vector3 localPositionDelta;
+    private Vector3 localPositionDelta;
 
     /// The position of this transform in the previous frame
-    protected Vector3 prevLocalPosition;
+    private Vector3 prevLocalPosition;
 
+    private Vector3 finalDestination;
     /// Synchronized object state
     [System.Serializable]
     protected struct AurochsState
@@ -37,13 +38,14 @@ public class Aurochs : Gatherable
         public double timestamp;
         public Vector2 pos;
         public Vector2 vel;
-        public int food;
         public Colyseus.Schema.MapSchema<string> attributes;
     }
     [SerializeField] private bool alive;
     [SerializeField] Transform target;
-    [SerializeField] int startSpawn;
     [SerializeField] private NavMeshAgent agent;
+    Vector2 lookDirection = new Vector2(1,0);
+    private Animator animator;
+
 
     private void Awake()
     {
@@ -56,11 +58,13 @@ public class Aurochs : Gatherable
             type = "Dead_Aurochs";
         }
         */
+        animator = gameObject.GetComponent<Animator>();
+        myTransform = transform;
     }
 
     void Start()
     {
-        target = GameController.Instance.aurochsSpawnPoints[startSpawn + 1].transform;
+        target = AurochsController.Instance.aurochsSpawnPoints[AurochsController.Instance.currentSpawn + 1].transform;
         if (alive) {
             agent = GetComponent<NavMeshAgent>();
             agent.updateRotation = false;
@@ -69,23 +73,25 @@ public class Aurochs : Gatherable
         }
     }
 
-    void FixedUpdate()
-    {
-        /*
-        if(!Mathf.Approximately(localPositionDelta.x, 0.0f) || !Mathf.Approximately(localPositionDelta.y, 0.0f))
-        {
-            lookDirection.Set(localPositionDelta.x, localPositionDelta.y);
-            lookDirection.Normalize();
-        }
-
-        animator.SetFloat("Look X", lookDirection.x);
-        animator.SetFloat("Look Y", lookDirection.y);
-        animator.SetFloat("Speed", localPositionDelta.magnitude * 100);
-        */
-    }
     private void Update() {
         if(alive) {
+            localPositionDelta = myTransform.localPosition - prevLocalPosition;
+            prevLocalPosition = myTransform.localPosition;
+
+            if(!Mathf.Approximately(localPositionDelta.x, 0.0f))
+            {
+                lookDirection.Set(localPositionDelta.x, 0);
+                lookDirection.Normalize();
+            }
+
+            animator.SetFloat("Look X", lookDirection.x);
+            animator.SetFloat("Speed", localPositionDelta.magnitude * 100);
             agent.SetDestination(target.position);
+
+            if (myTransform.localPosition == finalDestination)
+            {
+                Destroy(this.gameObject);
+            }
         }
     }
 
@@ -95,6 +101,23 @@ public class Aurochs : Gatherable
         if (currHarvestTrigger == 0) {
             Destroy(this.gameObject);
         }
+    }
+
+    public void ResumeJourney()
+    {
+        
+    }
+
+    public void AvoidPlayer()
+    {
+
+    }
+
+
+
+    public void Pause()
+    {
+
     }
 
 

@@ -20,7 +20,7 @@ public class EnvironmentController : MonoBehaviour
             return instance;
         }
     }
-    private int fruitCount = -1, treeCount = -1, fruitTreeCount = -1, aurochsCount = -1;
+    public int fruitCount = -1, treeCount = -1, fruitTreeCount = -1, aurochsCount = -1;
 
     [SerializeField]
     private Scorable[] scorables;

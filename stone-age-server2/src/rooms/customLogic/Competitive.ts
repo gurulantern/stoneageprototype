@@ -6,6 +6,8 @@ const logger = require("../../helpers/logger.js");
 const utilities = require('../../helpers/LSUtilities.js');
 
 let score: number;
+let spawnInterval: number;
+let spawnTime: number;
 
 //Clock initializer
 let clock = new Clock(true);
@@ -576,6 +578,10 @@ let beginRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
             // Update count down message attribute
             setRoomAttribute(roomRef, BeginRoundCountDown, `${Math.ceil(roomRef.currCountDown).toString()}`);
 
+            // Added 1 to the aurochsTotal to make the division spawn an extra otherwise it would spawn right at the end of the game.
+            spawnInterval = (roomRef.gatherTime / (roomRef.aurochsTotal + 1)) * 1000;
+            spawnTime = spawnInterval;
+
             // Update Count Down value
             if(roomRef.currCountDown >= 0){
                 roomRef.currCountDown -= deltaTime;
@@ -618,6 +624,25 @@ let simulateRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
     }
 
     setRoomAttribute(roomRef, ElapsedTime, String(clock.elapsedTime));
+
+    /// Random Aurochs Spawner at certain intervals
+    if(clock.elapsedTime >= (spawnTime))
+    {
+        let spawnPoint: number;
+        let  doaBool: boolean;
+        let doa: number = Math.floor(Math.random() * 2);
+        if (doa === 0) {
+            doaBool = true;
+            spawnPoint = Math.floor(Math.random() * 9);
+        } else {
+            doaBool = false;
+            spawnPoint = Math.floor(Math.random() * 5);
+        }
+        roomRef.broadcast("spawnAurochs", { alive: doaBool, spawnPoint: spawnPoint });
+        spawnTime += spawnInterval;
+        logger.info(`Elapse time: ${clock.elapsedTime} and Spawn Time: ${spawnTime}`);
+        logger.info(`Spawning an aurochs that is alive:${doa} and at spawn point:${spawnPoint}`);
+    }
 
     if(clock.elapsedTime >= (roomRef.gatherTime * 1000))
     {
