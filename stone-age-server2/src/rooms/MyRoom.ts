@@ -354,6 +354,10 @@ export class MyRoom extends Room<RoomState> {
             this.handleGatherInteraction(client, objectInfoArray);
         });
 
+        this.onMessage("animalInteraction", (client, objectInfoArray) => {
+            this.handleAnimalInteraction(client, objectInfoArray);
+        });
+
         this.onMessage("scoreChange", (client, objectInfoArray) => {
             this.handleScoreInteraction(client, objectInfoArray);
         });
@@ -494,7 +498,7 @@ export class MyRoom extends Room<RoomState> {
             });
             this.state.gatherableObjects.set(objectInfo[0], gatherable);
             logger.silly(`**** Initializing ${gatherable.id} ***`);
-            this.broadcast("objectInitialized", { objectID : gatherable.id });
+            //this.broadcast("objectInitialized", { objectID : gatherable.id });
         } else {
             logger.info(`**** Gatherables already contains ${objectInfo[0]} ****`);
         }
@@ -516,6 +520,17 @@ export class MyRoom extends Room<RoomState> {
             this.broadcast("objectGathered", { gatheredObjectID: gatherableObject.id, gatheringStateID: gatheringState.id, 
                 gatheredObjectType : gatherableObject.gatherableType});
         }
+    }
+
+    async handleAnimalInteraction(client: Client, animalInfo: any) {
+        let animal = this.state.gatherableObjects.get(animalInfo[0]);
+
+        if (animal != null) {
+            animal.xPos = animalInfo[1];
+            animal.yPos = animalInfo[2];
+        }
+
+        //this.broadcast("animalInteracted", { animalID: animal.id, destinationX: animal.xPos, destinationY: animal.yPos });
     }
 
     async handleScoreInteraction(client: Client, objectInfo: any) {

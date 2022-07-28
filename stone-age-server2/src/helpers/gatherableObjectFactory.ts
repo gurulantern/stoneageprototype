@@ -37,7 +37,9 @@ export function getStateForType(type: string) : GatherableState {
         {
             state.assign({
                 gatherableType : type,
-                harvestTrigger : 1
+                harvestTrigger : 1,
+                xPos : 0.0,
+                yPos : 0.0
             });
             break;
         }
