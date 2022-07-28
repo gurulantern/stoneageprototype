@@ -33,6 +33,8 @@ public class GameOptions : MonoBehaviour
     private Toggle _alliances;
     [SerializeField]
     private Toggle _hideTags;
+    [SerializeField]
+    private Toggle _deadAurochs;
 
     [SerializeField]
     private Toggle _toggle;
@@ -69,13 +71,13 @@ public class GameOptions : MonoBehaviour
         options.Add("createMulti", CreateMultiplier);
         options.Add("aurochs", AurochsInput);
         options.Add("night", Night);
+        options.Add("deadAurochs", DeadAurochs);
 
         options.Add("observeReq", ObserveReqInput);
         options.Add("tireRate", TireRate);
         options.Add("restRate", RestRate);
         options.Add("alliances", Alliances);
         options.Add("hideTags", Tags);
-
         
         for (int i = 0; i < teamObjects.Count; i ++)
         {
@@ -251,6 +253,14 @@ public class GameOptions : MonoBehaviour
         }
     }
 
+    public string DeadAurochs
+    {
+        get
+        {
+            return _deadAurochs.isOn.ToString();
+        }
+    }
+
     public string Night
     {
         get
@@ -271,4 +281,6 @@ public class GameOptions : MonoBehaviour
             return _toggle.isOn.ToString();
         }
     }
+
+
 }

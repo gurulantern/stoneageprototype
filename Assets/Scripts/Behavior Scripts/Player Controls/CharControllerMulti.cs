@@ -39,7 +39,7 @@ public class CharControllerMulti : NetworkedEntityView
     private int icon;
     private Vector2 moveInput;
     private string tagNear;
-    private bool sleeping, gathering, spending, tired, stealing, scaring, scared;
+    private bool sleeping, gathering, spending, observing, tired, stealing, scaring, scared;
     //Iterator variable for debugging Trigger Enter and Exit
     private int i = 0;
     [SerializeField]
@@ -218,6 +218,7 @@ public class CharControllerMulti : NetworkedEntityView
                 //When stamina is full after sleeping call Wake
                 Wake();
             } else if (scared) {
+                ChangeStamina(-tireRate);
                 if (scareDuration > 0) {
                     agent.SetDestination(destination);
                     scareDuration -= Time.fixedDeltaTime;
@@ -227,7 +228,7 @@ public class CharControllerMulti : NetworkedEntityView
                     _playerControls.Enable();
                     scared = false;
                 }
-            } else if(!sleeping) {
+            } else if(!sleeping && !scaring && !gathering && !spending && !observing) {
                 ChangeStamina(-tireRate);
                 if (currentStamina <= tireLimit) {
                     animator.SetBool("Tired", true);
@@ -276,19 +277,17 @@ public class CharControllerMulti : NetworkedEntityView
     //Sets look direction and set speed for animator
     public void OnMove(InputAction.CallbackContext context) 
     {
-        if (!sleeping && !scaring && !scared) {
-            moveInput = context.ReadValue<Vector2>();
+        moveInput = context.ReadValue<Vector2>();
 
-            if(!Mathf.Approximately(moveInput.x, 0.0f) || !Mathf.Approximately(moveInput.y, 0.0f))
-            {
-                lookDirection.Set(moveInput.x, moveInput.y);
-                lookDirection.Normalize();
-            }
-
-            animator.SetFloat("Look X", lookDirection.x);
-            animator.SetFloat("Look Y", lookDirection.y);
-            animator.SetFloat("Speed", moveInput.magnitude);
+        if (!Mathf.Approximately(moveInput.x, 0.0f) || !Mathf.Approximately(moveInput.y, 0.0f))
+        {
+            lookDirection.Set(moveInput.x, moveInput.y);
+            lookDirection.Normalize();
         }
+
+        animator.SetFloat("Look X", lookDirection.x);
+        animator.SetFloat("Look Y", lookDirection.y);
+        animator.SetFloat("Speed", moveInput.magnitude);
     }
 
     /// Functions for interacting with food objects (Fruit trees, caves, and other players)
@@ -300,6 +299,7 @@ public class CharControllerMulti : NetworkedEntityView
             Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
             hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
+            Debug.Log($"Hit {hit.collider.gameObject.name}");
    
             if (hit.collider.gameObject.GetComponentInParent<Robbable>() != null && hit.collider.gameObject.GetComponentInParent<CharControllerMulti>().proxyStates[0].sleep) {
                 Robbable robbable = hit.collider.gameObject.GetComponentInParent<Robbable>(); 
@@ -310,8 +310,8 @@ public class CharControllerMulti : NetworkedEntityView
                 });
                 Debug.Log($"Attempting to steal from {robbable}");
             } else {
-                currentGatherable = hit.collider.gameObject.GetComponent<Gatherable>();
-                currentScorable = hit.collider.gameObject.GetComponent<Scorable>();
+                currentGatherable = hit.collider.gameObject.GetComponentInParent<Gatherable>();
+                currentScorable = hit.collider.gameObject.GetComponentInParent<Scorable>();
                 if(currentGatherables.Contains(currentGatherable) && !animator.GetBool("Gather")) {
                     Debug.Log(currentGatherable + " clicked.");
                     if (currentGatherable.gameObject.tag == "Tree" && GameController.Instance.create == false) {
@@ -432,6 +432,7 @@ public class CharControllerMulti : NetworkedEntityView
         hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
         tagNear = hit.collider.gameObject.tag;
         if(tagNear != null && !sleeping && !tired && context.performed) {
+            observing = true;
             _playerControls.Disable();
             animator.SetBool("Observe", true);
             GameController.Instance.RegisterObserve(this.Id, hit.collider.gameObject.tag, teamIndex.ToString());
@@ -443,6 +444,7 @@ public class CharControllerMulti : NetworkedEntityView
     public void StopObserve()
     {
         animator.SetBool("Observe", false);
+        observing = false;
         _playerControls.Enable();
     }
 

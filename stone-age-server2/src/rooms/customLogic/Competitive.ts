@@ -631,17 +631,17 @@ let simulateRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
         let spawnPoint: number;
         let  doaBool: boolean;
         let doa: number = Math.floor(Math.random() * 2);
-        if (doa === 0) {
-            doaBool = true;
-            spawnPoint = Math.floor(Math.random() * 9);
-        } else {
+        if (doa === 1 && roomRef.deadAurochs === true) {
             doaBool = false;
             spawnPoint = Math.floor(Math.random() * 5);
+        } else {
+            doaBool = true;
+            spawnPoint = Math.floor(Math.random() * 9);
         }
         roomRef.broadcast("spawnAurochs", { alive: doaBool, spawnPoint: spawnPoint });
         spawnTime += spawnInterval;
         logger.info(`Elapse time: ${clock.elapsedTime} and Spawn Time: ${spawnTime}`);
-        logger.info(`Spawning an aurochs that is alive:${doa} and at spawn point:${spawnPoint}`);
+        logger.info(`Spawning an aurochs that is alive:${doaBool} and at spawn point:${spawnPoint}`);
     }
 
     if(clock.elapsedTime >= (roomRef.gatherTime * 1000))

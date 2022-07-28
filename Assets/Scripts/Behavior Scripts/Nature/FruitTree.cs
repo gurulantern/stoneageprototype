@@ -9,7 +9,7 @@ public class FruitTree : Tree
         colliderOffset.y = 0.216f;
         colliderSize.x = .827f;
         colliderSize.y = .397f;
-        this.gameObject.tag = "Fruit_Tree";
+        this.gameObject.tag = "Fruit_Tree"; 
         type = "Fruit_Tree";
     }
 

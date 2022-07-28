@@ -10,4 +10,5 @@ public class SpawnPoint : MonoBehaviour
     {
         spawn = this.transform.position;
     }
+
 }

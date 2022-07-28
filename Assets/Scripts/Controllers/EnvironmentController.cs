@@ -22,11 +22,9 @@ public class EnvironmentController : MonoBehaviour
     }
     public int fruitCount = -1, treeCount = -1, fruitTreeCount = -1, aurochsCount = -1;
 
-    [SerializeField]
-    private Scorable[] scorables;
+    public Scorable[] scorables;
 
-    [SerializeField]
-    private Gatherable[] gatherables;
+    public Gatherable[] gatherables;
 
     // Start is called before the first frame update
     void Awake()
@@ -57,6 +55,7 @@ public class EnvironmentController : MonoBehaviour
 
     public Gatherable GetGatherableByState(GatherableState state)
     {
+        gatherables = GetComponentsInChildren<Gatherable>();
         foreach (Gatherable t in gatherables)
         {
             if (!t.ID.Equals(state.id))
@@ -77,6 +76,7 @@ public class EnvironmentController : MonoBehaviour
 
     public Scorable GetScorableByState(ScorableState state)
     {
+        scorables = GetComponentsInChildren<Scorable>();
         foreach (Scorable t in scorables)
         {
             if (!t.ID.Equals(state.id))

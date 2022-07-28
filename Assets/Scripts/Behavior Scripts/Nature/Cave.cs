@@ -18,5 +18,12 @@ public class Cave : Scorable
     {
         requiredResource = "food";
     }
+
+    public void SetAsHome(bool isHome)
+    {
+        family.gameObject.SetActive(isHome);
+        fireLog.gameObject.SetActive(isHome);
+        fire.gameObject.SetActive(isHome);
+    }
     
 }

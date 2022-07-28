@@ -34,10 +34,11 @@ public abstract class Gatherable : Interactable
     protected string clickedTag;
 
 
-    private void Start()
+    private void Awake() 
     {
         if (ColyseusManager.Instance.IsInRoom) 
         {
+            Debug.Log("Initializing a new Gatherable");
             InitializeSelf();
         }
     }

@@ -7,16 +7,19 @@ public class Tree : Gatherable
 {
     protected Vector2 colliderOffset; 
     protected Vector2 colliderSize;
+    public BoxCollider2D _navMeshCollider;
+
     [SerializeField] protected SpriteRenderer[] _treeStates;
     private void Awake()
     {
         startingHarvest = _treeStates.Length - 1; 
-        colliderOffset.x = -0.019f;
+        colliderOffset.x = -0.019f; 
         colliderOffset.y = 0.216f;
         colliderSize.x = .827f;
         colliderSize.y = .397f;
         this.gameObject.tag = "Tree";
         type = "Tree";
+        _navMeshCollider.enabled = false;
     }
 
     public override void SetState(GatherableState gatherable)

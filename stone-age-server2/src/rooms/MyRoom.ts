@@ -17,6 +17,7 @@ export class MyRoom extends Room<RoomState> {
     createScoreMultiplier: number = 2;
     aurochs: number = 9;
     night: number = 60;
+    deadAurochs: boolean = false;
     currentRoundTime: number;
     customMethodController: any = null;
     roomOptions: any;
@@ -213,20 +214,20 @@ export class MyRoom extends Room<RoomState> {
         let newSettingsKeys: string[]; 
         let newSettingsValues: string[]; 
         
-        for (let index = 0; index < 8; index++) {
+        for (let index = 0; index < 9; index++) {
             let key = Object.keys(optionsMessage.optionsToSet)[index];
             let value = optionsMessage.optionsToSet[key];
 
             switch(key) {
                 case "gatherTime":
                     this.gatherTime = parseInt(value);
-                    logger.info(`Set the ${key} setting to ${value}`);
+                    logger.info(`Set the ${key} setting to ${this.gatherTime}`);
                     break;
                 case "paintTme":
                     if (parseInt(value) !== 0) {
                         this.paintTime = parseInt(value);
                         this.paintRound = true;
-                        logger.info(`Set the ${key} setting to ${value}`);
+                        logger.info(`Set the ${key} setting to ${this.paintTime}`);
                         break;
                     } else {
                         this.paintRound = false;
@@ -235,30 +236,34 @@ export class MyRoom extends Room<RoomState> {
                 case "voteTime":
                     if (this.paintRound = true) {
                         this.voteTime = parseInt(value);
-                        logger.info(`Set the ${key} setting to ${value}`);
+                        logger.info(`Set the ${key} setting to ${this.voteTime}`);
                         break;
                     }
                     break;
                 case "foodMulti":
                     this.foodScoreMultiplier = parseInt(value);
-                    logger.info(`Set the ${key} setting to ${value}`);
+                    logger.info(`Set the ${key} setting to ${this.foodScoreMultiplier}`);
                     break;
                 case "observeMulti":
                     this.observeScoreMultiplier = parseInt(value);
-                    logger.info(`Set the ${key} setting to ${value}`);
+                    logger.info(`Set the ${key} setting to ${this.observeScoreMultiplier}`);
                     break;
                 case "createMulti":
                     this.createScoreMultiplier = parseInt(value);
-                    logger.info(`Set the ${key} setting to ${value}`);
+                    logger.info(`Set the ${key} setting to ${this.createScoreMultiplier}`);
                     break;
                 case "aurochs":
                     this.aurochs = parseInt(value);
                     this.aurochsTotal = this.aurochs;
-                    logger.info(`Set the ${key} setting to ${value}`);
+                    logger.info(`Set the ${key} setting to ${this.aurochsTotal}`);
                     break;
                 case "night":
                     this.night = parseInt(value);
-                    logger.info(`Set the ${key} setting to ${value}`);
+                    logger.info(`Set the ${key} setting to ${this.night}`);
+                    break;
+                case "deadAurochs":
+                    this.deadAurochs = value === "True";
+                    logger.info(`Set the ${key} setting to ${this.deadAurochs}`);
                     break;
             }
         }

@@ -6,7 +6,7 @@ public class ScareableTrigger : MonoBehaviour
 {
     public string entityID = string.Empty;
 
-    void OnTriggerStay2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D other)
     {
         if (other != null && other.gameObject.CompareTag("Other_Player"))
         {

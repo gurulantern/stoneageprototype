@@ -8,6 +8,12 @@ public class AurochsController : MonoBehaviour
 
     private static AurochsController instance;
 
+    [SerializeField]
+    private EnvironmentController _environmentController;
+
+    private GameObject aurochs;
+    private Quaternion blankRot = new Quaternion(0, 0, 0, 0);
+
     public static AurochsController Instance
     {
         get
@@ -36,9 +42,11 @@ public class AurochsController : MonoBehaviour
     {
         if (alive)
         {
-            Instantiate(liveAurochs, aurochsSpawnPoints[spawnPoint].transform);
+            aurochs = (GameObject)Instantiate(liveAurochs, aurochsSpawnPoints[spawnPoint].transform.position, blankRot, _environmentController.gameObject.transform);
         } else {
-            Instantiate(deadAurochs, deadAurochsSpawnPounts[spawnPoint].transform);
+            aurochs = (GameObject)Instantiate(deadAurochs, deadAurochsSpawnPounts[spawnPoint].transform.position, blankRot, _environmentController.gameObject.transform);
         }
+        Aurochs aurochsScript = aurochs.GetComponent<Aurochs>();
+        aurochsScript.InitializeSelf();
     }
 }

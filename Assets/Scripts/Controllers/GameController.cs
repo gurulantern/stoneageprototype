@@ -441,6 +441,7 @@ public class GameController : MonoBehaviour
             {
                 _uiController.scoreboard.AddTeamScore(teamIdx);
                 _uiController.gameOptions.GetComponent<GameOptions>().AddTeamOptions(teamIdx);
+                homeCaves[teamIdx].SetAsHome(true);
             }
         }
         else
@@ -450,7 +451,7 @@ public class GameController : MonoBehaviour
             {
                 _uiController.scoreboard.RemoveTeamScore(teamIdx);
                 _uiController.gameOptions.GetComponent<GameOptions>().RemoveTeamOptions(teamIdx);
-
+                homeCaves[teamIdx].SetAsHome(false);
             }
         }
     }
@@ -471,9 +472,11 @@ public class GameController : MonoBehaviour
             {
                 _uiController.scoreboard.AddTeamScore(teamIdx);
                 _uiController.gameOptions.GetComponent<GameOptions>().AddTeamOptions(teamIdx);
+                homeCaves[teamIdx].SetAsHome(true);
             } else if (team.clientsOnTeam.Count == 0) {
                 _uiController.scoreboard.RemoveTeamScore(teamIdx);
                 _uiController.gameOptions.GetComponent<GameOptions>().RemoveTeamOptions(teamIdx);
+                homeCaves[teamIdx].SetAsHome(false);
             }
         }
     }
