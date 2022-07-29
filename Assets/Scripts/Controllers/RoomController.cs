@@ -14,7 +14,7 @@ using UnityEngine.SceneManagement;
 
 
 ///     Manages the rooms of a server connection.
-[Serializable] public class RoomController: MonoBehaviour
+[Serializable] public class RoomController
 {
     /// Network Events
     //==========================
@@ -29,6 +29,12 @@ using UnityEngine.SceneManagement;
     public delegate void OnNetworkEntityRemoved(NetworkedEntity entity, StoneColyseusNetworkedEntityView view);
     /// Event for when a NetworkEntity is removed from the room.
     public static OnNetworkEntityRemoved onRemoveNetworkEntity;
+
+    public delegate void OnNetworkGatherableAdd(GatherableState gatherable);
+    public static OnNetworkGatherableAdd onNetworkGatherableAdd;
+
+    public delegate void OnNetworkScorableAdd(ScorableState scorable);
+    public static OnNetworkScorableAdd onNetworkScorableAdd;
 
     ///Delegate and event for Current User State Changing.
     public delegate void OnUserStateChanged(MapSchema<string> changes);
@@ -89,6 +95,14 @@ using UnityEngine.SceneManagement;
     ///     Collection for tracking entity views that have been added to the room.
     private IndexedDictionary<string, NetworkedEntityView> _entityViews =
         new IndexedDictionary<string, NetworkedEntityView>();
+
+    ///     Collection for tracking gatherables that have been added to the room.
+    private IndexedDictionary<string, GatherableState> _gatherables =
+        new IndexedDictionary<string, GatherableState>();
+
+    ///     Collection for tracking scorables that have been added to the room.
+    private IndexedDictionary<string, ScorableState> _scorables =
+        new IndexedDictionary<string, ScorableState>();
 
     private NetworkedEntityFactory _factory;
 
@@ -365,12 +379,14 @@ using UnityEngine.SceneManagement;
             _waitForPong = false;
         });
 
-        
+/*        
         _room.OnMessage<ObjectInitMessage>("objectInitialized", (msg) =>
         {
-            EnvironmentController.Instance.GetGatherableByState(Room.State.gatherableObjects[msg.objectID]);
-        });
+            Debug.Log("Received object init message");
+                EnvironmentController.Instance.GetGatherableByState(Room.State.gatherableObjects[msg.objectID]);
 
+        });
+*/
         _room.OnMessage<ObjectGatheredMessage>("objectGathered", (msg) =>
         {
             ObjectInteraction(msg.gatheredObjectID, msg.gatheringStateID, msg.gatheredObjectType, msg.gatherOrSpend);
@@ -423,6 +439,8 @@ using UnityEngine.SceneManagement;
         //========================
         _room.State.networkedEntities.OnAdd += OnEntityAdd;
         _room.State.networkedEntities.OnRemove += OnEntityRemoved;
+        _room.State.gatherableObjects.OnAdd += OnGatherableAdd;
+        _room.State.scorableObjects.OnAdd += OnScorableAdd;
 
         _room.State.networkedUsers.OnAdd += OnUserAdd;
         _room.State.networkedUsers.OnRemove += OnUserRemove;
@@ -631,6 +649,27 @@ using UnityEngine.SceneManagement;
         LSLog.LogImportant($"user [{user.__refId} | {user.sessionId} | key {key}] Left");
 
         _users.Remove(key);
+    }
+
+    private void OnGatherableAdd(string gatherableID, GatherableState gatherable)
+    {
+        LSLog.LogImportant(
+            $"Gatherable [{gatherableID} | {gatherable.id}] add: x => {gatherable.xPos}, y => {gatherable.yPos}");
+
+        _gatherables.Add(gatherableID, gatherable);
+
+        onNetworkGatherableAdd?.Invoke(gatherable);
+    }
+
+    private void OnScorableAdd(string scorableID, ScorableState scorable)
+    {
+        LSLog.LogImportant(
+            $"Gatherable [{scorableID} | {scorable.id}] add: x => {scorable.xPos}, y => {scorable.yPos}");
+
+        _scorables.Add(scorableID, scorable);
+
+        onNetworkScorableAdd?.Invoke(scorable);
+
     }
 
     ///     Callback for when the room's connection closes.

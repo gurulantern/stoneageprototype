@@ -6,6 +6,7 @@ public class AurochsScareable : MonoBehaviour
 {
     [SerializeField] private Aurochs _owner;
     private CircleCollider2D _collider;
+    private bool remote;
     private CharControllerMulti currentEntity;
     private Vector2 newDestination;
     // Start is called before the first frame update
@@ -22,13 +23,14 @@ public class AurochsScareable : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Other_Player"))
+        if (other.gameObject.CompareTag("Player")) //|| other.gameObject.CompareTag("Other_Player"))
         {
             currentEntity = other.gameObject.GetComponent<CharControllerMulti>();
+            Debug.Log(currentEntity.gameObject.name + "is currently scaring");
             Vector2 scarerPos = currentEntity.transform.position;
             Vector2 myPos = this.gameObject.transform.position;
             newDestination = Vector2.LerpUnclamped(scarerPos, myPos, 3f);
-            _owner.AvoidPlayer(newDestination);
+            _owner.AvoidPlayer(newDestination, false);
         }    
     }
 }

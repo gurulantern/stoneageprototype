@@ -59,7 +59,6 @@ public abstract class Gatherable : Interactable
         _itemID = $"{gameObject.tag}_{num}";
     }
 
-
     /// <summary>
     /// Clean-up delegates
     /// </summary>

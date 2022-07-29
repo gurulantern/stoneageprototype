@@ -44,7 +44,6 @@ public class Aurochs : Gatherable
         public Colyseus.Schema.MapSchema<string> attributes;
     }
     [SerializeField] private bool alive;
-    [SerializeField] Transform target;
     [SerializeField] private NavMeshAgent agent;
     Vector2 lookDirection = new Vector2(1,0);
     private Animator animator;
@@ -104,19 +103,41 @@ public class Aurochs : Gatherable
         }
     }
 
+    protected override void UpdateStateForView()
+    {
+        base.UpdateStateForView();
+    }
+
+    protected override void UpdateViewFromState()
+    {
+        base.UpdateViewFromState();
+        escape = new Vector2(_state.xPos, _state.yPos);
+        Debug.Log($"Setting a new destination from state with destination: {escape}.");
+        AvoidPlayer(escape, true);
+    }
+
     public void ResumeJourney()
     {
+        agent.speed = 1.5f;
         agent.SetDestination(finalDestination);
     }
 
-    public void AvoidPlayer(Vector2 newDestination)
+    public void AvoidPlayer(Vector2 newDestination, bool remote)
     {
         if (findRest != null) 
         {
             StopCoroutine(findRest);
         }
+
+        if (remote == false) 
+        {
+            Debug.Log($"Setting a new destination in the state for remote - {newDestination}");
+            ColyseusManager.NetSend("animalInteraction", new object[]{ this._state.id, newDestination.x, newDestination.y });
+        }
+
         escape = newDestination;
         agent.SetDestination(newDestination);
+        agent.speed = 2f;
         distanceFromNewDestination = Vector2.Distance(this.gameObject.transform.position, newDestination);
         findRest = FindRest();
         StartCoroutine(findRest);
@@ -124,15 +145,7 @@ public class Aurochs : Gatherable
 
     IEnumerator FindRest()
     {
-        while (Vector2.Distance(this.gameObject.transform.position, escape) > 0.5f)
-        {
-            Debug.Log("running away");
-            yield return null;
-        }
-
-        Debug.Log($"{this.gameObject.name} escaped and is resting");
-
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(5f);
 
         ResumeJourney();
 

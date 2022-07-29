@@ -35,7 +35,7 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
         get { return _roomController.GetServerTimeSeconds; }
     }
 
-    /// Retunrs a reference to the current networked user.
+    /// Returns a reference to the current networked user.
     public NetworkedUser CurrentUser
     {
         get{ return _roomController.CurrentNetworkedUser; }

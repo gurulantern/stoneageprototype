@@ -34,6 +34,22 @@ public class EnvironmentController : MonoBehaviour
         instance = this;
     }
 
+    private void OnEnable()
+    {
+        RoomController.onNetworkGatherableAdd += OnGatherableAdd;
+        RoomController.onNetworkScorableAdd += OnScorableAdd;
+    }
+
+    private void OnGatherableAdd(GatherableState gatherable)
+    {
+        GetGatherableByState(gatherable);
+    }
+
+    private void OnScorableAdd(ScorableState scorable)
+    {
+        GetScorableByState(scorable);
+    }
+
 
     public void ObjectScored(ScorableState state, CharControllerMulti usingEntity)
     {

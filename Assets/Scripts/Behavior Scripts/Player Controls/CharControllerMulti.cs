@@ -295,7 +295,7 @@ public class CharControllerMulti : NetworkedEntityView
     public void OnInteractAction(InputAction.CallbackContext context)
     {
         RaycastHit2D hit;
-        if (GameController.Instance.gamePlaying && !tired && !sleeping && context.performed) {
+        if (GameController.Instance.gamePlaying && !tired && !sleeping && !observing && !gathering && !spending && context.performed) {
             Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
             hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
@@ -431,9 +431,8 @@ public class CharControllerMulti : NetworkedEntityView
         Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
         hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
         tagNear = hit.collider.gameObject.tag;
-        if(tagNear != null && !sleeping && !tired && context.performed) {
+        if(tagNear != null && !sleeping && !observing && !tired && context.performed) {
             observing = true;
-            _playerControls.Disable();
             animator.SetBool("Observe", true);
             GameController.Instance.RegisterObserve(this.Id, hit.collider.gameObject.tag, teamIndex.ToString());
             Debug.Log($"Player observes {hit.collider.gameObject.tag}");
@@ -445,7 +444,6 @@ public class CharControllerMulti : NetworkedEntityView
     {
         animator.SetBool("Observe", false);
         observing = false;
-        _playerControls.Enable();
     }
 
     public void AddResource(int icon)

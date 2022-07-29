@@ -300,6 +300,7 @@ public class GameController : MonoBehaviour
         if (gamePlaying)
         {
             UpdateRoundTime(attributes);
+            UpdateInteractables(attributes);
         }
     }
 
@@ -409,15 +410,21 @@ public class GameController : MonoBehaviour
 
     public void UpdateScores(string teamIndex, string scoreType, string updatedScore)
     {
+        int teamIdx = int.Parse(teamIndex); 
         int scoreIndex = Array.IndexOf(scoreTypes, scoreType);
 
-        _uiController.scoreboard.scoreList[int.Parse(teamIndex)].scores[scoreIndex].text = updatedScore;
+        _uiController.scoreboard.scoreList[teamIdx].scores[scoreIndex].text = updatedScore;
 
-        if (scoreType == "observe") {
-            GameController.Instance._uiController._observeMeter.Increment(int.Parse(updatedScore));
+        if (scoreType == "observe" && ColyseusManager.Instance.GetEntityView(ColyseusManager.Instance.CurrentNetworkedEntity.id).GetComponent<CharControllerMulti>().TeamIndex == teamIdx) {
+            GameController.Instance._uiController._observeMeter.SetMeter(int.Parse(updatedScore));
         }   else if (scoreType == "create") {
 
         }
+    }
+
+    public void UpdateInteractables(MapSchema<string> attributes)
+    {
+
     }
 
     public void Unlock(string teamIdx, string observedObject)

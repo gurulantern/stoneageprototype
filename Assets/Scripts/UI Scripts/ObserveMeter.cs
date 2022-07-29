@@ -14,7 +14,7 @@ public class ObserveMeter : MonoBehaviour
         observeSlider = GetComponent<Slider>();
     }
     
-    public void Increment(int teamObserve)
+    public void SetMeter(int teamObserve)
     {
         observeSlider.value = teamObserve;
     }

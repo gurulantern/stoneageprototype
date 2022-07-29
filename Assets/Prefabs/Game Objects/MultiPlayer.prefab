@@ -887,6 +887,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    scare: 0
+    afraid: 0
     fruit: 0
     meat: 0
     wood: 0
@@ -901,6 +903,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    scare: 0
+    afraid: 0
     fruit: 0
     meat: 0
     wood: 0
@@ -915,6 +919,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    scare: 0
+    afraid: 0
     fruit: 0
     meat: 0
     wood: 0
@@ -929,6 +935,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    scare: 0
+    afraid: 0
     fruit: 0
     meat: 0
     wood: 0
@@ -943,6 +951,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    scare: 0
+    afraid: 0
     fruit: 0
     meat: 0
     wood: 0
@@ -957,6 +967,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    scare: 0
+    afraid: 0
     fruit: 0
     meat: 0
     wood: 0
@@ -971,6 +983,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    scare: 0
+    afraid: 0
     fruit: 0
     meat: 0
     wood: 0
@@ -985,6 +999,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    scare: 0
+    afraid: 0
     fruit: 0
     meat: 0
     wood: 0
@@ -999,6 +1015,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    scare: 0
+    afraid: 0
     fruit: 0
     meat: 0
     wood: 0
@@ -1013,6 +1031,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    scare: 0
+    afraid: 0
     fruit: 0
     meat: 0
     wood: 0
@@ -1027,6 +1047,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    scare: 0
+    afraid: 0
     fruit: 0
     meat: 0
     wood: 0
@@ -1041,6 +1063,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    scare: 0
+    afraid: 0
     fruit: 0
     meat: 0
     wood: 0
@@ -1055,6 +1079,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    scare: 0
+    afraid: 0
     fruit: 0
     meat: 0
     wood: 0
@@ -1069,6 +1095,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    scare: 0
+    afraid: 0
     fruit: 0
     meat: 0
     wood: 0
@@ -1083,6 +1111,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    scare: 0
+    afraid: 0
     fruit: 0
     meat: 0
     wood: 0
@@ -1097,6 +1127,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    scare: 0
+    afraid: 0
     fruit: 0
     meat: 0
     wood: 0
@@ -1111,6 +1143,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    scare: 0
+    afraid: 0
     fruit: 0
     meat: 0
     wood: 0
@@ -1125,6 +1159,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    scare: 0
+    afraid: 0
     fruit: 0
     meat: 0
     wood: 0
@@ -1139,6 +1175,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    scare: 0
+    afraid: 0
     fruit: 0
     meat: 0
     wood: 0
@@ -1153,6 +1191,8 @@ MonoBehaviour:
     wake: 0
     observe: 0
     gather: 0
+    scare: 0
+    afraid: 0
     fruit: 0
     meat: 0
     wood: 0

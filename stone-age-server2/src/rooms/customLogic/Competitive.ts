@@ -379,8 +379,10 @@ let updateTeamScores = function(roomRef: MyRoom, teamMateId: string, scoreType: 
 
             setRoomAttribute(roomRef, `team${teamIdx.toString()}_${scoreType}Score`, teamScore.toString());
             setRoomAttribute(roomRef, `team${teamIdx.toString()}_totalScore`, totalScore.toString())
+
             roomRef.broadcast("onScoreUpdate", { teamIndex: teamIdx, scoreType: scoreType, updatedScore: teamScore.toString()});
-            roomRef.broadcast("onScoreUpdate", { teamIndex: teamIdx, scoreType: "total", updatedScore: totalScore.toString()})
+            roomRef.broadcast("onScoreUpdate", { teamIndex: teamIdx, scoreType: "total", updatedScore: totalScore.toString()});
+
             logger.info(`team${teamIdx.toString()}_${scoreType}Score: ${teamScore.toString()}`);
             logger.info(`team${teamIdx.toString()}_totalScore: ${totalScore.toString()}`);
 
