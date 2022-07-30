@@ -159,4 +159,9 @@ public class Aurochs : Gatherable
     {
         Destroy(this.gameObject);
     }
+
+    public void Domesticate()
+    {
+        agent.enabled = false;
+    }
 }

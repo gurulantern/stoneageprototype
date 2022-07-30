@@ -56,8 +56,7 @@ public class CharControllerMulti : NetworkedEntityView
     Rigidbody2D rb;
     Vector2 lookDirection = new Vector2(1,0);
     private Vector2 spawnPosition;
-    public event Action<int> ChangedResource;
-    
+    public event Action<int> ChangedResource;    
 
     #region Initializers
     protected override void Awake() {

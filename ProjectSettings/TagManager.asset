@@ -12,6 +12,7 @@ TagManager:
   - Fishing_Spot
   - Rival_Cave
   - Aurochs
+  - Creeks
   layers:
   - Default
   - TransparentFX

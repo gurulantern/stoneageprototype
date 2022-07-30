@@ -210,6 +210,12 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
         NetSend("objectInit", new object[] {gatherable.ID, gatherable.GetServerType()});
     }
 
+    public void SendObjectInit(Scorable scorable)
+    {
+        LSLog.Log("Initializing " + scorable.ID);
+        NetSend("objectInit", new object[] {scorable.ID, scorable.GetServerType()});
+    }
+
     /// <summary>
     /// Sends a message to the room on the server that an <see cref="Gatherable"/> has been used
     /// </summary>
@@ -225,10 +231,10 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
     /// </summary>
     /// <param name="scorable">The <see cref="Scorable"/> used.</param>
     /// <param name="entity">The entity that has used the <see cref="Scorable"/>.</param>
-    public void SendObjectScore(Scorable scorable, string points, NetworkedEntityView entity)
+    public void SendObjectScore(Scorable scorable, NetworkedEntityView entity)
     {
         LSLog.Log("Sending object scoring for ID " + scorable.ID);
-        NetSend("scoreChange", new object[] {scorable.ID, points, scorable.GetServerType()});
+        NetSend("scoreChange", new object[] {scorable.ID, scorable.GetServerType()});
     }
 
     public void ClearCollectionsAndUser()

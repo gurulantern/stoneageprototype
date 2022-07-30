@@ -15,6 +15,7 @@ using UnityEngine.Events;
 public abstract class Scorable : Interactable
 {
     public string requiredResource;
+    [SerializeField] protected GameObject[] states;
     
     /// <summary>
     /// The schema state provided from the server
@@ -43,11 +44,9 @@ public abstract class Scorable : Interactable
         //UpdateForState();
     }
 
-    public virtual void PlayerAttemptedUse(NetworkedEntityView entity, int points)
+    public void SetID(int num)
     {
-        string stringPoints = points.ToString();
-        //Tell the server that this entity is attempting to use this interactable
-        ColyseusManager.Instance.SendObjectScore(this, stringPoints, entity);
+        _itemID = $"{gameObject.tag}_{num}";
     }
 
     /// <summary>
@@ -70,24 +69,60 @@ public abstract class Scorable : Interactable
         //UpdateForState();
     }
 
-    /// <summary>
-    /// Arranges the object based off of it's current state
-    /// </summary>
-/*
-    protected virtual void UpdateForState()
+   protected virtual void UpdateViewFromState()
     {
-        //The current in use status is not what the State indicates
-        if (isInUse != State.inUse)
-        {
-            if (isInUse && !State.inUse)
-            {
-                //Was previously in use but not anymore!
-                OnInteractableReset();
-            }
-            //Set the interactable's inUse status
-            SetInUse(State.inUse);
+        /*
+        currHarvestTrigger = (int)_state.harvestTrigger;
+        prevHarvestTrigger = currHarvestTrigger + 1;
+        */
+    }
+    public virtual void PlayerAttemptedUse(NetworkedEntityView entity, int spend)
+    {
+        //Tell the server that this entity is attempting to use this interactable
+        ColyseusManager.Instance.SendObjectScore(this, entity);
+    }
+
+    public void InitializeSelf()
+    {
+        switch(this.gameObject.tag) {
+            case "Aurochs_Pen":
+                this.SetID(EnvironmentController.Instance.aurochsPen += 1);
+                break;
+            case "Farm":
+                this.SetID(EnvironmentController.Instance.farms += 1);
+                break;
+            case "Sapling":
+                this.SetID(EnvironmentController.Instance.saplings += 1);
+                break;
+            case "Fish_Trap":
+                this.SetID(EnvironmentController.Instance.fishTraps += 1);
+                break;
+        }
+        ColyseusManager.Instance.SendObjectInit(this);
+    }
+
+    public override void OnSuccessfulUse(CharControllerMulti entity, string type)
+    {
+        base.OnSuccessfulUse(entity, type);
+        //currHarvestTrigger = harvest;
+        switch(type) {
+            case "AUROCHS_PEN":
+                this.gameObject.GetComponent<Food>().Harvest();
+                if(entity != null)
+                {
+                    entity.ChangeStamina(this.gameObject.GetComponent<Food>().restoreAmount);
+                }
+                break;
+            case "FARM":
+                this.gameObject.GetComponent<Tree>().Harvest();
+                break;
+            case "FISH_TRAP":
+                this.gameObject.GetComponent<Aurochs>().Harvest();
+                break;
+        }
+        if (entity != null) {
+            entity.gameObject.GetComponent<CharControllerMulti>().StartGather(true);
         }
     }
-*/
 }
 
