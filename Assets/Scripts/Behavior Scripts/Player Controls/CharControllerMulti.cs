@@ -498,7 +498,7 @@ public class CharControllerMulti : NetworkedEntityView
 
     public void OnScare(InputAction.CallbackContext context)
     {
-        if (context.started & !sleeping && !tired) {
+        if (context.started && !sleeping && !tired) {
             scaring = true;
             ChangeStamina(-5);
             animator.SetBool("Scare", true);
@@ -510,6 +510,14 @@ public class CharControllerMulti : NetworkedEntityView
             animator.SetBool("Scare", false);
             scareableTrigger.gameObject.GetComponent<CircleCollider2D>().enabled = false;
         } 
+    }
+
+    public void OnCreate(InputAction.CallbackContext context)
+    {
+        if (context.performed && GameController.Instance.create && !sleeping && !tired && !gathering && !observing && !scared && !scaring)
+        {
+            uiHooks.ToggleCreate();
+        }
     }
 
     #endregion 

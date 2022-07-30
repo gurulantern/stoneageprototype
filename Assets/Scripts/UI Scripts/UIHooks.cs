@@ -14,6 +14,7 @@ public class UIHooks : MonoBehaviour
     [SerializeField] TextMeshProUGUI _personalWoodCount;
     [SerializeField] TextMeshProUGUI _personalSeedsCount;
     [SerializeField] TextMeshProUGUI _personalFishCount;
+    [SerializeField] CreateMenu _createMenu;
 
     
     CharControllerMulti character;
@@ -53,5 +54,10 @@ public class UIHooks : MonoBehaviour
         _personalWoodCount.text = character.wood.ToString();
         _personalSeedsCount.text = character.seeds.ToString();
         //_personalFishCount.text = character.fish.ToString();
+    }
+
+    public void ToggleCreate()
+    {
+        _createMenu.ToggleMenu();
     }
 }
