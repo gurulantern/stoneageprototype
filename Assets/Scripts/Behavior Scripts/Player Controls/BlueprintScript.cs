@@ -46,6 +46,11 @@ public class BlueprintScript : MonoBehaviour
             Instantiate(prefab, transform.position, blankRot);
             Destroy(gameObject);
         }
+
+        if (Input.GetMouseButton(1))
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other) 

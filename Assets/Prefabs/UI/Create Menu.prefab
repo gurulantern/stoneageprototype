@@ -514,10 +514,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f60fcbd80eb6b954590b6d9975c70fdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _farm: {fileID: 7131057278216836879}
-  _pen: {fileID: 3393024204656367231}
-  _sapling: {fileID: 8039488001297848625}
-  _tools: {fileID: 88470176689219935}
+  open: 0
 --- !u!1 &2582569490232081266
 GameObject:
   m_ObjectHideFlags: 0
@@ -639,7 +636,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5422822429909664658}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1927978668299097106}
+        m_TargetAssemblyTypeName: CreateMenu, Assembly-CSharp
+        m_MethodName: spawnBlueprint
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1120917348121920719, guid: e88857e7af803bf40b982be40383e7a5,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2853104389120751351
 GameObject:
   m_ObjectHideFlags: 0
@@ -1049,7 +1059,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4312065602755936734}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1927978668299097106}
+        m_TargetAssemblyTypeName: CreateMenu, Assembly-CSharp
+        m_MethodName: spawnBlueprint
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 3700399565061803096, guid: f84f449ba8f35844ba2e1b2ffc24bbaa,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7256472830300512212
 GameObject:
   m_ObjectHideFlags: 0
@@ -1247,7 +1270,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3397048606087927522}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1927978668299097106}
+        m_TargetAssemblyTypeName: CreateMenu, Assembly-CSharp
+        m_MethodName: spawnBlueprint
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 3531018546211141505, guid: 64d9e743f1b65344eb1511b6f8ddcff3,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8187867456767010407
 GameObject:
   m_ObjectHideFlags: 0
