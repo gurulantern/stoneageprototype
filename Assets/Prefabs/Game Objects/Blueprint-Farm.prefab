@@ -48,39 +48,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trigger: {fileID: 8743946301648279107}
-  prefab: {fileID: 0}
+  prefab: {fileID: 8881089692311696464, guid: 2a396d59da657b64b876788b7c457f84, type: 3}
   _blueprintImg: {fileID: 1680455143742599054}
   green: {r: 0.031413555, g: 1, b: 0, a: 0.49019608}
   red: {r: 1, g: 0.0141509175, b: 0.024474083, a: 0.49019608}
-  waterFilter:
-    useTriggers: 0
-    useLayerMask: 0
-    useDepth: 0
-    useOutsideDepth: 0
-    useNormalAngle: 0
-    useOutsideNormalAngle: 0
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 0
-    minDepth: 0
-    maxDepth: 0
-    minNormalAngle: 0
-    maxNormalAngle: 0
-  triggerFilter:
-    useTriggers: 0
-    useLayerMask: 0
-    useDepth: 0
-    useOutsideDepth: 0
-    useNormalAngle: 0
-    useOutsideNormalAngle: 0
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 0
-    minDepth: 0
-    maxDepth: 0
-    minNormalAngle: 0
-    maxNormalAngle: 0
-  _overlappingColliders: []
+  intType: 3
+  cost: 20
 --- !u!50 &-8486609719341597100
 Rigidbody2D:
   serializedVersion: 4
@@ -241,6 +214,6 @@ SpriteRenderer:
   m_Size: {x: 1.875, y: 2.6875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1

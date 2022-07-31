@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 957bcc3a5a403a44bab8c1d902b6a684
+guid: ab6dc0d24c168c34f95593f81dbeba59
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -104,22 +104,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: FarmMenuIcon_0
+      name: PenMenuIcon_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 100
         height: 100
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7cd808fec08e9024985b03caacc5be70
-      internalID: 547130864
+      spriteID: 0bdff475a4c838d4b92395b08141b89f
+      internalID: -1080896435
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      FarmMenuIcon_0: 547130864
+      PenMenuIcon_0: -1080896435
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

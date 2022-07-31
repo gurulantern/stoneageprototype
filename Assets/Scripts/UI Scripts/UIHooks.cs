@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class UIHooks : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class UIHooks : MonoBehaviour
     [SerializeField] CreateMenu _createMenu;
 
     
-    CharControllerMulti character;
+    public CharControllerMulti character;
     // Start is called before the first frame update
 
     public void Initialize() {
@@ -44,7 +45,13 @@ public class UIHooks : MonoBehaviour
     }
     void OnEnable() 
     {
+        BlueprintScript.createObject += ChargePlayer;
         //character.ChangedResource += UpdateText;
+    }
+
+    void OnDisable()
+    {
+        BlueprintScript.createObject -= ChargePlayer;
     }
 
     void UpdateText(int icon) 
@@ -59,5 +66,15 @@ public class UIHooks : MonoBehaviour
     public void ToggleCreate()
     {
         _createMenu.ToggleMenu();
+    }
+
+    public void ToggleMenuButton(int button, bool active)
+    {
+        _createMenu.SetButtonActive(button, active);
+    }
+
+    public void ChargePlayer(int type, float cost)
+    {
+        character.SubtractResource(type, cost);
     }
 }

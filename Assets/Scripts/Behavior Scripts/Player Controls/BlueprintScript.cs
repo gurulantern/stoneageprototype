@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class BlueprintScript : MonoBehaviour
 {
@@ -17,10 +18,12 @@ public class BlueprintScript : MonoBehaviour
 
     private int _oCollisions = 0;
     private int _cCollisions = 0;
-    public ContactFilter2D waterFilter;
-    public ContactFilter2D triggerFilter;
-    public Collider2D[] _overlappingColliders; 
-    private bool isNotOverlapping;
+    [SerializeField] private int intType;
+    public float cost;
+    public delegate void CreateObject(int type, float cost);
+    public static event CreateObject createObject;
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,6 +48,7 @@ public class BlueprintScript : MonoBehaviour
         {
             Instantiate(prefab, transform.position, blankRot);
             Destroy(gameObject);
+            createObject?.Invoke(intType, cost);
         }
 
         if (Input.GetMouseButton(1))

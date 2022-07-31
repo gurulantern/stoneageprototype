@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ecc82faeaef082548b56d491dbdba781
+guid: c77acac17235c004f986d9cb7ad766c1
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -104,22 +104,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: AurochsPenBlueprint_0
+      name: FarmMenuIcon_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 60
-        height: 86
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7242ff12c9c921a43a1a3dd2b683b723
-      internalID: 700975827
+      spriteID: d1e7de619b9ee13429ffa2b978f29496
+      internalID: 1878511917
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      AurochsPenBlueprint_0: 700975827
+      FarmMenuIcon_0: 1878511917
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

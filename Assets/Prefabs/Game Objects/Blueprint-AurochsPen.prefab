@@ -52,35 +52,8 @@ MonoBehaviour:
   _blueprintImg: {fileID: 1515719010824393815}
   green: {r: 0.03137255, g: 1, b: 0, a: 0.49019608}
   red: {r: 1, g: 0, b: 0.010471344, a: 0.49019608}
-  waterFilter:
-    useTriggers: 0
-    useLayerMask: 0
-    useDepth: 0
-    useOutsideDepth: 0
-    useNormalAngle: 0
-    useOutsideNormalAngle: 0
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 0
-    minDepth: 0
-    maxDepth: 0
-    minNormalAngle: 0
-    maxNormalAngle: 0
-  triggerFilter:
-    useTriggers: 0
-    useLayerMask: 0
-    useDepth: 0
-    useOutsideDepth: 0
-    useNormalAngle: 0
-    useOutsideNormalAngle: 0
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 0
-    minDepth: 0
-    maxDepth: 0
-    minNormalAngle: 0
-    maxNormalAngle: 0
-  _overlappingColliders: []
+  intType: 3
+  cost: 15
 --- !u!50 &8928412812239838661
 Rigidbody2D:
   serializedVersion: 4

@@ -43,6 +43,8 @@ public class GameController : MonoBehaviour
     [SerializeField] private Color[] teamColors;
     private  string[] scoreTypes = new string[] {"gather", "observe", "create", "total"};
 
+    public int farmCost, penCost, saplingCost;
+
 
     private void Awake() 
     {

@@ -1271,6 +1271,7 @@ MonoBehaviour:
   _personalSeedsCount: {fileID: 0}
   _personalFishCount: {fileID: 0}
   _createMenu: {fileID: 0}
+  character: {fileID: -2674248606795513031}
 --- !u!212 &4126516024473503784
 SpriteRenderer:
   m_ObjectHideFlags: 0

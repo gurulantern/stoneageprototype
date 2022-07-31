@@ -40,6 +40,7 @@ public class CharControllerMulti : NetworkedEntityView
     private Vector2 moveInput;
     private string tagNear;
     private bool sleeping, gathering, spending, observing, tired, stealing, scaring, scared;
+    private float spendAmount;
     //Iterator variable for debugging Trigger Enter and Exit
     private int i = 0;
     [SerializeField]
@@ -79,7 +80,8 @@ public class CharControllerMulti : NetworkedEntityView
 
     private void OnEnable() 
     {
-        GameController.onUpdateClientTeam += OnTeamUpdated;    
+        GameController.onUpdateClientTeam += OnTeamUpdated; 
+
     }
 
     private void OnDisable() 
@@ -194,6 +196,25 @@ public class CharControllerMulti : NetworkedEntityView
             animator.SetFloat("Look Y", lookDirection.y);
             animator.SetFloat("Speed", localPositionDelta.magnitude * 100);
         } 
+
+        if (wood >= 20)
+        {
+            uiHooks.ToggleMenuButton(0, true);
+        } else {
+            uiHooks.ToggleMenuButton(0, false);
+        } 
+
+        if (wood >= 15) {
+            uiHooks.ToggleMenuButton(1, true);
+        } else {
+            uiHooks.ToggleMenuButton(1, false);
+        }
+
+        if (seeds >= 10) {
+            uiHooks.ToggleMenuButton(2, true);
+        } else {
+            uiHooks.ToggleMenuButton(2, false);
+        }
     }
     
     /// Animator code for players that are not mine
@@ -416,7 +437,7 @@ public class CharControllerMulti : NetworkedEntityView
             Debug.Log("Spending is finished");
             _playerControls.Enable();
             _spendIcons[icon].gameObject.SetActive(false);
-            SubtractResource(icon);
+            SubtractResource(icon, spendAmount);
             animator.SetBool("Gather", false);
             spending = false;
         }
@@ -466,7 +487,7 @@ public class CharControllerMulti : NetworkedEntityView
         Debug.Log($"Fruit = {fruit}, Meat = {meat}, Wood = {wood}, Seeds = {seeds}");
     }
 
-    public void SubtractResource(int icon)
+    public void SubtractResource(int icon, float amount)
     {
         if (icon == 0) {
             state.fruit -= state.fruit;
@@ -480,10 +501,10 @@ public class CharControllerMulti : NetworkedEntityView
                 state.meat -= state.meat;
                 meat = (int)state.meat;
         } else if (icon == 3 && GameController.Instance.create) {
-                state.wood -= state.wood;
+                state.wood -= amount;
                 wood = (int)state.wood;
         }  else if (icon == 4 && GameController.Instance.create) {
-                state.seeds -= state.seeds;
+                state.seeds -= amount;
                 seeds = (int)state.seeds;
         } else if (icon == 5 && GameController.Instance.create) {
             state.wood -= state.wood;
@@ -515,10 +536,15 @@ public class CharControllerMulti : NetworkedEntityView
     {
         if (context.performed && GameController.Instance.create && !sleeping && !tired && !gathering && !observing && !scared && !scaring)
         {
+            Debug.Log(GameController.Instance.create);
             uiHooks.ToggleCreate();
         }
     }
 
+    public void Create()
+    {
+
+    }
     #endregion 
 
     #region Remote Function Calls
