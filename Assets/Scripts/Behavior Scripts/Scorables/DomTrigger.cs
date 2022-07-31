@@ -8,7 +8,8 @@ public class DomTrigger : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Aurochs aurochs = other.GetComponent<Aurochs>();
+        Debug.Log(other.gameObject.name + "in the pen");
+        Aurochs aurochs = other.GetComponentInParent<Aurochs>();
         if (aurochs != null)
         {
             owner.CaughtAurochs(aurochs);

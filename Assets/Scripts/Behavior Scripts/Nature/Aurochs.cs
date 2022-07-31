@@ -5,15 +5,7 @@ using UnityEngine.AI;
 
 public class Aurochs : Gatherable
 {
-    // Clients store twenty states with "playback" information from the server. This
-    // array contains the official state of this object at different times according to
-    // the server.
-    [SerializeField]
-    protected AurochsState[] proxyStates = new AurochsState[20];
-
-    // Keep track of what slots are used
-    protected int proxyStateCount;
-
+    public Transform penTransfrom;
     /// Cached transform
     protected Transform myTransform;
     /// The change in position in the most recent frame. Applies
@@ -35,14 +27,6 @@ public class Aurochs : Gatherable
     private Vector2 escape;
     public Vector3 finalDestination;
     /// Synchronized object state
-    [System.Serializable]
-    protected struct AurochsState
-    {
-        public double timestamp;
-        public Vector2 pos;
-        public Vector2 vel;
-        public Colyseus.Schema.MapSchema<string> attributes;
-    }
     [SerializeField] private bool alive;
     [SerializeField] private NavMeshAgent agent;
     Vector2 lookDirection = new Vector2(1,0);
@@ -163,5 +147,7 @@ public class Aurochs : Gatherable
     public void Domesticate()
     {
         agent.enabled = false;
+        scareTrigger.gameObject.SetActive(false);
+        trigger.gameObject.SetActive(false);
     }
 }

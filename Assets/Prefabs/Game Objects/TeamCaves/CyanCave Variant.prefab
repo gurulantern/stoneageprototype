@@ -15,7 +15,22 @@ PrefabInstance:
     - target: {fileID: 1707997314763811456, guid: 3a02ed17b80a19b40bee2913f1c97b52,
         type: 3}
       propertyPath: m_Name
-      value: CyanCave Variant
+      value: CyanCave
+      objectReference: {fileID: 0}
+    - target: {fileID: 2357369912546629286, guid: 3a02ed17b80a19b40bee2913f1c97b52,
+        type: 3}
+      propertyPath: trigger
+      value: 
+      objectReference: {fileID: 4548525955372893826}
+    - target: {fileID: 2357369912546629286, guid: 3a02ed17b80a19b40bee2913f1c97b52,
+        type: 3}
+      propertyPath: serverType
+      value: CAVE
+      objectReference: {fileID: 0}
+    - target: {fileID: 7291760610122111833, guid: 3a02ed17b80a19b40bee2913f1c97b52,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 0.45
       objectReference: {fileID: 0}
     - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
         type: 3}
@@ -25,12 +40,12 @@ PrefabInstance:
     - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.36
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 14.93
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
         type: 3}
@@ -79,3 +94,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a02ed17b80a19b40bee2913f1c97b52, type: 3}
+--- !u!114 &4548525955372893826 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6582362659070676716, guid: 3a02ed17b80a19b40bee2913f1c97b52,
+    type: 3}
+  m_PrefabInstance: {fileID: 7225642660433840238}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e087197523bc014ab87ee7b70da230d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

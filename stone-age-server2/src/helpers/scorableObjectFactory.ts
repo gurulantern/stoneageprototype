@@ -22,14 +22,7 @@ export function getStateForType(type: string) : ScorableState {
             });
             break;
         }
-        case("FARM_1"):
-        {
-            state.assign({
-                scorableType : type,
-            });
-            break;
-        }
-        case("FARM_2"):
+        case("FARM"):
         {
             state.assign({
                 scorableType : type,
@@ -40,6 +33,13 @@ export function getStateForType(type: string) : ScorableState {
         {
             state.assign({
                 scorableType : type,
+            });
+            break;
+        }
+        case("SAPLING"):
+        {
+            state.assign({
+                scorableType: type,
             });
             break;
         }

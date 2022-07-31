@@ -491,16 +491,30 @@ export class MyRoom extends Room<RoomState> {
     }
 
     async handleObjectInit(client: Client, objectInfo: any) {
-        if (this.state.gatherableObjects.has(objectInfo[0]) === false) {
-            let gatherable = gatherableObjectFactory.getStateForType(objectInfo[1]);
-            gatherable.assign({
-              id: objectInfo[0],
-            });
-            this.state.gatherableObjects.set(objectInfo[0], gatherable);
-            logger.silly(`**** Initializing ${gatherable.id} ***`);
-            //this.broadcast("objectInitialized", { objectID : gatherable.id });
-        } else {
-            logger.info(`**** Gatherables already contains ${objectInfo[0]} ****`);
+        if (objectInfo[2] === "gatherable") {
+            if (this.state.gatherableObjects.has(objectInfo[0]) === false) {
+                let gatherable = gatherableObjectFactory.getStateForType(objectInfo[1]);
+                gatherable.assign({
+                id: objectInfo[0],
+                });
+                this.state.gatherableObjects.set(objectInfo[0], gatherable);
+                logger.silly(`**** Initializing ${gatherable.id} ***`);
+                //this.broadcast("objectInitialized", { objectID : gatherable.id });
+            } else {
+                logger.info(`**** Gatherables already contains ${objectInfo[0]} ****`);
+            }
+        } else if (objectInfo[2] === "scorable") {
+            if (this.state.scorableObjects.has(objectInfo[0]) === false) {
+                let scorable = scorableObjectFactory.getStateForType(objectInfo[1]);
+                scorable.assign({
+                id: objectInfo[0],
+                });
+                this.state.scorableObjects.set(objectInfo[0], scorable);
+                logger.silly(`**** Initializing ${scorable.id} ***`);
+                //this.broadcast("objectInitialized", { objectID : gatherable.id });
+            } else {
+                logger.info(`**** Scorables already contains ${objectInfo[0]} ****`);
+            }
         }
     }
 

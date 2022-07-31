@@ -47,6 +47,10 @@ public class UIController : MonoBehaviour
     public RectTransform playerTagRoot;
 
     [SerializeField]
+    private StructureCost structureCostPrefab;
+    public RectTransform structureCostRoot;
+
+    [SerializeField]
     private TextMeshProUGUI playerJoinMsgPrefab;
 
     [SerializeField]

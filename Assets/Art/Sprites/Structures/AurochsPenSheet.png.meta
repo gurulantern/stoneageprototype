@@ -118,8 +118,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c3107e9bd08bef84495b2c8e3fe99cd5
-      internalID: -1600277962
+      spriteID: 719e9690a7ef5bf448db2d7794301a4f
+      internalID: -1766108404
       vertices: []
       indices: 
       edges: []
@@ -139,8 +139,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 594da26288a90854388a8c905c7c5608
-      internalID: -153400629
+      spriteID: c5fe75eaea967214587e5a5916a61cba
+      internalID: -837056270
       vertices: []
       indices: 
       edges: []
@@ -160,8 +160,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ff40024158a9b314eb12578249d3ea77
-      internalID: 535667028
+      spriteID: 576d9dfcb6a334347bb6c6371a4f14ad
+      internalID: 1588802944
       vertices: []
       indices: 
       edges: []
@@ -177,9 +177,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      AurochsPenSheet_0: -1600277962
-      AurochsPenSheet_2: 535667028
-      AurochsPenSheet_1: -153400629
+      AurochsPenSheet_0: -1766108404
+      AurochsPenSheet_2: 1588802944
+      AurochsPenSheet_1: -837056270
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
