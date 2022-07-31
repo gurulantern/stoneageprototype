@@ -70,6 +70,7 @@ MonoBehaviour:
   alive: 1
   agent: {fileID: 0}
   scareTrigger: {fileID: 9065310719172160089}
+  domTrigger: {fileID: 3670767930153580729}
 --- !u!212 &2277645938194218943
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -345,6 +346,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4093203996115425861}
   - component: {fileID: 3670767930153580729}
+  - component: {fileID: 4294420972347099402}
   m_Layer: 10
   m_Name: DomesticateTrigger
   m_TagString: Untagged
@@ -380,7 +382,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.06220649, y: 0.51048625}
+  m_Offset: {x: 0.1622452, y: 0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -391,8 +393,22 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.1291106, y: 0.80905086}
+  m_Size: {x: 0.09149447, y: 0.8258573}
   m_EdgeRadius: 0
+--- !u!114 &4294420972347099402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6588062651028693148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb79d4c9792b8b149a55920a37c2bc4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  _collider: {fileID: 0}
 --- !u!1 &8879869804733653155
 GameObject:
   m_ObjectHideFlags: 0

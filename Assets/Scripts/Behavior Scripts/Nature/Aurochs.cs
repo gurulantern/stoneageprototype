@@ -33,6 +33,7 @@ public class Aurochs : Gatherable
     private Animator animator;
     private IEnumerator findRest;
     [SerializeField] private AurochsScareable scareTrigger;
+    [SerializeField] private BoxCollider2D domTrigger;
 
 
     private void Awake()
@@ -68,8 +69,10 @@ public class Aurochs : Gatherable
             if (lookDirection.x < .1)
             {
                 scareTrigger.SetOffset(-0.5f);
+                domTrigger.offset = new Vector2(.16f, 0.5f);
             } else {
                 scareTrigger.SetOffset(0.5f);
+                domTrigger.offset = new Vector2(-.16f, 0.5f);
             }
 
             if (Vector2.Distance(this.gameObject.transform.position, finalDestination) < 0.5f)
