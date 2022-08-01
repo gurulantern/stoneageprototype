@@ -49,6 +49,7 @@ public class BlueprintScript : MonoBehaviour
             Instantiate(prefab, transform.position, blankRot);
             Destroy(gameObject);
             createObject?.Invoke(intType, cost);
+            EnvironmentController.Instance.UpdateNavMesh();
         }
 
         if (Input.GetMouseButton(1))

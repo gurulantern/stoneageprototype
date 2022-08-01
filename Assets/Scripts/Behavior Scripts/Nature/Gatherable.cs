@@ -101,7 +101,7 @@ public abstract class Gatherable : Interactable
         ColyseusManager.Instance.SendObjectGather(this, entity);
     }
 
-    public void InitializeSelf()
+    public void InitializeSelf() 
     {
         switch(this.gameObject.tag) {
             case "Fruit_Tree":

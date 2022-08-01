@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using LucidSightTools;
 using UnityEngine;
-
+using UnityEngine.AI;
 
 public class EnvironmentController : MonoBehaviour
 {
     private static EnvironmentController instance;
+    public NavMeshSurface2d Surface2D;
 
     public static EnvironmentController Instance
     {
@@ -40,6 +41,17 @@ public class EnvironmentController : MonoBehaviour
         RoomController.onNetworkScorableAdd += OnScorableAdd;
     }
 
+    private void OnDisable()
+    {
+        RoomController.onNetworkGatherableAdd -= OnGatherableAdd;
+        RoomController.onNetworkScorableAdd -= OnScorableAdd;
+    }
+
+    public void UpdateNavMesh()
+    {
+        Surface2D.UpdateNavMesh(Surface2D.navMeshData);
+    }
+
     private void OnGatherableAdd(GatherableState gatherable)
     {
         GetGatherableByState(gatherable);
@@ -48,6 +60,7 @@ public class EnvironmentController : MonoBehaviour
     private void OnScorableAdd(ScorableState scorable)
     {
         GetScorableByState(scorable);
+        
     }
 
 
@@ -113,7 +126,7 @@ public class EnvironmentController : MonoBehaviour
         return null;
     }
 
-    public void InitializeGatherables() 
+    public void InitializeInteractables() 
     {
         foreach (Gatherable g in gatherables)
         {
@@ -132,6 +145,25 @@ public class EnvironmentController : MonoBehaviour
                     break;
             }
             ColyseusManager.Instance.SendObjectInit(g);
+        }
+
+        foreach (Scorable s in scorables)
+        {
+            switch(s.gameObject.tag) {
+                case "Aurochs_Pen":
+                    s.SetID(aurochsPen += 1);
+                    break;
+                case "Farm":
+                    s.SetID(farms += 1);
+                    break;
+                case "Sapling":
+                    s.SetID(saplings += 1);
+                    break;
+                case "Fishing_Trap":
+                    s.SetID(fishTraps += 1);
+                    break;
+            }
+            ColyseusManager.Instance.SendObjectInit(s);
         }
     }
 }

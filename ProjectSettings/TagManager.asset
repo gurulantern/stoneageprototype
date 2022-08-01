@@ -13,6 +13,9 @@ TagManager:
   - Rival_Cave
   - Aurochs
   - Creeks
+  - Aurochs_Pen
+  - Farm
+  - Sapling
   layers:
   - Default
   - TransparentFX

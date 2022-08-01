@@ -79,6 +79,8 @@ public class GameController : MonoBehaviour
 
         _uiController.UpdateCountDownMessage("");
         _uiController.UpdateGeneralMessageText("");
+
+        //BlueprintScript.createObject += ;
     }
 
     private void OnDisable() 
@@ -96,6 +98,8 @@ public class GameController : MonoBehaviour
         RoomController.onTeamReceive -= OnFullTeamUpdate;
 
         onViewAdded -= OnPlayerCreated;
+
+        //BlueprintScript.createObject -= ;
     }
 
     /// <summary>

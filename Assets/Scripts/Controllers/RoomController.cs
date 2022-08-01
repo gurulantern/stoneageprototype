@@ -342,7 +342,7 @@ using UnityEngine.SceneManagement;
 
         _room.OnStateChange += OnStateChangeHandler;
 
-        GameController.Instance._environmentController.InitializeGatherables();
+        GameController.Instance._environmentController.InitializeInteractables();
 
         _room.OnMessage<OnJoinMessage>("onJoin", msg =>
         {
@@ -670,6 +670,7 @@ using UnityEngine.SceneManagement;
 
         onNetworkScorableAdd?.Invoke(scorable);
 
+        
     }
 
     ///     Callback for when the room's connection closes.

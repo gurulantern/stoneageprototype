@@ -317,9 +317,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3347583393590097385}
   - component: {fileID: 3644569751733699415}
+  - component: {fileID: 5970190385098098925}
   m_Layer: 0
   m_Name: Farm
-  m_TagString: Untagged
+  m_TagString: Farm
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -364,3 +365,29 @@ MonoBehaviour:
   states:
   - {fileID: 114041792621837710}
   - {fileID: 96608932546101143}
+--- !u!61 &5970190385098098925
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8881089692311696464}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.0355016, y: 1.2337215}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3.05909, y: 2.4733996}
+  m_EdgeRadius: 0
