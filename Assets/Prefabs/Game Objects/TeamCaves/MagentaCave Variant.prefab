@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 1707997314763811456, guid: 3a02ed17b80a19b40bee2913f1c97b52,
         type: 3}
       propertyPath: m_Name
-      value: MagentaCave
+      value: MagentaCave Variant
       objectReference: {fileID: 0}
     - target: {fileID: 2357369912546629286, guid: 3a02ed17b80a19b40bee2913f1c97b52,
         type: 3}
@@ -21,6 +21,11 @@ PrefabInstance:
         type: 3}
       propertyPath: serverType
       value: CAVE
+      objectReference: {fileID: 0}
+    - target: {fileID: 5035770600679336772, guid: 3a02ed17b80a19b40bee2913f1c97b52,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7352425672755628119, guid: 3a02ed17b80a19b40bee2913f1c97b52,
         type: 3}

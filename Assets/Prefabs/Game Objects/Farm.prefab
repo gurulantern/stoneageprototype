@@ -181,7 +181,7 @@ GameObject:
   - component: {fileID: 4572950015471290915}
   m_Layer: 9
   m_Name: NavMeshModifier
-  m_TagString: Untagged
+  m_TagString: Farm
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -365,6 +365,7 @@ MonoBehaviour:
   states:
   - {fileID: 114041792621837710}
   - {fileID: 96608932546101143}
+  ownerTeam: 0
 --- !u!61 &5970190385098098925
 BoxCollider2D:
   m_ObjectHideFlags: 0

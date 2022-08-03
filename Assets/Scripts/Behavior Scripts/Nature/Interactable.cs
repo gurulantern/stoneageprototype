@@ -92,7 +92,7 @@ public class Interactable : MonoBehaviour
     public virtual void PlayerLeftRange(CharControllerMulti entity)
     {
         entity.EntityLeftInteractable(this);
-        Debug.Log($"Player left {this}");
+        //Debug.Log($"Player left {this}");
         ///HideInRangeMessage();
     }
 

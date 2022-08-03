@@ -197,23 +197,25 @@ public class CharControllerMulti : NetworkedEntityView
             animator.SetFloat("Speed", localPositionDelta.magnitude * 100);
         } 
 
-        if (wood >= 20)
-        {
-            uiHooks.ToggleMenuButton(0, true);
-        } else {
-            uiHooks.ToggleMenuButton(0, false);
-        } 
+        if (uiHooks != null) {
+            if (wood >= 20)
+            {
+                uiHooks.ToggleMenuButton(0, true);
+            } else {
+                uiHooks.ToggleMenuButton(0, false);
+            } 
 
-        if (wood >= 15) {
-            uiHooks.ToggleMenuButton(1, true);
-        } else {
-            uiHooks.ToggleMenuButton(1, false);
-        }
+            if (wood >= 15) {
+                uiHooks.ToggleMenuButton(1, true);
+            } else {
+                uiHooks.ToggleMenuButton(1, false);
+            }
 
-        if (seeds >= 10) {
-            uiHooks.ToggleMenuButton(2, true);
-        } else {
-            uiHooks.ToggleMenuButton(2, false);
+            if (seeds >= 10) {
+                uiHooks.ToggleMenuButton(2, true);
+            } else {
+                uiHooks.ToggleMenuButton(2, false);
+            }
         }
     }
     

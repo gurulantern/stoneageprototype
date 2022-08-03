@@ -73,10 +73,7 @@ public partial class NetworkedEntity : Schema {
 
 	[Type(21, "number")]
 	public float seeds = default(float);
-
-	[Type(22, "number")]
-	public float observePoints = default(float);
 	
-	[Type(23, "map", typeof(MapSchema<string>), "string")]
+	[Type(22, "map", typeof(MapSchema<string>), "string")]
 	public MapSchema<string> attributes = new MapSchema<string>();
 }

@@ -8,6 +8,9 @@ public class EnvironmentController : MonoBehaviour
 {
     private static EnvironmentController instance;
     public NavMeshSurface2d Surface2D;
+    [SerializeField]
+    private List<GameObject> scorablePrefabs;
+    private int scorableSelector;
 
     public static EnvironmentController Instance
     {
@@ -27,9 +30,13 @@ public class EnvironmentController : MonoBehaviour
 
     public Gatherable[] gatherables;
 
+    private NavMeshData NavMeshData;
+
     // Start is called before the first frame update
     void Awake()
     {   
+        NavMeshData = new NavMeshData();
+        NavMesh.AddNavMeshData(NavMeshData);
         gatherables = GetComponentsInChildren<Gatherable>();
         scorables = GetComponentsInChildren<Scorable>();
         instance = this;
@@ -39,17 +46,23 @@ public class EnvironmentController : MonoBehaviour
     {
         RoomController.onNetworkGatherableAdd += OnGatherableAdd;
         RoomController.onNetworkScorableAdd += OnScorableAdd;
+
+        BlueprintScript.createObject += OnCreateObject;
     }
 
     private void OnDisable()
     {
         RoomController.onNetworkGatherableAdd -= OnGatherableAdd;
         RoomController.onNetworkScorableAdd -= OnScorableAdd;
+
+        BlueprintScript.createObject -= OnCreateObject;
     }
 
     public void UpdateNavMesh()
     {
+        //Surface2D.BuildNavMeshAsync();
         Surface2D.UpdateNavMesh(Surface2D.navMeshData);
+        //NavMeshBuilder.UpdateNavMeshDataAsync(Surface2D.navMeshData, GetBuildSettings(), sources, sources)
     }
 
     private void OnGatherableAdd(GatherableState gatherable)
@@ -59,8 +72,35 @@ public class EnvironmentController : MonoBehaviour
 
     private void OnScorableAdd(ScorableState scorable)
     {
-        GetScorableByState(scorable);
-        
+        if (scorable.ownerId != ColyseusManager.Instance.CurrentUser.sessionId) {
+            Debug.Log("Instantiating " + scorable.id);
+            switch(scorable.scorableType) {
+                case("FARM"):
+                {
+                    scorableSelector = 0;
+                    break;
+                }
+                case("AUROCHS_PEN"):
+                {
+                    scorableSelector = 1;
+                    break;
+                }
+                case("SAPLING"):
+                {
+                    scorableSelector = 2;
+                    break;
+                }
+            }
+            Instantiate(scorablePrefabs[scorableSelector], new Vector2(scorable.xPos, scorable.yPos), new Quaternion(0, 0, 0 , 0));
+            UpdateNavMesh();
+        }
+        //GetScorableByState(scorable);
+    }
+
+    private void OnCreateObject(int type, float cost, Scorable scorable)
+    {
+        InitializeNewInteractable(scorable, scorable.gameObject.transform.position);
+        UpdateNavMesh();
     }
 
 
@@ -99,7 +139,7 @@ public class EnvironmentController : MonoBehaviour
             return t;
         }
 
-        LSLog.LogError("Room has no reference to an gatherable with ID " + state.id + " but it was requested!");
+        LSLog.LogError("Room has no reference to a gatherable with ID " + state.id + " but it was requested!");
         return null;
     }
 
@@ -163,8 +203,27 @@ public class EnvironmentController : MonoBehaviour
                     s.SetID(fishTraps += 1);
                     break;
             }
-            ColyseusManager.Instance.SendObjectInit(s);
+            ColyseusManager.Instance.SendObjectInit(s, s.gameObject.transform.position.x, s.gameObject.transform.position.y, s.ownerTeam);
         }
+    }
+
+    public void InitializeNewInteractable(Scorable s, Vector2 position)
+    {
+            switch(s.gameObject.tag) {
+                case "Aurochs_Pen":
+                    s.SetID(aurochsPen += 1);
+                    break;
+                case "Farm":
+                    s.SetID(farms += 1);
+                    break;
+                case "Sapling":
+                    s.SetID(saplings += 1);
+                    break;
+                case "Fishing_Trap":
+                    s.SetID(fishTraps += 1);
+                    break;
+            }
+            ColyseusManager.Instance.SendObjectInit(s, position.x, position.y, s.ownerTeam);
     }
 }
 

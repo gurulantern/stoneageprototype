@@ -28,4 +28,10 @@ public partial class ScorableState : Schema {
 
     [Type(6, "number")]
 	public float seedsCost = default(float);
+
+    [Type(7, "string")]
+	public string ownerId = default(string);
+
+    [Type(8, "number")]
+	public float teamId = default(float);
 }

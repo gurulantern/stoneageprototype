@@ -14,9 +14,11 @@ using UnityEngine.Events;
 /// </summary>
 public abstract class Scorable : Interactable
 {
+
     public string requiredResource;
-    [SerializeField] protected GameObject[] states;
-    
+    [SerializeField] 
+    protected GameObject[] states;
+    public int ownerTeam;
     /// <summary>
     /// The schema state provided from the server
     /// </summary>
@@ -47,6 +49,11 @@ public abstract class Scorable : Interactable
     public void SetID(int num)
     {
         _itemID = $"{gameObject.tag}_{num}";
+    }
+
+    public void SetOwnerTeam(int num)
+    {
+        ownerTeam = num;
     }
 
     /// <summary>
@@ -81,7 +88,7 @@ public abstract class Scorable : Interactable
         //Tell the server that this entity is attempting to use this interactable
         ColyseusManager.Instance.SendObjectScore(this, entity);
     }
-
+/*
     public void InitializeSelf()
     {
         switch(this.gameObject.tag) {
@@ -98,9 +105,9 @@ public abstract class Scorable : Interactable
                 this.SetID(EnvironmentController.Instance.fishTraps += 1);
                 break;
         }
-        ColyseusManager.Instance.SendObjectInit(this);
+        ColyseusManager.Instance.SendObjectInit(this, this.gameObject.transform.position.x, this.gameObject.transform.position.y);
     }
-
+*/
     public override void OnSuccessfulUse(CharControllerMulti entity, string type)
     {
         base.OnSuccessfulUse(entity, type);

@@ -206,14 +206,19 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
 
     public void SendObjectInit(Gatherable gatherable)
     {
-        LSLog.Log("Initializing " + gatherable.ID);
-        NetSend("objectInit", new object[] {gatherable.ID, gatherable.GetServerType(), "gatherable"});
+        //LSLog.Log("Initializing " + gatherable.ID);
+        NetSend("objectInit", new object[] {gatherable.ID, gatherable.GetServerType()});
     }
 
-    public void SendObjectInit(Scorable scorable)
+    public void SendObjectInit(Scorable scorable, float xPos, float yPos, int teamIndex)
     {
-        LSLog.Log("Initializing " + scorable.ID);
-        NetSend("objectInit", new object[] {scorable.ID, scorable.GetServerType(), "scorable"});
+        //LSLog.Log("Initializing " + scorable.ID);
+        NetSend("objectInit", new object[] {scorable.ID, scorable.GetServerType(), xPos, yPos, teamIndex});
+    }
+
+    public void SetObjectOwner(Scorable scorable)
+    {
+        NetSend("objectOwner", new object[] {scorable.ID, CurrentUser.sessionId});
     }
 
     /// <summary>

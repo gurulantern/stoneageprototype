@@ -25,7 +25,7 @@ public class AurochsScareable : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player")) //|| other.gameObject.CompareTag("Other_Player"))
         {
-            currentEntity = other.gameObject.GetComponent<CharControllerMulti>();
+            currentEntity = other.gameObject.GetComponentInParent<CharControllerMulti>();
             Debug.Log(currentEntity.gameObject.name + "is currently scaring");
             Vector2 scarerPos = currentEntity.transform.position;
             Vector2 myPos = this.gameObject.transform.position;

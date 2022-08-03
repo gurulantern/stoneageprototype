@@ -23,7 +23,6 @@ export class NetworkedEntity extends Schema {
   @type("number") meat: number = 0;
   @type("number") wood: number = 0;
   @type("number") seeds: number = 0;
-  @type("number") observePoints: number = 0;
   @type({map: "string"}) attributes = new MapSchema<string>();
 }
 
@@ -45,6 +44,8 @@ export class ScorableState extends Schema {
   @type("number") availableTimestamp: number = 0.0;
   @type("number") woodCost: number = 0;
   @type("number") seedsCost: number = 0;
+  @type("string") ownerId: string = "";
+  @type("number") teamId: string = "";
 } 
 
 export class NetworkedUser extends Schema {

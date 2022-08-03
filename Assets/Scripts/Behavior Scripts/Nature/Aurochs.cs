@@ -26,7 +26,6 @@ public class Aurochs : Gatherable
     [SerializeField]
     private Vector2 escape;
     public Vector3 finalDestination;
-    /// Synchronized object state
     [SerializeField] private bool alive;
     [SerializeField] private NavMeshAgent agent;
     Vector2 lookDirection = new Vector2(1,0);

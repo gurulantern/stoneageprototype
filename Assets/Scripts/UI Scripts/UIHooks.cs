@@ -73,7 +73,7 @@ public class UIHooks : MonoBehaviour
         _createMenu.SetButtonActive(button, active);
     }
 
-    public void ChargePlayer(int type, float cost)
+    public void ChargePlayer(int type, float cost, Scorable scorable)
     {
         character.SubtractResource(type, cost);
     }

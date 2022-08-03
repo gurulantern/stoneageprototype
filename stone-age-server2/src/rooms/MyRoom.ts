@@ -491,7 +491,7 @@ export class MyRoom extends Room<RoomState> {
     }
 
     async handleObjectInit(client: Client, objectInfo: any) {
-        if (objectInfo[2] === "gatherable") {
+        if (objectInfo.length === 2) {
             if (this.state.gatherableObjects.has(objectInfo[0]) === false) {
                 let gatherable = gatherableObjectFactory.getStateForType(objectInfo[1]);
                 gatherable.assign({
@@ -499,19 +499,21 @@ export class MyRoom extends Room<RoomState> {
                 });
                 this.state.gatherableObjects.set(objectInfo[0], gatherable);
                 logger.silly(`**** Initializing ${gatherable.id} ***`);
-                //this.broadcast("objectInitialized", { objectID : gatherable.id });
+                this.broadcast("objectInitialized", { objectID : gatherable.id });
             } else {
                 logger.info(`**** Gatherables already contains ${objectInfo[0]} ****`);
             }
-        } else if (objectInfo[2] === "scorable") {
+        } else {
             if (this.state.scorableObjects.has(objectInfo[0]) === false) {
                 let scorable = scorableObjectFactory.getStateForType(objectInfo[1]);
                 scorable.assign({
                 id: objectInfo[0],
+                xPos: objectInfo[2],
+                yPos: objectInfo[3], 
+                teamId: objectInfo[4]
                 });
                 this.state.scorableObjects.set(objectInfo[0], scorable);
                 logger.silly(`**** Initializing ${scorable.id} ***`);
-                //this.broadcast("objectInitialized", { objectID : gatherable.id });
             } else {
                 logger.info(`**** Scorables already contains ${objectInfo[0]} ****`);
             }
@@ -568,8 +570,6 @@ export class MyRoom extends Room<RoomState> {
         if (scoringState != null && scorableObject != null) {
             this.broadcast("objectScored", { scoredObjectID: scorableObject.id, scoringStateID: scoringState.sessionId });
         }
-            
-          
     }
     
 }

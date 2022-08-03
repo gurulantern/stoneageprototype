@@ -210,7 +210,6 @@ public class NetworkedEntityView : StoneColyseusNetworkedEntityView
         int meat = (int)state.meat;
         int wood = (int)state.wood;
         int seeds = (int)state.seeds;
-        int observePoints = (int)state.observePoints;
 
         // If we're ignoring position data from the owning session, then use our own values. This
         // should only happen in special cases
@@ -256,7 +255,6 @@ public class NetworkedEntityView : StoneColyseusNetworkedEntityView
         newState.meat = meat;
         newState.wood = wood;
         newState.seeds = seeds;
-        newState.observePoints = observePoints;
         newState.attributes = state.Clone().attributes;
         proxyStates[0] = newState;
 

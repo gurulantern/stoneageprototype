@@ -10,6 +10,7 @@ public class BlueprintScript : MonoBehaviour
     Vector2 movePoint;
     Vector2 mousePosition;
     public BoxCollider2D trigger;
+    public int prefabInt;
     Quaternion blankRot = new Quaternion(0, 0, 0 , 0);
     [SerializeField] private GameObject prefab;
     [SerializeField] private SpriteRenderer _blueprintImg;
@@ -20,8 +21,10 @@ public class BlueprintScript : MonoBehaviour
     private int _cCollisions = 0;
     [SerializeField] private int intType;
     public float cost;
-    public delegate void CreateObject(int type, float cost);
+    public delegate void CreateObject(int type, float cost, Scorable scorable);
     public static event CreateObject createObject;
+    [SerializeField]
+    private GameObject currentScorable; 
     
 
     // Start is called before the first frame update
@@ -46,10 +49,10 @@ public class BlueprintScript : MonoBehaviour
 
         if (Input.GetMouseButton(0) && _oCollisions == 0 && _cCollisions == 0)
         {
-            Instantiate(prefab, transform.position, blankRot);
+            currentScorable = Instantiate(prefab, transform.position, blankRot);
+            currentScorable.GetComponent<Scorable>().SetOwnerTeam(GameController.Instance.GetTeamIndex(ColyseusManager.Instance.CurrentUser.sessionId));
             Destroy(gameObject);
-            createObject?.Invoke(intType, cost);
-            EnvironmentController.Instance.UpdateNavMesh();
+            createObject?.Invoke(intType, cost, currentScorable.GetComponent<Scorable>());
         }
 
         if (Input.GetMouseButton(1))

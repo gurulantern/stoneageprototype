@@ -56,6 +56,7 @@ MonoBehaviour:
   - {fileID: 2705728215138688728}
   - {fileID: 7390998013474769529}
   - {fileID: 8536062194861184812}
+  ownerTeam: 0
 --- !u!1 &2371950651226760343
 GameObject:
   m_ObjectHideFlags: 0
@@ -69,7 +70,7 @@ GameObject:
   - component: {fileID: 1847987971774719774}
   m_Layer: 0
   m_Name: Collider
-  m_TagString: Untagged
+  m_TagString: Aurochs_Pen
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -142,13 +143,14 @@ GameObject:
   - component: {fileID: 6923670692166454056}
   - component: {fileID: 8429295666832293606}
   - component: {fileID: 1010521178333601714}
+  - component: {fileID: 8667160492649993599}
   m_Layer: 0
   m_Name: Unfinished
-  m_TagString: Untagged
+  m_TagString: Aurochs_Pen
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6923670692166454056
 Transform:
   m_ObjectHideFlags: 0
@@ -243,6 +245,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.875, y: 2.6875}
   m_EdgeRadius: 0
+--- !u!114 &8667160492649993599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2705728215138688728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &2996129212039295803
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,7 +308,7 @@ GameObject:
   - component: {fileID: 302252662947971133}
   m_Layer: 0
   m_Name: Collider
-  m_TagString: Untagged
+  m_TagString: Aurochs_Pen
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -509,11 +527,11 @@ GameObject:
   - component: {fileID: 9071541461962965218}
   m_Layer: 0
   m_Name: Finished
-  m_TagString: Untagged
+  m_TagString: Aurochs_Pen
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1940275150025691213
 Transform:
   m_ObjectHideFlags: 0
@@ -598,7 +616,7 @@ GameObject:
   - component: {fileID: 1862174889311087523}
   m_Layer: 0
   m_Name: Full
-  m_TagString: Untagged
+  m_TagString: Aurochs_Pen
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

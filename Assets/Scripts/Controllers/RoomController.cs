@@ -342,8 +342,6 @@ using UnityEngine.SceneManagement;
 
         _room.OnStateChange += OnStateChangeHandler;
 
-        GameController.Instance._environmentController.InitializeInteractables();
-
         _room.OnMessage<OnJoinMessage>("onJoin", msg =>
         {
             _currentNetworkedUser = msg.newNetworkedUser;
@@ -378,15 +376,13 @@ using UnityEngine.SceneManagement;
             _serverTime = message.serverTime;
             _waitForPong = false;
         });
-
-/*        
+        
         _room.OnMessage<ObjectInitMessage>("objectInitialized", (msg) =>
         {
             Debug.Log("Received object init message");
-                EnvironmentController.Instance.GetGatherableByState(Room.State.gatherableObjects[msg.objectID]);
-
+            EnvironmentController.Instance.GetGatherableByState(Room.State.gatherableObjects[msg.objectID]);
         });
-*/
+
         _room.OnMessage<ObjectGatheredMessage>("objectGathered", (msg) =>
         {
             ObjectInteraction(msg.gatheredObjectID, msg.gatheringStateID, msg.gatheredObjectType, msg.gatherOrSpend);
@@ -450,6 +446,8 @@ using UnityEngine.SceneManagement;
 
         _room.colyseusConnection.OnError += Room_OnError;
         _room.colyseusConnection.OnClose += Room_OnClose;
+
+        GameController.Instance._environmentController.InitializeInteractables();
     }
 
     private void OnLeaveRoom(int code)
@@ -653,8 +651,8 @@ using UnityEngine.SceneManagement;
 
     private void OnGatherableAdd(string gatherableID, GatherableState gatherable)
     {
-        LSLog.LogImportant(
-            $"Gatherable [{gatherableID} | {gatherable.id}] add: x => {gatherable.xPos}, y => {gatherable.yPos}");
+        //LSLog.LogImportant(
+        //    $"Gatherable [{gatherableID} | {gatherable.id}] add: x => {gatherable.xPos}, y => {gatherable.yPos}");
 
         _gatherables.Add(gatherableID, gatherable);
 
@@ -664,13 +662,12 @@ using UnityEngine.SceneManagement;
     private void OnScorableAdd(string scorableID, ScorableState scorable)
     {
         LSLog.LogImportant(
-            $"Gatherable [{scorableID} | {scorable.id}] add: x => {scorable.xPos}, y => {scorable.yPos}");
+            $"Scorable [{scorableID} | {scorable.id}] add: x => {scorable.xPos}, y => {scorable.yPos}");
 
         _scorables.Add(scorableID, scorable);
 
         onNetworkScorableAdd?.Invoke(scorable);
 
-        
     }
 
     ///     Callback for when the room's connection closes.

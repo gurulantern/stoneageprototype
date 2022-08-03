@@ -150,11 +150,8 @@ public class GameController : MonoBehaviour
         _uiController.UpdatePlayerReadiness(false);
 
         SetCurrentUserAttributes(new Dictionary<string, string> { { "readyState", "ready" } });
-    }
+        _environmentController.InitializeInteractables();
 
-    public void SetSettings()
-    {
-        
     }
     
     private void CreateView(NetworkedEntity entity)

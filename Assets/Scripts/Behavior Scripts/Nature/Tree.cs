@@ -19,7 +19,6 @@ public class Tree : Gatherable
         colliderSize.y = .397f;
         this.gameObject.tag = "Tree";
         type = "Tree";
-        _navMeshCollider.enabled = false;
     }
 
     public override void SetState(GatherableState gatherable)
