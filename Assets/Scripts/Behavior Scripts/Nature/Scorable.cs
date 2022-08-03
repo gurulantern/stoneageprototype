@@ -18,6 +18,7 @@ public abstract class Scorable : Interactable
     public string requiredResource;
     [SerializeField] 
     protected GameObject[] states;
+    public string progressCost;
     public int ownerTeam;
     /// <summary>
     /// The schema state provided from the server
@@ -33,6 +34,9 @@ public abstract class Scorable : Interactable
     }
 
     protected string clickedTag;
+
+    public delegate void Finish(int type, float cost, Scorable scorable);
+    public static event Finish finish;
 
 
         /// <summary>

@@ -280,6 +280,9 @@ MonoBehaviour:
   playerTagPrefab: {fileID: 8381689106880267200, guid: 8be584719ea600b4e93e34fa6bc9399a,
     type: 3}
   playerTagRoot: {fileID: 7163695412494435900}
+  progressPrefab: {fileID: 4746796428436484202, guid: 92f44b50c68f4594c86ed614ca5fa2a0,
+    type: 3}
+  progressRoot: {fileID: 810776954850759261}
   playerJoinMsgPrefab: {fileID: 4995381016287438655, guid: 5c4240874d420e743a7a28c024613562,
     type: 3}
   playerJoinMsgRoot: {fileID: 5634841261323980296}

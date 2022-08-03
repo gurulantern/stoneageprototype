@@ -150,8 +150,6 @@ public class GameController : MonoBehaviour
         _uiController.UpdatePlayerReadiness(false);
 
         SetCurrentUserAttributes(new Dictionary<string, string> { { "readyState", "ready" } });
-        _environmentController.InitializeInteractables();
-
     }
     
     private void CreateView(NetworkedEntity entity)
@@ -602,8 +600,8 @@ public class GameController : MonoBehaviour
         ColyseusManager.CustomServerMethod("observe", new object[] { entityID, observedObject, teamIndex});
     }
 
-    public void RegisterCreate(string entityID, string createType, string teamIndex)
+    public void RegisterCreate(string entityID, string createType, string createScore, string teamIndex)
     {
-        ColyseusManager.CustomServerMethod("create", new object[] { entityID, createType, teamIndex });
+        ColyseusManager.CustomServerMethod("create", new object[] { entityID, createType, createScore, teamIndex });
     }
 }

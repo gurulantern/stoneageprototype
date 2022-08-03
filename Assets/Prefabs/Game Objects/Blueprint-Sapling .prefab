@@ -106,12 +106,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trigger: {fileID: 5011527245919133396}
+  prefabInt: 0
   prefab: {fileID: 456576252172538046, guid: 84f31efe94b085c41b25a98238b29428, type: 3}
   _blueprintImg: {fileID: 3136216883374909209}
   green: {r: 0.031413555, g: 1, b: 0, a: 0.49019608}
   red: {r: 1, g: 0, b: 0.010471344, a: 0.49019608}
-  intType: 4
+  intType: 3
   cost: 10
+  currentScorable: {fileID: 0}
 --- !u!50 &8141735767709139479
 Rigidbody2D:
   serializedVersion: 4

@@ -81,12 +81,19 @@ public class CharControllerMulti : NetworkedEntityView
     private void OnEnable() 
     {
         GameController.onUpdateClientTeam += OnTeamUpdated; 
-
+        if (IsMine) {
+            BlueprintScript.createObject += Create;
+            Scorable.finish += Create;
+        }
     }
 
     private void OnDisable() 
     {
         GameController.onUpdateClientTeam -= OnTeamUpdated;
+        if (IsMine) {
+            BlueprintScript.createObject -= Create;
+            Scorable.finish -= Create;
+        }
         onPlayerDeactivated?.Invoke(this);    
     }
 
@@ -105,6 +112,13 @@ public class CharControllerMulti : NetworkedEntityView
             teamNumber = GameController.Instance.GetTeamNumber(team);
             SetTeam(state, team, teamNumber);
             Debug.Log($"Your team is {team}");
+        }
+    }
+
+    private void Create(int type, float cost, Scorable created)
+    {
+        if (type == 3) {
+            GameController.Instance.RegisterCreate(this.Id, created.gameObject.tag, "1", teamIndex.ToString());
         }
     }
 
@@ -405,6 +419,7 @@ public class CharControllerMulti : NetworkedEntityView
                             break;
                         case "Tree":
                             icon = 2;
+                            GameController.Instance.RegisterCreate(this.Id, currentGatherable.gameObject.tag, "-2", teamIndex.ToString());
                             break;
                         case "Fishing_Spot":
                             icon = 4;

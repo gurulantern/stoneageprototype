@@ -172,18 +172,16 @@ customMethods.create = function (roomRef: MyRoom, client: Client, request: any) 
 
     const creatorID = param[0];
     const createdType = param[1];
-    const createScore = param[2]
+    const createScore = Number(param[2]);
+    logger.silly(`${createScore} and ${param[2]}`);
+
     const teamIndex = Number(param[3]);
 
     if (roomRef.teams.get(teamIndex).has(client.id)) {
-        if (createdType == "Tree" || roomRef.aurochs < roomRef.aurochsTotal) {
-            let score: number = -(createScore) * roomRef.createScoreMultiplier;
-        } else {
-            let score: number = createScore * roomRef.createScoreMultiplier;
-        }
-        updateTeamScores(roomRef, creatorID, "observe", score);
+        let score: number = createScore * roomRef.createScoreMultiplier;
+        updateTeamScores(roomRef, creatorID, "create", score);
         updateTypeAmount(roomRef, teamIndex, createdType);
-        logger.silly(`${creatorID} scored ${score} observe for team${teamIndex}`);
+        logger.silly(`${creatorID} scored ${score} create for team${teamIndex}`);
     } else {
         logger.silly(`No client with id of ${client.id} to score.`)
     }

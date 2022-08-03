@@ -47,12 +47,11 @@ public class UIController : MonoBehaviour
     public RectTransform playerTagRoot;
 
     [SerializeField]
-    private StructureCost structureCostPrefab;
-    public RectTransform structureCostRoot;
+    private ProgressContainer progressPrefab;
+    public RectTransform progressRoot;
 
     [SerializeField]
     private TextMeshProUGUI playerJoinMsgPrefab;
-
     [SerializeField]
     private RectTransform playerJoinMsgRoot;
 
@@ -66,6 +65,7 @@ public class UIController : MonoBehaviour
 
 
     private Dictionary<CharControllerMulti, PlayerTag> playerTags;
+    private Dictionary<Scorable, ProgressContainer> progressCounters;
     public bool IsReady { get; private set; } = false;
     public bool HideTags { get; set; } = false;
     private Queue<GameObject> playerJoinMessages;
@@ -107,6 +107,8 @@ public class UIController : MonoBehaviour
             playerTags = new Dictionary<CharControllerMulti, PlayerTag>();
             playerJoinMessages = new Queue<GameObject>();
 
+            progressCounters = new Dictionary<Scorable, ProgressContainer>();
+
             //playerInfo.gameObject.SetActive(false);
 
             while (GameController.Instance.JoinComplete == false)
@@ -138,8 +140,11 @@ public class UIController : MonoBehaviour
         CharControllerMulti.onPlayerActivated += OnPlayerActivated;
         CharControllerMulti.onPlayerDeactivated += OnPlayerDeactivated;
         RoomController.onPlayerJoined += OnPlayerJoined;
+        BlueprintScript.createObject += OnCreateObject;
+        Scorable.finish += OnFinishObject;
         // For player list
         RoomController.onAddNetworkEntity += OnAddNetworkEntity;
+        RoomController.onNetworkScorableAdd += OnCreateObject;
         //RoomController.onRemoveNetworkEntity += OnRemoveNetworkEntity;
     }
 
@@ -148,12 +153,16 @@ public class UIController : MonoBehaviour
         CharControllerMulti.onPlayerActivated -= OnPlayerActivated;
         CharControllerMulti.onPlayerDeactivated -= OnPlayerDeactivated;
         RoomController.onPlayerJoined -= OnPlayerJoined;
+        BlueprintScript.createObject -= OnCreateObject;
+        Scorable.finish -= OnFinishObject;
+
         // For player list
         RoomController.onAddNetworkEntity -= OnAddNetworkEntity;
+        RoomController.onNetworkScorableAdd -= OnCreateObject;
         //RoomController.onRemoveNetworkEntity -= OnRemoveNetworkEntity;
     }
 
-        private void OnPlayerActivated(CharControllerMulti playerController)
+    private void OnPlayerActivated(CharControllerMulti playerController)
     {
         if (!IsReady)
         {
@@ -217,6 +226,41 @@ public class UIController : MonoBehaviour
         optionsButton.gameObject.SetActive(showButton);
         exitButton.gameObject.SetActive(showButton);
         countDownText.gameObject.SetActive(!showButton);
+    }
+
+    private void OnCreateObject(int type, float cost, Scorable scorable)
+    {
+        Debug.Log("Spawning Progress Counter");
+        if (progressCounters.ContainsKey(scorable) == false && type != 3 &&
+            scorable.ownerTeam == GameController.Instance.GetTeamIndex(ColyseusManager.Instance.CurrentUser.sessionId))
+        {
+            ProgressContainer newProgress = Instantiate(progressPrefab);
+
+            newProgress.transform.SetParent(progressRoot);
+            newProgress.SetProgress(scorable.ownerTeam, type, scorable.progressCost);
+
+            progressCounters.Add(scorable, newProgress);
+        }
+    } 
+    private void OnCreateObject(ScorableState scorable)
+    {
+        Debug.Log("Spawning Progress Counter");
+        Scorable interactable = EnvironmentController.Instance.GetScorableByState(scorable);
+        if (progressCounters.ContainsKey(interactable) == false && scorable.ownerId != ColyseusManager.Instance.CurrentUser.sessionId && scorable.scorableType != "SAPLING" &&
+            scorable.teamId == GameController.Instance.GetTeamIndex(ColyseusManager.Instance.CurrentUser.sessionId)) 
+        {
+            ProgressContainer newProgress = Instantiate(progressPrefab);
+
+            newProgress.transform.SetParent(progressRoot);
+            newProgress.SetProgress(interactable.ownerTeam, scorable.scorableType == "FARM"? 1 : 0, interactable.progressCost);
+
+            progressCounters.Add(interactable, newProgress);
+        }
+    }
+
+    private void OnFinishObject(int type, float cost, Scorable scorable)
+    {
+
     }
 
     public void AllowExit(bool allowed)
@@ -284,6 +328,7 @@ public class UIController : MonoBehaviour
         {
             UpdatePlayerTags();
         }
+        UpdateProgressCounters();
     }
 
     private void UpdatePlayerTags()
@@ -291,6 +336,14 @@ public class UIController : MonoBehaviour
         foreach (KeyValuePair<CharControllerMulti, PlayerTag> pair in playerTags)
         {
             pair.Value.UpdateTag(Camera.main.WorldToScreenPoint(pair.Key.transform.position), pair.Key.TeamIndex);
+        }
+    }
+
+    private void UpdateProgressCounters()
+    {
+        foreach (KeyValuePair<Scorable, ProgressContainer> pair in progressCounters)
+        {
+            pair.Value.UpdatePosition(Camera.main.WorldToScreenPoint(pair.Key.transform.position));
         }
     }
 
