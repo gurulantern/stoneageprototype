@@ -17,17 +17,34 @@ public class UIHooks : MonoBehaviour
     [SerializeField] TextMeshProUGUI _personalFishCount;
     [SerializeField] CreateMenu _createMenu;
 
+    [SerializeField]
+    private ProgressContainer progressPrefab;
+    private Dictionary<Scorable, ProgressContainer> progressCounters;
+    public RectTransform progressRoot;
+
+
     
     public CharControllerMulti character;
     // Start is called before the first frame update
 
-    public void Initialize() {
+    void Awake()
+    {
+        progressCounters = new Dictionary<Scorable, ProgressContainer>();
+ 
+    }
+
+    public void Initialize(CharControllerMulti player) {
         character = this.gameObject.GetComponent<CharControllerMulti>();
         _staminaSlider.value = character.maxStamina;
 
         character.ChangedResource += UpdateText;
     }
     
+    void Update()
+    {
+        UpdateProgressCounters();
+    }
+
     void FixedUpdate()
     {
         if (character.IsMine && character != null) //&& GameController.Instance.gamePlaying)
@@ -46,12 +63,15 @@ public class UIHooks : MonoBehaviour
     void OnEnable() 
     {
         BlueprintScript.createObject += ChargePlayer;
+        CharControllerMulti.initProgresses += AddProgresses;
         //character.ChangedResource += UpdateText;
     }
 
     void OnDisable()
     {
         BlueprintScript.createObject -= ChargePlayer;
+        CharControllerMulti.initProgresses -= AddProgresses;
+
     }
 
     void UpdateText(int icon) 
@@ -76,5 +96,34 @@ public class UIHooks : MonoBehaviour
     public void ChargePlayer(int type, float cost, Scorable scorable)
     {
         character.SubtractResource(type, cost);
+    }
+
+    public void AddProgresses(CharControllerMulti player) {
+        foreach (Scorable s in EnvironmentController.Instance.scorables) {
+            OnInitObject(s, player);
+        }
+    }
+
+    private void OnInitObject(Scorable scorable, CharControllerMulti player)
+    {
+        Debug.Log("Spawning Progress Counter");
+        if (progressCounters.ContainsKey(scorable) == false && scorable.State.finished == false 
+            && scorable.ownerTeam == player.TeamIndex) 
+        {
+            ProgressContainer newProgress = Instantiate(progressPrefab);
+            newProgress.transform.SetParent(progressRoot);
+            scorable.progress = newProgress;
+            scorable.SetProgress();
+
+            progressCounters.Add(scorable, newProgress);
+        }
+    }
+
+    private void UpdateProgressCounters()
+    {
+        foreach (KeyValuePair<Scorable, ProgressContainer> pair in progressCounters)
+        {
+            pair.Value.UpdatePosition(Camera.main.WorldToScreenPoint(pair.Key.transform.position));
+        }
     }
 }

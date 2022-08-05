@@ -42,10 +42,11 @@ export class ScorableState extends Schema {
   @type("number") xPos: number = 0;
   @type("number") yPos: number = 0;
   @type("number") availableTimestamp: number = 0.0;
-  @type("number") woodCost: number = 0;
-  @type("number") seedsCost: number = 0;
+  @type("number") woodPaid: number = 0;
+  @type("number") seedsPaid: number = 0;
   @type("string") ownerId: string = "";
   @type("number") teamId: string = "";
+  @type("boolean") finished: boolean = false;
 } 
 
 export class NetworkedUser extends Schema {

@@ -228,7 +228,7 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
     /// <param name="entity">The entity that has used the <see cref="Gatherable"/>.</param>
     public void SendObjectGather(Gatherable gatherable, NetworkedEntityView entity)
     {
-        LSLog.Log("Sending object interaction for ID " + gatherable.ID);
+        //LSLog.Log("Sending object interaction for ID " + gatherable.ID);
         NetSend("objectGathered", new object[] {gatherable.ID, entity.Id, gatherable.GetServerType()});
     }
     /// <summary>

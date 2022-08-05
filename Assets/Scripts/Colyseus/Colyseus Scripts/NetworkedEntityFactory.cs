@@ -190,6 +190,12 @@ public class NetworkedEntityFactory: MonoBehaviour
         _entityViews.Add(model.id, (NetworkedEntityView)view); 
         Debug.Log(model.id + " registered in entityViews");
         view.SendMessage("OnEntityViewRegistered", SendMessageOptions.DontRequireReceiver);
+
+        if (entityView.IsMine)
+        {
+            entityView.gameObject.GetComponent<CharControllerMulti>().AddTheseProgresses();
+        }
+
     }
 
     public void UnregisterNetworkedEntityView(NetworkedEntity model)

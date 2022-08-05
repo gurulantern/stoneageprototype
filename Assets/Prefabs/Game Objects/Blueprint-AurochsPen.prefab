@@ -54,8 +54,9 @@ MonoBehaviour:
   green: {r: 0.03137255, g: 1, b: 0, a: 0.49019608}
   red: {r: 1, g: 0, b: 0.010471344, a: 0.49019608}
   intType: 2
-  cost: 15
+  cost: 1
   currentScorable: {fileID: 0}
+  _environmentController: {fileID: 0}
 --- !u!50 &8928412812239838661
 Rigidbody2D:
   serializedVersion: 4

@@ -24,14 +24,17 @@ public partial class ScorableState : Schema {
 	public float availableTimestamp = default(float);
 
 	[Type(5, "number")]
-	public float woodCost = default(float);
+	public float woodPaid = default(float);
 
     [Type(6, "number")]
-	public float seedsCost = default(float);
+	public float seedsPaid = default(float);
 
     [Type(7, "string")]
 	public string ownerId = default(string);
 
     [Type(8, "number")]
 	public float teamId = default(float);
+	
+	[Type(9, "boolean")]
+	public bool finished = default(bool);
 }

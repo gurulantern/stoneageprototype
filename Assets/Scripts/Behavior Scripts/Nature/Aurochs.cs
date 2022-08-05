@@ -117,7 +117,7 @@ public class Aurochs : Gatherable
 
         if (remote == false) 
         {
-            Debug.Log($"Setting a new destination in the state for remote - {newDestination}");
+            //Debug.Log($"Setting a new destination in the state for remote - {newDestination}");
             ColyseusManager.NetSend("animalInteraction", new object[]{ this._state.id, newDestination.x, newDestination.y });
         }
 
@@ -135,7 +135,7 @@ public class Aurochs : Gatherable
 
         ResumeJourney();
 
-        Debug.Log("Pause coroutine finished");
+        //Debug.Log("Pause coroutine finished");
         yield break; 
     }
 

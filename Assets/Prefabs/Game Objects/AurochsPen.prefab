@@ -56,6 +56,10 @@ MonoBehaviour:
   - {fileID: 2705728215138688728}
   - {fileID: 7390998013474769529}
   - {fileID: 8536062194861184812}
+  progressCosts:
+  - 20
+  progress: {fileID: 0}
+  finished: 0
   ownerTeam: 0
 --- !u!1 &2371950651226760343
 GameObject:

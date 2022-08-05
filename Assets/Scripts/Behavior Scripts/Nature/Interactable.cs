@@ -81,7 +81,7 @@ public class Interactable : MonoBehaviour
             return;
 
         entity.EntityNearInteractable(this);
-        Debug.Log($"Player is near {this}");
+        //Debug.Log($"Player is near {this}");
         ///DisplayInRangeMessage();
     }
 

@@ -4078,8 +4078,11 @@ MonoBehaviour:
   farms: -1
   saplings: -1
   fishTraps: -1
+  caves: -1
   scorables: []
+  scoreTransform: {fileID: 1193226700}
   gatherables: []
+  gatherTransform: {fileID: 1637951098}
 --- !u!1001 &833057836
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4483,6 +4486,11 @@ PrefabInstance:
       objectReference: {fileID: 1986584445}
     - target: {fileID: 4183993424342884441, guid: 3d1628db331f9124aad8c8281d5f333b,
         type: 3}
+      propertyPath: progressRoot
+      value: 
+      objectReference: {fileID: 211113146}
+    - target: {fileID: 4183993424342884441, guid: 3d1628db331f9124aad8c8281d5f333b,
+        type: 3}
       propertyPath: _observeSlider
       value: 
       objectReference: {fileID: 1573249496}
@@ -4491,6 +4499,12 @@ PrefabInstance:
       propertyPath: _staminaSlider
       value: 
       objectReference: {fileID: 1573249495}
+    - target: {fileID: 4183993424342884441, guid: 3d1628db331f9124aad8c8281d5f333b,
+        type: 3}
+      propertyPath: progressPrefab
+      value: 
+      objectReference: {fileID: 4746796428436484202, guid: 92f44b50c68f4594c86ed614ca5fa2a0,
+        type: 3}
     - target: {fileID: 4183993424342884441, guid: 3d1628db331f9124aad8c8281d5f333b,
         type: 3}
       propertyPath: _personalFoodCount
@@ -6249,7 +6263,7 @@ PrefabInstance:
     - target: {fileID: 2705728215138688728, guid: 6082d62c201db274c90d6213e79e555b,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5309261601675604712, guid: 6082d62c201db274c90d6213e79e555b,
         type: 3}
@@ -6259,7 +6273,7 @@ PrefabInstance:
     - target: {fileID: 7390998013474769529, guid: 6082d62c201db274c90d6213e79e555b,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7428363744860893016, guid: 6082d62c201db274c90d6213e79e555b,
         type: 3}
@@ -38827,6 +38841,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LimeCave
       objectReference: {fileID: 0}
+    - target: {fileID: 1144996152519637221, guid: 4e9431318d211994a9911efeccb16b26,
+        type: 3}
+      propertyPath: m_TagString
+      value: Cave
+      objectReference: {fileID: 0}
     - target: {fileID: 9105928100788673074, guid: 4e9431318d211994a9911efeccb16b26,
         type: 3}
       propertyPath: m_RootOrder
@@ -38992,6 +39011,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MagentaCave
+      objectReference: {fileID: 0}
+    - target: {fileID: 2917494196953050108, guid: e26a3bcce4da3294dad6456466b400df,
+        type: 3}
+      propertyPath: m_TagString
+      value: Cave
       objectReference: {fileID: 0}
     - target: {fileID: 6467190163167037739, guid: e26a3bcce4da3294dad6456466b400df,
         type: 3}
@@ -39301,6 +39325,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GoldCave
       objectReference: {fileID: 0}
+    - target: {fileID: 8378488471518647068, guid: 034c71f4f8f440a4e8eff1e92f0887c9,
+        type: 3}
+      propertyPath: m_TagString
+      value: Cave
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 034c71f4f8f440a4e8eff1e92f0887c9, type: 3}
 --- !u!114 &7201915914022422745 stripped
@@ -39382,6 +39411,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CyanCave
       objectReference: {fileID: 0}
+    - target: {fileID: 8354921907232973550, guid: 7c7a4f6af31bfb74da85dd6941f3216a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Cave
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c7a4f6af31bfb74da85dd6941f3216a, type: 3}
 --- !u!114 &7225642659829321346 stripped
@@ -39461,7 +39495,7 @@ PrefabInstance:
     - target: {fileID: 3644569751733699415, guid: 2a396d59da657b64b876788b7c457f84,
         type: 3}
       propertyPath: ownerTeam
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8881089692311696464, guid: 2a396d59da657b64b876788b7c457f84,
         type: 3}

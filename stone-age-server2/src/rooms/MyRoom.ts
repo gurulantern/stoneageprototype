@@ -499,7 +499,7 @@ export class MyRoom extends Room<RoomState> {
                 });
                 this.state.gatherableObjects.set(objectInfo[0], gatherable);
                 logger.silly(`**** Initializing ${gatherable.id} ***`);
-                this.broadcast("objectInitialized", { objectID : gatherable.id });
+                this.broadcast("gatherableInitialized", { objectID : gatherable.id });
             } else {
                 logger.info(`**** Gatherables already contains ${objectInfo[0]} ****`);
             }
@@ -507,13 +507,14 @@ export class MyRoom extends Room<RoomState> {
             if (this.state.scorableObjects.has(objectInfo[0]) === false) {
                 let scorable = scorableObjectFactory.getStateForType(objectInfo[1]);
                 scorable.assign({
-                id: objectInfo[0],
-                xPos: objectInfo[2],
-                yPos: objectInfo[3], 
-                teamId: objectInfo[4]
+                    id: objectInfo[0],
+                    xPos: objectInfo[2],
+                    yPos: objectInfo[3], 
+                    teamId: objectInfo[4]
                 });
                 this.state.scorableObjects.set(objectInfo[0], scorable);
                 logger.silly(`**** Initializing ${scorable.id} ***`);
+                this.broadcast("scorableInitialized", { objectID : scorable.id });
             } else {
                 logger.info(`**** Scorables already contains ${objectInfo[0]} ****`);
             }

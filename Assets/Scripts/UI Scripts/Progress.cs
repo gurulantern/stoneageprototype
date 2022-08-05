@@ -10,10 +10,9 @@ public class Progress : MonoBehaviour
     private TextMeshProUGUI progress;
 
     [SerializeField]
-    private TextMeshProUGUI cost;
+    private TextMeshProUGUI progCost;
+    private Color teamColor;
 
-    [SerializeField]
-    private RectTransform rectTransform;
     private int team;
 #pragma warning restore 0649
     private bool rival = false;
@@ -23,10 +22,11 @@ public class Progress : MonoBehaviour
         SetColors(team);
     }
 
-    public void SetProgress(int teamIndex, int type, string scorableProg)
+    public void SetProgress(int teamIndex, string cost)
     {
-        this.gameObject.GetComponent<Image>().color = GameController.Instance.GetTeamColor(teamIndex);
-        cost.text = "/" + scorableProg; 
+        teamColor = GameController.Instance.GetTeamColor(teamIndex);
+        this.gameObject.GetComponent<Image>().color = new Color(teamColor.r, teamColor.g, teamColor.b, .5f);
+        progCost.text = "/" + cost; 
     }
 
     public void UpdateProgress(int type, int progress)

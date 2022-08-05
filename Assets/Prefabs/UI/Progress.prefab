@@ -36,10 +36,10 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.4615625, y: 0.45162967}
-  m_AnchorMax: {x: 0.66200006, y: 0.5434815}
-  m_AnchoredPosition: {x: -1.0000305, y: -0.98210144}
-  m_SizeDelta: {x: 0, y: -2.035797}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 117.5, y: -543.4821}
+  m_SizeDelta: {x: 385, y: 96.96423}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3741016079662515278
 CanvasRenderer:
@@ -90,6 +90,7 @@ MonoBehaviour:
   progresses:
   - {fileID: 5222872368947055969}
   - {fileID: 3181882776567742510}
+  rectTransform: {fileID: 2704881271347765279}
 --- !u!1 &141438007015348612
 GameObject:
   m_ObjectHideFlags: 0
@@ -923,8 +924,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   progress: {fileID: 2329500361580198398}
-  cost: {fileID: 1623151373055134617}
-  rectTransform: {fileID: 0}
+  progCost: {fileID: 1623151373055134617}
 --- !u!114 &8493658839420561583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1044,8 +1044,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   progress: {fileID: 4886504491324151318}
-  cost: {fileID: 1454966294568324396}
-  rectTransform: {fileID: 0}
+  progCost: {fileID: 1454966294568324396}
 --- !u!114 &4260182766373193594
 MonoBehaviour:
   m_ObjectHideFlags: 0

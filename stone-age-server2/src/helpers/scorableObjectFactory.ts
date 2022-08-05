@@ -19,6 +19,7 @@ export function getStateForType(type: string) : ScorableState {
         {
             state.assign({
                 scorableType : type,
+                finished : true
             });
             break;
         }
@@ -26,6 +27,7 @@ export function getStateForType(type: string) : ScorableState {
         {
             state.assign({
                 scorableType : type,
+                finished : false
             });
             break;
         }
@@ -33,6 +35,7 @@ export function getStateForType(type: string) : ScorableState {
         {
             state.assign({
                 scorableType : type,
+                finished : false
             });
             break;
         }
@@ -40,6 +43,7 @@ export function getStateForType(type: string) : ScorableState {
         {
             state.assign({
                 scorableType: type,
+                finished : true
             });
             break;
         }
@@ -47,6 +51,7 @@ export function getStateForType(type: string) : ScorableState {
         {
             state.assign({
                 scorableType : type,
+                finished : false
             });
             break;
         }

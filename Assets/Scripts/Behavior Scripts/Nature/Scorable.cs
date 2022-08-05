@@ -18,7 +18,9 @@ public abstract class Scorable : Interactable
     public string requiredResource;
     [SerializeField] 
     protected GameObject[] states;
-    public string progressCost;
+    public List<string> progressCosts;
+    public ProgressContainer progress;
+    public bool finished;
     public int ownerTeam;
     /// <summary>
     /// The schema state provided from the server
@@ -34,6 +36,9 @@ public abstract class Scorable : Interactable
     }
 
     protected string clickedTag;
+
+    public delegate void InitializedObject(Scorable scorable);
+    public static event InitializedObject initObject;
 
     public delegate void Finish(int type, float cost, Scorable scorable);
     public static event Finish finish;
@@ -53,6 +58,7 @@ public abstract class Scorable : Interactable
     public void SetID(int num)
     {
         _itemID = $"{gameObject.tag}_{num}";
+        gameObject.name = _itemID;
     }
 
     public void SetOwnerTeam(int num)
@@ -71,47 +77,32 @@ public abstract class Scorable : Interactable
         }
     }
 
+    public void CreateProgress()
+    {
+        initObject?.Invoke(this);
+    }
+
     /// <summary>
     /// Event handler for state changes
     /// </summary>
     /// <param name="changes"></param>
     protected virtual void OnStateChange(List<DataChange> changes)
     {
-        //UpdateForState();
+
     }
+
 
    protected virtual void UpdateViewFromState()
     {
-        /*
-        currHarvestTrigger = (int)_state.harvestTrigger;
-        prevHarvestTrigger = currHarvestTrigger + 1;
-        */
+
     }
+
     public virtual void PlayerAttemptedUse(NetworkedEntityView entity, int spend)
     {
         //Tell the server that this entity is attempting to use this interactable
         ColyseusManager.Instance.SendObjectScore(this, entity);
     }
-/*
-    public void InitializeSelf()
-    {
-        switch(this.gameObject.tag) {
-            case "Aurochs_Pen":
-                this.SetID(EnvironmentController.Instance.aurochsPen += 1);
-                break;
-            case "Farm":
-                this.SetID(EnvironmentController.Instance.farms += 1);
-                break;
-            case "Sapling":
-                this.SetID(EnvironmentController.Instance.saplings += 1);
-                break;
-            case "Fish_Trap":
-                this.SetID(EnvironmentController.Instance.fishTraps += 1);
-                break;
-        }
-        ColyseusManager.Instance.SendObjectInit(this, this.gameObject.transform.position.x, this.gameObject.transform.position.y);
-    }
-*/
+
     public override void OnSuccessfulUse(CharControllerMulti entity, string type)
     {
         base.OnSuccessfulUse(entity, type);
@@ -133,6 +124,17 @@ public abstract class Scorable : Interactable
         }
         if (entity != null) {
             entity.gameObject.GetComponent<CharControllerMulti>().StartGather(true);
+        }
+    }
+
+    public virtual void SetProgress()
+    {
+        foreach (Progress p in progress.progresses) {
+            progress.progresses[0].SetProgress(ownerTeam, progressCosts[0]);    
+            if (_state.scorableType == "FARM") {
+                progress.progresses[1].gameObject.SetActive(true);
+                progress.progresses[1].SetProgress(ownerTeam, progressCosts[1]);    
+            }
         }
     }
 }

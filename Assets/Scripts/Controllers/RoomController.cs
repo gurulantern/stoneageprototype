@@ -377,10 +377,22 @@ using UnityEngine.SceneManagement;
             _waitForPong = false;
         });
         
-        _room.OnMessage<ObjectInitMessage>("objectInitialized", (msg) =>
+        _room.OnMessage<ObjectInitMessage>("gatherableInitialized", (msg) =>
         {
-            Debug.Log("Received object init message");
             EnvironmentController.Instance.GetGatherableByState(Room.State.gatherableObjects[msg.objectID]);
+        });
+
+        _room.OnMessage<ObjectInitMessage>("scorableInitialized", (msg) =>
+        {
+            /*
+            if (Room.State.scorableObjects.ContainsKey(msg.objectID)) {
+                EnvironmentController.Instance.OnInitObject(EnvironmentController.Instance.GetScorableByState(Room.State.scorableObjects[msg.objectID]));
+            }
+            
+            if (Room.State.scorableObjects.ContainsKey(msg.objectID)) {
+                EnvironmentController.Instance.GetScorableByState(Room.State.scorableObjects[msg.objectID]).CreateProgress();
+            }
+            */
         });
 
         _room.OnMessage<ObjectGatheredMessage>("objectGathered", (msg) =>
@@ -447,7 +459,9 @@ using UnityEngine.SceneManagement;
         _room.colyseusConnection.OnError += Room_OnError;
         _room.colyseusConnection.OnClose += Room_OnClose;
 
-        GameController.Instance._environmentController.InitializeInteractables();
+        if (_users.Count == 0) {
+            GameController.Instance._environmentController.InitializeInteractables();
+        }
     }
 
     private void OnLeaveRoom(int code)
@@ -581,7 +595,7 @@ using UnityEngine.SceneManagement;
         //Creation ID is only Registered with the owner so only owners callback will be triggered
         if (!string.IsNullOrEmpty(entity.creationId) && _creationCallbacks.ContainsKey(entity.creationId))
         {
-            Debug.Log("Creation Callbacks!");
+            //Debug.Log("Creation Callbacks!");
             _creationCallbacks[entity.creationId].Invoke(entity);
             _creationCallbacks.Remove(entity.creationId);
         }
@@ -667,7 +681,6 @@ using UnityEngine.SceneManagement;
         _scorables.Add(scorableID, scorable);
 
         onNetworkScorableAdd?.Invoke(scorable);
-
     }
 
     ///     Callback for when the room's connection closes.

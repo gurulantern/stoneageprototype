@@ -23,9 +23,8 @@ public class BlueprintScript : MonoBehaviour
     public float cost;
     public delegate void CreateObject(int type, float cost, Scorable scorable);
     public static event CreateObject createObject;
-    [SerializeField]
-    private GameObject currentScorable; 
-    
+    [SerializeField] private GameObject currentScorable; 
+    [SerializeField] private Transform _environmentController;
 
     // Start is called before the first frame update
     void Start()

@@ -57,7 +57,11 @@ public class CharControllerMulti : NetworkedEntityView
     Rigidbody2D rb;
     Vector2 lookDirection = new Vector2(1,0);
     private Vector2 spawnPosition;
-    public event Action<int> ChangedResource;    
+    public event Action<int> ChangedResource;
+
+    public delegate void InitProgresses(CharControllerMulti player);
+    /// Event for when progresses need to be added.
+    public static InitProgresses initProgresses;    
 
     #region Initializers
     protected override void Awake() {
@@ -117,6 +121,7 @@ public class CharControllerMulti : NetworkedEntityView
 
     private void Create(int type, float cost, Scorable created)
     {
+        Debug.Log("Character is creating");
         if (type == 3) {
             GameController.Instance.RegisterCreate(this.Id, created.gameObject.tag, "1", teamIndex.ToString());
         }
@@ -147,20 +152,29 @@ public class CharControllerMulti : NetworkedEntityView
         scareableTrigger.entityID = entity.id;
         onPlayerActivated?.Invoke(this);
         teamIndex = GameController.Instance.GetTeamIndex(OwnerId);
-        Debug.Log("Initializing view");
+        //Debug.Log("Initializing view");
 
         //If we're in team death match, we need our team index
         if (!GameController.Instance.IsCoop && IsMine)
         {
             teamNumber = GameController.Instance.GetTeamNumber(teamIndex);
             SetTeam(entity, teamIndex, teamNumber);
-            uiHooks.Initialize();
+            uiHooks.Initialize(this);
+
+
         }
 
         if (IsMine)
         {
             spawnPosition = transform.position;
         }
+
+    }
+
+    public void AddTheseProgresses()
+    {
+        Debug.Log("Initializing progresses");
+        initProgresses?.Invoke(this);
     }
 
     private void SetTeam(NetworkedEntity entity, int idx, int teamNum)
@@ -335,7 +349,7 @@ public class CharControllerMulti : NetworkedEntityView
             Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
             hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
-            Debug.Log($"Hit {hit.collider.gameObject.name}");
+            //Debug.Log($"Hit {hit.collider.gameObject.name}");
    
             if (hit.collider.gameObject.GetComponentInParent<Robbable>() != null && hit.collider.gameObject.GetComponentInParent<CharControllerMulti>().proxyStates[0].sleep) {
                 Robbable robbable = hit.collider.gameObject.GetComponentInParent<Robbable>(); 
@@ -354,7 +368,7 @@ public class CharControllerMulti : NetworkedEntityView
                         return;
                     } else {
                         currentGatherable.PlayerAttemptedUse(this);
-                        Debug.Log("Gathering");
+                        //Debug.Log("Gathering");
                     }
                 } else if (currentScorables.Contains(currentScorable) && !animator.GetBool("Gather")) {
                     Debug.Log(currentScorable + " clicked");

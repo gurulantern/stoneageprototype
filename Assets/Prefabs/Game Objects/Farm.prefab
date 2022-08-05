@@ -365,6 +365,11 @@ MonoBehaviour:
   states:
   - {fileID: 114041792621837710}
   - {fileID: 96608932546101143}
+  progressCosts:
+  - 30
+  - 70
+  progress: {fileID: 0}
+  finished: 0
   ownerTeam: 0
 --- !u!61 &5970190385098098925
 BoxCollider2D:

@@ -46,9 +46,9 @@ public class UIController : MonoBehaviour
 
     public RectTransform playerTagRoot;
 
-    [SerializeField]
-    private ProgressContainer progressPrefab;
-    public RectTransform progressRoot;
+    //[SerializeField]
+    //private ProgressContainer progressPrefab;
+    //public RectTransform progressRoot;
 
     [SerializeField]
     private TextMeshProUGUI playerJoinMsgPrefab;
@@ -65,7 +65,7 @@ public class UIController : MonoBehaviour
 
 
     private Dictionary<CharControllerMulti, PlayerTag> playerTags;
-    private Dictionary<Scorable, ProgressContainer> progressCounters;
+    //private Dictionary<Scorable, ProgressContainer> progressCounters;
     public bool IsReady { get; private set; } = false;
     public bool HideTags { get; set; } = false;
     private Queue<GameObject> playerJoinMessages;
@@ -107,7 +107,7 @@ public class UIController : MonoBehaviour
             playerTags = new Dictionary<CharControllerMulti, PlayerTag>();
             playerJoinMessages = new Queue<GameObject>();
 
-            progressCounters = new Dictionary<Scorable, ProgressContainer>();
+            //progressCounters = new Dictionary<Scorable, ProgressContainer>();
 
             //playerInfo.gameObject.SetActive(false);
 
@@ -140,11 +140,11 @@ public class UIController : MonoBehaviour
         CharControllerMulti.onPlayerActivated += OnPlayerActivated;
         CharControllerMulti.onPlayerDeactivated += OnPlayerDeactivated;
         RoomController.onPlayerJoined += OnPlayerJoined;
-        BlueprintScript.createObject += OnCreateObject;
+        //EnvironmentController.initObject += OnInitObject;
+        //Scorable.initObject += OnInitObject;
         Scorable.finish += OnFinishObject;
         // For player list
         RoomController.onAddNetworkEntity += OnAddNetworkEntity;
-        RoomController.onNetworkScorableAdd += OnCreateObject;
         //RoomController.onRemoveNetworkEntity += OnRemoveNetworkEntity;
     }
 
@@ -153,12 +153,12 @@ public class UIController : MonoBehaviour
         CharControllerMulti.onPlayerActivated -= OnPlayerActivated;
         CharControllerMulti.onPlayerDeactivated -= OnPlayerDeactivated;
         RoomController.onPlayerJoined -= OnPlayerJoined;
-        BlueprintScript.createObject -= OnCreateObject;
+        //EnvironmentController.initObject -= OnInitObject;
+        //Scorable.initObject -= OnInitObject;
         Scorable.finish -= OnFinishObject;
 
         // For player list
         RoomController.onAddNetworkEntity -= OnAddNetworkEntity;
-        RoomController.onNetworkScorableAdd -= OnCreateObject;
         //RoomController.onRemoveNetworkEntity -= OnRemoveNetworkEntity;
     }
 
@@ -184,6 +184,8 @@ public class UIController : MonoBehaviour
 
             playerTags.Add(playerController, newPlayerTag);
         }
+
+        
     }
 
     private void OnPlayerDeactivated(CharControllerMulti meteeController)
@@ -227,37 +229,22 @@ public class UIController : MonoBehaviour
         exitButton.gameObject.SetActive(showButton);
         countDownText.gameObject.SetActive(!showButton);
     }
-
-    private void OnCreateObject(int type, float cost, Scorable scorable)
+/*
+    private void OnInitObject(Scorable scorable)
     {
         Debug.Log("Spawning Progress Counter");
-        if (progressCounters.ContainsKey(scorable) == false && type != 3 &&
-            scorable.ownerTeam == GameController.Instance.GetTeamIndex(ColyseusManager.Instance.CurrentUser.sessionId))
+        if (progressCounters.ContainsKey(scorable) == false && scorable.State.finished == false 
+            && scorable.ownerTeam == GameController.Instance.GetTeamIndex(ColyseusManager.Instance.CurrentUser.sessionId)) 
         {
             ProgressContainer newProgress = Instantiate(progressPrefab);
-
             newProgress.transform.SetParent(progressRoot);
-            newProgress.SetProgress(scorable.ownerTeam, type, scorable.progressCost);
+            scorable.progress = newProgress;
+            scorable.SetProgress();
 
             progressCounters.Add(scorable, newProgress);
         }
-    } 
-    private void OnCreateObject(ScorableState scorable)
-    {
-        Debug.Log("Spawning Progress Counter");
-        Scorable interactable = EnvironmentController.Instance.GetScorableByState(scorable);
-        if (progressCounters.ContainsKey(interactable) == false && scorable.ownerId != ColyseusManager.Instance.CurrentUser.sessionId && scorable.scorableType != "SAPLING" &&
-            scorable.teamId == GameController.Instance.GetTeamIndex(ColyseusManager.Instance.CurrentUser.sessionId)) 
-        {
-            ProgressContainer newProgress = Instantiate(progressPrefab);
-
-            newProgress.transform.SetParent(progressRoot);
-            newProgress.SetProgress(interactable.ownerTeam, scorable.scorableType == "FARM"? 1 : 0, interactable.progressCost);
-
-            progressCounters.Add(interactable, newProgress);
-        }
     }
-
+*/
     private void OnFinishObject(int type, float cost, Scorable scorable)
     {
 
@@ -320,8 +307,14 @@ public class UIController : MonoBehaviour
     {
         pingLabel.text = $"Ping: {ColyseusManager.Instance.GetRoundtripTime}ms";
         UpdatePlayerJoinMessage();
-    }
 
+        if (HideTags == false)
+        {
+            UpdatePlayerTags();
+        }
+        //UpdateProgressCounters();
+    }
+/*
     public void LateUpdate()
     {
         if (HideTags == false)
@@ -330,7 +323,7 @@ public class UIController : MonoBehaviour
         }
         UpdateProgressCounters();
     }
-
+*/
     private void UpdatePlayerTags()
     {
         foreach (KeyValuePair<CharControllerMulti, PlayerTag> pair in playerTags)
@@ -338,7 +331,7 @@ public class UIController : MonoBehaviour
             pair.Value.UpdateTag(Camera.main.WorldToScreenPoint(pair.Key.transform.position), pair.Key.TeamIndex);
         }
     }
-
+/*
     private void UpdateProgressCounters()
     {
         foreach (KeyValuePair<Scorable, ProgressContainer> pair in progressCounters)
@@ -346,7 +339,7 @@ public class UIController : MonoBehaviour
             pair.Value.UpdatePosition(Camera.main.WorldToScreenPoint(pair.Key.transform.position));
         }
     }
-
+*/
     private void UpdatePlayerJoinMessage()
     {
         if (playerJoinMessages.Count > 0)

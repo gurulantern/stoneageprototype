@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using LucidSightTools;
@@ -8,6 +9,7 @@ public class EnvironmentController : MonoBehaviour
 {
     private static EnvironmentController instance;
     public NavMeshSurface2d Surface2D;
+
     [SerializeField]
     private List<GameObject> scorablePrefabs;
     private int scorableSelector;
@@ -24,13 +26,18 @@ public class EnvironmentController : MonoBehaviour
             return instance;
         }
     }
-    public int fruitCount = -1, treeCount = -1, fruitTreeCount = -1, aurochsCount = -1, aurochsPen = -1, farms = -1, saplings = -1, fishTraps = -1;
+    public int fruitCount = -1, treeCount = -1, fruitTreeCount = -1, aurochsCount = -1, aurochsPen = -1, farms = -1, saplings = -1, fishTraps = -1, caves = -1;
 
     public Scorable[] scorables;
+    [SerializeField] private Transform scoreTransform;
 
     public Gatherable[] gatherables;
+    [SerializeField] private Transform gatherTransform;
 
     private NavMeshData NavMeshData;
+
+    //public delegate void InitializedObject(Scorable scorable);
+    //public static event InitializedObject initObject;
 
     // Start is called before the first frame update
     void Awake()
@@ -72,7 +79,8 @@ public class EnvironmentController : MonoBehaviour
 
     private void OnScorableAdd(ScorableState scorable)
     {
-        if (scorable.ownerId != ColyseusManager.Instance.CurrentUser.sessionId) {
+        Scorable thisScorable = GetScorableByState(scorable);
+        if (thisScorable == null) {
             Debug.Log("Instantiating " + scorable.id);
             switch(scorable.scorableType) {
                 case("FARM"):
@@ -91,16 +99,30 @@ public class EnvironmentController : MonoBehaviour
                     break;
                 }
             }
-            Instantiate(scorablePrefabs[scorableSelector], new Vector2(scorable.xPos, scorable.yPos), new Quaternion(0, 0, 0 , 0));
+            GameObject newScorable = Instantiate(scorablePrefabs[scorableSelector], new Vector2(scorable.xPos, scorable.yPos), new Quaternion(0, 0, 0 , 0));
+            newScorable.transform.SetParent(scoreTransform);
+            newScorable.GetComponent<Scorable>().CreateProgress();
+            scorables = GetComponentsInChildren<Scorable>();
             UpdateNavMesh();
+            //EnvironmentController.Instance.OnInitObject(EnvironmentController.Instance.GetScorableByState(scorable));
+            Debug.Log("Scorable was instantiated.");
+        } else {
+            thisScorable.CreateProgress();
+            Debug.Log("Setting progress for existing scorables");
         }
         //GetScorableByState(scorable);
     }
 
     private void OnCreateObject(int type, float cost, Scorable scorable)
-    {
+    {               
+        scorable.transform.SetParent(scoreTransform);
         InitializeNewInteractable(scorable, scorable.gameObject.transform.position);
         UpdateNavMesh();
+    }
+
+    public void OnInitObject(Scorable scorable)
+    {
+        //initObject?.Invoke(scorable);
     }
 
 
@@ -154,10 +176,9 @@ public class EnvironmentController : MonoBehaviour
             }
 
             //This gatherable has the correct ID but it has not yet been given a state, so correct that!
-            if (t.State == null)
-            {
-                t.SetState(state);
-            }
+
+            t.SetState(state);
+
 
             return t;
         }
@@ -201,6 +222,9 @@ public class EnvironmentController : MonoBehaviour
                     break;
                 case "Fishing_Trap":
                     s.SetID(fishTraps += 1);
+                    break;
+                case "Cave":
+                    s.SetID(caves += 1);
                     break;
             }
             ColyseusManager.Instance.SendObjectInit(s, s.gameObject.transform.position.x, s.gameObject.transform.position.y, s.ownerTeam);
