@@ -97,6 +97,7 @@ public class UIHooks : MonoBehaviour
     public void ChargePlayer(int type, float cost, Scorable scorable)
     {
         character.SubtractResource(type, cost);
+        AddNewProgress(scorable);
     }
 
     public void AddProgresses(CharControllerMulti player) {
@@ -108,8 +109,7 @@ public class UIHooks : MonoBehaviour
     public void AddNewProgress(Scorable scorable)
     {
         Debug.Log("Spawning a Progress Counter");
-        if (progressCounters.ContainsKey(scorable) == false && scorable.State.finished == false 
-            && scorable.ownerTeam == GameController.Instance.GetTeamIndex(ColyseusManager.Instance.CurrentUser.sessionId)) 
+        if (progressCounters.ContainsKey(scorable) == false && scorable.ownerTeam == GameController.Instance.GetTeamIndex(ColyseusManager.Instance.CurrentUser.sessionId)) 
         {
             ProgressContainer newProgress = Instantiate(progressPrefab);
             newProgress.transform.SetParent(progressRoot);

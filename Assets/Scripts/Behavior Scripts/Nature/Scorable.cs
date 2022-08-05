@@ -131,7 +131,7 @@ public abstract class Scorable : Interactable
     {
         foreach (Progress p in progress.progresses) {
             progress.progresses[0].SetProgress(ownerTeam, progressCosts[0]);    
-            if (_state.scorableType == "FARM") {
+            if (serverType == "FARM") {
                 progress.progresses[1].gameObject.SetActive(true);
                 progress.progresses[1].SetProgress(ownerTeam, progressCosts[1]);    
             }

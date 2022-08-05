@@ -120,6 +120,7 @@ public class EnvironmentController : MonoBehaviour
                     break;
             }
             newScorable.SetState(scorable);
+            newScorable.SetOwnerTeam((int)scorable.teamId);
             initProgresses?.Invoke(GetScorableByState(scorable));
             UpdateNavMesh();
             //EnvironmentController.Instance.OnInitObject(EnvironmentController.Instance.GetScorableByState(scorable));
