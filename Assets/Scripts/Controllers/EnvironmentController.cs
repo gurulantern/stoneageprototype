@@ -14,6 +14,10 @@ public class EnvironmentController : MonoBehaviour
     private List<GameObject> scorablePrefabs;
     private int scorableSelector;
 
+    public delegate void InitProgresses(Scorable scorable);
+    /// Event for when progresses need to be added.
+    public static InitProgresses initProgresses;  
+
     public static EnvironmentController Instance
     {
         get
@@ -79,8 +83,7 @@ public class EnvironmentController : MonoBehaviour
 
     private void OnScorableAdd(ScorableState scorable)
     {
-        Scorable thisScorable = GetScorableByState(scorable);
-        if (thisScorable == null) {
+        if (GetScorableByState(scorable) ==  null) {
             Debug.Log("Instantiating " + scorable.id);
             switch(scorable.scorableType) {
                 case("FARM"):
@@ -99,17 +102,29 @@ public class EnvironmentController : MonoBehaviour
                     break;
                 }
             }
-            GameObject newScorable = Instantiate(scorablePrefabs[scorableSelector], new Vector2(scorable.xPos, scorable.yPos), new Quaternion(0, 0, 0 , 0));
-            newScorable.transform.SetParent(scoreTransform);
-            newScorable.GetComponent<Scorable>().CreateProgress();
-            scorables = GetComponentsInChildren<Scorable>();
+            GameObject instance = Instantiate(scorablePrefabs[scorableSelector], new Vector2(scorable.xPos, scorable.yPos), new Quaternion(0, 0, 0 , 0));
+            instance.transform.SetParent(scoreTransform);
+            Scorable newScorable = instance.GetComponent<Scorable>();
+            switch(instance.gameObject.tag) {
+                case "Aurochs_Pen":
+                    newScorable.SetID(aurochsPen += 1);
+                    break;
+                case "Farm":
+                    newScorable.SetID(farms += 1);
+                    break;
+                case "Sapling":
+                    newScorable.SetID(saplings += 1);
+                    break;
+                case "Fishing_Trap":
+                    newScorable.SetID(fishTraps += 1);
+                    break;
+            }
+            newScorable.SetState(scorable);
+            initProgresses?.Invoke(GetScorableByState(scorable));
             UpdateNavMesh();
             //EnvironmentController.Instance.OnInitObject(EnvironmentController.Instance.GetScorableByState(scorable));
             Debug.Log("Scorable was instantiated.");
-        } else {
-            thisScorable.CreateProgress();
-            Debug.Log("Setting progress for existing scorables");
-        }
+        } 
         //GetScorableByState(scorable);
     }
 

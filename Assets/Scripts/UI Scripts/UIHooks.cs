@@ -64,6 +64,7 @@ public class UIHooks : MonoBehaviour
     {
         BlueprintScript.createObject += ChargePlayer;
         CharControllerMulti.initProgresses += AddProgresses;
+        EnvironmentController.initProgresses += AddNewProgress;
         //character.ChangedResource += UpdateText;
     }
 
@@ -71,7 +72,7 @@ public class UIHooks : MonoBehaviour
     {
         BlueprintScript.createObject -= ChargePlayer;
         CharControllerMulti.initProgresses -= AddProgresses;
-
+        EnvironmentController.initProgresses -= AddNewProgress;
     }
 
     void UpdateText(int icon) 
@@ -104,9 +105,23 @@ public class UIHooks : MonoBehaviour
         }
     }
 
+    public void AddNewProgress(Scorable scorable)
+    {
+        Debug.Log("Spawning a Progress Counter");
+        if (progressCounters.ContainsKey(scorable) == false && scorable.State.finished == false 
+            && scorable.ownerTeam == GameController.Instance.GetTeamIndex(ColyseusManager.Instance.CurrentUser.sessionId)) 
+        {
+            ProgressContainer newProgress = Instantiate(progressPrefab);
+            newProgress.transform.SetParent(progressRoot);
+            scorable.progress = newProgress;
+            scorable.SetProgress();
+
+            progressCounters.Add(scorable, newProgress);
+        }
+    }
+
     private void OnInitObject(Scorable scorable, CharControllerMulti player)
     {
-        Debug.Log("Spawning Progress Counter");
         if (progressCounters.ContainsKey(scorable) == false && scorable.State.finished == false 
             && scorable.ownerTeam == player.TeamIndex) 
         {
