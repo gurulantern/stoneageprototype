@@ -392,18 +392,18 @@ public class CharControllerMulti : NetworkedEntityView
                         case "CAVE":
                             if(state.fruit > 0 && state.meat > 0) {
                                 icon = 2;
-                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "fruit", state.fruit.ToString(), teamIndex.ToString(), "1");
-                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "meat", state.meat.ToString(), teamIndex.ToString(), "1");
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "fruit", fruit.ToString(), teamIndex.ToString(), "1");
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "meat", meat.ToString(), teamIndex.ToString(), "1");
                                 //GameController.Instance.RegisterGather(this.Id, state.fruit.ToString(), state.meat.ToString(), teamIndex.ToString());
                                 StartGather(false);
                             } else if (state.fruit > 0) {
                                 icon = 0;
-                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "fruit", state.fruit.ToString(), teamIndex.ToString(), "1");
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "fruit", fruit.ToString(), teamIndex.ToString(), "1");
                                 //GameController.Instance.RegisterGather(this.Id, state.fruit.ToString(), "0", teamIndex.ToString());
                                 StartGather(false);
                             } else if (state.meat > 0) {
                                 icon = 1;
-                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "meat", state.meat.ToString(), teamIndex.ToString(), "1");
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "meat", meat.ToString(), teamIndex.ToString(), "1");
                                 //GameController.Instance.RegisterGather(this.Id, "0", state.meat.ToString(), teamIndex.ToString());
                                 StartGather(false);
                             } else {
@@ -413,7 +413,7 @@ public class CharControllerMulti : NetworkedEntityView
                         case "AUROCHS_PEN":
                             if (state.wood > 0) {
                                 icon = 3;
-                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "wood", state.wood.ToString(), currentScorable.progressCosts[0], teamIndex.ToString());
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "wood", wood.ToString(), teamIndex.ToString(), currentScorable.progressCosts[0]);
                                 StartGather(false);
                             } else {
                                 icon = -1;
@@ -422,16 +422,16 @@ public class CharControllerMulti : NetworkedEntityView
                         case "FARM":
                             if (state.seeds > 0 && state.wood > 0) {
                                 icon = 5;
-                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "wood", state.wood.ToString(), currentScorable.progressCosts[0], teamIndex.ToString());
-                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "seeds", state.seeds.ToString(), currentScorable.progressCosts[1], teamIndex.ToString());
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "wood", wood.ToString(), teamIndex.ToString(), currentScorable.progressCosts[0]);
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "seeds", seeds.ToString(), teamIndex.ToString(), currentScorable.progressCosts[1]);
                                 StartGather(false);
                             } else if (state.seeds > 0) {
                                 icon = 4;
-                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "seeds", state.seeds.ToString(), currentScorable.progressCosts[1], teamIndex.ToString());
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "seeds", seeds.ToString(), teamIndex.ToString(), currentScorable.progressCosts[1]);
                                 StartGather(false);
                             } else if (state.wood > 0) {
                                 icon = 3;
-                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "wood", state.wood.ToString(), currentScorable.progressCosts[0], teamIndex.ToString());
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "wood", wood.ToString(), teamIndex.ToString(), currentScorable.progressCosts[0]);
                                 StartGather(false);
                             } else {
                                 icon = -1;
@@ -615,7 +615,7 @@ public class CharControllerMulti : NetworkedEntityView
     {
         if (entityID.Equals(Id))
         {
-            Tuple<int, int> type = new Tuple<int, int>(PickGoods().Item1, PickGoods().Item2);
+            Tuple<int, int> type = PickGoods();
             Robbable robbable = ColyseusManager.Instance.GetEntityView(robberID).gameObject.GetComponent<Robbable>();
             robbable.Give(new Robbable.StoneAgeGiveMessage()
             {

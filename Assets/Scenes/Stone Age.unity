@@ -4187,7 +4187,7 @@ PrefabInstance:
     - target: {fileID: -2674248606795513031, guid: 3d1628db331f9124aad8c8281d5f333b,
         type: 3}
       propertyPath: _layerMask.m_Bits
-      value: 65
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: -2674248606795513031, guid: 3d1628db331f9124aad8c8281d5f333b,
         type: 3}
@@ -39445,12 +39445,12 @@ PrefabInstance:
     - target: {fileID: 3347583393590097385, guid: 2a396d59da657b64b876788b7c457f84,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.9887295
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3347583393590097385, guid: 2a396d59da657b64b876788b7c457f84,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 14.754574
+      value: 15.796556
       objectReference: {fileID: 0}
     - target: {fileID: 3347583393590097385, guid: 2a396d59da657b64b876788b7c457f84,
         type: 3}
@@ -39495,7 +39495,7 @@ PrefabInstance:
     - target: {fileID: 3644569751733699415, guid: 2a396d59da657b64b876788b7c457f84,
         type: 3}
       propertyPath: ownerTeam
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8881089692311696464, guid: 2a396d59da657b64b876788b7c457f84,
         type: 3}

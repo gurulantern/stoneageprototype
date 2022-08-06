@@ -142,11 +142,13 @@ public abstract class Scorable : Interactable
 
     public virtual void SetProgress()
     {
-        foreach (Progress p in progressContainer.progresses) {
-            progressContainer.progresses[0].SetProgress(ownerTeam, progressCosts[0]);    
-            if (serverType == "FARM") {
-                progressContainer.progresses[1].gameObject.SetActive(true);
-                progressContainer.progresses[1].SetProgress(ownerTeam, progressCosts[1]);    
+        if (finished == false) {
+            foreach (Progress p in progressContainer.progresses) {
+                progressContainer.progresses[0].SetProgress(ownerTeam, progressCosts[0]);    
+                if (serverType == "FARM") {
+                    progressContainer.progresses[1].gameObject.SetActive(true);
+                    progressContainer.progresses[1].SetProgress(ownerTeam, progressCosts[1]);    
+                }
             }
         }
     }

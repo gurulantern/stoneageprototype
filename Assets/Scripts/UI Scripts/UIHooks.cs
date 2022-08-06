@@ -109,7 +109,8 @@ public class UIHooks : MonoBehaviour
     public void AddNewProgress(Scorable scorable)
     {
         Debug.Log("Spawning a Progress Counter");
-        if (progressCounters.ContainsKey(scorable) == false && scorable.ownerTeam == GameController.Instance.GetTeamIndex(ColyseusManager.Instance.CurrentUser.sessionId)) 
+        if (progressCounters.ContainsKey(scorable) == false && scorable.ownerTeam == GameController.Instance.GetTeamIndex(ColyseusManager.Instance.CurrentUser.sessionId)
+            && scorable.finished == false) 
         {
             ProgressContainer newProgress = Instantiate(progressPrefab);
             newProgress.transform.SetParent(progressRoot);

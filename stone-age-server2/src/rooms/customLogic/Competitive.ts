@@ -237,6 +237,10 @@ customMethods.lose = function (roomRef: MyRoom, client: Client, request: any) {
         logger.silly(`${gatherer.id} is at ${gatherer.meat}`);
         gatherer.meat -= amount;
         logger.silly(`${gatherer.id} lost ${amount}`);
+    } else if (gatherableType == "seeds") {
+        logger.silly(`${gatherer.id} is at ${gatherer.seeds}`);
+        gatherer.seeds -= amount;
+        logger.silly(`${gatherer.id} lost ${amount}`);
     } 
 }
 
@@ -277,7 +281,7 @@ customMethods.spend = function (roomRef: MyRoom, client: Client, request: any) {
         logger.silly(`${spender.id} spent ${spentAmount} to bring ${sState.id} to ${sState.woodPaid} and is at ${spender.wood}`);
         if (sState.woodPaid > progCost1) {
             spender.wood = sState.woodPaid - progCost1;
-            logger.silly(`${spender.id} got ${spender.wood} back`);
+            logger.silly(`${spender.id} got ${spender.wood} back because ${progCost1} was less than ${sState.woodPaid}`);
         }
     } else if (spentType == "seeds") {
         sState.seedsPaid += spentAmount;
