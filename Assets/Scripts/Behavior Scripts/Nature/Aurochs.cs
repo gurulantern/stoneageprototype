@@ -39,6 +39,7 @@ public class Aurochs : Gatherable
     {
         animator = gameObject.GetComponent<Animator>();
         myTransform = transform;
+        typeToGive = "meat";
     }
 
     void Start()

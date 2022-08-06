@@ -589,10 +589,15 @@ public class GameController : MonoBehaviour
         LSLog.LogError($"No player controller with id {entityID} found!");
         return null;
     }
-
+/*
     public void RegisterGather(string entityID, string fruit, string meat, string teamIndex)
     {
         ColyseusManager.CustomServerMethod("gather", new object[] { entityID, fruit, meat, teamIndex});
+    }
+*/
+    public void RegisterGather(string entityID, string gatherableType, string amount)
+    {
+        ColyseusManager.CustomServerMethod("gather", new object[] { entityID, gatherableType, amount });
     }
 
     public void RegisterObserve(string entityID, string observedObject, string teamIndex)
@@ -603,5 +608,20 @@ public class GameController : MonoBehaviour
     public void RegisterCreate(string entityID, string createType, string createScore, string teamIndex)
     {
         ColyseusManager.CustomServerMethod("create", new object[] { entityID, createType, createScore, teamIndex });
+    }
+/*
+    public void RegisterSpend(string entityID, string scorableID, string spendType, string spendAmount, string teamIndex)
+    {
+        ColyseusManager.CustomServerMethod("spend", new object[] { entityID, scorableID, spendType, spendAmount, teamIndex });
+    }
+*/
+    public void RegisterSpend(string entityID, string scorableID, string spendType, string spendAmount, string teamIndex, string progCost)
+    {
+        ColyseusManager.CustomServerMethod("spend", new object[] { entityID, scorableID, spendType, spendAmount, teamIndex, progCost });
+    }
+
+    public void RegisterLoss(string entityID, string gatherableType, string robbedAmount) 
+    {
+        ColyseusManager.CustomServerMethod("lose", new object[] { entityID, gatherableType, robbedAmount });
     }
 }

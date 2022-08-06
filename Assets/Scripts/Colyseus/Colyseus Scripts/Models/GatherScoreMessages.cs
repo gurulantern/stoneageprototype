@@ -36,6 +36,7 @@ partial class Robbable : MonoBehaviour
     {
         public string giver;
         public int type;
+        public int amount;
         public bool isRFC;
     }
 }

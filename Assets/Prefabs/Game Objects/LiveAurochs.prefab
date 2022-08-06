@@ -60,6 +60,8 @@ MonoBehaviour:
   serverType: AUROCHS
   trigger: {fileID: 2325955414933307815}
   type: 
+  amountToGive: 1
+  typeToGive: 
   startingHarvest: 0
   prevHarvestTrigger: 0
   currHarvestTrigger: 0

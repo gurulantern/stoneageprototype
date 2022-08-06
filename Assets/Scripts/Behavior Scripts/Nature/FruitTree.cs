@@ -11,6 +11,7 @@ public class FruitTree : Tree
         colliderSize.y = .397f;
         this.gameObject.tag = "Fruit_Tree"; 
         type = "Fruit_Tree";
+        typeToGive = "fruit";
     }
 
     protected override void UpdateViewFromState()
@@ -20,6 +21,7 @@ public class FruitTree : Tree
         {
             this.gameObject.tag = "Tree";
             type = "Tree";
+            typeToGive = "wood";
         } else if (prevHarvestTrigger == 1) {
             this.gameObject.GetComponent<BoxCollider2D>().offset = colliderOffset;
             this.gameObject.GetComponent<BoxCollider2D>().size = colliderSize;

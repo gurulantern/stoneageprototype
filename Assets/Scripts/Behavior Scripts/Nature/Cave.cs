@@ -8,7 +8,6 @@ using UnityEngine.EventSystems;
 
 public class Cave : Scorable
 {
-    public int teamIndex;
     public SpawnPoint[] spawnPoints;
     public Light fire;
     public SpriteRenderer family;

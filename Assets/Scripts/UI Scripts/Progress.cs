@@ -29,9 +29,9 @@ public class Progress : MonoBehaviour
         progCost.text = "/" + cost; 
     }
 
-    public void UpdateProgress(int type, int progress)
+    public void UpdateProgress(int prog)
     {
-        
+        progress.text = prog.ToString();            
     }
 
     public void SetColors(int teamIdx)

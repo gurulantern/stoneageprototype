@@ -13,4 +13,9 @@ public class ProgressContainer : MonoBehaviour
     {
         rectTransform.position = position;
     }
+
+    public void UpdateProgresses(int type, int prog)
+    {
+        progresses[type].UpdateProgress(prog);
+    }
 }

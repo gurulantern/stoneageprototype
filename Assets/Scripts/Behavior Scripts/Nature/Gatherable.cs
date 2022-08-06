@@ -14,6 +14,8 @@ using UnityEngine;
 public abstract class Gatherable : Interactable
 {
     public string type;
+    public int amountToGive;
+    public string typeToGive;
     [SerializeField] protected int startingHarvest;
     [SerializeField] protected int prevHarvestTrigger;
     [SerializeField] protected int currHarvestTrigger;

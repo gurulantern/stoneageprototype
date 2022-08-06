@@ -831,9 +831,12 @@ MonoBehaviour:
   serverType: TREE
   trigger: {fileID: 958214788945308405}
   type: 
+  amountToGive: 1
+  typeToGive: wood
   startingHarvest: 0
   prevHarvestTrigger: 0
   currHarvestTrigger: 0
+  stump: 0
   _navMeshCollider: {fileID: 2676176794254422776}
   _treeStates:
   - {fileID: 5065874783997730819}

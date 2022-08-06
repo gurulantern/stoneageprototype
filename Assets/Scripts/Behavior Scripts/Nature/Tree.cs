@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Tree : Gatherable
 {
+    public bool stump = false;
     protected Vector2 colliderOffset; 
     protected Vector2 colliderSize;
     public BoxCollider2D _navMeshCollider;
@@ -19,6 +20,7 @@ public class Tree : Gatherable
         colliderSize.y = .397f;
         this.gameObject.tag = "Tree";
         type = "Tree";
+        typeToGive = "wood";
     }
 
     public override void SetState(GatherableState gatherable)
@@ -42,6 +44,7 @@ public class Tree : Gatherable
         if (prevHarvestTrigger == 2) {
             this.gameObject.GetComponent<BoxCollider2D>().offset = colliderOffset;
             this.gameObject.GetComponent<BoxCollider2D>().size = colliderSize;
+            stump = true;
         }
         //prevHarvestTrigger += 1;
     }

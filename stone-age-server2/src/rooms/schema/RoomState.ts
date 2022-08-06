@@ -42,6 +42,8 @@ export class ScorableState extends Schema {
   @type("number") xPos: number = 0;
   @type("number") yPos: number = 0;
   @type("number") availableTimestamp: number = 0.0;
+  @type("number") fruitPaid: number = 0;
+  @type("number") meatPaid: number = 0;
   @type("number") woodPaid: number = 0;
   @type("number") seedsPaid: number = 0;
   @type("string") ownerId: string = "";

@@ -14,14 +14,15 @@ using UnityEngine.Events;
 /// </summary>
 public abstract class Scorable : Interactable
 {
-
     public string requiredResource;
     [SerializeField] 
     protected GameObject[] states;
     public List<string> progressCosts;
-    public ProgressContainer progress;
+    public ProgressContainer progressContainer;
     public bool finished;
     public int ownerTeam;
+
+    private int woodPaid, seedsPaid;
     /// <summary>
     /// The schema state provided from the server
     /// </summary>
@@ -39,6 +40,9 @@ public abstract class Scorable : Interactable
 
     public delegate void InitializedObject(Scorable scorable);
     public static event InitializedObject initObject;
+
+    public delegate void ChangeProgress(int change);
+    public static event ChangeProgress changeProgress;
 
     public delegate void Finish(int type, float cost, Scorable scorable);
     public static event Finish finish;
@@ -88,13 +92,21 @@ public abstract class Scorable : Interactable
     /// <param name="changes"></param>
     protected virtual void OnStateChange(List<DataChange> changes)
     {
-
+        UpdateViewFromState();
     }
 
 
    protected virtual void UpdateViewFromState()
-    {
+    { 
+        if (!_state.woodPaid.Equals(woodPaid)) {
+            woodPaid = (int)_state.woodPaid;
+            progressContainer.UpdateProgresses(0, woodPaid);
+        } 
 
+        if (!_state.seedsPaid.Equals(seedsPaid)) {
+            seedsPaid = (int)_state.seedsPaid;
+            progressContainer.UpdateProgresses(1, seedsPaid);
+        }
     }
 
     public virtual void PlayerAttemptedUse(NetworkedEntityView entity, int spend)
@@ -102,6 +114,7 @@ public abstract class Scorable : Interactable
         //Tell the server that this entity is attempting to use this interactable
         ColyseusManager.Instance.SendObjectScore(this, entity);
     }
+
 
     public override void OnSuccessfulUse(CharControllerMulti entity, string type)
     {
@@ -129,11 +142,11 @@ public abstract class Scorable : Interactable
 
     public virtual void SetProgress()
     {
-        foreach (Progress p in progress.progresses) {
-            progress.progresses[0].SetProgress(ownerTeam, progressCosts[0]);    
+        foreach (Progress p in progressContainer.progresses) {
+            progressContainer.progresses[0].SetProgress(ownerTeam, progressCosts[0]);    
             if (serverType == "FARM") {
-                progress.progresses[1].gameObject.SetActive(true);
-                progress.progresses[1].SetProgress(ownerTeam, progressCosts[1]);    
+                progressContainer.progresses[1].gameObject.SetActive(true);
+                progressContainer.progresses[1].SetProgress(ownerTeam, progressCosts[1]);    
             }
         }
     }

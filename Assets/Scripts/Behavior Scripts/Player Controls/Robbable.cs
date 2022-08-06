@@ -23,7 +23,7 @@ partial class Robbable : MonoBehaviour
         {
             if(TryGetComponent(out CharControllerMulti controller))
             {
-                controller.Receive(data.giver, data.type);
+                controller.Receive(data.giver, data.type, data.amount);
             }
         }
     }

@@ -85,10 +85,6 @@ public class CharControllerMulti : NetworkedEntityView
     private void OnEnable() 
     {
         GameController.onUpdateClientTeam += OnTeamUpdated; 
-        if (IsMine) {
-            BlueprintScript.createObject += Create;
-            Scorable.finish += Create;
-        }
     }
 
     private void OnDisable() 
@@ -96,7 +92,7 @@ public class CharControllerMulti : NetworkedEntityView
         GameController.onUpdateClientTeam -= OnTeamUpdated;
         if (IsMine) {
             BlueprintScript.createObject -= Create;
-            Scorable.finish -= Create;
+            //Scorable.finish -= Create;
         }
         onPlayerDeactivated?.Invoke(this);    
     }
@@ -123,7 +119,9 @@ public class CharControllerMulti : NetworkedEntityView
     {
         Debug.Log("Character is creating");
         if (type == 3) {
-            GameController.Instance.RegisterCreate(this.Id, created.gameObject.tag, "1", teamIndex.ToString());
+            GameController.Instance.RegisterLoss(this.Id, "seeds", cost.ToString());
+        } else {
+            GameController.Instance.RegisterLoss(this.Id, "wood", cost.ToString()); 
         }
     }
 
@@ -167,6 +165,7 @@ public class CharControllerMulti : NetworkedEntityView
         if (IsMine)
         {
             spawnPosition = transform.position;
+            BlueprintScript.createObject += Create;
         }
 
     }
@@ -244,6 +243,18 @@ public class CharControllerMulti : NetworkedEntityView
             } else {
                 uiHooks.ToggleMenuButton(2, false);
             }
+        }
+    }
+
+    override protected void Entity_State_OnChange(List<Colyseus.Schema.DataChange> changes)
+    {
+        base.Entity_State_OnChange(changes);
+        if (IsMine) { 
+            seeds = (int)state.seeds;
+            wood = (int)state.wood;
+            fruit = (int)state.fruit;
+            meat = (int)state.meat;
+            ChangedResource?.Invoke(0);
         }
     }
     
@@ -345,7 +356,7 @@ public class CharControllerMulti : NetworkedEntityView
     public void OnInteractAction(InputAction.CallbackContext context)
     {
         RaycastHit2D hit;
-        if (GameController.Instance.gamePlaying && !tired && !sleeping && !observing && !gathering && !spending && context.performed) {
+        if (/*GameController.Instance.gamePlaying && */!tired && !sleeping && !observing && !gathering && !spending && context.performed) {
             Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
             hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
@@ -368,41 +379,59 @@ public class CharControllerMulti : NetworkedEntityView
                         return;
                     } else {
                         currentGatherable.PlayerAttemptedUse(this);
-                        //Debug.Log("Gathering");
+                        if (currentGatherable.gameObject.tag == "Fruit_Tree" && GameController.Instance.create == true) {
+                            GameController.Instance.RegisterGather(this.Id, "seeds", currentGatherable.amountToGive.ToString());
+                        } else {
+                            GameController.Instance.RegisterGather(this.Id, currentGatherable.typeToGive, currentGatherable.amountToGive.ToString());
+                        }
+                        Debug.Log("Gathering");
                     }
-                } else if (currentScorables.Contains(currentScorable) && !animator.GetBool("Gather")) {
+                } else if (currentScorables.Contains(currentScorable) && !animator.GetBool("Gather") && currentScorable.ownerTeam == teamIndex) {
                     Debug.Log(currentScorable + " clicked");
-                    switch(currentScorable.requiredResource) {
-                        case "food":
+                    switch(currentScorable.State.scorableType) {
+                        case "CAVE":
                             if(state.fruit > 0 && state.meat > 0) {
                                 icon = 2;
-                                GameController.Instance.RegisterGather(this.Id, state.fruit.ToString(), state.meat.ToString(), teamIndex.ToString());
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "fruit", state.fruit.ToString(), teamIndex.ToString(), "1");
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "meat", state.meat.ToString(), teamIndex.ToString(), "1");
+                                //GameController.Instance.RegisterGather(this.Id, state.fruit.ToString(), state.meat.ToString(), teamIndex.ToString());
                                 StartGather(false);
                             } else if (state.fruit > 0) {
                                 icon = 0;
-                                GameController.Instance.RegisterGather(this.Id, state.fruit.ToString(), "0", teamIndex.ToString());
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "fruit", state.fruit.ToString(), teamIndex.ToString(), "1");
+                                //GameController.Instance.RegisterGather(this.Id, state.fruit.ToString(), "0", teamIndex.ToString());
                                 StartGather(false);
                             } else if (state.meat > 0) {
                                 icon = 1;
-                                GameController.Instance.RegisterGather(this.Id, "0", state.meat.ToString(), teamIndex.ToString());
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "meat", state.meat.ToString(), teamIndex.ToString(), "1");
+                                //GameController.Instance.RegisterGather(this.Id, "0", state.meat.ToString(), teamIndex.ToString());
                                 StartGather(false);
                             } else {
                                 icon = -1;
                             }
                             break;
-                        case "wood":
+                        case "AUROCHS_PEN":
                             if (state.wood > 0) {
                                 icon = 3;
-                                currentScorable.PlayerAttemptedUse(this, (int)state.wood);
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "wood", state.wood.ToString(), currentScorable.progressCosts[0], teamIndex.ToString());
                                 StartGather(false);
                             } else {
                                 icon = -1;
                             }
                             break;
-                        case "seeds":
-                            if (state.seeds > 0) {
+                        case "FARM":
+                            if (state.seeds > 0 && state.wood > 0) {
+                                icon = 5;
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "wood", state.wood.ToString(), currentScorable.progressCosts[0], teamIndex.ToString());
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "seeds", state.seeds.ToString(), currentScorable.progressCosts[1], teamIndex.ToString());
+                                StartGather(false);
+                            } else if (state.seeds > 0) {
                                 icon = 4;
-                                currentScorable.PlayerAttemptedUse(this, (int)state.seeds);
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "seeds", state.seeds.ToString(), currentScorable.progressCosts[1], teamIndex.ToString());
+                                StartGather(false);
+                            } else if (state.wood > 0) {
+                                icon = 3;
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "wood", state.wood.ToString(), currentScorable.progressCosts[0], teamIndex.ToString());
                                 StartGather(false);
                             } else {
                                 icon = -1;
@@ -460,7 +489,7 @@ public class CharControllerMulti : NetworkedEntityView
             _playerControls.Enable();
             Debug.Log("Gathering is finished");
             _gatherIcons[icon].gameObject.SetActive(false);
-            AddResource(icon);
+            //AddResource(icon);
             animator.SetBool("Gather", false);
             gathering = false;
             stealing = false;
@@ -468,7 +497,7 @@ public class CharControllerMulti : NetworkedEntityView
             Debug.Log("Spending is finished");
             _playerControls.Enable();
             _spendIcons[icon].gameObject.SetActive(false);
-            SubtractResource(icon, spendAmount);
+            //SubtractResource(icon, spendAmount);
             animator.SetBool("Gather", false);
             spending = false;
         }
@@ -531,6 +560,8 @@ public class CharControllerMulti : NetworkedEntityView
                 fruit = (int)state.fruit;
                 state.meat -= state.meat;
                 meat = (int)state.meat;
+        
+/*
         } else if (icon == 3 && GameController.Instance.create) {
                 state.wood -= amount;
                 wood = (int)state.wood;
@@ -542,7 +573,8 @@ public class CharControllerMulti : NetworkedEntityView
             wood = (int)state.wood;
             state.seeds -= state.seeds;
             seeds = (int)state.seeds; 
-        }
+*/
+        } 
         ChangedResource?.Invoke(icon);
         Debug.Log($"Fruit = {fruit}, Meat = {meat}, Wood = {wood}, Seeds = {seeds}");
     }
@@ -571,11 +603,6 @@ public class CharControllerMulti : NetworkedEntityView
             uiHooks.ToggleCreate();
         }
     }
-
-    public void Create()
-    {
-
-    }
     #endregion 
 
     #region Remote Function Calls
@@ -588,21 +615,38 @@ public class CharControllerMulti : NetworkedEntityView
     {
         if (entityID.Equals(Id))
         {
-            int type = PickGoods();
+            Tuple<int, int> type = new Tuple<int, int>(PickGoods().Item1, PickGoods().Item2);
             Robbable robbable = ColyseusManager.Instance.GetEntityView(robberID).gameObject.GetComponent<Robbable>();
             robbable.Give(new Robbable.StoneAgeGiveMessage()
             {
                 giver = OwnerId,
-                type = type,
+                type = type.Item1,
+                amount = type.Item2,
                 isRFC = robbable.gameObject.CompareTag("Other_Player")
             });
             Debug.Log($"Attempting to give to {robbable}");
         }
     }
 
-    public int PickGoods()
+    public Tuple<int, int> PickGoods()
     {
-        int icon = Mathf.RoundToInt(UnityEngine.Random.Range(0.0f, 2.0f));
+        //int icon = Mathf.RoundToInt(UnityEngine.Random.Range(0.0f, 2.0f));
+        if (meat > 0) {
+            int stolen = (int)(Math.Ceiling(state.meat/2f));
+            GameController.Instance.RegisterLoss(this.Id, "meat", stolen.ToString());
+            return new Tuple<int, int>(1, stolen);
+        } else if (fruit > 0) {
+            int stolen = (int)(Math.Ceiling(state.fruit/2f));
+            GameController.Instance.RegisterLoss(this.Id, "fruit", stolen.ToString());
+            return new Tuple<int, int>(0, stolen);
+        } else if (wood > 0) {
+            int stolen = (int)(Math.Ceiling(state.wood/2f));
+            GameController.Instance.RegisterLoss(this.Id, "wood", stolen.ToString());
+            return new Tuple<int, int>(2, stolen);
+        } else {
+            return new Tuple<int, int>(4, 0);
+        }
+    /*
         switch (icon) {
             case 0:
                 if (fruit > 0) {
@@ -634,30 +678,34 @@ public class CharControllerMulti : NetworkedEntityView
             default:
                 return 4;
         }
+        */
     }
-    
 
-    public void Receive(string giverID, int type)
+    public void Receive(string giverID, int type, int amount)
     {
-        ColyseusManager.RFC(this, "ReceiveRFC", new object[]{ Id, giverID, type}, RFCTargets.OTHERS);
+        ColyseusManager.RFC(this, "ReceiveRFC", new object[]{ Id, giverID, type, amount }, RFCTargets.OTHERS);
     }
 
-    public void ReceiveRFC(string entityID, string giverId,  int type)
+    public void ReceiveRFC(string entityID, string giverId,  int type, int amount)
     {
         if (entityID.Equals(Id))
         {
             Debug.Log("Ready to Receive!");
             icon = type;
+            string gained = amount.ToString();
             stealing = true;
             switch (type) {
                 case 0:
+                    GameController.Instance.RegisterGather(this.Id, "fruit", gained);
                     StartGather(stealing);
                     break;
                 case 1:
+                    GameController.Instance.RegisterGather(this.Id, "meat", gained);
                     StartGather(stealing);
                     break;
                 case 2:
                     StartGather(stealing);
+                    GameController.Instance.RegisterGather(this.Id, "wood", gained);
                     break;
                 case 4:
                     StartGather(stealing);

@@ -19,4 +19,4 @@ MonoBehaviour:
   tiredSpeed: 1
   tireLimit: 20
   tireRate: 0.01
-  restoreRate: 0.005
+  restoreRate: 0.025

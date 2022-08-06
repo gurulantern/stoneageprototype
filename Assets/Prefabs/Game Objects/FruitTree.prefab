@@ -1271,9 +1271,12 @@ MonoBehaviour:
   serverType: FRUIT_TREE
   trigger: {fileID: 8514854755283966527}
   type: 
+  amountToGive: 1
+  typeToGive: 
   startingHarvest: 0
   prevHarvestTrigger: 0
   currHarvestTrigger: 0
+  stump: 0
   _navMeshCollider: {fileID: 4115872106689547278}
   _treeStates:
   - {fileID: 7928193471969424024}

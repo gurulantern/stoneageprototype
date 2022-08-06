@@ -1,5 +1,5 @@
 import { Client, Clock } from "colyseus";
-import { RoomState, NetworkedEntity, NetworkedUser } from "../schema/RoomState";
+import { RoomState, NetworkedEntity, NetworkedUser, ScorableState } from "../schema/RoomState";
 import { MyRoom } from "../MyRoom";
 
 const logger = require("../../helpers/logger.js");
@@ -8,6 +8,9 @@ const utilities = require('../../helpers/LSUtilities.js');
 let score: number;
 let spawnInterval: number;
 let spawnTime: number;
+let sState: ScorableState;
+let spender: NetworkedEntity;
+let gatherer: NetworkedEntity;
 
 //Clock initializer
 let clock = new Clock(true);
@@ -99,10 +102,12 @@ const customMethods: any = {};
 customMethods.gather =  function (roomRef: MyRoom, client: Client, request: any) {
     
     //Don't count gathering until a round is going
+    /*
     if(getGameState(roomRef, CurrentState) != StoneAgeServerGameState.SimulateRound) {
         logger.silly("Cannot score gathered food until the game has begun or in gather round!");
         return;
     }
+    */
 
     const param = request.param;
 
@@ -113,16 +118,33 @@ customMethods.gather =  function (roomRef: MyRoom, client: Client, request: any)
     }
 
     const gathererID = param[0];
-    const fruitScored = Number(param[1]);
-    const meatScored = Number(param[2]);
-    const teamIndex = Number(param[3]);
+    const gatherableType = param[1];
+    const amount = Number(param[2]);
+
+    roomRef.state.networkedEntities.forEach((value, key) => {
+        if (value.id == gathererID) {
+            gatherer = value;
+        }
+    })
         
-    if (roomRef.teams.get(teamIndex).has(client.id)) {
-        let score: number = (fruitScored + (meatScored * 5)) * roomRef.foodScoreMultiplier;
-        updateTeamScores(roomRef, gathererID, "gather", score );
-        logger.silly(`${gathererID} scored ${score} gather for team ${teamIndex}`);
-    } else {
-        logger.silly(`No client with id of ${client.id} to score.`)
+    if (gatherableType == "wood") {
+        logger.silly(`${gatherer.id} is at ${gatherer.wood}`);
+        gatherer.wood += amount;
+        logger.silly(`${gatherer.id} gathered ${amount} from a ${gatherableType}`);
+    } else if (gatherableType == "seeds") {
+        logger.silly(`${gatherer.id} is at ${gatherer.fruit}`);
+        logger.silly(`${gatherer.id} is at ${gatherer.seeds}`);
+        gatherer.fruit += amount;
+        gatherer.seeds += amount * 3;
+        logger.silly(`${gatherer.id} gathered ${amount} fruit and ${amount * 3} seeds from a ${gatherableType}`);
+    }  else if (gatherableType == "fruit") {
+        logger.silly(`${gatherer.id} is at ${gatherer.fruit}`);
+        gatherer.fruit += amount;
+        logger.silly(`${gatherer.id} gathered ${amount} from a ${gatherableType}`);
+    } else if (gatherableType == "meat") {
+        logger.silly(`${gatherer.id} is at ${gatherer.meat}`);
+        gatherer.meat += amount;
+        logger.silly(`${gatherer.id} gathered ${amount} from a ${gatherableType}`);
     }
 }
 
@@ -180,10 +202,111 @@ customMethods.create = function (roomRef: MyRoom, client: Client, request: any) 
     if (roomRef.teams.get(teamIndex).has(client.id)) {
         let score: number = createScore * roomRef.createScoreMultiplier;
         updateTeamScores(roomRef, creatorID, "create", score);
-        updateTypeAmount(roomRef, teamIndex, createdType);
         logger.silly(`${creatorID} scored ${score} create for team${teamIndex}`);
     } else {
         logger.silly(`No client with id of ${client.id} to score.`)
+    }
+}
+
+customMethods.lose = function (roomRef: MyRoom, client: Client, request: any) {
+    const param = request.param;
+
+    if (param == null || param.length < 2) {
+        throw "Missing spend parameters";
+        return;
+    }   
+    const gathererID = param[0];
+    const gatherableType = param[1];
+    const amount = Number(param[2]);
+
+    roomRef.state.networkedEntities.forEach((value, key) => {
+        if (value.id == gathererID) {
+            gatherer = value;
+        }
+    })
+        
+    if (gatherableType == "wood") {
+        logger.silly(`${gatherer.id} is at ${gatherer.wood}`);
+        gatherer.wood -= amount;
+        logger.silly(`${gatherer.id} lost ${amount}`);
+    } else if (gatherableType == "fruit") {
+        logger.silly(`${gatherer.id} is at ${gatherer.fruit}`);
+        gatherer.fruit -= amount;
+        logger.silly(`${gatherer.id} lost ${amount}`);
+    } else if (gatherableType == "meat") {
+        logger.silly(`${gatherer.id} is at ${gatherer.meat}`);
+        gatherer.meat -= amount;
+        logger.silly(`${gatherer.id} lost ${amount}`);
+    } 
+}
+
+customMethods.spend = function (roomRef: MyRoom, client: Client, request: any) {
+    const param = request.param;
+
+    if (param == null || param.length < 2) {
+        throw "Missing spend parameters";
+        return;
+    }
+
+    const spenderID = param[0];
+    const createdID = param[1];
+    const spentType = param[2];
+    const spentAmount = Number(param[3]);
+    const teamIndex = Number(param[4]);
+
+    const progCost1 = Number(param[5]);
+
+    let progCost2: number;
+
+    roomRef.state.scorableObjects.forEach((value, key) => {
+        if (value.id == createdID) {
+            sState = value;
+        }
+    })
+
+    roomRef.state.networkedEntities.forEach((value, key) => {
+        if (value.id == spenderID) {
+            spender = value;
+        }
+    })
+
+    if (spentType == "wood") {
+        logger.silly(`${spender.id} is at ${spender.wood}`);
+        sState.woodPaid += spentAmount;
+        spender.wood -= spentAmount; 
+        logger.silly(`${spender.id} spent ${spentAmount} to bring ${sState.id} to ${sState.woodPaid} and is at ${spender.wood}`);
+        if (sState.woodPaid > progCost1) {
+            spender.wood = sState.woodPaid - progCost1;
+            logger.silly(`${spender.id} got ${spender.wood} back`);
+        }
+    } else if (spentType == "seeds") {
+        sState.seedsPaid += spentAmount;
+        spender.seeds -= spentAmount; 
+        logger.silly(`${spender.id} spent ${spentAmount} to bring ${sState.id} to ${sState.seedsPaid} and is at ${spender.seeds}`);
+        if (sState.seedsPaid > progCost1) {
+            spender.seeds = sState.seedsPaid - progCost1;
+            logger.silly(`${spender.id} got ${spender.seeds} back`);
+        }    
+    } else if (spentType == "fruit") {
+        sState.fruitPaid += spentAmount;
+        spender.fruit -= spentAmount;
+        if (roomRef.teams.get(teamIndex).has(client.id)) {
+            let score: number = spentAmount * roomRef.foodScoreMultiplier;
+            updateTeamScores(roomRef, spenderID, "gather", score );
+            logger.silly(`${spenderID} scored ${score} gather for team ${teamIndex}`);
+        } else {
+            logger.silly(`No client with id of ${client.id} to score.`)
+        } 
+    } else if (spentType == "meat") {
+        sState.meatPaid += spentAmount;
+        spender.meat -= spentAmount; 
+        if (roomRef.teams.get(teamIndex).has(client.id)) {
+            let score: number = (spentAmount * 5) * roomRef.foodScoreMultiplier;
+            updateTeamScores(roomRef, spenderID, "gather", score );
+            logger.silly(`${spenderID} scored ${score} gather for team ${teamIndex}`);
+        } else {
+            logger.silly(`No client with id of ${client.id} to score.`)
+        } 
     }
 }
 //====================================== END Client Request Logic

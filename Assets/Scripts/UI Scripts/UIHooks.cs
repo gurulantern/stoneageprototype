@@ -113,7 +113,7 @@ public class UIHooks : MonoBehaviour
         {
             ProgressContainer newProgress = Instantiate(progressPrefab);
             newProgress.transform.SetParent(progressRoot);
-            scorable.progress = newProgress;
+            scorable.progressContainer = newProgress;
             scorable.SetProgress();
 
             progressCounters.Add(scorable, newProgress);
@@ -127,7 +127,7 @@ public class UIHooks : MonoBehaviour
         {
             ProgressContainer newProgress = Instantiate(progressPrefab);
             newProgress.transform.SetParent(progressRoot);
-            scorable.progress = newProgress;
+            scorable.progressContainer = newProgress;
             scorable.SetProgress();
 
             progressCounters.Add(scorable, newProgress);

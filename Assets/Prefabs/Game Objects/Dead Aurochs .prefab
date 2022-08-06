@@ -55,77 +55,19 @@ MonoBehaviour:
   serverType: AUROCHS
   trigger: {fileID: 7678455202590433476}
   type: 
+  amountToGive: 1
+  typeToGive: 
   startingHarvest: 0
   prevHarvestTrigger: 0
   currHarvestTrigger: 0
-  proxyStates:
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
-  - timestamp: 0
-    pos: {x: 0, y: 0}
-    vel: {x: 0, y: 0}
+  penTransfrom: {fileID: 0}
   distanceFromNewDestination: 0
   escape: {x: 0, y: 0}
   finalDestination: {x: 0, y: 0, z: 0}
   alive: 0
-  target: {fileID: 0}
   agent: {fileID: 0}
   scareTrigger: {fileID: 0}
+  domTrigger: {fileID: 0}
 --- !u!212 &8771322925193516166
 SpriteRenderer:
   m_ObjectHideFlags: 0
