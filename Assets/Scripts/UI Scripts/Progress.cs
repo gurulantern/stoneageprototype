@@ -12,21 +12,19 @@ public class Progress : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI progCost;
     private Color teamColor;
+    private string sCost;
+    public bool complete;
 
     private int team;
 #pragma warning restore 0649
     private bool rival = false;
-
-    void Awake()
-    {
-        SetColors(team);
-    }
 
     public void SetProgress(int teamIndex, string cost)
     {
         teamColor = GameController.Instance.GetTeamColor(teamIndex);
         this.gameObject.GetComponent<Image>().color = new Color(teamColor.r, teamColor.g, teamColor.b, .5f);
         progCost.text = "/" + cost; 
+        sCost = cost;
     }
 
     public void UpdateProgress(int prog)
@@ -34,8 +32,8 @@ public class Progress : MonoBehaviour
         progress.text = prog.ToString();            
     }
 
-    public void SetColors(int teamIdx)
+    public bool CompareProg()
     {
-        //playerTag.color = GameController.Instance.GetTeamColor(teamIdx);    
+        return progress.text == sCost;
     }
 }

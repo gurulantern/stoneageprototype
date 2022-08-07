@@ -120,6 +120,7 @@ public class CharControllerMulti : NetworkedEntityView
         Debug.Log("Character is creating");
         if (type == 3) {
             GameController.Instance.RegisterLoss(this.Id, "seeds", cost.ToString());
+            GameController.Instance.RegisterCreate(this.Id, created.ID, created.finishScore, teamIndex.ToString(), created.gameObject.tag);
         } else {
             GameController.Instance.RegisterLoss(this.Id, "wood", cost.ToString()); 
         }
@@ -462,7 +463,7 @@ public class CharControllerMulti : NetworkedEntityView
                             break;
                         case "Tree":
                             icon = 2;
-                            GameController.Instance.RegisterCreate(this.Id, currentGatherable.gameObject.tag, "-2", teamIndex.ToString());
+                            GameController.Instance.RegisterCreate(this.Id, "noIDforTree", "-2", teamIndex.ToString(), "Tree_Cut");
                             break;
                         case "Fishing_Spot":
                             icon = 4;
@@ -524,59 +525,6 @@ public class CharControllerMulti : NetworkedEntityView
     {
         animator.SetBool("Observe", false);
         observing = false;
-    }
-
-    public void AddResource(int icon)
-    {
-        if (icon == 0) {
-            state.fruit += 1f;
-            fruit = (int)state.fruit;
-        } else if (icon == 1) {
-                state.meat += 1f;
-                meat = (int)state.meat;
-        } else if (icon == 2 && GameController.Instance.create) {
-                state.wood += 1f;
-                wood = (int)state.wood;
-        }  else if (icon == 3 && GameController.Instance.create) {
-            state.fruit += 1f;
-            fruit = (int)state.fruit;
-            state.seeds += 5f;
-            seeds = (int)state.seeds;
-        }
-        ChangedResource?.Invoke(icon);
-        Debug.Log($"Fruit = {fruit}, Meat = {meat}, Wood = {wood}, Seeds = {seeds}");
-    }
-
-    public void SubtractResource(int icon, float amount)
-    {
-        if (icon == 0) {
-            state.fruit -= state.fruit;
-            fruit = (int)state.fruit;
-        } else if (icon == 1) {
-                state.meat -= state.meat;
-                meat = (int)state.meat;
-        } else if (icon == 2) {
-                state.fruit -= state.fruit;
-                fruit = (int)state.fruit;
-                state.meat -= state.meat;
-                meat = (int)state.meat;
-        
-/*
-        } else if (icon == 3 && GameController.Instance.create) {
-                state.wood -= amount;
-                wood = (int)state.wood;
-        }  else if (icon == 4 && GameController.Instance.create) {
-                state.seeds -= amount;
-                seeds = (int)state.seeds;
-        } else if (icon == 5 && GameController.Instance.create) {
-            state.wood -= state.wood;
-            wood = (int)state.wood;
-            state.seeds -= state.seeds;
-            seeds = (int)state.seeds; 
-*/
-        } 
-        ChangedResource?.Invoke(icon);
-        Debug.Log($"Fruit = {fruit}, Meat = {meat}, Wood = {wood}, Seeds = {seeds}");
     }
 
     public void OnScare(InputAction.CallbackContext context)
@@ -646,39 +594,6 @@ public class CharControllerMulti : NetworkedEntityView
         } else {
             return new Tuple<int, int>(4, 0);
         }
-    /*
-        switch (icon) {
-            case 0:
-                if (fruit > 0) {
-                    state.fruit -= 1f;
-                    fruit = (int)state.fruit;
-                    ChangedResource?.Invoke(icon);
-                    return icon;
-                } else {
-                    return 4;
-                }
-            case 1:
-                if (meat > 0) {
-                    state.meat -= 1f;
-                    meat = (int)state.meat;
-                    ChangedResource?.Invoke(icon);
-                    return icon;
-                } else {
-                    return 4;
-                }
-            case 2:
-                if (wood > 0) {
-                    state.wood -= 1f;
-                    wood = (int)state.wood;
-                    ChangedResource?.Invoke(icon);
-                    return icon;
-                } else {
-                    return 4;
-                }
-            default:
-                return 4;
-        }
-        */
     }
 
     public void Receive(string giverID, int type, int amount)

@@ -71,9 +71,7 @@ public class EnvironmentController : MonoBehaviour
 
     public void UpdateNavMesh()
     {
-        //Surface2D.BuildNavMeshAsync();
         Surface2D.UpdateNavMesh(Surface2D.navMeshData);
-        //NavMeshBuilder.UpdateNavMeshDataAsync(Surface2D.navMeshData, GetBuildSettings(), sources, sources)
     }
 
     private void OnGatherableAdd(GatherableState gatherable)
@@ -123,10 +121,8 @@ public class EnvironmentController : MonoBehaviour
             newScorable.SetOwnerTeam((int)scorable.teamId);
             initProgresses?.Invoke(GetScorableByState(scorable));
             UpdateNavMesh();
-            //EnvironmentController.Instance.OnInitObject(EnvironmentController.Instance.GetScorableByState(scorable));
             Debug.Log("Scorable was instantiated.");
         } 
-        //GetScorableByState(scorable);
     }
 
     private void OnCreateObject(int type, float cost, Scorable scorable)
@@ -135,12 +131,6 @@ public class EnvironmentController : MonoBehaviour
         InitializeNewInteractable(scorable, scorable.gameObject.transform.position);
         UpdateNavMesh();
     }
-
-    public void OnInitObject(Scorable scorable)
-    {
-        //initObject?.Invoke(scorable);
-    }
-
 
     public void ObjectScored(ScorableState state, CharControllerMulti usingEntity)
     {
@@ -264,6 +254,26 @@ public class EnvironmentController : MonoBehaviour
                     break;
             }
             ColyseusManager.Instance.SendObjectInit(s, position.x, position.y, s.ownerTeam);
+    }
+
+    public void CheckIfFinished(string entityID, string scorableID, int teamIndex)
+    {
+        foreach (Scorable s in scorables) {
+            if (s.ID == scorableID) {
+                s.CheckIfFinished(entityID, teamIndex.ToString());
+                return;
+            }
+        }
+    }
+
+    public void FinishObject(string ownerID, string scorableID)
+    {
+        foreach (Scorable s in scorables) {
+            if (s.ID == scorableID) {
+                s.FinishObject(ownerID);
+                return;
+            }
+        }
     }
 }
 

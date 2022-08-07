@@ -25,6 +25,7 @@ public class GameController : MonoBehaviour
     public static GameController Instance { get; private set; }
     private TextMeshProUGUI scoreBoard;
     private string currentGameState = "";
+    public string CurrentGameState { get { return currentGameState; } }
     private string lastGameState = "";
     public bool JoinComplete { get; private set; } = false;
     public bool IsCoop { get; private set; }
@@ -80,7 +81,6 @@ public class GameController : MonoBehaviour
         _uiController.UpdateCountDownMessage("");
         _uiController.UpdateGeneralMessageText("");
 
-        //BlueprintScript.createObject += ;
     }
 
     private void OnDisable() 
@@ -99,7 +99,6 @@ public class GameController : MonoBehaviour
 
         onViewAdded -= OnPlayerCreated;
 
-        //BlueprintScript.createObject -= ;
     }
 
     /// <summary>
@@ -301,7 +300,6 @@ public class GameController : MonoBehaviour
         if (gamePlaying)
         {
             UpdateRoundTime(attributes);
-            UpdateInteractables(attributes);
         }
     }
 
@@ -421,11 +419,6 @@ public class GameController : MonoBehaviour
         }   else if (scoreType == "create") {
 
         }
-    }
-
-    public void UpdateInteractables(MapSchema<string> attributes)
-    {
-
     }
 
     public void Unlock(string teamIdx, string observedObject)
@@ -589,12 +582,7 @@ public class GameController : MonoBehaviour
         LSLog.LogError($"No player controller with id {entityID} found!");
         return null;
     }
-/*
-    public void RegisterGather(string entityID, string fruit, string meat, string teamIndex)
-    {
-        ColyseusManager.CustomServerMethod("gather", new object[] { entityID, fruit, meat, teamIndex});
-    }
-*/
+
     public void RegisterGather(string entityID, string gatherableType, string amount)
     {
         ColyseusManager.CustomServerMethod("gather", new object[] { entityID, gatherableType, amount });
@@ -605,16 +593,11 @@ public class GameController : MonoBehaviour
         ColyseusManager.CustomServerMethod("observe", new object[] { entityID, observedObject, teamIndex});
     }
 
-    public void RegisterCreate(string entityID, string createType, string createScore, string teamIndex)
+    public void RegisterCreate(string entityID, string scorableID, string createScore,  string teamIndex, string createdType)
     {
-        ColyseusManager.CustomServerMethod("create", new object[] { entityID, createType, createScore, teamIndex });
+        ColyseusManager.CustomServerMethod("create", new object[] { entityID, scorableID, createScore, teamIndex, createdType });
     }
-/*
-    public void RegisterSpend(string entityID, string scorableID, string spendType, string spendAmount, string teamIndex)
-    {
-        ColyseusManager.CustomServerMethod("spend", new object[] { entityID, scorableID, spendType, spendAmount, teamIndex });
-    }
-*/
+
     public void RegisterSpend(string entityID, string scorableID, string spendType, string spendAmount, string teamIndex, string progCost)
     {
         ColyseusManager.CustomServerMethod("spend", new object[] { entityID, scorableID, spendType, spendAmount, teamIndex, progCost });

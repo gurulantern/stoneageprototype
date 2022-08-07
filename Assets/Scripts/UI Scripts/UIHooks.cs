@@ -62,7 +62,8 @@ public class UIHooks : MonoBehaviour
     }
     void OnEnable() 
     {
-        BlueprintScript.createObject += ChargePlayer;
+        BlueprintScript.createObject += AddProgress;
+        Scorable.finish += DeleteProgress;
         CharControllerMulti.initProgresses += AddProgresses;
         EnvironmentController.initProgresses += AddNewProgress;
         //character.ChangedResource += UpdateText;
@@ -70,7 +71,8 @@ public class UIHooks : MonoBehaviour
 
     void OnDisable()
     {
-        BlueprintScript.createObject -= ChargePlayer;
+        BlueprintScript.createObject -= AddProgress;
+        Scorable.finish -= DeleteProgress;
         CharControllerMulti.initProgresses -= AddProgresses;
         EnvironmentController.initProgresses -= AddNewProgress;
     }
@@ -94,9 +96,8 @@ public class UIHooks : MonoBehaviour
         _createMenu.SetButtonActive(button, active);
     }
 
-    public void ChargePlayer(int type, float cost, Scorable scorable)
+    public void AddProgress(int type, float cost, Scorable scorable)
     {
-        character.SubtractResource(type, cost);
         AddNewProgress(scorable);
     }
 
@@ -118,6 +119,13 @@ public class UIHooks : MonoBehaviour
             scorable.SetProgress();
 
             progressCounters.Add(scorable, newProgress);
+        }
+    }
+
+    public void DeleteProgress(Scorable scorable)
+    { 
+        if (progressCounters.ContainsKey(scorable) == true) { 
+            progressCounters.Remove(scorable);   
         }
     }
 

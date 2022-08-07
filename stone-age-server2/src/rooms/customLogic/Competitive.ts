@@ -193,18 +193,25 @@ customMethods.create = function (roomRef: MyRoom, client: Client, request: any) 
     }
 
     const creatorID = param[0];
-    const createdType = param[1];
+    const scorableID = param[1]
     const createScore = Number(param[2]);
-    logger.silly(`${createScore} and ${param[2]}`);
-
     const teamIndex = Number(param[3]);
+    const createdType = param[4];
+
+    logger.silly(`${createScore} for team ${param[2]}`);
+
 
     if (roomRef.teams.get(teamIndex).has(client.id)) {
         let score: number = createScore * roomRef.createScoreMultiplier;
         updateTeamScores(roomRef, creatorID, "create", score);
-        logger.silly(`${creatorID} scored ${score} create for team${teamIndex}`);
+        logger.silly(`${creatorID} scored ${score} create for team${teamIndex} with ${createdType}`);
     } else {
         logger.silly(`No client with id of ${client.id} to score.`)
+    }
+
+    if (createdType == "Farm" || createdType == "Aurochs_Pen") {
+        logger.silly(`This ${createdType} is finished`);
+        roomRef.broadcast("finishObject", { creatorID: creatorID, scorableID: scorableID });
     }
 }
 
@@ -258,9 +265,8 @@ customMethods.spend = function (roomRef: MyRoom, client: Client, request: any) {
     const spentAmount = Number(param[3]);
     const teamIndex = Number(param[4]);
 
-    const progCost1 = Number(param[5]);
+    const progCost = Number(param[5]);
 
-    let progCost2: number;
 
     roomRef.state.scorableObjects.forEach((value, key) => {
         if (value.id == createdID) {
@@ -279,21 +285,34 @@ customMethods.spend = function (roomRef: MyRoom, client: Client, request: any) {
         sState.woodPaid += spentAmount;
         spender.wood -= spentAmount; 
         logger.silly(`${spender.id} spent ${spentAmount} to bring ${sState.id} to ${sState.woodPaid} and is at ${spender.wood}`);
-        if (sState.woodPaid > progCost1) {
-            spender.wood = sState.woodPaid - progCost1;
-            logger.silly(`${spender.id} got ${spender.wood} back because ${progCost1} was less than ${sState.woodPaid}`);
+        if (sState.woodPaid > progCost) {
+            spender.wood = sState.woodPaid - progCost;
+            sState.woodPaid -= spender.wood;
+            logger.silly(`${spender.id} got ${spender.wood} back because ${progCost} was less than ${sState.woodPaid}`);
+        } 
+
+        if (sState.woodPaid == progCost) {
+            roomRef.broadcast("checkIfFinished", { creatorID: spenderID, scorableID: sState.id });
         }
     } else if (spentType == "seeds") {
         sState.seedsPaid += spentAmount;
         spender.seeds -= spentAmount; 
         logger.silly(`${spender.id} spent ${spentAmount} to bring ${sState.id} to ${sState.seedsPaid} and is at ${spender.seeds}`);
-        if (sState.seedsPaid > progCost1) {
-            spender.seeds = sState.seedsPaid - progCost1;
+        if (sState.seedsPaid > progCost) {
+            spender.seeds = sState.seedsPaid - progCost;
+            sState.seedsPaid -= spender.seeds;
             logger.silly(`${spender.id} got ${spender.seeds} back`);
-        }    
+        }
+
+        if (sState.seedsPaid == progCost) {
+            logger.silly(`!!!!!!!!! Checking if ${sState.id} is finished !!!!!!`);
+            roomRef.broadcast("checkIfFinished", { creatorId: spenderID, scorableID: sState.id });
+        }
     } else if (spentType == "fruit") {
-        sState.fruitPaid += spentAmount;
-        spender.fruit -= spentAmount;
+        if (createdID != "AutoScore") {
+            sState.fruitPaid += spentAmount;
+            spender.fruit -= spentAmount;
+        }
         if (roomRef.teams.get(teamIndex).has(client.id)) {
             let score: number = spentAmount * roomRef.foodScoreMultiplier;
             updateTeamScores(roomRef, spenderID, "gather", score );
@@ -302,8 +321,10 @@ customMethods.spend = function (roomRef: MyRoom, client: Client, request: any) {
             logger.silly(`No client with id of ${client.id} to score.`)
         } 
     } else if (spentType == "meat") {
-        sState.meatPaid += spentAmount;
-        spender.meat -= spentAmount; 
+        if (createdID != "AutoScore") {
+            sState.meatPaid += spentAmount;
+            spender.meat -= spentAmount; 
+        }
         if (roomRef.teams.get(teamIndex).has(client.id)) {
             let score: number = (spentAmount * 5) * roomRef.foodScoreMultiplier;
             updateTeamScores(roomRef, spenderID, "gather", score );

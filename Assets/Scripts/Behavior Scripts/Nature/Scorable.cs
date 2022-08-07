@@ -17,10 +17,14 @@ public abstract class Scorable : Interactable
     public string requiredResource;
     [SerializeField] 
     protected GameObject[] states;
+    [SerializeField]
+    protected string ownerID;
+    public string finishScore;
     public List<string> progressCosts;
     public ProgressContainer progressContainer;
     public bool finished;
     public int ownerTeam;
+
 
     private int woodPaid, seedsPaid;
     /// <summary>
@@ -44,7 +48,7 @@ public abstract class Scorable : Interactable
     public delegate void ChangeProgress(int change);
     public static event ChangeProgress changeProgress;
 
-    public delegate void Finish(int type, float cost, Scorable scorable);
+    public delegate void Finish(Scorable scorable);
     public static event Finish finish;
 
 
@@ -152,5 +156,25 @@ public abstract class Scorable : Interactable
             }
         }
     }
+
+    public void CheckIfFinished(string entityID, string teamIndex)
+    {
+        if (progressContainer.progresses[1].gameObject.activeSelf) {
+            if (progressContainer.progresses[0].CompareProg() == false) {
+                return;
+            }
+        }
+        GameController.Instance.RegisterCreate(entityID, ID, finishScore, teamIndex, this.gameObject.tag);
+    }
+
+    public virtual void FinishObject(string ownerId)
+    {
+        ownerID = ownerId;
+        finished = true;
+        states[0].SetActive(false);
+        states[1].SetActive(true);
+        finish?.Invoke(this);
+        Destroy(progressContainer.gameObject);
+    } 
 }
 

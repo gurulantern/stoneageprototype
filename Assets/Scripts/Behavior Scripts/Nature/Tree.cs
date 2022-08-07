@@ -9,7 +9,6 @@ public class Tree : Gatherable
     protected Vector2 colliderOffset; 
     protected Vector2 colliderSize;
     public BoxCollider2D _navMeshCollider;
-
     [SerializeField] protected SpriteRenderer[] _treeStates;
     private void Awake()
     {
@@ -45,6 +44,7 @@ public class Tree : Gatherable
             this.gameObject.GetComponent<BoxCollider2D>().offset = colliderOffset;
             this.gameObject.GetComponent<BoxCollider2D>().size = colliderSize;
             stump = true;
+            this.gameObject.GetComponentInChildren<CapsuleCollider2D>().gameObject.SetActive(false);
         }
         //prevHarvestTrigger += 1;
     }

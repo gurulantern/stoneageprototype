@@ -49,7 +49,14 @@ public class StoneAgeScoreMessage
     public string scoreItem;
 }
 
-public class StoneAgeUnlockMessage{
+public class StoneAgeUnlockMessage
+{
     public string teamIndex;
     public string createUnlocked;
+}
+
+public class FinishMessage 
+{
+    public string creatorID;
+    public string scorableID;
 }

@@ -409,6 +409,18 @@ using UnityEngine.SceneManagement;
             GameController.Instance.Unlock(msg.teamIndex, msg.createUnlocked);
         });
 
+        _room.OnMessage<FinishMessage>("checkIfFinished", msg =>
+        {
+            if (CurrentNetworkedUser.sessionId == GetEntityView(msg.creatorID).OwnerId) {
+                EnvironmentController.Instance.CheckIfFinished(msg.creatorID, msg.scorableID, GameController.Instance.GetTeamIndex(CurrentNetworkedUser.sessionId));
+            }
+        });
+
+        _room.OnMessage<FinishMessage>("finishObject", msg => 
+        {
+            EnvironmentController.Instance.FinishObject(GetEntityView(msg.creatorID).OwnerId, msg.scorableID);
+        });
+
         //Custom game logic
         //_room.OnMessage<YOUR_CUSTOM_MESSAGE>("messageNameInCustomLogic", objectOfTypeYOUR_CUSTOM_MESSAGE => {  });
         _room.OnMessage<EmptyMessage>("beginRoundCountDown", msg => { onBeginRoundCountDown?.Invoke(); });

@@ -142,7 +142,6 @@ public class UIController : MonoBehaviour
         RoomController.onPlayerJoined += OnPlayerJoined;
         //EnvironmentController.initObject += OnInitObject;
         //Scorable.initObject += OnInitObject;
-        Scorable.finish += OnFinishObject;
         // For player list
         RoomController.onAddNetworkEntity += OnAddNetworkEntity;
         //RoomController.onRemoveNetworkEntity += OnRemoveNetworkEntity;
@@ -155,7 +154,6 @@ public class UIController : MonoBehaviour
         RoomController.onPlayerJoined -= OnPlayerJoined;
         //EnvironmentController.initObject -= OnInitObject;
         //Scorable.initObject -= OnInitObject;
-        Scorable.finish -= OnFinishObject;
 
         // For player list
         RoomController.onAddNetworkEntity -= OnAddNetworkEntity;
@@ -245,10 +243,6 @@ public class UIController : MonoBehaviour
         }
     }
 */
-    private void OnFinishObject(int type, float cost, Scorable scorable)
-    {
-
-    }
 
     public void AllowExit(bool allowed)
     {

@@ -374,14 +374,6 @@ export class MyRoom extends Room<RoomState> {
             logger.info(`*************** RFC CALL from ${RFCMessage.entityId} ***********`);
         });
 
-        this.onMessage("giveResource", (client, RFCMessage) => {
-            if(this.state.networkedEntities.has(`${RFCMessage.entityId}`) === false) return;
-
-            RFCMessage.clientId = client.sessionId;
-
-
-        });
-
         // Set the callback for the "setAttribute" message to set an entity or user attribute
         this.onMessage("setAttribute", (client, attributeUpdateMessage) => {
             this.setAttribute(client, attributeUpdateMessage); 
