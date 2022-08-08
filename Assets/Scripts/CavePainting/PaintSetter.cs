@@ -10,6 +10,8 @@ public class PaintSetter : MonoBehaviour
     Ray ray;
     Vector2 movePoint;
     Vector2 mousePosition;
+    public Transform _wallRoot;
+
     public int prefabInt;
     Quaternion blankRot = new Quaternion(0, 0, 0 , 0);
 
@@ -37,9 +39,10 @@ public class PaintSetter : MonoBehaviour
         mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         transform.position = mousePosition;
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && hit.collider.gameObject.layer == 12)
         {
             thisPainting = Instantiate(prefab, transform.position, blankRot);
+            thisPainting.transform.SetParent(_wallRoot);
             //thisPainting.GetComponent<Painting>().SetOwnerTeam(GameController.Instance.GetTeamIndex(ColyseusManager.Instance.CurrentUser.sessionId));
             paint?.Invoke(thisPainting.GetComponent<Painting>());
         }

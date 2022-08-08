@@ -5,6 +5,7 @@ using UnityEngine;
 public class AurochsPen : Scorable
 {
     private IEnumerator domestication;
+    [SerializeField]
     private string domesticateScore;
 
     private void OnDisable() {
@@ -22,7 +23,7 @@ public class AurochsPen : Scorable
     IEnumerator Domestication()
     {
         while (GameController.Instance.CurrentGameState == "SimulateRound") {
-            GameController.Instance.RegisterSpend(ownerID, "AutoScore", "meat", domesticateScore, ownerTeam.ToString(), "0");
+            GameController.Instance.RegisterSpend(entityID, "AutoScore", "meat", domesticateScore, ownerTeam.ToString(), "0");
             yield return new WaitForSeconds(8f);
         }
 

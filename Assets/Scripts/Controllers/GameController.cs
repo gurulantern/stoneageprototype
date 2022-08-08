@@ -180,19 +180,6 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void BeginGame()
-    {
-        gamePlaying = true;
-        Time.timeScale = 1.0f;
-    }
-
-    private void EndGame()
-    {
-        gamePlaying = false;
-        _uiController.ShowGameOverScreen();
-        Time.timeScale = 0f;
-    }
-
     public void SetCurrentUserAttributes(Dictionary<string, string> attributes)
     {
         ColyseusManager.NetSend("setAttribute",
@@ -292,11 +279,21 @@ public class GameController : MonoBehaviour
         gamePlaying = false;
         
             //We may not have the winning team yet, need to hold here
-        //StartCoroutine(HoldForWinner());
+        StartCoroutine(HoldForWinner());
 
         //ResetAllShipDamage();
         _uiController.UpdatePlayerReadiness(true);
         yield break;
+    }
+
+    IEnumerator HoldForWinner()
+    {
+        //We reset winning team to -1 at the start of every round
+        while (winningTeam < 0)
+        {
+            yield return new WaitForSeconds(0.25f);
+        }
+        _uiController.ShowGameOverScreen(winningTeam);
     }
 
 
@@ -355,10 +352,13 @@ public class GameController : MonoBehaviour
         {
             create = bool.Parse(createBool);
             _uiController.scoreboard.UpdateShowScore(2, create);
+            _uiController.finalScoreboard.UpdateShowScore(2, create);
             _uiController.woodCount.SetActive(create);
             _uiController.seedsCount.SetActive(create);
             _uiController.createControl.SetActive(create);
         }
+
+
     }
 
     private void UpdateGameStates(MapSchema<string> attributes)
@@ -421,11 +421,10 @@ public class GameController : MonoBehaviour
         int scoreIndex = Array.IndexOf(scoreTypes, scoreType);
 
         _uiController.scoreboard.scoreList[teamIdx].scores[scoreIndex].text = updatedScore;
+        _uiController.finalScoreboard.scoreList[teamIdx].scores[scoreIndex].text = updatedScore;
 
         if (scoreType == "observe" && ColyseusManager.Instance.GetEntityView(ColyseusManager.Instance.CurrentNetworkedEntity.id).GetComponent<CharControllerMulti>().TeamIndex == teamIdx) {
             GameController.Instance._uiController._observeMeter.SetMeter(int.Parse(updatedScore));
-        }   else if (scoreType == "create") {
-
         }
     }
 
@@ -449,6 +448,7 @@ public class GameController : MonoBehaviour
             if (team.clientsOnTeam.Count == 1)
             {
                 _uiController.scoreboard.AddTeamScore(teamIdx);
+                _uiController.finalScoreboard.AddTeamScore(teamIdx);
                 _uiController.gameOptions.GetComponent<GameOptions>().AddTeamOptions(teamIdx);
                 homeCaves[teamIdx].SetAsHome(true);
             }
@@ -459,6 +459,7 @@ public class GameController : MonoBehaviour
             if(team.clientsOnTeam.Count == 0)
             {
                 _uiController.scoreboard.RemoveTeamScore(teamIdx);
+                _uiController.finalScoreboard.RemoveTeamScore(teamIdx);
                 _uiController.gameOptions.GetComponent<GameOptions>().RemoveTeamOptions(teamIdx);
                 homeCaves[teamIdx].SetAsHome(false);
             }
@@ -480,10 +481,12 @@ public class GameController : MonoBehaviour
             if (team.clientsOnTeam.Count == 1)
             {
                 _uiController.scoreboard.AddTeamScore(teamIdx);
+                _uiController.finalScoreboard.AddTeamScore(teamIdx);
                 _uiController.gameOptions.GetComponent<GameOptions>().AddTeamOptions(teamIdx);
                 homeCaves[teamIdx].SetAsHome(true);
             } else if (team.clientsOnTeam.Count == 0) {
                 _uiController.scoreboard.RemoveTeamScore(teamIdx);
+                _uiController.finalScoreboard.RemoveTeamScore(teamIdx);
                 _uiController.gameOptions.GetComponent<GameOptions>().RemoveTeamOptions(teamIdx);
                 homeCaves[teamIdx].SetAsHome(false);
             }

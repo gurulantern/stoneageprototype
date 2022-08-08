@@ -61,6 +61,7 @@ public class UIController : MonoBehaviour
     public ObserveMeter _observeMeter;
     public Camera cam;
     public Scoreboard scoreboard;
+    public Scoreboard finalScoreboard;
 
 
 
@@ -74,7 +75,9 @@ public class UIController : MonoBehaviour
 
     private CharControllerMulti player;
     public Timer timer;
-    public GameObject hudContainer, gameOverPanel;
+    public GameObject hudContainer;
+    [SerializeField]
+    private GameOver gameOverPanel;
     public TextMeshProUGUI allianceTracker;
     public GameObject woodCount, seedsCount, scareControl, createControl;
 
@@ -85,11 +88,6 @@ public class UIController : MonoBehaviour
     public UnityEvent onExit;
     public UnityEvent onReset;
     public UnityEvent onSetOptions;
-
-    private void Awake() 
-    {
-
-    }
 
     private IEnumerator Start()
     {
@@ -140,8 +138,7 @@ public class UIController : MonoBehaviour
         CharControllerMulti.onPlayerActivated += OnPlayerActivated;
         CharControllerMulti.onPlayerDeactivated += OnPlayerDeactivated;
         RoomController.onPlayerJoined += OnPlayerJoined;
-        //EnvironmentController.initObject += OnInitObject;
-        //Scorable.initObject += OnInitObject;
+
         // For player list
         RoomController.onAddNetworkEntity += OnAddNetworkEntity;
         //RoomController.onRemoveNetworkEntity += OnRemoveNetworkEntity;
@@ -152,8 +149,6 @@ public class UIController : MonoBehaviour
         CharControllerMulti.onPlayerActivated -= OnPlayerActivated;
         CharControllerMulti.onPlayerDeactivated -= OnPlayerDeactivated;
         RoomController.onPlayerJoined -= OnPlayerJoined;
-        //EnvironmentController.initObject -= OnInitObject;
-        //Scorable.initObject -= OnInitObject;
 
         // For player list
         RoomController.onAddNetworkEntity -= OnAddNetworkEntity;
@@ -227,22 +222,6 @@ public class UIController : MonoBehaviour
         exitButton.gameObject.SetActive(showButton);
         countDownText.gameObject.SetActive(!showButton);
     }
-/*
-    private void OnInitObject(Scorable scorable)
-    {
-        Debug.Log("Spawning Progress Counter");
-        if (progressCounters.ContainsKey(scorable) == false && scorable.State.finished == false 
-            && scorable.ownerTeam == GameController.Instance.GetTeamIndex(ColyseusManager.Instance.CurrentUser.sessionId)) 
-        {
-            ProgressContainer newProgress = Instantiate(progressPrefab);
-            newProgress.transform.SetParent(progressRoot);
-            scorable.progress = newProgress;
-            scorable.SetProgress();
-
-            progressCounters.Add(scorable, newProgress);
-        }
-    }
-*/
 
     public void AllowExit(bool allowed)
     {
@@ -290,10 +269,11 @@ public class UIController : MonoBehaviour
         exitButton.gameObject.SetActive(true);
     }
     /// Shows Game Over screen at the end of a round. Might convert for Paint round.
-    public void ShowGameOverScreen()
+    public void ShowGameOverScreen(int winningTeam)
     {
+        gameOverPanel.UpdateText(winningTeam);
         hudContainer.SetActive(false);
-        gameOverPanel.SetActive(true);
+        gameOverPanel.gameObject.SetActive(true);
     }
 
 
@@ -308,16 +288,7 @@ public class UIController : MonoBehaviour
         }
         //UpdateProgressCounters();
     }
-/*
-    public void LateUpdate()
-    {
-        if (HideTags == false)
-        {
-            UpdatePlayerTags();
-        }
-        UpdateProgressCounters();
-    }
-*/
+
     private void UpdatePlayerTags()
     {
         foreach (KeyValuePair<CharControllerMulti, PlayerTag> pair in playerTags)
@@ -325,15 +296,7 @@ public class UIController : MonoBehaviour
             pair.Value.UpdateTag(Camera.main.WorldToScreenPoint(pair.Key.transform.position), pair.Key.TeamIndex);
         }
     }
-/*
-    private void UpdateProgressCounters()
-    {
-        foreach (KeyValuePair<Scorable, ProgressContainer> pair in progressCounters)
-        {
-            pair.Value.UpdatePosition(Camera.main.WorldToScreenPoint(pair.Key.transform.position));
-        }
-    }
-*/
+
     private void UpdatePlayerJoinMessage()
     {
         if (playerJoinMessages.Count > 0)
@@ -382,11 +345,7 @@ public class UIController : MonoBehaviour
         //playerInfo.AddPlayer(entity);
     }
 
-/*
-    private void OnRemoveNetworkEntity(NetworkedEntity entity, StoneColyseusNetworkedEntityView view)
-    {
-        playerInfo.RemovePlayer(entity);
-    }
-*/
+
+
 }
 

@@ -627,6 +627,7 @@ MonoBehaviour:
   finished: 0
   ownerTeam: 0
   family: {fileID: 4671668779543359986}
+  agricultureScore: 1
 --- !u!61 &5970190385098098925
 BoxCollider2D:
   m_ObjectHideFlags: 0

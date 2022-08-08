@@ -418,7 +418,7 @@ using UnityEngine.SceneManagement;
 
         _room.OnMessage<FinishMessage>("finishObject", msg => 
         {
-            EnvironmentController.Instance.FinishObject(GetEntityView(msg.creatorID).OwnerId, msg.scorableID);
+            EnvironmentController.Instance.FinishObject(GetEntityView(msg.creatorID).OwnerId, msg.creatorID, msg.scorableID);
         });
 
         //Custom game logic

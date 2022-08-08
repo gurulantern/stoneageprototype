@@ -266,11 +266,11 @@ public class EnvironmentController : MonoBehaviour
         }
     }
 
-    public void FinishObject(string ownerID, string scorableID)
+    public void FinishObject(string ownerID, string entityID, string scorableID)
     {
         foreach (Scorable s in scorables) {
             if (s.ID == scorableID) {
-                s.FinishObject(ownerID);
+                s.FinishObject(ownerID, entityID);
                 return;
             }
         }

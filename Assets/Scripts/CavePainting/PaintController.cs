@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class PaintController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Transform _cavePaintingRoot;
+    public List<TeamWall> teamWalls;
+    [SerializeField]
+    private GameObject prefab;
+
+    public void AddNewWall(bool myTeam)
     {
-        
+        Instantiate(prefab);
+        prefab.SetActive(true);
+        prefab.transform.SetParent(_cavePaintingRoot);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

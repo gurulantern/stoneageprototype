@@ -23,7 +23,7 @@ const GeneralMessage = "generalMessage";
 const BeginRoundCountDown = "countDown";
 const WinningTeamId = "winningTeamId";
 const ElapsedTime = "elapsedTime";
-const scoreTypes: Array<string> = ["gather", "observe", "create"];
+const scoreTypes: Array<string> = ["total", "gather", "observe", "create", "paint"];
 
 
 /** Enum for game state */
@@ -309,7 +309,7 @@ customMethods.spend = function (roomRef: MyRoom, client: Client, request: any) {
         if (sState.seedsPaid == progCost) {
             logger.silly(`!!!!!!!!! Checking if ${sState.id} is finished: seeds - ${sState.seedsPaid} + wood - ${sState.woodPaid} !!!!!!`);
             
-            roomRef.broadcast("checkIfFinished", { creatorId: spenderID, scorableID: sState.id, woodPaid: sState.woodPaid, seedsPaid: sState.seedsPaid });
+            roomRef.broadcast("checkIfFinished", { creatorID: spenderID, scorableID: sState.id, woodPaid: sState.woodPaid, seedsPaid: sState.seedsPaid });
         }
     } else if (spentType == "fruit") {
         if (createdID != "AutoScore") {
@@ -476,6 +476,7 @@ let resetTeamScores = function(roomRef: MyRoom) {
         setRoomAttribute(roomRef, `team${team.toString()}_gatherScore`, "0");
         setRoomAttribute(roomRef, `team${team.toString()}_observeScore`, "0");
         setRoomAttribute(roomRef, `team${team.toString()}_createScore`, "0");
+        setRoomAttribute(roomRef, `team${team.toString()}_paintScore`, "0");
         setRoomAttribute(roomRef, `team${team.toString()}_totalScore`, "0");
         setRoomAttribute(roomRef, `team${team.toString()}_TreeObserved`, "0");
         setRoomAttribute(roomRef, `team${team.toString()}_Fruit_TreeObserved`, "0");
@@ -499,7 +500,7 @@ let updateTeamScores = function(roomRef: MyRoom, teamMateId: string, scoreType: 
     let clientId: string = "";
     let teamScore: number = 0;
     let totalScore: number = 0;
-
+    let observeAmount: number;
     // Get client Id from entity
     let entity: NetworkedEntity = roomRef.state.networkedEntities.get(teamMateId);
 
@@ -518,9 +519,14 @@ let updateTeamScores = function(roomRef: MyRoom, teamMateId: string, scoreType: 
             totalScore = getTeamScores(roomRef, teamIdx, "total");
             
             teamScore += amount;
+            observeAmount = teamScore;
             totalScore += amount;
 
-            if (scoreType == "observe" && teamScore == 100) {
+            if (scoreType == "observe" && teamScore > roomRef.observeReq) {
+                observeAmount = observeAmount - roomRef.observeReq;
+            }
+            
+            if (scoreType == "observe" && observeAmount == roomRef.observeReq) {
                 let mostObserved: string = findMostObserved(roomRef, teamIdx);
                 roomRef.broadcast("onCreateUnlock", { teamIndex: teamIdx, mostObserved });
                 logger.info(`team${teamIdx.toString()} unlocked`);
@@ -878,8 +884,16 @@ let voteRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
  */
 let endRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
 
+
+    let emptyTied: number[];
+
     // Let all clients know that the round has ended
     roomRef.broadcast("onRoundEnd", { });
+
+    let winner: number = getHighScores(roomRef, emptyTied, 0);
+
+    setRoomAttribute(roomRef, WinningTeamId, winner.toString());
+
 
     // Reset the server state for a new round
     resetForNewRound(roomRef);
@@ -890,6 +904,50 @@ let endRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
 
 let alertClientsOfTeamChange = function (roomRef: MyRoom, clientID: string, teamIndex: Number, added: boolean){
     roomRef.broadcast("onTeamUpdate", { teamIndex: teamIndex, clientID: clientID, added: added.toString()});
+}
+
+let getHighScores = function (roomRef: MyRoom, ties: number[], score: number): number {
+    let winningTeam: number;
+    let highestScore: number;
+    let currentScore: number;
+    let tiedTeams: number[];
+    let iterator: number = 0;
+    let nextScore: number = score + 1;
+
+    if(nextScore == 5) {
+        return 50;
+    }
+    
+    roomRef.teams.forEach((teamMap, team) => {
+        if(teamMap.size > 0) {
+            currentScore = getTeamScores(roomRef, team, scoreTypes[score]);
+
+            if (iterator == 0) {
+                highestScore = currentScore;
+                logger.info(`Setting first highest score = ${highestScore}`);   
+            }
+
+            if (currentScore > highestScore) {
+                highestScore = currentScore;
+                logger.info(`Found new high score = ${highestScore}`);
+                winningTeam = team;
+                tiedTeams = [highestScore];
+            } else if (currentScore == highestScore) {
+                logger.info(`Pushing new team, ${team}, into tiedTeams`);
+                tiedTeams.push(team);
+            }
+
+            iterator ++;
+        }
+    });
+
+    if (tiedTeams.length == 1) {
+        logger.silly(`Found a winner winner chicken dinner - team${winningTeam}`);
+        return winningTeam;
+    } else {
+        logger.silly(`Had some ties in ${scoreTypes[score]} score between ${tiedTeams.length} teams and moving to check ${scoreTypes[nextScore]}`);
+        getHighScores(roomRef, tiedTeams, nextScore);
+    }
 }
 //====================================== END GAME STATE LOGIC
 

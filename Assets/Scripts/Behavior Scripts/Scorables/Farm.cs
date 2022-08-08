@@ -7,17 +7,18 @@ public class Farm : Scorable
     [SerializeField]
     private SpriteRenderer family;
     private IEnumerator agriculture;
+    [SerializeField]
     private string agricultureScore;
 
     private void OnDisable() {
         StopAllCoroutines();
     }
 
-    public override void FinishObject(string ownerId)
+    public override void FinishObject(string ownerId, string entityId)
     {
-        base.FinishObject(ownerId);
-        agriculture = Agriculture();
+        base.FinishObject(ownerId, entityId);
         SetTeamColor();
+        agriculture = Agriculture();
         if (ColyseusManager.Instance.CurrentUser.sessionId == ownerId) {
             StartCoroutine(agriculture);
             /*
@@ -31,8 +32,8 @@ public class Farm : Scorable
     IEnumerator Agriculture()
     {
         while (GameController.Instance.CurrentGameState == "SimulateRound") {
-            GameController.Instance.RegisterSpend(ownerID, "AutoScore", "fruit", agricultureScore, ownerTeam.ToString(), "0");
-            yield return new WaitForSeconds(3f);
+            GameController.Instance.RegisterSpend(entityID, "AutoScore", "fruit", agricultureScore, ownerTeam.ToString(), "0");
+            yield return new WaitForSeconds(4f);
         }
 
         yield break; 

@@ -19,6 +19,7 @@ public abstract class Scorable : Interactable
     protected GameObject[] states;
     [SerializeField]
     protected string ownerID;
+    protected string entityID;
     public string finishScore;
     public List<string> progressCosts;
     public ProgressContainer progressContainer;
@@ -169,9 +170,10 @@ public abstract class Scorable : Interactable
         GameController.Instance.RegisterCreate(entityID, ID, finishScore, teamIndex, this.gameObject.tag);
     }
 
-    public virtual void FinishObject(string ownerId)
+    public virtual void FinishObject(string ownerId, string entityId)
     {
         ownerID = ownerId;
+        entityID = entityId;
         finished = true;
         states[0].SetActive(false);
         states[1].SetActive(true);

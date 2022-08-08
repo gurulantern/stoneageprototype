@@ -18,6 +18,7 @@ export class MyRoom extends Room<RoomState> {
     aurochs: number = 9;
     night: number = 60;
     deadAurochs: boolean = false;
+    observeReq: number = 50;
     currentRoundTime: number;
     customMethodController: any = null;
     roomOptions: any;
@@ -36,7 +37,7 @@ export class MyRoom extends Room<RoomState> {
     alliances: Map<number, number[]>;
 
     observeObjects: Array<string> = ["Tree", "Fruit_Tree", "Aurochs", "Other_Player"];
-    scoreTypes: Array<string> = ["gather", "observe", "create"];
+    scoreTypes: Array<string> = ["gather", "observe", "create", "paint"];
     /**
      * Getter function to retrieve the correct customLogic file. Will try .JS extension and then .TS
      * @param {*} fileName 
@@ -265,6 +266,9 @@ export class MyRoom extends Room<RoomState> {
                     this.deadAurochs = value === "True";
                     logger.info(`Set the ${key} setting to ${this.deadAurochs}`);
                     break;
+                case "observeReq":
+                    this.observeReq = parseInt(value)
+                    logger.info(`Set the ${key} setting to ${this.observeReq}`);
             }
         }
 

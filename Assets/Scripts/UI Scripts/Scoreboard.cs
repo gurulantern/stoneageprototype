@@ -16,9 +16,6 @@ public class Scoreboard : MonoBehaviour
     public TextMeshProUGUI _closeButton;
     private bool open = false;
     // Start is called before the first frame update
-    void Start()
-    {
-    }
 
     /// Reorganizes the team scoreboards using the active score list while acounting for the extra child that is the header
     public void AddTeamScore(int teamIdx)
