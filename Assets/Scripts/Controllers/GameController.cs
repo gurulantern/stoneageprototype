@@ -20,6 +20,10 @@ public class GameController : MonoBehaviour
     public static event OnViewAdded onViewAdded;
     public delegate void OnViewRemoved(StoneColyseusNetworkedEntityView view);
     public static event OnViewRemoved onViewRemoved;
+    public delegate void OnUpdateClientTeam(int teamIndex, string clientID);
+    public static event OnUpdateClientTeam onUpdateClientTeam;
+    public delegate void OnUnlock(string mostObserved);
+    public static event OnUnlock onUnlock;
     public UIController _uiController;
     public EnvironmentController  _environmentController;
     public static GameController Instance { get; private set; }
@@ -29,8 +33,7 @@ public class GameController : MonoBehaviour
     private string lastGameState = "";
     public bool JoinComplete { get; private set; } = false;
     public bool IsCoop { get; private set; }
-    public delegate void OnUpdateClientTeam(int teamIndex, string clientID);
-    public static event OnUpdateClientTeam onUpdateClientTeam;
+
     public int winningTeam = -1;
     public float roundTimeLimit;
     public float paintTimeLimit = 60f;
@@ -313,7 +316,7 @@ public class GameController : MonoBehaviour
         CharControllerMulti pc = GetPlayer();
         if (options.TryGetValue("observeReq", out string observeRequirement))
         {
-            _uiController._observeMeter.observeSlider.maxValue = int.Parse(observeRequirement);
+            _uiController._observeMeter.UpdateReq(int.Parse(observeRequirement));
             //Debug.Log("Setting observe req");
         }
 
@@ -428,9 +431,11 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void Unlock(string teamIdx, string observedObject)
+    public void Unlock(string observedObject)
     {
-
+        if (GameController.Instance.create == true) {
+            onUnlock?.Invoke(observedObject);
+        }
     }
 
     private void OnTeamUpdate(int teamIdx, string clientID, bool added)

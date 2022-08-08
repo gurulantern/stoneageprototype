@@ -8,24 +8,24 @@ public class ObserveMeter : MonoBehaviour
     public Slider observeSlider { get; set; }
     float originalSize;
     public GameObject createAction;
+    private int reqIncrement;
     
     void Awake()
     {
         observeSlider = GetComponent<Slider>();
     }
+
+    public void UpdateReq(int newReq)
+    {
+        observeSlider.maxValue = newReq;
+        reqIncrement = newReq;
+    }
     
     public void SetMeter(int teamObserve)
     {
         observeSlider.value = teamObserve;
-    }
-
-    public void Unlock(string mostObserved)
-    {
-        if (GameController.Instance.create) {
-            if (observeSlider.value == 100f) {
-                Unlock(mostObserved);
-                createAction.SetActive(true);
-            } 
+        if (observeSlider.value == observeSlider.maxValue) {
+            observeSlider.maxValue += reqIncrement; 
         }
     }
 }

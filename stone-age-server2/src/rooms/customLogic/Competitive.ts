@@ -523,13 +523,19 @@ let updateTeamScores = function(roomRef: MyRoom, teamMateId: string, scoreType: 
             totalScore += amount;
 
             if (scoreType == "observe" && teamScore > roomRef.observeReq) {
-                observeAmount = observeAmount - roomRef.observeReq;
-            }
-            
-            if (scoreType == "observe" && observeAmount == roomRef.observeReq) {
-                let mostObserved: string = findMostObserved(roomRef, teamIdx);
-                roomRef.broadcast("onCreateUnlock", { teamIndex: teamIdx, mostObserved });
-                logger.info(`team${teamIdx.toString()} unlocked`);
+                if (teamScore == (roomRef.observeReq * 3)) {
+                    let mostObserved: string = findMostObserved(roomRef, teamIdx);
+                    roomRef.broadcast("onCreateUnlock", { teamIndex: teamIdx, mostObserved });
+                    logger.info(`team${teamIdx.toString()} unlocked`);                
+                } else if (teamScore == (roomRef.observeReq * 2)) {
+                    let mostObserved: string = findMostObserved(roomRef, teamIdx);
+                    roomRef.broadcast("onCreateUnlock", { teamIndex: teamIdx, mostObserved });
+                    logger.info(`team${teamIdx.toString()} unlocked`);                  
+                } else if (teamScore == roomRef.observeReq) {
+                    let mostObserved: string = findMostObserved(roomRef, teamIdx);
+                    roomRef.broadcast("onCreateUnlock", { teamIndex: teamIdx, mostObserved });
+                    logger.info(`team${teamIdx.toString()} unlocked`);  
+                }
             }
 
             setRoomAttribute(roomRef, `team${teamIdx.toString()}_${scoreType}Score`, teamScore.toString());
@@ -910,7 +916,7 @@ let getHighScores = function (roomRef: MyRoom, ties: number[], score: number): n
     let winningTeam: number;
     let highestScore: number;
     let currentScore: number;
-    let tiedTeams: number[];
+    let tiedTeams: number[] = [];
     let iterator: number = 0;
     let nextScore: number = score + 1;
 

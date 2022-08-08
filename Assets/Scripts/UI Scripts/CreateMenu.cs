@@ -5,12 +5,38 @@ using UnityEngine.UI;
 
 public class CreateMenu : MonoBehaviour
 {
-    [SerializeField] private Button[] createButtons;
+    [SerializeField] 
+    private GameObject[] createButtons;
     [SerializeField] private bool open = false;
+
+    void OnEnable()
+    {
+        GameController.onUnlock += UnlockButton;
+    }
+
+    void OnDisable()
+    {
+        GameController.onUnlock -= UnlockButton;
+    }
+
+    public void UnlockButton(string mostObserved)
+    {
+        switch(mostObserved) {
+            case "Fruit_Tree":
+                createButtons[0].SetActive(true);
+                break;
+            case "Aurochs":
+                createButtons[1].SetActive(true);
+                break;
+            case "Tree":
+                createButtons[2].SetActive(true);
+                break;
+        }
+    }
 
     public void SetButtonActive(int button, bool active)
     {
-        createButtons[button].interactable = active;
+        createButtons[button].GetComponentInChildren<Button>().interactable = active;
     }
 
     public void ToggleMenu()

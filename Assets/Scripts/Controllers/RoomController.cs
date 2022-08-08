@@ -406,7 +406,9 @@ using UnityEngine.SceneManagement;
         });
         
         _room.OnMessage<StoneAgeUnlockMessage>("onUnlockCreate", msg => {
-            GameController.Instance.Unlock(msg.teamIndex, msg.createUnlocked);
+            if (GameController.Instance.GetTeamIndex(ColyseusManager.Instance.CurrentUser.sessionId).ToString() == msg.teamIndex) {
+                GameController.Instance.Unlock(msg.createUnlocked);
+            }
         });
 
         _room.OnMessage<FinishMessage>("checkIfFinished", msg =>

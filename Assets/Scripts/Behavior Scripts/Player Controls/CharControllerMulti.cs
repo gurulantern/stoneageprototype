@@ -290,7 +290,7 @@ public class CharControllerMulti : NetworkedEntityView
                     _playerControls.Enable();
                     scared = false;
                 }
-            } else if(!sleeping && !scaring && !gathering && !spending && !observing) {
+            } else if(GameController.Instance.gamePlaying && !sleeping && !scaring && !gathering && !spending && !observing) {
                 ChangeStamina(-tireRate);
                 if (currentStamina <= tireLimit) {
                     animator.SetBool("Tired", true);
@@ -357,7 +357,7 @@ public class CharControllerMulti : NetworkedEntityView
     public void OnInteractAction(InputAction.CallbackContext context)
     {
         RaycastHit2D hit;
-        if (/*GameController.Instance.gamePlaying && */!tired && !sleeping && !observing && !gathering && !spending && context.performed) {
+        if (GameController.Instance.gamePlaying && !tired && !sleeping && !observing && !gathering && !spending && context.performed) {
             Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
             hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
@@ -547,7 +547,6 @@ public class CharControllerMulti : NetworkedEntityView
     {
         if (context.performed && GameController.Instance.create && !sleeping && !tired && !gathering && !observing && !scared && !scaring)
         {
-            Debug.Log(GameController.Instance.create);
             uiHooks.ToggleCreate();
         }
     }

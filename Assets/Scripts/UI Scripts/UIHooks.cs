@@ -10,6 +10,7 @@ public class UIHooks : MonoBehaviour
 {
     [SerializeField] Slider _staminaSlider;
     [SerializeField] Slider _observeSlider;
+    [SerializeField] GameObject createControl;
     [SerializeField] TextMeshProUGUI _personalFruitCount;
     [SerializeField] TextMeshProUGUI _personalMeatCount;
     [SerializeField] TextMeshProUGUI _personalWoodCount;
@@ -66,6 +67,7 @@ public class UIHooks : MonoBehaviour
         Scorable.finish += DeleteProgress;
         CharControllerMulti.initProgresses += AddProgresses;
         EnvironmentController.initProgresses += AddNewProgress;
+        GameController.onUnlock += UnlockCreateUI;
         //character.ChangedResource += UpdateText;
     }
 
@@ -75,6 +77,7 @@ public class UIHooks : MonoBehaviour
         Scorable.finish -= DeleteProgress;
         CharControllerMulti.initProgresses -= AddProgresses;
         EnvironmentController.initProgresses -= AddNewProgress;
+        GameController.onUnlock -= UnlockCreateUI;
     }
 
     void UpdateText(int icon) 
@@ -88,7 +91,9 @@ public class UIHooks : MonoBehaviour
 
     public void ToggleCreate()
     {
-        _createMenu.ToggleMenu();
+        if (GameController.Instance.gamePlaying) {
+            _createMenu.ToggleMenu();
+        }
     }
 
     public void ToggleMenuButton(int button, bool active)
@@ -149,5 +154,10 @@ public class UIHooks : MonoBehaviour
         {
             pair.Value.UpdatePosition(Camera.main.WorldToScreenPoint(pair.Key.transform.position));
         }
+    }
+
+    private void UnlockCreateUI(string mostObserved)
+    {
+        createControl.SetActive(true);
     }
 }
