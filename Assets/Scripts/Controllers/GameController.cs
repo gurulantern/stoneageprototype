@@ -41,8 +41,13 @@ public class GameController : MonoBehaviour
     [SerializeField] 
     private List<StoneAgeTeam> teams = new List<StoneAgeTeam>();
     public  Cave[] homeCaves;
-    [SerializeField] private Color[] teamColors;
+    
+    [SerializeField] 
+    private Color[] teamColors;
     private  string[] scoreTypes = new string[] {"gather", "observe", "create", "total"};
+    
+    [SerializeField]
+    private PaintController _paintController;
 
     public int farmCost, penCost, saplingCost;
 
@@ -251,11 +256,14 @@ public class GameController : MonoBehaviour
 
     private void OnBeginPaint(float time)
     {
+        StopAllCoroutines();
+        _paintController.gameObject.SetActive(true);
         StartCoroutine(BeginPaint(time));
     }
 
     private IEnumerator BeginPaint(float time)
     {
+        
         roundTimeLimit = time;
         Debug.Log("Paint has started, round time: " + roundTimeLimit);
         yield break;

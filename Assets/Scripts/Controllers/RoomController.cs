@@ -412,7 +412,7 @@ using UnityEngine.SceneManagement;
         _room.OnMessage<FinishMessage>("checkIfFinished", msg =>
         {
             if (CurrentNetworkedUser.sessionId == GetEntityView(msg.creatorID).OwnerId) {
-                EnvironmentController.Instance.CheckIfFinished(msg.creatorID, msg.scorableID, GameController.Instance.GetTeamIndex(CurrentNetworkedUser.sessionId));
+                EnvironmentController.Instance.CheckIfFinished(msg.creatorID, msg.scorableID, GameController.Instance.GetTeamIndex(CurrentNetworkedUser.sessionId), msg.woodPaid, msg.seedsPaid);
             }
         });
 

@@ -59,7 +59,7 @@ MonoBehaviour:
   ownerID: 
   finishScore: 5
   progressCosts:
-  - 20
+  - 10
   progressContainer: {fileID: 0}
   finished: 0
   ownerTeam: 0

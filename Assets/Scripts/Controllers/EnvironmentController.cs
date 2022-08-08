@@ -256,11 +256,11 @@ public class EnvironmentController : MonoBehaviour
             ColyseusManager.Instance.SendObjectInit(s, position.x, position.y, s.ownerTeam);
     }
 
-    public void CheckIfFinished(string entityID, string scorableID, int teamIndex)
+    public void CheckIfFinished(string entityID, string scorableID, int teamIndex, float woodPaid, float seedsPaid)
     {
         foreach (Scorable s in scorables) {
             if (s.ID == scorableID) {
-                s.CheckIfFinished(entityID, teamIndex.ToString());
+                s.CheckIfFinished(entityID, teamIndex.ToString(), woodPaid, seedsPaid);
                 return;
             }
         }

@@ -292,7 +292,9 @@ customMethods.spend = function (roomRef: MyRoom, client: Client, request: any) {
         } 
 
         if (sState.woodPaid == progCost) {
-            roomRef.broadcast("checkIfFinished", { creatorID: spenderID, scorableID: sState.id });
+            logger.silly(`!!!!!!!!! Checking if ${sState.id} is finished: seeds - ${sState.seedsPaid} + wood - ${sState.woodPaid} !!!!!!`);
+
+            roomRef.broadcast("checkIfFinished", { creatorID: spenderID, scorableID: sState.id, woodPaid: sState.woodPaid, seedsPaid: sState.seedsPaid });
         }
     } else if (spentType == "seeds") {
         sState.seedsPaid += spentAmount;
@@ -305,8 +307,9 @@ customMethods.spend = function (roomRef: MyRoom, client: Client, request: any) {
         }
 
         if (sState.seedsPaid == progCost) {
-            logger.silly(`!!!!!!!!! Checking if ${sState.id} is finished !!!!!!`);
-            roomRef.broadcast("checkIfFinished", { creatorId: spenderID, scorableID: sState.id });
+            logger.silly(`!!!!!!!!! Checking if ${sState.id} is finished: seeds - ${sState.seedsPaid} + wood - ${sState.woodPaid} !!!!!!`);
+            
+            roomRef.broadcast("checkIfFinished", { creatorId: spenderID, scorableID: sState.id, woodPaid: sState.woodPaid, seedsPaid: sState.seedsPaid });
         }
     } else if (spentType == "fruit") {
         if (createdID != "AutoScore") {

@@ -157,10 +157,12 @@ public abstract class Scorable : Interactable
         }
     }
 
-    public void CheckIfFinished(string entityID, string teamIndex)
+    public void CheckIfFinished(string entityID, string teamIndex, float woodPaid, float seedsPaid)
     {
+        string w = ((int)woodPaid).ToString();
+        string s = ((int)seedsPaid).ToString();
         if (progressContainer.progresses[1].gameObject.activeSelf) {
-            if (progressContainer.progresses[0].CompareProg() == false) {
+            if (progressContainer.progresses[0].CompareProg(w) == false || progressContainer.progresses[1].CompareProg(s) == false) {
                 return;
             }
         }

@@ -59,4 +59,6 @@ public class FinishMessage
 {
     public string creatorID;
     public string scorableID;
+    public float woodPaid;
+    public float seedsPaid;
 }

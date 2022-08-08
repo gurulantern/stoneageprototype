@@ -32,8 +32,8 @@ public class Progress : MonoBehaviour
         progress.text = prog.ToString();            
     }
 
-    public bool CompareProg()
+    public bool CompareProg(string paid)
     {
-        return progress.text == sCost;
+        return paid == sCost;
     }
 }

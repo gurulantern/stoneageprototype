@@ -57,7 +57,7 @@ MonoBehaviour:
   - {fileID: 1504555473919538209}
   - {fileID: 3848734763268135964}
   ownerID: 
-  finishScore: 3
+  finishScore: 5
   progressCosts: []
   progressContainer: {fileID: 0}
   finished: 1
