@@ -159,8 +159,6 @@ public class CharControllerMulti : NetworkedEntityView
             teamNumber = GameController.Instance.GetTeamNumber(teamIndex);
             SetTeam(entity, teamIndex, teamNumber);
             uiHooks.Initialize(this);
-
-
         }
 
         if (IsMine)
@@ -290,7 +288,7 @@ public class CharControllerMulti : NetworkedEntityView
                     _playerControls.Enable();
                     scared = false;
                 }
-            } else if(GameController.Instance.gamePlaying && !sleeping && !scaring && !gathering && !spending && !observing) {
+            } else if(/*GameController.Instance.gamePlaying && */!sleeping && !scaring && !gathering && !spending && !observing) {
                 ChangeStamina(-tireRate);
                 if (currentStamina <= tireLimit) {
                     animator.SetBool("Tired", true);

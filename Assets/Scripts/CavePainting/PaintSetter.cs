@@ -33,13 +33,12 @@ public class PaintSetter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
-        hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
+        //ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
+        //hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
 
-        mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-        transform.position = mousePosition;
+        transform.position = Input.mousePosition;
 
-        if (Input.GetMouseButton(0) && hit.collider.gameObject.layer == 12)
+        if (Input.GetMouseButton(0))
         {
             thisPainting = Instantiate(prefab, transform.position, blankRot);
             thisPainting.transform.SetParent(_wallRoot);

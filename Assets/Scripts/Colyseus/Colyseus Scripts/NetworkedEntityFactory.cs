@@ -187,6 +187,7 @@ public class NetworkedEntityFactory: MonoBehaviour
         {
             ColyseusManager.Instance.CurrentNetworkedEntity = model;
         }
+
         _entityViews.Add(model.id, (NetworkedEntityView)view); 
         Debug.Log(model.id + " registered in entityViews");
         view.SendMessage("OnEntityViewRegistered", SendMessageOptions.DontRequireReceiver);

@@ -24,6 +24,8 @@ public class GameController : MonoBehaviour
     public static event OnUpdateClientTeam onUpdateClientTeam;
     public delegate void OnUnlock(string mostObserved);
     public static event OnUnlock onUnlock;
+
+    public Dictionary<string, object> gameSettings;
     public UIController _uiController;
     public EnvironmentController  _environmentController;
     public static GameController Instance { get; private set; }
@@ -136,6 +138,7 @@ public class GameController : MonoBehaviour
         if (ColyseusManager.Instance.HasEntityView(entity.id))
         {
             LSLog.LogImportant("View found! For " + entity.id);
+            UpdateSettings(gameSettings);
         }
         else
         {
@@ -193,8 +196,9 @@ public class GameController : MonoBehaviour
             });
     }
 
-    private void OnJoinedRoom(string customLogic)
+    private void OnJoinedRoom(string customLogic, Dictionary<string, object> options)
     {
+        gameSettings = options;
         IsCoop = string.Equals(customLogic, "collaborative");
         JoinComplete = true;
     }
@@ -311,49 +315,50 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void UpdateSettings(Dictionary<string, string> options)
+    public void UpdateSettings(Dictionary<string, object> options)
     {
+        Debug.Log("Updating Settings");
         CharControllerMulti pc = GetPlayer();
-        if (options.TryGetValue("observeReq", out string observeRequirement))
+        if (options.TryGetValue("observeReq", out object observeRequirement))
         {
-            _uiController._observeMeter.UpdateReq(int.Parse(observeRequirement));
+            _uiController._observeMeter.UpdateReq(int.Parse(observeRequirement.ToString()));
             //Debug.Log("Setting observe req");
         }
 
-        if (options.TryGetValue("tireRate", out string newTireRate))
+        if (options.TryGetValue("tireRate", out object newTireRate))
         {
-            pc.tireRate = float.Parse(newTireRate);
+            pc.tireRate = float.Parse(newTireRate.ToString());
         }
 
-        if (options.TryGetValue("restRate", out string newRestRate))
+        if (options.TryGetValue("restRate", out object newRestRate))
         {
-            pc.restoreRate = float.Parse(newRestRate);
+            pc.restoreRate = float.Parse(newRestRate.ToString());
         }
 
-        if (options.TryGetValue("alliances", out string alianceBool))
+        if (options.TryGetValue("alliances", out object alianceBool))
         {
-            alliances = bool.Parse(alianceBool);
+            alliances = bool.Parse(alianceBool.ToString());
         }
 
-        if (options.TryGetValue("hideTags", out string tagsBool))
+        if (options.TryGetValue("hideTags", out object tagsBool))
         {
-            _uiController.playerTagRoot.gameObject.SetActive(!bool.Parse(tagsBool));
+            _uiController.playerTagRoot.gameObject.SetActive(!bool.Parse(tagsBool.ToString()));
         }
 
-        if (options.TryGetValue($"team{pc.TeamIndex}steal", out string stealBool))
+        if (options.TryGetValue($"team{pc.TeamIndex}steal", out object stealBool))
         {
-            steal = bool.Parse(stealBool);
+            steal = bool.Parse(stealBool.ToString());
         }
 
-        if (options.TryGetValue($"team{pc.TeamIndex}scare", out string scareBool))
+        if (options.TryGetValue($"team{pc.TeamIndex}scare", out object scareBool))
         {
-            scare = bool.Parse(scareBool);
+            scare = bool.Parse(scareBool.ToString());
             _uiController.scareControl.SetActive(scare);
         }
 
-        if (options.TryGetValue($"team{pc.TeamIndex}create", out string createBool))
+        if (options.TryGetValue($"team{pc.TeamIndex}create", out object createBool))
         {
-            create = bool.Parse(createBool);
+            create = bool.Parse(createBool.ToString());
             _uiController.scoreboard.UpdateShowScore(2, create);
             _uiController.finalScoreboard.UpdateShowScore(2, create);
             _uiController.woodCount.SetActive(create);
@@ -588,6 +593,7 @@ public class GameController : MonoBehaviour
             }
         }
     }
+
     public T GetPlayerView<T>(string entityID) where T : StoneColyseusNetworkedEntityView
     {
         if (ColyseusManager.Instance.HasEntityView(entityID))

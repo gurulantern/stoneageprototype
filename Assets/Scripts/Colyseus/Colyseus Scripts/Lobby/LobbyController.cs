@@ -26,11 +26,14 @@ public class LobbyController : MonoBehaviour
 
     [SerializeField]
     private RoomSelectionMenu selectRoomMenu = null;
+    [SerializeField]
+    private GameOptions gameOptions = null;
 
     private void Awake()
     {
         createUserMenu.gameObject.SetActive(true);
         selectRoomMenu.gameObject.SetActive(false);
+        gameOptions.gameObject.SetActive(false);
         connectingCover.SetActive(true);
     }
 
@@ -81,11 +84,23 @@ public class LobbyController : MonoBehaviour
         connectingCover.SetActive(true);
         string desiredRoomName = selectRoomMenu.RoomCreationName;
         string gameModeLogic = collabToggle.isOn ? "collaborative" : "competitive";
-        roomOptions = new Dictionary<string, object> {{"logic", gameModeLogic}};
+        roomOptions = gameOptions.GetInput();
+        //roomOptions = new Dictionary<string, object> {{"logic", gameModeLogic}};
         if (!string.IsNullOrEmpty(desiredRoomName))
         {
             LoadMainScene(() => { ColyseusManager.Instance.CreateNewRoom(desiredRoomName, roomOptions); });
         }
+    }
+
+    public void OpenOptions()
+    {
+        gameOptions.gameObject.SetActive(true);
+
+    }
+
+    public void CloseOptions()
+    {
+        gameOptions.gameObject.SetActive(false);
     }
 
     public void JoinOrCreateRoom()

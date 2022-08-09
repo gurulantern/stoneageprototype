@@ -8,7 +8,8 @@ public class Palette : MonoBehaviour
     [SerializeField] 
     private Button[] paintButtons;
     [SerializeField]
-    private PaintSetter paintSetter;
+    private Transform wall;
+
 
     public void SetButtonActive(int button)
     {
@@ -17,6 +18,7 @@ public class Palette : MonoBehaviour
 
     public void SpawnPaint(GameObject painting)
     {
-        paintSetter.SetPainting(painting);
+        GameObject paint = Instantiate(painting) as GameObject;
+        paint.transform.SetParent(wall);
     }
 }

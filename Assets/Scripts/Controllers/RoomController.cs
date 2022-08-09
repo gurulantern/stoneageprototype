@@ -41,7 +41,7 @@ using UnityEngine.SceneManagement;
     public static event OnUserStateChanged OnCurrentUserStateChanged;
 
     ///Delegate and event for Joining 
-    public delegate void OnJoined(string customLogic);
+    public delegate void OnJoined(string customLogic, Dictionary<string, object> settings);
     public static event OnJoined onJoined;
 
     ///Delegate and event for Player joining;
@@ -346,7 +346,7 @@ using UnityEngine.SceneManagement;
         {
             _currentNetworkedUser = msg.newNetworkedUser;
             Debug.Log("Player has joined");
-            onJoined?.Invoke(msg.customLogic);
+            onJoined?.Invoke(msg.customLogic, msg.options);
 
 /*
             Debug.Log($"Received 'NetworkedUser' after join/creation call {currentNetworkedUser.sessionId}!");

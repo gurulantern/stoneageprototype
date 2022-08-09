@@ -1054,7 +1054,7 @@ exports.ProcessMethod = function (roomRef: MyRoom, client: Client, request: any)
  }
 
  /**
- * Process report of a user leaving. If we were previously locked due to a game starting and didn't
+ * Process report of a user joined. If we were previously locked due to a game starting and didn't
  * unlock at the end because the room was full, we'll need to unlock now
  */ 
  exports.ProcessUserJoined = function (roomRef: MyRoom, client: Client) {

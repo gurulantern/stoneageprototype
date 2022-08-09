@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5796a727e7569cb45acfd72903ef4a52
+guid: f64d1e74cb6f3f74e8905b8a8801264b
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -104,7 +104,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Paintings-Sheet_0
+      name: Paintings-Sheet 1_0
       rect:
         serializedVersion: 2
         x: 0
@@ -118,14 +118,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4cc5094eba258db43a4b9ea0dade1381
-      internalID: -132387427
+      spriteID: 938527358485b3544ab5be86658a549e
+      internalID: 1977290591
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Paintings-Sheet_1
+      name: Paintings-Sheet 1_1
       rect:
         serializedVersion: 2
         x: 19
@@ -139,14 +139,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0eddabb273c001a4b871cd7bf60bba6b
-      internalID: -757196401
+      spriteID: abab2566e769da94caf08f9c4c233d9b
+      internalID: 1839091124
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Paintings-Sheet_2
+      name: Paintings-Sheet 1_2
       rect:
         serializedVersion: 2
         x: 38
@@ -160,14 +160,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7bac5177b29344a408edf3c49ee405a8
-      internalID: -542927223
+      spriteID: 813f60a030cd02d4e8f5f1cc56c5b21a
+      internalID: -1567320616
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Paintings-Sheet_3
+      name: Paintings-Sheet 1_3
       rect:
         serializedVersion: 2
         x: 57
@@ -181,14 +181,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0d3bc6e5cdaab504792af192ccb5fe17
-      internalID: -1003728509
+      spriteID: d15bbc8ac1c8fdf4facae8aacaca87f1
+      internalID: -907529062
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Paintings-Sheet_4
+      name: Paintings-Sheet 1_4
       rect:
         serializedVersion: 2
         x: 76
@@ -202,14 +202,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b185396f47b82ea4bb5f3cded36285e1
-      internalID: -953610823
+      spriteID: 2244772160341034299eb39d55491d2b
+      internalID: -2037483053
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Paintings-Sheet_5
+      name: Paintings-Sheet 1_5
       rect:
         serializedVersion: 2
         x: 95
@@ -223,14 +223,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b9f979a64f77c4048931e48d23b113db
-      internalID: 2530041
+      spriteID: f963154bcaaf40f449df516ca64dfa09
+      internalID: -1722480111
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Paintings-Sheet_6
+      name: Paintings-Sheet 1_6
       rect:
         serializedVersion: 2
         x: 114
@@ -244,14 +244,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2a2464b628739ff4c9c71f6301dc11a9
-      internalID: -947203100
+      spriteID: a4df55fb0c952c449ac68897596a2743
+      internalID: 533005314
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Paintings-Sheet_7
+      name: Paintings-Sheet 1_7
       rect:
         serializedVersion: 2
         x: 133
@@ -265,14 +265,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2a87b51a11755a24aa553067275b3653
-      internalID: -154092621
+      spriteID: 6136d64aeea20754b93ac1f6b26731b1
+      internalID: 2058000132
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Paintings-Sheet_8
+      name: Paintings-Sheet 1_8
       rect:
         serializedVersion: 2
         x: 152
@@ -286,14 +286,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9828d268ad0c75947b4525a7e3c5a14a
-      internalID: -382100998
+      spriteID: f9425dc925b97194a84c3cf141440924
+      internalID: 1002345615
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Paintings-Sheet_9
+      name: Paintings-Sheet 1_9
       rect:
         serializedVersion: 2
         x: 171
@@ -307,14 +307,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5f0fe5206e584ba4089bd8c05a928072
-      internalID: 1150102282
+      spriteID: 87fe1c662c309c44f96a797020836caf
+      internalID: -755189589
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Paintings-Sheet_10
+      name: Paintings-Sheet 1_10
       rect:
         serializedVersion: 2
         x: 190
@@ -328,8 +328,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d404ea00d4847d143b6a8d4ee41795a0
-      internalID: 316754677
+      spriteID: 2c25f12daa9fd10408491acc00208088
+      internalID: 1712323696
       vertices: []
       indices: 
       edges: []
@@ -345,17 +345,17 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Paintings-Sheet_5: 2530041
-      Paintings-Sheet_8: -382100998
-      Paintings-Sheet_0: -132387427
-      Paintings-Sheet_4: -953610823
-      Paintings-Sheet_9: 1150102282
-      Paintings-Sheet_7: -154092621
-      Paintings-Sheet_3: -1003728509
-      Paintings-Sheet_1: -757196401
-      Paintings-Sheet_6: -947203100
-      Paintings-Sheet_10: 316754677
-      Paintings-Sheet_2: -542927223
+      Paintings-Sheet 1_4: -2037483053
+      Paintings-Sheet 1_8: 1002345615
+      Paintings-Sheet 1_9: -755189589
+      Paintings-Sheet 1_10: 1712323696
+      Paintings-Sheet 1_0: 1977290591
+      Paintings-Sheet 1_2: -1567320616
+      Paintings-Sheet 1_3: -907529062
+      Paintings-Sheet 1_6: 533005314
+      Paintings-Sheet 1_5: -1722480111
+      Paintings-Sheet 1_1: 1839091124
+      Paintings-Sheet 1_7: 2058000132
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

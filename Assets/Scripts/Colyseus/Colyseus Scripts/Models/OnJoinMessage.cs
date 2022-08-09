@@ -7,5 +7,6 @@ public class OnJoinMessage
 {
     public NetworkedUser newNetworkedUser;
     public string customLogic;
+    public Dictionary<string, object> options;
 }
 

@@ -7,10 +7,10 @@ public class OptionsMessage
     public string userId;
 
     // Map of the options to update
-    public Dictionary<string, string> optionsToSet = new Dictionary<string, string>();
+    public Dictionary<string, object> optionsToSet = new Dictionary<string, object>();
 }
 
 public class SettingsMessage
 {
-    public Dictionary<string, string> optionsToSet;
+    public Dictionary<string, object> optionsToSet;
 }

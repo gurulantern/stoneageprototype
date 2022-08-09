@@ -50,7 +50,7 @@ public class GameOptions : MonoBehaviour
     public void SetOptions()
     {
         Debug.Log("Setting options!");
-        Dictionary<string, string> options = GetInput();
+        Dictionary<string, object> options = GetInput();
         ColyseusManager.NetSend("setOptions",
             new OptionsMessage
             {
@@ -60,9 +60,10 @@ public class GameOptions : MonoBehaviour
         );
     }
 
-    public Dictionary<string, string> GetInput()
+    public Dictionary<string, object> GetInput()
     {
-        Dictionary<string, string> options = new Dictionary<string, string>();
+        Dictionary<string, object> options = new Dictionary<string, object>();
+        options.Add("logic", "competitive");
         options.Add("gatherTime", GatherTime);
         options.Add("paintTime", PaintTime);
         options.Add("voteTime", VoteTime);

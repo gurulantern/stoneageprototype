@@ -19,15 +19,13 @@ export class MyRoom extends Room<RoomState> {
     night: number = 60;
     deadAurochs: boolean = false;
     observeReq: number = 50;
+    
     currentRoundTime: number;
     customMethodController: any = null;
     roomOptions: any;
+    //gameSettings: any;
 
     paintRound: boolean = true;
-    allianceToggle: boolean = false;
-    stealToggle: boolean = false;
-    tagsToggle: boolean = false;
-    tireRate: number = .5;
     aurochsTotal: number;
 
     CurrentCountDownState: string;
@@ -37,7 +35,8 @@ export class MyRoom extends Room<RoomState> {
     alliances: Map<number, number[]>;
 
     observeObjects: Array<string> = ["Tree", "Fruit_Tree", "Aurochs", "Other_Player"];
-    scoreTypes: Array<string> = ["gather", "observe", "create", "paint"];
+    characterActions: Array<string> = ["steal", "scare", "create"];
+    scoreTypes: Array<string> = ["gather", "create", "observe", "paint"];
     /**
      * Getter function to retrieve the correct customLogic file. Will try .JS extension and then .TS
      * @param {*} fileName 
@@ -116,6 +115,8 @@ export class MyRoom extends Room<RoomState> {
         logger.info("***********************");
 
         this.maxClients = 32;
+
+        this.setOptions(options, true);
         this.roomOptions = options;
 
         this.teams = new Map<number, Map<string, Client>>();
@@ -136,6 +137,7 @@ export class MyRoom extends Room<RoomState> {
         await this.getCustomLogic(options["logic"]);
         
         this.initializeGameTypeLogic(options);
+        //this.gameSettings = {"logic" : "competitive"};
     }
 
     // Callback when a client has joined the room
@@ -148,7 +150,9 @@ export class MyRoom extends Room<RoomState> {
         
         this.state.networkedUsers.set(client.sessionId, newNetworkedUser);
 
-        client.send("onJoin", { newNetworkedUser: newNetworkedUser, customLogic: this.roomOptions["logic"]});
+        logger.info(`${this.roomOptions["logic"]}`);
+
+        client.send("onJoin", { newNetworkedUser: newNetworkedUser, customLogic: this.roomOptions["logic"], options: this.roomOptions });
 
         if(this.customMethodController != null)
         {
@@ -205,19 +209,18 @@ export class MyRoom extends Room<RoomState> {
 
     }
 
-    setOptions (client: Client, optionsMessage: any) {
+    setOptions (options: any, creation: boolean) {
+        /*
         if(optionsMessage == null 
             || (optionsMessage.userId == null)
             || optionsMessage.optionsToSet == null) {
             return; // Invalid Option Update Message
         }
-        
-        let newSettingsKeys: string[]; 
-        let newSettingsValues: string[]; 
-        
-        for (let index = 0; index < 9; index++) {
-            let key = Object.keys(optionsMessage.optionsToSet)[index];
-            let value = optionsMessage.optionsToSet[key];
+        */
+
+        for (let index = 0; index < 14; index++) {
+            let key = Object.keys(options)[index];
+            let value = options[key];
 
             switch(key) {
                 case "gatherTime":
@@ -269,12 +272,18 @@ export class MyRoom extends Room<RoomState> {
                 case "observeReq":
                     this.observeReq = parseInt(value)
                     logger.info(`Set the ${key} setting to ${this.observeReq}`);
+                    break;
             }
         }
 
-        this.roomOptions = optionsMessage.optionToSet; 
-        this.broadcast("newSettings", { optionsToSet : optionsMessage.optionsToSet })
-        logger.info(`Sent client settings out!`);
+        if (creation == false) { 
+            Object.keys(options).forEach(key => {
+                this.roomOptions[key] = options[key];
+            });
+            console.log(this.roomOptions);
+            this.broadcast("newSettings", { optionsToSet : options })
+            logger.info(`Sent client settings out!`);
+        }
     }
 
     // Callback when a client has left the room
@@ -386,7 +395,7 @@ export class MyRoom extends Room<RoomState> {
         // Set options for room
         this.onMessage("setOptions", (client, optionsMessage) => {
             logger.info(`^^^^^^^^^^^^ Setting new options ^^^^^^^`);
-            this.setOptions(client, optionsMessage);
+            this.setOptions(optionsMessage.optionsToSet, false);
             logger.info(`^^^^^^^^^^^^ Options set ^^^^^^^^^^^^^^^`);
         })
 
