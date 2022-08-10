@@ -5138,6 +5138,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1573249489}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &950184632 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3338212769887997196, guid: e3c2ba7b786bc6a44a75bbeb34b645c5,
+    type: 3}
+  m_PrefabInstance: {fileID: 1573249489}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &971811798 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4223449609587997409, guid: a3ac3f0c61a55d348bb859613f191366,
@@ -7738,6 +7744,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4161695743155712425, guid: e3c2ba7b786bc6a44a75bbeb34b645c5,
+        type: 3}
+      propertyPath: teams.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4161695743155712425, guid: e3c2ba7b786bc6a44a75bbeb34b645c5,
+        type: 3}
+      propertyPath: teams.Array.data[4]
+      value: 
+      objectReference: {fileID: 950184632}
     - target: {fileID: 4211768607772661464, guid: e3c2ba7b786bc6a44a75bbeb34b645c5,
         type: 3}
       propertyPath: m_AnchorMax.y

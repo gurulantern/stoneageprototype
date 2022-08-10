@@ -25,7 +25,6 @@ export class MyRoom extends Room<RoomState> {
     roomOptions: any;
     //gameSettings: any;
 
-    paintRound: boolean = true;
     aurochsTotal: number;
 
     CurrentCountDownState: string;
@@ -227,22 +226,13 @@ export class MyRoom extends Room<RoomState> {
                     this.gatherTime = parseInt(value);
                     logger.info(`Set the ${key} setting to ${this.gatherTime}`);
                     break;
-                case "paintTme":
-                    if (parseInt(value) !== 0) {
-                        this.paintTime = parseInt(value);
-                        this.paintRound = true;
-                        logger.info(`Set the ${key} setting to ${this.paintTime}`);
-                        break;
-                    } else {
-                        this.paintRound = false;
-                        break;
-                    }
+                case "paintTime":
+                    this.paintTime = parseInt(value);
+                    logger.info(`Set the ${key} setting to ${this.paintTime}`);
+                    break;
                 case "voteTime":
-                    if (this.paintRound = true) {
-                        this.voteTime = parseInt(value);
-                        logger.info(`Set the ${key} setting to ${this.voteTime}`);
-                        break;
-                    }
+                    this.voteTime = parseInt(value);
+                    logger.info(`Set the ${key} setting to ${this.voteTime}`);
                     break;
                 case "foodMulti":
                     this.foodScoreMultiplier = parseInt(value);

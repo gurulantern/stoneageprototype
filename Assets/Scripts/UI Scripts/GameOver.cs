@@ -23,7 +23,9 @@ public class GameOver : MonoBehaviour
 
     public void UpdateText(int winner) 
     {
-        nobodyWins.SetActive(false);
-        teams[winner].gameObject.SetActive(true);
+        if (winner > -1) {
+            nobodyWins.SetActive(false);
+            teams[winner].gameObject.SetActive(true);
+        }
     }
 }

@@ -469,7 +469,7 @@ let getGameState = function (roomRef: MyRoom, gameState: string) {
 
 /** Resets data tracking collection and unlocks the room */
 let resetForNewRound = function (roomRef: MyRoom) {
-    
+    logger.info(`Setting clients into wait state to reset`);
     setUsersAttribute(roomRef, ClientReadyState, "waiting");
 
     unlockIfAble(roomRef);
@@ -811,11 +811,12 @@ let simulateRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
 
     if(clock.elapsedTime >= (roomRef.gatherTime * 1000))
     {
-        if(roomRef.paintRound) {
+        if(roomRef.paintTime > 0) {
             moveToState(roomRef, StoneAgeServerGameState.BeginPaintRound);
             logger.info(clock.elapsedTime);
         } else {
             moveToState(roomRef, StoneAgeServerGameState.EndRound);
+            logger.info(`No paint round! Moving to end`);
         }
     }
     /*
@@ -895,9 +896,10 @@ let endRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
 
     // Let all clients know that the round has ended
     roomRef.broadcast("onRoundEnd", { });
-    if (roomRef.teams.size > 0) {
-        let winner: number = getHighScores(roomRef, emptyTied, 0);
-    
+
+    let winner: number = getHighScores(roomRef, emptyTied, 0);
+        
+    if (typeof winner !== 'undefined') {
         setRoomAttribute(roomRef, WinningTeamId, winner.toString());
     }
 
@@ -919,10 +921,6 @@ let getHighScores = function (roomRef: MyRoom, ties: number[], score: number): n
     let tiedTeams: number[] = [];
     let iterator: number = 0;
     let nextScore: number = score + 1;
-
-    if(nextScore == 5) {
-        return 50;
-    }
     
     roomRef.teams.forEach((teamMap, team) => {
         if(teamMap.size > 0) {
@@ -941,6 +939,7 @@ let getHighScores = function (roomRef: MyRoom, ties: number[], score: number): n
             } else if (currentScore == highestScore) {
                 logger.info(`Pushing new team, ${team}, into tiedTeams`);
                 tiedTeams.push(team);
+                winningTeam = team;
             }
 
             iterator ++;
@@ -951,8 +950,13 @@ let getHighScores = function (roomRef: MyRoom, ties: number[], score: number): n
         logger.silly(`Found a winner winner chicken dinner - team${winningTeam}`);
         return winningTeam;
     } else {
-        logger.silly(`Had some ties in ${scoreTypes[score]} score between ${tiedTeams.length} teams and moving to check ${scoreTypes[nextScore]}`);
-        getHighScores(roomRef, tiedTeams, nextScore);
+        logger.silly(`Had some ties in ${scoreTypes[score]} score between ${tiedTeams.length} teams and moving to check ${scoreTypes[nextScore]} with nextScore of ${nextScore} and ${score}`);
+        if (nextScore === 5) {
+            logger.info(`Sending Nobody Wins`);
+            return -1;
+        } else {
+            getHighScores(roomRef, tiedTeams, nextScore);
+        }
     }
 }
 //====================================== END GAME STATE LOGIC

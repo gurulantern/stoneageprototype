@@ -37,7 +37,7 @@ public class GameController : MonoBehaviour
     public bool JoinComplete { get; private set; } = false;
     public bool IsCoop { get; private set; }
 
-    public int winningTeam = -1;
+    public int winningTeam = -2;
     public float roundTimeLimit;
     public float paintTimeLimit = 60f;
     private float elapsedTime;
@@ -278,6 +278,7 @@ public class GameController : MonoBehaviour
     private void OnRoundEnd()
     {
         LSLog.LogImportant($"Round Ended!", LSLog.LogColor.lime);
+        _paintController.gameObject.SetActive(false);
         StartCoroutine(RoundEndRoutine());
     }
 
@@ -289,6 +290,7 @@ public class GameController : MonoBehaviour
         StartCoroutine(HoldForWinner());
 
         //ResetAllShipDamage();
+        
         _uiController.UpdatePlayerReadiness(true);
         yield break;
     }
@@ -296,7 +298,7 @@ public class GameController : MonoBehaviour
     IEnumerator HoldForWinner()
     {
         //We reset winning team to -1 at the start of every round
-        while (winningTeam < 0)
+        while (winningTeam < -1)
         {
             yield return new WaitForSeconds(0.25f);
         }
