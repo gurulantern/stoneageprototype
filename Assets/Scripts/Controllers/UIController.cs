@@ -85,7 +85,6 @@ public class UIController : MonoBehaviour
 #pragma warning restore 0649
     public UnityEvent onPlayerReady;
     public UnityEvent onExit;
-    public UnityEvent onReset;
     public UnityEvent onSetOptions;
 
     private IEnumerator Start()
@@ -130,6 +129,7 @@ public class UIController : MonoBehaviour
         CharControllerMulti.onPlayerActivated += OnPlayerActivated;
         CharControllerMulti.onPlayerDeactivated += OnPlayerDeactivated;
         RoomController.onPlayerJoined += OnPlayerJoined;
+        //GameController.onReset += ResetUI;
 
         // For player list
         RoomController.onAddNetworkEntity += OnAddNetworkEntity;
@@ -141,10 +141,15 @@ public class UIController : MonoBehaviour
         CharControllerMulti.onPlayerActivated -= OnPlayerActivated;
         CharControllerMulti.onPlayerDeactivated -= OnPlayerDeactivated;
         RoomController.onPlayerJoined -= OnPlayerJoined;
-
+        //GameController.onReset -= ResetUI;
         // For player list
         RoomController.onAddNetworkEntity -= OnAddNetworkEntity;
         //RoomController.onRemoveNetworkEntity -= OnRemoveNetworkEntity;
+    }
+
+    private void ResetUI()
+    {
+        //timer.ResetTimer();
     }
 
     private void OnPlayerActivated(CharControllerMulti playerController)
@@ -239,10 +244,6 @@ public class UIController : MonoBehaviour
         onSetOptions?.Invoke();
     }
 
-    public void ButtonOnReset()
-    {
-        onReset?.Invoke();
-    }
     //Open function for the Options button
     public void OpenOptions()
     {

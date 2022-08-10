@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Sapling : Scorable
 {
+    [SerializeField]
     private int currentState = 0;
     [SerializeField]
     private GameObject treeFab;
@@ -11,9 +12,10 @@ public class Sapling : Scorable
 
     public void Grow()
     {
-        if (currentState <= 2) {
+        if (currentState < 2) {
             states[currentState].SetActive(false);
-            states[currentState += 1].SetActive(true);
+            currentState += 1;
+            states[currentState].SetActive(true);
         } else {
             BecomeTree();
         }

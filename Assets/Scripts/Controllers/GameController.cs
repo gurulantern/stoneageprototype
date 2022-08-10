@@ -138,8 +138,8 @@ public class GameController : MonoBehaviour
 
     public void Reset()
     {
-        onReset?.Invoke();
         _uiController.HideGameOverScreen();
+        onReset?.Invoke();
     }
 
     private void OnNetworkAdd(NetworkedEntity entity)
@@ -190,7 +190,7 @@ public class GameController : MonoBehaviour
     {
         if (elapsedTime < roundTimeLimit && gamePlaying == true)
         {
-            _uiController.timer.DecrementTime((roundTimeLimit - elapsedTime) / roundTimeLimit);
+            _uiController.timer.DecrementTime(elapsedTime);
         }
     }
 
@@ -239,7 +239,7 @@ public class GameController : MonoBehaviour
         */
         winningTeam = -1;
     
-        roundTimeLimit = time;
+        _uiController.timer.SetTime(time);
         gamePlaying = true;
         Debug.Log("Game has started - round time: " + roundTimeLimit);
 
@@ -259,7 +259,7 @@ public class GameController : MonoBehaviour
     private IEnumerator BeginPaint(float time)
     {
         
-        roundTimeLimit = time;
+        _uiController.timer.SetTime(time);
         Debug.Log("Paint has started, round time: " + roundTimeLimit);
         yield break;
     }
@@ -271,7 +271,7 @@ public class GameController : MonoBehaviour
 
     private IEnumerator BeginVote(float time)
     {
-        roundTimeLimit = time;
+        _uiController.timer.SetTime(time);
         Debug.Log("Vote has started, round time: " + roundTimeLimit);
         yield break;
     }

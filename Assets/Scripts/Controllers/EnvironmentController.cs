@@ -199,43 +199,47 @@ public class EnvironmentController : MonoBehaviour
     {
         foreach (Gatherable g in gatherables)
         {
-            switch(g.gameObject.tag) {
-                case "Fruit_Tree":
-                    g.SetID(fruitTreeCount += 1);
-                    break;
-                case "Fruit":
-                    g.SetID(fruitCount += 1);
-                    break;
-                case "Tree":
-                    g.SetID(treeCount += 1);
-                    break;
-                case "Aurochs":
-                    g.SetID(aurochsCount += 1);
-                    break;
+            if (g.ID == "") {
+                switch(g.gameObject.tag) {
+                    case "Fruit_Tree":
+                        g.SetID(fruitTreeCount += 1);
+                        break;
+                    case "Fruit":
+                        g.SetID(fruitCount += 1);
+                        break;
+                    case "Tree":
+                        g.SetID(treeCount += 1);
+                        break;
+                    case "Aurochs":
+                        g.SetID(aurochsCount += 1);
+                        break;
+                }
+                ColyseusManager.Instance.SendObjectInit(g);
             }
-            ColyseusManager.Instance.SendObjectInit(g);
         }
 
         foreach (Scorable s in scorables)
         {
-            switch(s.gameObject.tag) {
-                case "Aurochs_Pen":
-                    s.SetID(aurochsPen += 1);
-                    break;
-                case "Farm":
-                    s.SetID(farms += 1);
-                    break;
-                case "Sapling":
-                    s.SetID(saplings += 1);
-                    break;
-                case "Fishing_Trap":
-                    s.SetID(fishTraps += 1);
-                    break;
-                case "Cave":
-                    s.SetID(caves += 1);
-                    break;
+            if (s.ID == "") {
+                switch(s.gameObject.tag) {
+                    case "Aurochs_Pen":
+                        s.SetID(aurochsPen += 1);
+                        break;
+                    case "Farm":
+                        s.SetID(farms += 1);
+                        break;
+                    case "Sapling":
+                        s.SetID(saplings += 1);
+                        break;
+                    case "Fishing_Trap":
+                        s.SetID(fishTraps += 1);
+                        break;
+                    case "Cave":
+                        s.SetID(caves += 1);
+                        break;
+                }
+                ColyseusManager.Instance.SendObjectInit(s, s.gameObject.transform.position.x, s.gameObject.transform.position.y, s.ownerTeam);
             }
-            ColyseusManager.Instance.SendObjectInit(s, s.gameObject.transform.position.x, s.gameObject.transform.position.y, s.ownerTeam);
         }
     }
 
@@ -284,6 +288,27 @@ public class EnvironmentController : MonoBehaviour
         foreach(Sapling s in saplings) {
             s.Grow();
         }
+        FruitTree[] fruitTrees = gatherTransform.GetComponentsInChildren<FruitTree>();
+        foreach(FruitTree f in fruitTrees) {
+            if (f.stump == true) {
+                Destroy(f.gameObject);
+            } 
+
+            if (f.unharmed == true) {
+                f.ResetFruits();
+            }
+        }
+        Tree[] trees = gatherTransform.GetComponentsInChildren<Tree>();
+        foreach(Tree t in trees) {
+            if (t.stump == true) {
+                Destroy(t.gameObject);
+            }
+        }
+
+        gatherables = GetComponentsInChildren<Gatherable>();
+        scorables = GetComponentsInChildren<Scorable>();
+
+        InitializeInteractables();
     }
 }
 

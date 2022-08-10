@@ -85,13 +85,13 @@ public class CharControllerMulti : NetworkedEntityView
     private void OnEnable() 
     {
         GameController.onUpdateClientTeam += OnTeamUpdated;
-        GameController.onReset += ResetPos; 
+        GameController.onReset += ResetChar; 
     }
 
     private void OnDisable() 
     {
         GameController.onUpdateClientTeam -= OnTeamUpdated;
-        GameController.onReset -= ResetPos;
+        GameController.onReset -= ResetChar;
         if (IsMine) {
             BlueprintScript.createObject -= Create;
             //Scorable.finish -= Create;
@@ -117,9 +117,10 @@ public class CharControllerMulti : NetworkedEntityView
         }
     }
 
-    private void ResetPos()
+    private void ResetChar()
     {
         SetStartPos(state, teamIndex, teamNumber);
+        currentStamina = _playerStats.MaxStamina;
     }
 
     private void Create(int type, float cost, Scorable created)
@@ -292,7 +293,7 @@ public class CharControllerMulti : NetworkedEntityView
                     _playerControls.Enable();
                     scared = false;
                 }
-            } else if(/*GameController.Instance.gamePlaying && */!sleeping && !scaring 
+            } else if(GameController.Instance.gamePlaying && !sleeping && !scaring 
                 && !gathering && !spending && !observing) {
                 ChangeStamina(-tireRate);
                 if (currentStamina <= tireLimit) {
@@ -508,7 +509,6 @@ public class CharControllerMulti : NetworkedEntityView
             _playerControls.Enable();
             Debug.Log("Gathering is finished");
             _gatherIcons[icon].gameObject.SetActive(false);
-            //AddResource(icon);
             animator.SetBool("Gather", false);
             gathering = false;
             stealing = false;
@@ -516,7 +516,6 @@ public class CharControllerMulti : NetworkedEntityView
             Debug.Log("Spending is finished");
             _playerControls.Enable();
             _spendIcons[icon].gameObject.SetActive(false);
-            //SubtractResource(icon, spendAmount);
             animator.SetBool("Gather", false);
             spending = false;
         }
@@ -597,7 +596,6 @@ public class CharControllerMulti : NetworkedEntityView
 
     public Tuple<int, int> PickGoods()
     {
-        //int icon = Mathf.RoundToInt(UnityEngine.Random.Range(0.0f, 2.0f));
         if (meat > 0) {
             int stolen = (int)(Math.Ceiling(state.meat/2f));
             GameController.Instance.RegisterLoss(this.Id, "meat", stolen.ToString());

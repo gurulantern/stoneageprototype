@@ -355,10 +355,17 @@ customMethods.spend = function (roomRef: MyRoom, client: Client, request: any) {
 
 customMethods.reset = function (roomRef: MyRoom, client: Client, request: any) {
     const param = request.param;
-
+    logger.info(`Resetting`);
     if (getGameState(roomRef, CurrentState) == "Waiting") {
         roomRef.broadcast("onReset");
     }
+
+    roomRef.state.gatherableObjects.forEach( g => {
+        if (g.gatherableType == "FRUIT_TREE" && g.harvestTrigger >= 9) {
+            g.harvestTrigger = 16;
+            logger.info(`${g.id} has grown fruit to ${g.harvestTrigger}`);
+        }
+    });
 }
 
 //====================================== END Client Request Logic
@@ -907,7 +914,6 @@ let endRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
         setRoomAttribute(roomRef, WinningTeamId, winner.toString());
     } else {
         setRoomAttribute(roomRef, WinningTeamId, roomRef.teams.size.toString());
-
     }
 
     // Reset the server state for a new round

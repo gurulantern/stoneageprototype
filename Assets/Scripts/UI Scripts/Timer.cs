@@ -5,16 +5,16 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    public Image timerMask;
-    float originalSize;
-
-     void Start()
+    public Slider timerSlider;
+    
+    public void SetTime(float time)
     {
-        originalSize = timerMask.rectTransform.rect.width;
+        timerSlider.maxValue = time;
+        timerSlider.value = timerSlider.maxValue;
     }
 
     public void DecrementTime(float decrement) 
     {
-        timerMask.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, originalSize * decrement);
+        timerSlider.value = timerSlider.maxValue - decrement;
     }
 }
