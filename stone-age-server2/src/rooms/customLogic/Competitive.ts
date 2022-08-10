@@ -353,6 +353,14 @@ customMethods.spend = function (roomRef: MyRoom, client: Client, request: any) {
     }
 }
 
+customMethods.reset = function (roomRef: MyRoom, client: Client, request: any) {
+    const param = request.param;
+
+    if (getGameState(roomRef, CurrentState) == "Waiting") {
+        roomRef.broadcast("onReset");
+    }
+}
+
 //====================================== END Client Request Logic
 
 // GAME LOGIC
@@ -819,13 +827,6 @@ let simulateRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
             logger.info(`No paint round! Moving to end`);
         }
     }
-    /*
-    roomRef.teams.forEach((teamMap, teamIdx) => {
-        let gatherScore: number = getTeamScores(roomRef, teamIdx, "gather");
-    });
-    */
-
-    //setRoomAttribute(roomRef, WinningTeamId, teamIdx.toString());
 }
 
 let beginPaintRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
@@ -898,9 +899,15 @@ let endRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
     roomRef.broadcast("onRoundEnd", { });
 
     let winner: number = getHighScores(roomRef, emptyTied, 0);
-        
+    
+    logger.info(`Winner is ${winner} and type is ${typeof winner}`);
+
     if (typeof winner !== 'undefined') {
+        logger.info(`Setting winner to ${winner}`);
         setRoomAttribute(roomRef, WinningTeamId, winner.toString());
+    } else {
+        setRoomAttribute(roomRef, WinningTeamId, roomRef.teams.size.toString());
+
     }
 
     // Reset the server state for a new round
@@ -952,8 +959,9 @@ let getHighScores = function (roomRef: MyRoom, ties: number[], score: number): n
     } else {
         logger.silly(`Had some ties in ${scoreTypes[score]} score between ${tiedTeams.length} teams and moving to check ${scoreTypes[nextScore]} with nextScore of ${nextScore} and ${score}`);
         if (nextScore === 5) {
-            logger.info(`Sending Nobody Wins`);
-            return -1;
+            winningTeam = roomRef.teams.size;
+            logger.info(`Sending Nobody Wins with ${winningTeam}`); 
+            return winningTeam;
         } else {
             getHighScores(roomRef, tiedTeams, nextScore);
         }

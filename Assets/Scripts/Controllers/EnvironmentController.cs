@@ -33,10 +33,10 @@ public class EnvironmentController : MonoBehaviour
     public int fruitCount = -1, treeCount = -1, fruitTreeCount = -1, aurochsCount = -1, aurochsPen = -1, farms = -1, saplings = -1, fishTraps = -1, caves = -1;
 
     public Scorable[] scorables;
-    [SerializeField] private Transform scoreTransform;
+    public Transform scoreTransform;
 
     public Gatherable[] gatherables;
-    [SerializeField] private Transform gatherTransform;
+    public Transform gatherTransform;
 
     private NavMeshData NavMeshData;
 
@@ -59,6 +59,7 @@ public class EnvironmentController : MonoBehaviour
         RoomController.onNetworkScorableAdd += OnScorableAdd;
 
         BlueprintScript.createObject += OnCreateObject;
+        GameController.onReset += GrowTrees;
     }
 
     private void OnDisable()
@@ -67,6 +68,7 @@ public class EnvironmentController : MonoBehaviour
         RoomController.onNetworkScorableAdd -= OnScorableAdd;
 
         BlueprintScript.createObject -= OnCreateObject;
+        GameController.onReset -= GrowTrees;
     }
 
     public void UpdateNavMesh()
@@ -273,6 +275,14 @@ public class EnvironmentController : MonoBehaviour
                 s.FinishObject(ownerID, entityID);
                 return;
             }
+        }
+    }
+
+    public void GrowTrees()
+    {
+        Sapling[] saplings = scoreTransform.GetComponentsInChildren<Sapling>();
+        foreach(Sapling s in saplings) {
+            s.Grow();
         }
     }
 }

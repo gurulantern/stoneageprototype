@@ -268,6 +268,12 @@ public class UIController : MonoBehaviour
         gameOverPanel.gameObject.SetActive(true);
     }
 
+    public void HideGameOverScreen()
+    {
+        gameOverPanel.gameObject.SetActive(false);
+        hudContainer.SetActive(true);
+    }
+
 
     public virtual void Update()
     {

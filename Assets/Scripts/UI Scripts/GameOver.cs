@@ -17,15 +17,20 @@ public class GameOver : MonoBehaviour
     private bool showText = true;
     public void ShowScores() 
     {
-        endText.gameObject.SetActive(!showText);
-        finalScores.SetActive(!showScores);
+        showText = !showText;
+        showScores = !showScores;
+        endText.gameObject.SetActive(showText);
+        finalScores.SetActive(showScores);
     }
 
     public void UpdateText(int winner) 
     {
-        if (winner > -1) {
-            nobodyWins.SetActive(false);
-            teams[winner].gameObject.SetActive(true);
-        }
+        nobodyWins.SetActive(false);
+        teams[winner].gameObject.SetActive(true);
+    }
+
+    public void Reset()
+    {
+        GameController.Instance.RegisterReset();
     }
 }

@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class Sapling : Scorable
 {
-    // Start is called before the first frame update
-    void Start()
+    private int currentState = 0;
+    [SerializeField]
+    private GameObject treeFab;
+    Quaternion blankRot = new Quaternion(0,0,0,0);
+
+    public void Grow()
     {
-        
+        if (currentState <= 2) {
+            states[currentState].SetActive(false);
+            states[currentState += 1].SetActive(true);
+        } else {
+            BecomeTree();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void BecomeTree()
     {
-        
+        Destroy(this.gameObject);
+        GameObject thisTree = Instantiate(treeFab, this.gameObject.transform.position, blankRot);
+        thisTree.transform.SetParent(EnvironmentController.Instance.gatherTransform);
     }
 }

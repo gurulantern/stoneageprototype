@@ -458,6 +458,12 @@ using UnityEngine.SceneManagement;
             LSLog.Log("Spawning an Aurochs");
             AurochsController.Instance.SpawnAurochs(msg.alive, msg.spawnPoint);
         });
+
+        _room.OnMessage<EmptyMessage>("onReset", msg => 
+        {
+            LSLog.Log("Resetting for a new round");
+            GameController.Instance.Reset();
+        });
         //========================
         _room.State.networkedEntities.OnAdd += OnEntityAdd;
         _room.State.networkedEntities.OnRemove += OnEntityRemoved;

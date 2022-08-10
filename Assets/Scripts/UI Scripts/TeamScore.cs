@@ -11,6 +11,8 @@ public class TeamScore : MonoBehaviour
     public GameObject _scoreParent;
     public TextMeshProUGUI[] scores;
     public int team;
+    [SerializeField]
+    private bool final;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +31,9 @@ public class TeamScore : MonoBehaviour
         color.color = GameController.Instance.GetTeamColor(teamIdx);
         team = teamIdx;
         color.gameObject.SetActive(true);
+        if (final == true) {
+            _scoreParent.gameObject.SetActive(true);
+        }
     }
 
     public void Deinitialize(int teamIdx)

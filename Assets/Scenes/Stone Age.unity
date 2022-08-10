@@ -1006,7 +1006,7 @@ MonoBehaviour:
   observeMult: 0
   _uiController: {fileID: 1573249490}
   _environmentController: {fileID: 829451604}
-  winningTeam: -1
+  winningTeam: -2
   roundTimeLimit: 10
   paintTimeLimit: 60
   teams: []
@@ -3021,6 +3021,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1977738429}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &477473940 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4161695743155712425, guid: e3c2ba7b786bc6a44a75bbeb34b645c5,
+    type: 3}
+  m_PrefabInstance: {fileID: 1573249489}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0069bc58fea51242b6ea751bdf07d42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &494495110
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7618,6 +7630,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3531246032830173222, guid: e3c2ba7b786bc6a44a75bbeb34b645c5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 477473940}
+    - target: {fileID: 3531246032830173222, guid: e3c2ba7b786bc6a44a75bbeb34b645c5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Reset
+      objectReference: {fileID: 0}
+    - target: {fileID: 3531246032830173222, guid: e3c2ba7b786bc6a44a75bbeb34b645c5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameOver, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3531246032853221668, guid: e3c2ba7b786bc6a44a75bbeb34b645c5,
         type: 3}

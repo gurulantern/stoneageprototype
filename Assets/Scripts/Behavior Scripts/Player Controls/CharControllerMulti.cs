@@ -84,12 +84,14 @@ public class CharControllerMulti : NetworkedEntityView
 
     private void OnEnable() 
     {
-        GameController.onUpdateClientTeam += OnTeamUpdated; 
+        GameController.onUpdateClientTeam += OnTeamUpdated;
+        GameController.onReset += ResetPos; 
     }
 
     private void OnDisable() 
     {
         GameController.onUpdateClientTeam -= OnTeamUpdated;
+        GameController.onReset -= ResetPos;
         if (IsMine) {
             BlueprintScript.createObject -= Create;
             //Scorable.finish -= Create;
@@ -113,6 +115,11 @@ public class CharControllerMulti : NetworkedEntityView
             SetTeam(state, team, teamNumber);
             Debug.Log($"Your team is {team}");
         }
+    }
+
+    private void ResetPos()
+    {
+        SetStartPos(state, teamIndex, teamNumber);
     }
 
     private void Create(int type, float cost, Scorable created)

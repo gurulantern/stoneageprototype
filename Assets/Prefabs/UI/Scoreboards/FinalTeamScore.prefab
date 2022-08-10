@@ -568,6 +568,7 @@ MonoBehaviour:
   - {fileID: 8603455772136744868}
   - {fileID: 8389618295050631433}
   team: 0
+  final: 1
 --- !u!114 &2686666324981995076
 MonoBehaviour:
   m_ObjectHideFlags: 0

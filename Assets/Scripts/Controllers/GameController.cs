@@ -25,6 +25,8 @@ public class GameController : MonoBehaviour
     public static event OnUpdateClientTeam onUpdateClientTeam;
     public delegate void OnUnlock(string mostObserved, string level);
     public static event OnUnlock onUnlock;
+    public delegate void OnReset();
+    public static event OnReset onReset;
 
     public Dictionary<string, object> gameSettings;
     public UIController _uiController;
@@ -37,7 +39,7 @@ public class GameController : MonoBehaviour
     public bool JoinComplete { get; private set; } = false;
     public bool IsCoop { get; private set; }
 
-    public int winningTeam = -2;
+    public int winningTeam = -1;
     public float roundTimeLimit;
     public float paintTimeLimit = 60f;
     private float elapsedTime;
@@ -50,7 +52,7 @@ public class GameController : MonoBehaviour
     
     [SerializeField] 
     private Color[] teamColors;
-    private  string[] scoreTypes = new string[] {"gather", "observe", "create", "total"};
+    private  string[] scoreTypes = new string[] {"gather", "observe", "create", "paint", "total"};
     
     [SerializeField]
     private PaintController _paintController;
@@ -132,6 +134,12 @@ public class GameController : MonoBehaviour
                 SceneManager.LoadScene(0);
             });
         }
+    }
+
+    public void Reset()
+    {
+        onReset?.Invoke();
+        _uiController.HideGameOverScreen();
     }
 
     private void OnNetworkAdd(NetworkedEntity entity)
@@ -228,16 +236,9 @@ public class GameController : MonoBehaviour
                 pc.PositionAtSpawn();
             }
         }
-
-        if (IsCoop)
-        {
-
-        }
-        else
-        {
-            winningTeam = -1;
-        }
         */
+        winningTeam = -1;
+    
         roundTimeLimit = time;
         gamePlaying = true;
         Debug.Log("Game has started - round time: " + roundTimeLimit);
@@ -298,10 +299,11 @@ public class GameController : MonoBehaviour
     IEnumerator HoldForWinner()
     {
         //We reset winning team to -1 at the start of every round
-        while (winningTeam < -1)
+        while (winningTeam < 0)
         {
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(.25f);
         }
+
         _uiController.ShowGameOverScreen(winningTeam);
     }
 
@@ -635,5 +637,10 @@ public class GameController : MonoBehaviour
     public void RegisterLoss(string entityID, string gatherableType, string robbedAmount) 
     {
         ColyseusManager.CustomServerMethod("lose", new object[] { entityID, gatherableType, robbedAmount });
+    }
+
+    public void RegisterReset() 
+    {
+        ColyseusManager.CustomServerMethod("reset", new object[] {});
     }
 }
