@@ -15,14 +15,15 @@ using System;
 public class GameController : MonoBehaviour
 {
     public StoneColyseusNetworkedEntityView prefab;
-    public bool create, steal, scare, alliances;
+    public bool create,createUI, steal, scare, alliances;
+    public int observeMult;
     public delegate void OnViewAdded(StoneColyseusNetworkedEntityView view, NetworkedEntity entity);
     public static event OnViewAdded onViewAdded;
     public delegate void OnViewRemoved(StoneColyseusNetworkedEntityView view);
     public static event OnViewRemoved onViewRemoved;
     public delegate void OnUpdateClientTeam(int teamIndex, string clientID);
     public static event OnUpdateClientTeam onUpdateClientTeam;
-    public delegate void OnUnlock(string mostObserved);
+    public delegate void OnUnlock(string mostObserved, string level);
     public static event OnUnlock onUnlock;
 
     public Dictionary<string, object> gameSettings;
@@ -138,10 +139,9 @@ public class GameController : MonoBehaviour
         if (ColyseusManager.Instance.HasEntityView(entity.id))
         {
             LSLog.LogImportant("View found! For " + entity.id);
+            _uiController.loadCover.SetActive(false);
             UpdateSettings(gameSettings);
-        }
-        else
-        {
+        } else {
             LSLog.LogImportant("No View found for " + entity.id);
             CreateView(entity);
         }
@@ -319,6 +319,11 @@ public class GameController : MonoBehaviour
     {
         Debug.Log("Updating Settings");
         CharControllerMulti pc = GetPlayer();
+        if (options.TryGetValue("observeMulti", out object observeMultiplier))
+        {
+            observeMult = int.Parse(observeMultiplier.ToString());
+        }
+
         if (options.TryGetValue("observeReq", out object observeRequirement))
         {
             _uiController._observeMeter.UpdateReq(int.Parse(observeRequirement.ToString()));
@@ -436,10 +441,10 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void Unlock(string observedObject)
+    public void Unlock(string observedObject, string level)
     {
         if (GameController.Instance.create == true) {
-            onUnlock?.Invoke(observedObject);
+            onUnlock?.Invoke(observedObject, level);
         }
     }
 
@@ -610,9 +615,9 @@ public class GameController : MonoBehaviour
         ColyseusManager.CustomServerMethod("gather", new object[] { entityID, gatherableType, amount });
     }
 
-    public void RegisterObserve(string entityID, string observedObject, string teamIndex)
+    public void RegisterObserve(string entityID, string observedObject, string teamIndex, string checkUnlock)
     {
-        ColyseusManager.CustomServerMethod("observe", new object[] { entityID, observedObject, teamIndex});
+        ColyseusManager.CustomServerMethod("observe", new object[] { entityID, observedObject, teamIndex, checkUnlock });
     }
 
     public void RegisterCreate(string entityID, string scorableID, string createScore,  string teamIndex, string createdType)

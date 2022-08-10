@@ -9,16 +9,6 @@ public class CreateMenu : MonoBehaviour
     private GameObject[] createButtons;
     [SerializeField] private bool open = false;
 
-    void OnEnable()
-    {
-        GameController.onUnlock += UnlockButton;
-    }
-
-    void OnDisable()
-    {
-        GameController.onUnlock -= UnlockButton;
-    }
-
     public void UnlockButton(string mostObserved)
     {
         switch(mostObserved) {

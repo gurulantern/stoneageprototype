@@ -9,7 +9,7 @@ using UnityEngine.Events;
 public class UIHooks : MonoBehaviour
 {
     [SerializeField] Slider _staminaSlider;
-    [SerializeField] Slider _observeSlider;
+    [SerializeField] ObserveMeter _observe;
     [SerializeField] GameObject createControl;
     [SerializeField] TextMeshProUGUI _personalFruitCount;
     [SerializeField] TextMeshProUGUI _personalMeatCount;
@@ -156,8 +156,22 @@ public class UIHooks : MonoBehaviour
         }
     }
 
-    private void UnlockCreateUI(string mostObserved)
+    private void UnlockCreateUI(string mostObserved, string level)
     {
-        createControl.SetActive(true);
+        if (GameController.Instance.createUI == false) {
+            GameController.Instance.createUI = true;
+            createControl.SetActive(true);
+        }
+        _createMenu.UnlockButton(mostObserved);
+        _observe.LevelUp(level);
+    }
+
+    public string CheckUnlock()
+    {
+        if (_observe.observeSlider.value == (_observe.observeSlider.maxValue - GameController.Instance.observeMult)) {
+            return "True";
+        } else {
+            return "False";
+        }
     }
 }

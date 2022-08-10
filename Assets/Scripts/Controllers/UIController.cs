@@ -37,8 +37,7 @@ public class UIController : MonoBehaviour
     //[SerializeField]
     //private PlayerInfoView playerInfo;
 
-    [SerializeField]
-    private CanvasGroup loadingCover;
+
     public GameObject loadCover;
 
     [SerializeField]
@@ -116,14 +115,7 @@ public class UIController : MonoBehaviour
 
             ///playerInfo.SetData(GameController.Instance.IsCoop == false);
 
-            float t = 0.0f;
-            while (t < 1.0f)
-            {
-                loadingCover.alpha = Mathf.Lerp(1, 0, t);
-                yield return new WaitForEndOfFrame();
-                t += Time.deltaTime;
-            }
-            loadingCover.gameObject.SetActive(false);
+
             if (GameController.Instance.gamePlaying)
             {
                 readyButton.gameObject.SetActive(false);
@@ -181,17 +173,17 @@ public class UIController : MonoBehaviour
         
     }
 
-    private void OnPlayerDeactivated(CharControllerMulti meteeController)
+    private void OnPlayerDeactivated(CharControllerMulti player)
     {
-        if (meteeController.IsMine) return;
+        if (player.IsMine) return;
 
-        if (playerTags.ContainsKey(meteeController))
+        if (playerTags.ContainsKey(player))
         {
-            PlayerTag playerTag = playerTags[meteeController];
+            PlayerTag playerTag = playerTags[player];
 
             Destroy(playerTag.gameObject);
 
-            playerTags.Remove(meteeController);
+            playerTags.Remove(player);
         }
     }
 

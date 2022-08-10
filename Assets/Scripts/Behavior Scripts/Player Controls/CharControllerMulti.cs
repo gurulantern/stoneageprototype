@@ -120,7 +120,8 @@ public class CharControllerMulti : NetworkedEntityView
         Debug.Log("Character is creating");
         if (type == 3) {
             GameController.Instance.RegisterLoss(this.Id, "seeds", cost.ToString());
-            GameController.Instance.RegisterCreate(this.Id, created.ID, created.finishScore, teamIndex.ToString(), created.gameObject.tag);
+            GameController.Instance.RegisterCreate(this.Id, 
+                created.ID, created.finishScore, teamIndex.ToString(), created.gameObject.tag);
         } else {
             GameController.Instance.RegisterLoss(this.Id, "wood", cost.ToString()); 
         }
@@ -182,10 +183,6 @@ public class CharControllerMulti : NetworkedEntityView
         {            
             _spriteRenderer.color = GameController.Instance.GetTeamColor(idx);
             SetStartPos(entity, teamIndex, teamNum);
-            if (GameController.Instance._uiController.loadCover.activeInHierarchy)
-            {
-                GameController.Instance._uiController.loadCover.SetActive(false);
-            }
         }
     }
     
@@ -288,7 +285,8 @@ public class CharControllerMulti : NetworkedEntityView
                     _playerControls.Enable();
                     scared = false;
                 }
-            } else if(/*GameController.Instance.gamePlaying && */!sleeping && !scaring && !gathering && !spending && !observing) {
+            } else if(/*GameController.Instance.gamePlaying && */!sleeping && !scaring 
+                && !gathering && !spending && !observing) {
                 ChangeStamina(-tireRate);
                 if (currentStamina <= tireLimit) {
                     animator.SetBool("Tired", true);
@@ -355,13 +353,15 @@ public class CharControllerMulti : NetworkedEntityView
     public void OnInteractAction(InputAction.CallbackContext context)
     {
         RaycastHit2D hit;
-        if (GameController.Instance.gamePlaying && !tired && !sleeping && !observing && !gathering && !spending && context.performed) {
+        if (GameController.Instance.gamePlaying && !tired && !sleeping && !observing 
+            && !gathering && !spending && context.performed) {
             Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
             hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
             //Debug.Log($"Hit {hit.collider.gameObject.name}");
    
-            if (hit.collider.gameObject.GetComponentInParent<Robbable>() != null && hit.collider.gameObject.GetComponentInParent<CharControllerMulti>().proxyStates[0].sleep) {
+            if (hit.collider.gameObject.GetComponentInParent<Robbable>() != null 
+                && hit.collider.gameObject.GetComponentInParent<CharControllerMulti>().proxyStates[0].sleep) {
                 Robbable robbable = hit.collider.gameObject.GetComponentInParent<Robbable>(); 
                 robbable.Steal(new Robbable.StoneAgeStealMessage()
                 {
@@ -379,30 +379,37 @@ public class CharControllerMulti : NetworkedEntityView
                     } else {
                         currentGatherable.PlayerAttemptedUse(this);
                         if (currentGatherable.gameObject.tag == "Fruit_Tree" && GameController.Instance.create == true) {
-                            GameController.Instance.RegisterGather(this.Id, "seeds", currentGatherable.amountToGive.ToString());
+                            GameController.Instance.RegisterGather(this.Id, 
+                                "seeds", currentGatherable.amountToGive.ToString());
                         } else {
-                            GameController.Instance.RegisterGather(this.Id, currentGatherable.typeToGive, currentGatherable.amountToGive.ToString());
+                            GameController.Instance.RegisterGather(this.Id, 
+                                currentGatherable.typeToGive, currentGatherable.amountToGive.ToString());
                         }
                         Debug.Log("Gathering");
                     }
-                } else if (currentScorables.Contains(currentScorable) && !animator.GetBool("Gather") && currentScorable.ownerTeam == teamIndex) {
+                } else if (currentScorables.Contains(currentScorable) && !animator.GetBool("Gather") 
+                    && currentScorable.ownerTeam == teamIndex) {
                     Debug.Log(currentScorable + " clicked");
                     switch(currentScorable.State.scorableType) {
                         case "CAVE":
                             if(state.fruit > 0 && state.meat > 0) {
                                 icon = 2;
-                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "fruit", fruit.ToString(), teamIndex.ToString(), "1");
-                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "meat", meat.ToString(), teamIndex.ToString(), "1");
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, 
+                                    "fruit", fruit.ToString(), teamIndex.ToString(), "1");
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, 
+                                    "meat", meat.ToString(), teamIndex.ToString(), "1");
                                 //GameController.Instance.RegisterGather(this.Id, state.fruit.ToString(), state.meat.ToString(), teamIndex.ToString());
                                 StartGather(false);
                             } else if (state.fruit > 0) {
                                 icon = 0;
-                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "fruit", fruit.ToString(), teamIndex.ToString(), "1");
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, 
+                                    "fruit", fruit.ToString(), teamIndex.ToString(), "1");
                                 //GameController.Instance.RegisterGather(this.Id, state.fruit.ToString(), "0", teamIndex.ToString());
                                 StartGather(false);
                             } else if (state.meat > 0) {
                                 icon = 1;
-                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "meat", meat.ToString(), teamIndex.ToString(), "1");
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, 
+                                    "meat", meat.ToString(), teamIndex.ToString(), "1");
                                 //GameController.Instance.RegisterGather(this.Id, "0", state.meat.ToString(), teamIndex.ToString());
                                 StartGather(false);
                             } else {
@@ -412,7 +419,8 @@ public class CharControllerMulti : NetworkedEntityView
                         case "AUROCHS_PEN":
                             if (state.wood > 0) {
                                 icon = 3;
-                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "wood", wood.ToString(), teamIndex.ToString(), currentScorable.progressCosts[0]);
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, 
+                                    "wood", wood.ToString(), teamIndex.ToString(), currentScorable.progressCosts[0]);
                                 StartGather(false);
                             } else {
                                 icon = -1;
@@ -421,16 +429,20 @@ public class CharControllerMulti : NetworkedEntityView
                         case "FARM":
                             if (state.seeds > 0 && state.wood > 0) {
                                 icon = 5;
-                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "wood", wood.ToString(), teamIndex.ToString(), currentScorable.progressCosts[0]);
-                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "seeds", seeds.ToString(), teamIndex.ToString(), currentScorable.progressCosts[1]);
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, 
+                                    "wood", wood.ToString(), teamIndex.ToString(), currentScorable.progressCosts[0]);
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, 
+                                    "seeds", seeds.ToString(), teamIndex.ToString(), currentScorable.progressCosts[1]);
                                 StartGather(false);
                             } else if (state.seeds > 0) {
                                 icon = 4;
-                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "seeds", seeds.ToString(), teamIndex.ToString(), currentScorable.progressCosts[1]);
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, 
+                                    "seeds", seeds.ToString(), teamIndex.ToString(), currentScorable.progressCosts[1]);
                                 StartGather(false);
                             } else if (state.wood > 0) {
                                 icon = 3;
-                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, "wood", wood.ToString(), teamIndex.ToString(), currentScorable.progressCosts[0]);
+                                GameController.Instance.RegisterSpend(this.Id, currentScorable.State.id, 
+                                    "wood", wood.ToString(), teamIndex.ToString(), currentScorable.progressCosts[0]);
                                 StartGather(false);
                             } else {
                                 icon = -1;
@@ -461,7 +473,8 @@ public class CharControllerMulti : NetworkedEntityView
                             break;
                         case "Tree":
                             icon = 2;
-                            GameController.Instance.RegisterCreate(this.Id, "noIDforTree", "-2", teamIndex.ToString(), "Tree_Cut");
+                            GameController.Instance.RegisterCreate(this.Id, 
+                                "noIDforTree", "-2", teamIndex.ToString(), "Tree_Cut");
                             break;
                         case "Fishing_Spot":
                             icon = 4;
@@ -506,14 +519,15 @@ public class CharControllerMulti : NetworkedEntityView
     public void OnObserve(InputAction.CallbackContext context)
     {
         RaycastHit2D hit;
-        Debug.Log("there was a right click at " + Mouse.current.position.ReadValue());
+        //Debug.Log("there was a right click at " + Mouse.current.position.ReadValue());
         Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
         hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
         tagNear = hit.collider.gameObject.tag;
-        if(tagNear != null && !sleeping && !observing && !tired && context.performed) {
+        if(tagNear != null && !gathering && !sleeping && !observing && !tired && context.performed) {
             observing = true;
             animator.SetBool("Observe", true);
-            GameController.Instance.RegisterObserve(this.Id, hit.collider.gameObject.tag, teamIndex.ToString());
+            uiHooks.CheckUnlock();
+            GameController.Instance.RegisterObserve(this.Id, hit.collider.gameObject.tag, teamIndex.ToString(), uiHooks.CheckUnlock());
             Debug.Log($"Player observes {hit.collider.gameObject.tag}");
         }
     }
@@ -543,7 +557,8 @@ public class CharControllerMulti : NetworkedEntityView
 
     public void OnCreate(InputAction.CallbackContext context)
     {
-        if (context.performed && GameController.Instance.create && !sleeping && !tired && !gathering && !observing && !scared && !scaring)
+        if (context.performed && GameController.Instance.create && GameController.Instance.createUI 
+            && !sleeping && !tired && !gathering && !observing && !scared && !scaring)
         {
             uiHooks.ToggleCreate();
         }

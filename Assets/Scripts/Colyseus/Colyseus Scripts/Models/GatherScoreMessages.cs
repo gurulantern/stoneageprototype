@@ -53,6 +53,7 @@ public class StoneAgeUnlockMessage
 {
     public string teamIndex;
     public string createUnlocked;
+    public string level;
 }
 
 public class FinishMessage 

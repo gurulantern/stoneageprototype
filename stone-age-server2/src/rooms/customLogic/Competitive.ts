@@ -128,21 +128,21 @@ customMethods.gather =  function (roomRef: MyRoom, client: Client, request: any)
     })
         
     if (gatherableType == "wood") {
-        logger.silly(`${gatherer.id} is at ${gatherer.wood}`);
+        //logger.silly(`${gatherer.id} is at ${gatherer.wood}`);
         gatherer.wood += amount;
         logger.silly(`${gatherer.id} gathered ${amount} from a ${gatherableType}`);
     } else if (gatherableType == "seeds") {
-        logger.silly(`${gatherer.id} is at ${gatherer.fruit}`);
-        logger.silly(`${gatherer.id} is at ${gatherer.seeds}`);
+        //logger.silly(`${gatherer.id} is at ${gatherer.fruit}`);
+        //logger.silly(`${gatherer.id} is at ${gatherer.seeds}`);
         gatherer.fruit += amount;
         gatherer.seeds += amount * 3;
         logger.silly(`${gatherer.id} gathered ${amount} fruit and ${amount * 3} seeds from a ${gatherableType}`);
     }  else if (gatherableType == "fruit") {
-        logger.silly(`${gatherer.id} is at ${gatherer.fruit}`);
+        //logger.silly(`${gatherer.id} is at ${gatherer.fruit}`);
         gatherer.fruit += amount;
         logger.silly(`${gatherer.id} gathered ${amount} from a ${gatherableType}`);
     } else if (gatherableType == "meat") {
-        logger.silly(`${gatherer.id} is at ${gatherer.meat}`);
+        //logger.silly(`${gatherer.id} is at ${gatherer.meat}`);
         gatherer.meat += amount;
         logger.silly(`${gatherer.id} gathered ${amount} from a ${gatherableType}`);
     }
@@ -172,6 +172,7 @@ customMethods.observe = function (roomRef: MyRoom, client: Client, request: any)
         const observerID = param[0];
         const observedType = param[1];
         const teamIndex = Number(param[2]);
+        const checkUnlock = param[3];
 
         if (roomRef.teams.get(teamIndex).has(client.id)) {
             let score: number = 1 * roomRef.observeScoreMultiplier;
@@ -180,6 +181,20 @@ customMethods.observe = function (roomRef: MyRoom, client: Client, request: any)
             logger.silly(`${observerID} scored ${score} observe for team${teamIndex}`);
         } else {
             logger.silly(`No client with id of ${client.id} to score.`)
+        }
+
+        if (checkUnlock == "True") {
+            let level: number = Number(roomRef.state.attributes.get(`team${teamIndex.toString()}_Level`));
+
+            console.log(roomRef.state.attributes);
+            let mostObserved: string = findMostObserved(roomRef, teamIndex);
+            logger.info(`team${teamIndex.toString()} unlocked ${mostObserved}`);  
+            if (roomRef.state.attributes.get(`team${teamIndex.toString()}_${mostObserved}Unlocked`) !== "True") {
+                level ++;
+                roomRef.broadcast("onUnlockCreate", { teamIndex: teamIndex, createUnlocked: mostObserved, level: level.toString() });
+                setRoomAttribute(roomRef, `team${teamIndex.toString()}_${mostObserved}Unlocked`, "True");
+                setRoomAttribute(roomRef, `team${teamIndex.toString()}_Level`, level.toString());
+            }  
         }
 }
 
@@ -233,19 +248,19 @@ customMethods.lose = function (roomRef: MyRoom, client: Client, request: any) {
     })
         
     if (gatherableType == "wood") {
-        logger.silly(`${gatherer.id} is at ${gatherer.wood}`);
+        //logger.silly(`${gatherer.id} is at ${gatherer.wood}`);
         gatherer.wood -= amount;
         logger.silly(`${gatherer.id} lost ${amount}`);
     } else if (gatherableType == "fruit") {
-        logger.silly(`${gatherer.id} is at ${gatherer.fruit}`);
+        //logger.silly(`${gatherer.id} is at ${gatherer.fruit}`);
         gatherer.fruit -= amount;
         logger.silly(`${gatherer.id} lost ${amount}`);
     } else if (gatherableType == "meat") {
-        logger.silly(`${gatherer.id} is at ${gatherer.meat}`);
+        //logger.silly(`${gatherer.id} is at ${gatherer.meat}`);
         gatherer.meat -= amount;
         logger.silly(`${gatherer.id} lost ${amount}`);
     } else if (gatherableType == "seeds") {
-        logger.silly(`${gatherer.id} is at ${gatherer.seeds}`);
+        //logger.silly(`${gatherer.id} is at ${gatherer.seeds}`);
         gatherer.seeds -= amount;
         logger.silly(`${gatherer.id} lost ${amount}`);
     } 
@@ -281,7 +296,7 @@ customMethods.spend = function (roomRef: MyRoom, client: Client, request: any) {
     })
 
     if (spentType == "wood") {
-        logger.silly(`${spender.id} is at ${spender.wood}`);
+        //logger.silly(`${spender.id} is at ${spender.wood}`);
         sState.woodPaid += spentAmount;
         spender.wood -= spentAmount; 
         logger.silly(`${spender.id} spent ${spentAmount} to bring ${sState.id} to ${sState.woodPaid} and is at ${spender.wood}`);
@@ -337,6 +352,7 @@ customMethods.spend = function (roomRef: MyRoom, client: Client, request: any) {
         } 
     }
 }
+
 //====================================== END Client Request Logic
 
 // GAME LOGIC
@@ -416,12 +432,13 @@ let findMostObserved = function(roomRef: MyRoom, teamIndex: number ): string {
     let mostObserved: string = "";
     roomRef.observeObjects.forEach(function(object) {
         let currentObservedAmt: number = Number(roomRef.state.attributes.get(`team${teamIndex.toString()}_${object}Observed`));
-        if (currentObservedAmt > mostObservedAmt) {
+        if (currentObservedAmt >= mostObservedAmt) {
             mostObservedAmt = currentObservedAmt;
             mostObserved = object;
-        }
+        } 
     })
     setRoomAttribute(roomRef, `team${teamIndex.toString()}_${mostObserved}Observed`, "0");
+
     return mostObserved;
 }
 
@@ -472,18 +489,19 @@ let resetPlayerData = function(roomRef: MyRoom) {
  */
 let resetTeamScores = function(roomRef: MyRoom) {
     // Set teams initial score
-    roomRef.teams.forEach((team) => {
-        setRoomAttribute(roomRef, `team${team.toString()}_gatherScore`, "0");
-        setRoomAttribute(roomRef, `team${team.toString()}_observeScore`, "0");
-        setRoomAttribute(roomRef, `team${team.toString()}_createScore`, "0");
-        setRoomAttribute(roomRef, `team${team.toString()}_paintScore`, "0");
-        setRoomAttribute(roomRef, `team${team.toString()}_totalScore`, "0");
-        setRoomAttribute(roomRef, `team${team.toString()}_TreeObserved`, "0");
-        setRoomAttribute(roomRef, `team${team.toString()}_Fruit_TreeObserved`, "0");
-        setRoomAttribute(roomRef, `team${team.toString()}_AurochsObserved`, "0");
-        setRoomAttribute(roomRef, `team${team.toString()}_Other_PlayerObserved`, "0");
-        setRoomAttribute(roomRef, `team${team.toString()}_Fishing_SpotObserved`, "0");
-    });
+    for (let i = 0; i <= roomRef.teams.size; i ++) {
+        setRoomAttribute(roomRef, `team${i}_gatherScore`, "0");
+        setRoomAttribute(roomRef, `team${i}_observeScore`, "0");
+        setRoomAttribute(roomRef, `team${i}_createScore`, "0");
+        setRoomAttribute(roomRef, `team${i}_paintScore`, "0");
+        setRoomAttribute(roomRef, `team${i}_totalScore`, "0");
+        setRoomAttribute(roomRef, `team${i}_TreeObserved`, "0");
+        setRoomAttribute(roomRef, `team${i}_Fruit_TreeObserved`, "0");
+        setRoomAttribute(roomRef, `team${i}_AurochsObserved`, "0");
+        setRoomAttribute(roomRef, `team${i}_Other_PlayerObserved`, "0");
+        setRoomAttribute(roomRef, `team${i}_Fishing_SpotObserved`, "0");
+        setRoomAttribute(roomRef, `team${i}_Level`, "0");
+    }
     
 }
 
@@ -521,22 +539,6 @@ let updateTeamScores = function(roomRef: MyRoom, teamMateId: string, scoreType: 
             teamScore += amount;
             observeAmount = teamScore;
             totalScore += amount;
-
-            if (scoreType == "observe" && teamScore > roomRef.observeReq) {
-                if (teamScore == (roomRef.observeReq * 3)) {
-                    let mostObserved: string = findMostObserved(roomRef, teamIdx);
-                    roomRef.broadcast("onCreateUnlock", { teamIndex: teamIdx, mostObserved });
-                    logger.info(`team${teamIdx.toString()} unlocked`);                
-                } else if (teamScore == (roomRef.observeReq * 2)) {
-                    let mostObserved: string = findMostObserved(roomRef, teamIdx);
-                    roomRef.broadcast("onCreateUnlock", { teamIndex: teamIdx, mostObserved });
-                    logger.info(`team${teamIdx.toString()} unlocked`);                  
-                } else if (teamScore == roomRef.observeReq) {
-                    let mostObserved: string = findMostObserved(roomRef, teamIdx);
-                    roomRef.broadcast("onCreateUnlock", { teamIndex: teamIdx, mostObserved });
-                    logger.info(`team${teamIdx.toString()} unlocked`);  
-                }
-            }
 
             setRoomAttribute(roomRef, `team${teamIdx.toString()}_${scoreType}Score`, teamScore.toString());
             setRoomAttribute(roomRef, `team${teamIdx.toString()}_totalScore`, totalScore.toString())
@@ -889,17 +891,15 @@ let voteRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
  * @param {*} deltaTime Server delta time in seconds
  */
 let endRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
-
-
     let emptyTied: number[];
 
     // Let all clients know that the round has ended
     roomRef.broadcast("onRoundEnd", { });
-
-    let winner: number = getHighScores(roomRef, emptyTied, 0);
-
-    setRoomAttribute(roomRef, WinningTeamId, winner.toString());
-
+    if (roomRef.teams.size > 0) {
+        let winner: number = getHighScores(roomRef, emptyTied, 0);
+    
+        setRoomAttribute(roomRef, WinningTeamId, winner.toString());
+    }
 
     // Reset the server state for a new round
     resetForNewRound(roomRef);
