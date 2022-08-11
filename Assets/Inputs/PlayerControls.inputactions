@@ -67,13 +67,22 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Flip",
+                    "type": "Button",
+                    "id": "5721374e-380b-4634-9592-175768d1b971",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
                 {
                     "name": "",
                     "id": "7547b342-09fe-4758-8fc2-4b23b12fabec",
-                    "path": "<Keyboard>/f",
+                    "path": "<Keyboard>/r",
                     "interactions": "Tap",
                     "processors": "",
                     "groups": "Desktop Control Scheme",
@@ -243,6 +252,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Scare",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "66f1b60b-595e-4f95-af12-56e26ce8f51d",
+                    "path": "<Keyboard>/f",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "Desktop Control Scheme",
+                    "action": "Flip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

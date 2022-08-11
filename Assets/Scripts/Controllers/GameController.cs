@@ -31,6 +31,7 @@ public class GameController : MonoBehaviour
     public Dictionary<string, object> gameSettings;
     public UIController _uiController;
     public EnvironmentController  _environmentController;
+    public PaintController _paintController;
     public static GameController Instance { get; private set; }
     private TextMeshProUGUI scoreBoard;
     private string currentGameState = "";
@@ -41,10 +42,13 @@ public class GameController : MonoBehaviour
 
     public int winningTeam = -1;
     public float roundTimeLimit;
-    public float paintTimeLimit = 60f;
     private float elapsedTime;
     private bool _showCountDown = false;
+    private bool paintBool;
     public bool gamePlaying { get; private set; } = false;
+    public bool gatherPlaying { get; private set; } = false;
+    public bool paintPlaying { get; private set; } = false;
+    public bool voting { get; private set; } = false;
 
     [SerializeField] 
     private List<StoneAgeTeam> teams = new List<StoneAgeTeam>();
@@ -53,9 +57,6 @@ public class GameController : MonoBehaviour
     [SerializeField] 
     private Color[] teamColors;
     private  string[] scoreTypes = new string[] {"gather", "observe", "create", "paint", "total"};
-    
-    [SerializeField]
-    private PaintController _paintController;
 
     public int farmCost, penCost, saplingCost;
 
@@ -72,6 +73,9 @@ public class GameController : MonoBehaviour
     private void Start() 
     {
         gamePlaying = false;
+        gatherPlaying = false;
+        paintPlaying = false;
+        voting = false;
     }
 
     private void OnEnable() 
@@ -94,6 +98,7 @@ public class GameController : MonoBehaviour
         _uiController.UpdateCountDownMessage("");
         _uiController.UpdateGeneralMessageText("");
 
+        PaintSetter.paint += RegisterPaint;
     }
 
     private void OnDisable() 
@@ -112,6 +117,7 @@ public class GameController : MonoBehaviour
 
         onViewAdded -= OnPlayerCreated;
 
+        PaintSetter.paint -= RegisterPaint;
     }
 
     /// <summary>
@@ -220,6 +226,10 @@ public class GameController : MonoBehaviour
 
     private void OnBeginRound(float time)
     {
+        if (paintBool == true) {
+            _paintController.MakeWalls(teams.Count, GetTeamIndex(ColyseusManager.Instance.CurrentUser.sessionId));
+            _uiController.InitPalette(_paintController.walls[GetTeamIndex(ColyseusManager.Instance.CurrentUser.sessionId)].GetComponent<TeamWall>());
+        }
         StartCoroutine(BeginRoutine(time));
     }
 
@@ -239,8 +249,10 @@ public class GameController : MonoBehaviour
         */
         winningTeam = -1;
     
+        roundTimeLimit = time;
         _uiController.timer.SetTime(time);
         gamePlaying = true;
+        gatherPlaying = true;
         Debug.Log("Game has started - round time: " + roundTimeLimit);
 
         yield return new WaitForSeconds(1.0f);
@@ -252,13 +264,18 @@ public class GameController : MonoBehaviour
     private void OnBeginPaint(float time)
     {
         StopAllCoroutines();
-        _paintController.gameObject.SetActive(true);
+        gatherPlaying = false;
+
         StartCoroutine(BeginPaint(time));
     }
 
     private IEnumerator BeginPaint(float time)
     {
-        
+        yield return new WaitForSeconds(.5f);
+        roundTimeLimit = time;
+        _paintController.ShowTeamWall(GetTeamIndex(ColyseusManager.Instance.CurrentUser.sessionId));
+        _uiController.ShowPalette();
+        paintPlaying = true;
         _uiController.timer.SetTime(time);
         Debug.Log("Paint has started, round time: " + roundTimeLimit);
         yield break;
@@ -266,11 +283,15 @@ public class GameController : MonoBehaviour
 
     private void OnBeginVote(float time)
     {
-        StartCoroutine(BeginVote(time));
+        _uiController.HidePalette();
+        StartCoroutine(BeginVote(time)); 
     }
 
     private IEnumerator BeginVote(float time)
     {
+        roundTimeLimit = time;
+        paintPlaying = false;
+        voting = true;
         _uiController.timer.SetTime(time);
         Debug.Log("Vote has started, round time: " + roundTimeLimit);
         yield break;
@@ -286,6 +307,9 @@ public class GameController : MonoBehaviour
     private IEnumerator RoundEndRoutine()
     {
         gamePlaying = false;
+        gatherPlaying = false;
+        paintPlaying = false;
+        voting = false;
         
             //We may not have the winning team yet, need to hold here
         StartCoroutine(HoldForWinner());
@@ -323,6 +347,12 @@ public class GameController : MonoBehaviour
     {
         Debug.Log("Updating Settings");
         CharControllerMulti pc = GetPlayer();
+
+        if (options.TryGetValue("paintTime", out object paintTime))
+        {
+            paintBool = paintTime.ToString() != "0";
+        }
+
         if (options.TryGetValue("observeMulti", out object observeMultiplier))
         {
             observeMult = int.Parse(observeMultiplier.ToString());
@@ -642,5 +672,16 @@ public class GameController : MonoBehaviour
     public void RegisterReset() 
     {
         ColyseusManager.CustomServerMethod("reset", new object[] {});
+    }
+
+    public void RegisterPaint(int type, int teamIdx, float posX, float posY, bool flipX, bool flipY)
+    {
+        ColyseusManager.CustomServerMethod("paint", new object[] { ColyseusManager.Instance.CurrentUser.sessionId, type.ToString(), teamIdx.ToString(), 
+            posX.ToString(), posY.ToString(), flipX.ToString(), flipY.ToString() });
+    }
+
+    public void RegisterVote(int teamIdx)
+    {
+        ColyseusManager.CustomServerMethod("vote", new object[] { teamIdx.ToString() });
     }
 }

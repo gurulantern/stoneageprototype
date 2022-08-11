@@ -459,6 +459,15 @@ using UnityEngine.SceneManagement;
             AurochsController.Instance.SpawnAurochs(msg.alive, msg.spawnPoint);
         });
 
+        _room.OnMessage<PaintMessage>("onPaint", msg => 
+        {
+            LSLog.Log($"Painting a wall for team {msg.teamIndex}");
+            if (ColyseusManager.Instance.CurrentUser.sessionId != msg.userID) {
+                PaintController.Instance.RemotePaint(int.Parse(msg.type), int.Parse(msg.teamIndex), 
+                    float.Parse(msg.posX), float.Parse(msg.posY), msg.flipX, msg.flipY);
+            }
+        });
+
         _room.OnMessage<EmptyMessage>("onReset", msg => 
         {
             LSLog.Log("Resetting for a new round");

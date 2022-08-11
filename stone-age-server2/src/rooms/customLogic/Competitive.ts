@@ -353,6 +353,32 @@ customMethods.spend = function (roomRef: MyRoom, client: Client, request: any) {
     }
 }
 
+customMethods.paint = function (roomRef: MyRoom, client: Client, request: any) {
+    const param = request.param;
+
+    if (param == null || param.length < 2) {
+        throw "Missing spend parameters";
+        return;
+    }
+
+    const userID = param[0];
+    const type = Number(param[1]);
+    const teamIndex = Number(param[2]);
+    const posX = param[3];
+    const posY = param[4];
+    const flipX = param[5];
+    const flipY = param[6];
+
+    roomRef.broadcast("onPaint", { userID: userID, type: type, teamIndex: teamIndex, 
+        posX: posX, posY: posY, flipX: flipX, flipY: flipY  })
+    
+    
+}
+
+customMethods.vote = function (roomRef: MyRoom, client: Client, request: any) {
+    const param = request.param;
+}
+
 customMethods.reset = function (roomRef: MyRoom, client: Client, request: any) {
     const param = request.param;
     logger.info(`Resetting`);
@@ -519,16 +545,6 @@ let resetTeamScores = function(roomRef: MyRoom) {
 
         setRoomAttribute(roomRef, `team${i}_totalScore`, "0");
         roomRef.broadcast("onScoreUpdate", { teamIndex: i.toString(), scoreType: "total", updatedScore: "0"});
-
-        
-    /*
-        setRoomAttribute(roomRef, `team${i}_TreeObserved`, "0");
-        setRoomAttribute(roomRef, `team${i}_Fruit_TreeObserved`, "0");
-        setRoomAttribute(roomRef, `team${i}_AurochsObserved`, "0");
-        setRoomAttribute(roomRef, `team${i}_Other_PlayerObserved`, "0");
-        setRoomAttribute(roomRef, `team${i}_Fishing_SpotObserved`, "0");
-        setRoomAttribute(roomRef, `team${i}_Level`, "0");
-    */
     }
     
 }
@@ -869,6 +885,7 @@ let paintRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
 
         return;
     }
+
     let paintDiff = roomRef.gatherTime * 1000;
 
     setRoomAttribute(roomRef, ElapsedTime, String(clock.elapsedTime - paintDiff));

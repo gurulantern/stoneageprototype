@@ -293,7 +293,7 @@ public class CharControllerMulti : NetworkedEntityView
                     _playerControls.Enable();
                     scared = false;
                 }
-            } else if(GameController.Instance.gamePlaying && !sleeping && !scaring 
+            } else if(GameController.Instance.gatherPlaying && !sleeping && !scaring 
                 && !gathering && !spending && !observing) {
                 ChangeStamina(-tireRate);
                 if (currentStamina <= tireLimit) {
@@ -361,7 +361,7 @@ public class CharControllerMulti : NetworkedEntityView
     public void OnInteractAction(InputAction.CallbackContext context)
     {
         RaycastHit2D hit;
-        if (GameController.Instance.gamePlaying && !tired && !sleeping && !observing 
+        if (GameController.Instance.gatherPlaying && !tired && !sleeping && !observing 
             && !gathering && !spending && context.performed) {
             Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
 

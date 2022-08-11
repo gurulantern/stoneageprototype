@@ -30,9 +30,9 @@ public class UIController : MonoBehaviour
     private TextMeshProUGUI countDownText;
 
     [SerializeField]
-    private TextMeshProUGUI roundOverMessageText;
-    [SerializeField]
     private CreateMenu _createMenu;
+    [SerializeField]
+    private Palette _palette;
 
     //[SerializeField]
     //private PlayerInfoView playerInfo;
@@ -273,6 +273,21 @@ public class UIController : MonoBehaviour
     {
         gameOverPanel.gameObject.SetActive(false);
         hudContainer.SetActive(true);
+    }
+
+    public void InitPalette(TeamWall wall) 
+    {
+        _palette.SetWall(wall);
+    }
+
+    public void ShowPalette()
+    {
+        _palette.gameObject.SetActive(true);
+    }
+
+    public void HidePalette()
+    {
+        _palette.gameObject.SetActive(false);
     }
 
 

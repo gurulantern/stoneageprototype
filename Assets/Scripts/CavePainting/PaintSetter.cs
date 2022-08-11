@@ -6,59 +6,96 @@ using UnityEngine.UI;
 
 public class PaintSetter : MonoBehaviour
 {
-    RaycastHit2D hit;
-    Ray ray;
-    Vector2 movePoint;
-    Vector2 mousePosition;
-    public Transform _wallRoot;
-
-    public int prefabInt;
+    protected Vector2 mousePosition;
     Quaternion blankRot = new Quaternion(0, 0, 0 , 0);
-
-    private GameObject thisPainting;
-    [SerializeField] Camera _camera;
-    [SerializeField] private LayerMask _layerMask;
-    [SerializeField] private GameObject prefab;
-
-    public delegate void Paint(Painting painting);
+    [SerializeField] 
+    protected GameObject prefab;
+    [SerializeField] 
+    protected SpriteRenderer _painterImg;
+    [SerializeField]
+    private bool player;
+    [SerializeField] 
+    protected LayerMask _layerMask;
+    protected bool flipX = false;
+    protected bool flipY = false;
+    protected GameObject thisPainting;
+    public delegate void Paint(int type, int teamIndex, float posX, float posY, bool flipX, bool flipY);
     public static event Paint paint;
+    public Camera _camera;
+    public int type;
+    private int _wCollisions = 0;
+    private Transform collidedWall;
+    public BoxCollider2D trigger;
+
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         transform.position = mousePosition;
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
-        //ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
-        //hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
+        mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        transform.position = mousePosition;
 
-        transform.position = Input.mousePosition;
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && _wCollisions > 0)
         {
             thisPainting = Instantiate(prefab, transform.position, blankRot);
-            thisPainting.transform.SetParent(_wallRoot);
-            //thisPainting.GetComponent<Painting>().SetOwnerTeam(GameController.Instance.GetTeamIndex(ColyseusManager.Instance.CurrentUser.sessionId));
-            paint?.Invoke(thisPainting.GetComponent<Painting>());
+            thisPainting.transform.SetParent(collidedWall);
+            Destroy(gameObject);
+            if (flipX == true) {
+                thisPainting.GetComponent<SpriteRenderer>().flipX = true;
+            }
+
+            if (flipY == true) {
+                thisPainting.GetComponent<SpriteRenderer>().flipY = true;
+            }
+            if (player == true) {
+                thisPainting.GetComponent<SpriteRenderer>().color = GameController.Instance.GetTeamColor(type);
+            }
+            paint?.Invoke(type, GameController.Instance.GetTeamIndex(ColyseusManager.Instance.CurrentUser.sessionId), 
+                thisPainting.transform.localPosition.x, thisPainting.transform.localPosition.y, flipX, flipY);
         }
 
         if (Input.GetMouseButton(1))
         {
             Destroy(gameObject);
         }
+
+        if (Input.GetKeyDown("x"))
+        {
+            flipX = !flipX;
+            _painterImg.flipX = flipX;
+        }
+
+        if (Input.GetKeyDown("y"))
+        {
+            flipY = !flipY;
+            _painterImg.flipY = flipY;
+        }
     }
 
-    public void SetPainting(GameObject painting)
+    private void OnTriggerEnter2D(Collider2D other) 
     {
-        prefab = painting;
+        if (other.gameObject.tag == "Wall" && !other.isTrigger)
+        {
+            _wCollisions++;
+            Debug.Log("Colliding with wall " + _wCollisions);
+            collidedWall = other.gameObject.transform;
+            Debug.Log("Setting Wall " + other.gameObject.name);
+        }
     }
 
-    public void Flip()
+    private void OnTriggerExit2D(Collider2D other)
     {
-
+        if (other.gameObject.tag == "Wall" && !other.isTrigger)
+        {
+            Debug.Log("Not touching wall");
+            _wCollisions--;
+        }
     }
 }

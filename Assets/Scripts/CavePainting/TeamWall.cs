@@ -4,15 +4,32 @@ using UnityEngine;
 
 public class TeamWall : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private Transform playerPos;
+    
+    public int ownerTeam;
+
+    public void SetOwnerTeam(int team, Transform pos)
     {
-        
+        ownerTeam = team;
+        playerPos = pos;
+        this.gameObject.SetActive(false);
+
+        GameController.onReset += Destroy;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable() {
+        GameController.onReset -= Destroy;    
+    }
+
+    public void Reveal()
     {
-        
+        transform.position = new Vector3(playerPos.position.x, playerPos.position.y, 0);
+        this.gameObject.SetActive(true);
+    }
+
+    private void Destroy() 
+    {
+        Destroy(gameObject);
     }
 }

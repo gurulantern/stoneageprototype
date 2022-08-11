@@ -89,13 +89,22 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Flip"",
+                    ""type"": ""Button"",
+                    ""id"": ""5721374e-380b-4634-9592-175768d1b971"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
                     ""id"": ""7547b342-09fe-4758-8fc2-4b23b12fabec"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""path"": ""<Keyboard>/r"",
                     ""interactions"": ""Tap"",
                     ""processors"": """",
                     ""groups"": ""Desktop Control Scheme"",
@@ -267,6 +276,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Scare"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""66f1b60b-595e-4f95-af12-56e26ce8f51d"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": ""Tap"",
+                    ""processors"": """",
+                    ""groups"": ""Desktop Control Scheme"",
+                    ""action"": ""Flip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -347,6 +367,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Player_Scare = m_Player.FindAction("Scare", throwIfNotFound: true);
         m_Player_Create = m_Player.FindAction("Create", throwIfNotFound: true);
         m_Player_Zoom = m_Player.FindAction("Zoom ", throwIfNotFound: true);
+        m_Player_Flip = m_Player.FindAction("Flip", throwIfNotFound: true);
         // Admin
         m_Admin = asset.FindActionMap("Admin", throwIfNotFound: true);
         m_Admin_LeftClick = m_Admin.FindAction("Left Click", throwIfNotFound: true);
@@ -417,6 +438,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Scare;
     private readonly InputAction m_Player_Create;
     private readonly InputAction m_Player_Zoom;
+    private readonly InputAction m_Player_Flip;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -428,6 +450,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Scare => m_Wrapper.m_Player_Scare;
         public InputAction @Create => m_Wrapper.m_Player_Create;
         public InputAction @Zoom => m_Wrapper.m_Player_Zoom;
+        public InputAction @Flip => m_Wrapper.m_Player_Flip;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -458,6 +481,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Zoom.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoom;
                 @Zoom.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoom;
                 @Zoom.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoom;
+                @Flip.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFlip;
+                @Flip.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFlip;
+                @Flip.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFlip;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -483,6 +509,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Zoom.started += instance.OnZoom;
                 @Zoom.performed += instance.OnZoom;
                 @Zoom.canceled += instance.OnZoom;
+                @Flip.started += instance.OnFlip;
+                @Flip.performed += instance.OnFlip;
+                @Flip.canceled += instance.OnFlip;
             }
         }
     }
@@ -546,6 +575,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnScare(InputAction.CallbackContext context);
         void OnCreate(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
+        void OnFlip(InputAction.CallbackContext context);
     }
     public interface IAdminActions
     {

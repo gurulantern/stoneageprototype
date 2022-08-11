@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1892928529215915585
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1892928529215915584}
+  - component: {fileID: 749752126}
+  m_Layer: 0
+  m_Name: CavePaintings
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1892928529215915584
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1892928529215915585}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.0105, y: 12.9159, z: 15.850932}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &749752126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1892928529215915585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22a9105660d6c9e4b8698bac098c874b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 8185527493072765317, guid: 4692ee287d6b657479012f1239857373, type: 3}
+  playerTransform: {fileID: 0}
+  walls: []
+  paintings:
+  - {fileID: 8685331503517747371, guid: ae19d507cea62344b8b6c8ab37161a17, type: 3}
+  - {fileID: 8685331503517747371, guid: ae19d507cea62344b8b6c8ab37161a17, type: 3}
+  - {fileID: 8685331503517747371, guid: ae19d507cea62344b8b6c8ab37161a17, type: 3}
+  - {fileID: 8685331503517747371, guid: ae19d507cea62344b8b6c8ab37161a17, type: 3}
+  - {fileID: 2221599503672715031, guid: 4380e19723ea50546984a1357e09ebba, type: 3}
+  - {fileID: 8332492394505626263, guid: 30fd4ace80a41354dbb6abc004f60058, type: 3}
+  - {fileID: 682964105365601045, guid: f6bef251f97ad5347b4f7c7c6ff702e8, type: 3}
+  - {fileID: 1314626490297111814, guid: 04c6f61be064ba848959082ec05cdab7, type: 3}
+  - {fileID: 8401345530014563832, guid: e82753755df53414a93cfd1ec58e1948, type: 3}
+  - {fileID: 3980199021227089118, guid: bd51cbba4ea720b499199ae89999ee06, type: 3}

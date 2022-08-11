@@ -104,29 +104,7 @@ public class Interactable : MonoBehaviour
     {
         OnSuccessfulUseEvent?.Invoke();
     }
-/*
-    /// <summary>
-    /// Overrideable in case we want an interactable to do more than just show instructions when a player enters range
-    /// </summary>
-    protected virtual void DisplayInRangeMessage()
-    {
-        if (instructionRoot)
-        {
-            instructionRoot.SetActive(true);
-        }
-    }
 
-    /// <summary>
-    /// Overrideable in case we want an interactable to do more than just hide instructions when a player exits range
-    /// </summary>
-    protected virtual void HideInRangeMessage()
-    {
-        if (instructionRoot)
-        {
-            instructionRoot.SetActive(false);
-        }
-    }
-*/
     /// <summary>
     /// Get the server type to initialize the server provided values
     /// </summary>
