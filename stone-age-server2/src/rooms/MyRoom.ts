@@ -567,6 +567,8 @@ export class MyRoom extends Room<RoomState> {
             this.broadcast("objectScored", { scoredObjectID: scorableObject.id, scoringStateID: scoringState.sessionId });
         }
     }
+
+
     
 }
     

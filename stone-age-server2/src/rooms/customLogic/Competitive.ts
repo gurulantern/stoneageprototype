@@ -506,16 +506,29 @@ let resetTeamScores = function(roomRef: MyRoom) {
     // Set teams initial score
     for (let i = 0; i <= roomRef.teams.size; i ++) {
         setRoomAttribute(roomRef, `team${i}_gatherScore`, "0");
+        roomRef.broadcast("onScoreUpdate", { teamIndex: i.toString(), scoreType: "gather", updatedScore: "0"});
+
         setRoomAttribute(roomRef, `team${i}_observeScore`, "0");
+        roomRef.broadcast("onScoreUpdate", { teamIndex: i.toString(), scoreType: "observe", updatedScore: "0"});
+
         setRoomAttribute(roomRef, `team${i}_createScore`, "0");
+        roomRef.broadcast("onScoreUpdate", { teamIndex: i.toString(), scoreType: "create", updatedScore: "0"});
+
         setRoomAttribute(roomRef, `team${i}_paintScore`, "0");
+        roomRef.broadcast("onScoreUpdate", { teamIndex: i.toString(), scoreType: "paint", updatedScore: "0"});
+
         setRoomAttribute(roomRef, `team${i}_totalScore`, "0");
+        roomRef.broadcast("onScoreUpdate", { teamIndex: i.toString(), scoreType: "total", updatedScore: "0"});
+
+        
+    /*
         setRoomAttribute(roomRef, `team${i}_TreeObserved`, "0");
         setRoomAttribute(roomRef, `team${i}_Fruit_TreeObserved`, "0");
         setRoomAttribute(roomRef, `team${i}_AurochsObserved`, "0");
         setRoomAttribute(roomRef, `team${i}_Other_PlayerObserved`, "0");
         setRoomAttribute(roomRef, `team${i}_Fishing_SpotObserved`, "0");
         setRoomAttribute(roomRef, `team${i}_Level`, "0");
+    */
     }
     
 }
@@ -622,7 +635,7 @@ let setEntitiesAttribute = function(roomRef: MyRoom, key: string, value: string)
  * @param {*} value The value of the attribute you want to set
  */
 let setRoomAttribute = function(roomRef: MyRoom, key: string, value: string) {
-roomRef.state.attributes.set(key, value);
+    roomRef.state.attributes.set(key, value);
 }
 
 let unlockIfAble = function (roomRef: MyRoom) {
@@ -1010,6 +1023,15 @@ exports.InitializeLogic = function (roomRef: MyRoom, options: any) {
     // Set initial game state to waiting for all clients to be ready
     setRoomAttribute(roomRef, CurrentState, StoneAgeServerGameState.Waiting)
     setRoomAttribute(roomRef, LastState, StoneAgeServerGameState.None);
+
+    for  (let i = 0; i < this.teams.size; i++) {
+        this.state.attributes.set(`team${i}_TreeObserved`, "0");
+        this.state.attributes.set(`team${i}_Fruit_TreeObserved`, "0");
+        this.state.attributes.set(`team${i}_AurochsObserved`, "0");
+        this.state.attributes.set(`team${i}_Other_PlayerObserved`, "0");
+        this.state.attributes.set(`team${i}_Fishing_SpotObserved`, "0");
+        this.state.attributes.set(`team${i}_Level`, "0");        
+    }
     logger.silly(`*** Room State set to Waiting ***`);
 
     resetForNewRound(roomRef);
