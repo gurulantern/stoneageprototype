@@ -19,6 +19,7 @@ export class MyRoom extends Room<RoomState> {
     night: number = 60;
     deadAurochs: boolean = false;
     observeReq: number = 50;
+    paintBonus: number = 20;
     
     currentRoundTime: number;
     customMethodController: any = null;

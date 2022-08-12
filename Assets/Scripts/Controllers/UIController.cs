@@ -36,6 +36,11 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private Palette _palette;
 
+    [SerializeField]
+    private List<VoteButton> _voteButtons;
+    [SerializeField]
+    private Button _nextButton;
+
     //[SerializeField]
     //private PlayerInfoView playerInfo;
 
@@ -248,6 +253,8 @@ public class UIController : MonoBehaviour
         onSetOptions?.Invoke();
     }
 
+
+
     //Open function for the Options button
     public void OpenOptions()
     {
@@ -298,6 +305,11 @@ public class UIController : MonoBehaviour
     public void HidePalette()
     {
         _palette.gameObject.SetActive(false);
+    }
+
+    public void Wait()
+    {
+
     }
 
 

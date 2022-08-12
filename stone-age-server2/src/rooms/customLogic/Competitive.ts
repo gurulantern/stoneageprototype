@@ -6,11 +6,15 @@ const logger = require("../../helpers/logger.js");
 const utilities = require('../../helpers/LSUtilities.js');
 
 let score: number;
+let winningTeam: number;
 let spawnInterval: number;
 let spawnTime: number;
 let sState: ScorableState;
 let spender: NetworkedEntity;
 let gatherer: NetworkedEntity;
+
+//Voting stuff
+let totalVotes: number = 0;
 
 //Clock initializer
 let clock = new Clock(true);
@@ -375,6 +379,17 @@ customMethods.paint = function (roomRef: MyRoom, client: Client, request: any) {
 
 customMethods.vote = function (roomRef: MyRoom, client: Client, request: any) {
     const param = request.param;
+
+    const teamIndex = param[0];
+
+    let voteCount: number = Number(roomRef.state.attributes.get(`team${teamIndex}_votes`));
+
+    voteCount ++;
+    totalVotes ++;
+
+    logger.silly(`Team ${teamIndex} has ${voteCount} votes`);
+    logger.silly(`Total votes at ${totalVotes}`);
+    setRoomAttribute(roomRef, `team${teamIndex}_votes`, voteCount.toString());
 }
 
 customMethods.reset = function (roomRef: MyRoom, client: Client, request: any) {
@@ -383,7 +398,10 @@ customMethods.reset = function (roomRef: MyRoom, client: Client, request: any) {
     if (getGameState(roomRef, CurrentState) == "Waiting") {
         roomRef.broadcast("onReset");
     }
+    //Reset vote counter
+    totalVotes = 0;
 
+    //Handle various Scorable and gatherable conditions
     roomRef.state.gatherableObjects.forEach( (v, k) => {
         if (v.gatherableType == "FRUIT_TREE" && v.harvestTrigger >= 9) {
             if (v.harvestTrigger >= 9) {
@@ -406,7 +424,7 @@ customMethods.reset = function (roomRef: MyRoom, client: Client, request: any) {
 
     roomRef.state.scorableObjects.forEach( (v, k) => {
         if (v.scorableType == "SAPLING") {
-            
+
         }
     });
 }
@@ -562,6 +580,8 @@ let resetTeamScores = function(roomRef: MyRoom) {
 
         setRoomAttribute(roomRef, `team${i}_totalScore`, "0");
         roomRef.broadcast("onScoreUpdate", { teamIndex: i.toString(), scoreType: "total", updatedScore: "0"});
+    
+        setRoomAttribute(roomRef, `team${i}_votes`, "0");
     }
     
 }
@@ -934,8 +954,19 @@ let voteRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
 
     setRoomAttribute(roomRef, ElapsedTime, String(clock.elapsedTime - voteDiff));
 
-    if (clock.elapsedTime >= ((roomRef.gatherTime + roomRef.paintTime + roomRef.voteTime) * 1000))
+
+
+    if (clock.elapsedTime >= ((roomRef.gatherTime + roomRef.paintTime + roomRef.voteTime) * 1000) ||
+        roomRef.state.networkedUsers.size == totalVotes )
     {
+        let voteWinner: number = getHighestVote(roomRef);
+        if (voteWinner != -1) {
+            logger.info(`Team ${voteWinner} is getting ${roomRef.paintBonus}`);
+            setRoomAttribute(roomRef, `team${voteWinner.toString()}_paintScore`, roomRef.paintBonus.toString())
+            roomRef.broadcast("onScoreUpdate", { teamIndex: voteWinner.toString(), scoreType: "paint", updatedScore: roomRef.paintBonus.toString()});
+        }
+        roomRef.broadcast("votingResults", { winnerInt: voteWinner });
+        
         moveToState(roomRef, StoneAgeServerGameState.EndRound);
         logger.info(clock.elapsedTime);
     }
@@ -948,12 +979,15 @@ let voteRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
  */
 let endRoundLogic = function (roomRef: MyRoom, deltaTime: number) {
     let emptyTied: number[];
+    let winner: number = -1;
 
     // Let all clients know that the round has ended
     roomRef.broadcast("onRoundEnd", { });
 
-    let winner: number = getHighScores(roomRef, emptyTied, 0);
+    getHighScores(roomRef, emptyTied, 0);
     
+    winner = winningTeam;
+
     logger.info(`Winner is ${winner} and type is ${typeof winner}`);
 
     if (typeof winner !== 'undefined') {
@@ -974,8 +1008,47 @@ let alertClientsOfTeamChange = function (roomRef: MyRoom, clientID: string, team
     roomRef.broadcast("onTeamUpdate", { teamIndex: teamIndex, clientID: clientID, added: added.toString()});
 }
 
-let getHighScores = function (roomRef: MyRoom, ties: number[], score: number): number {
+let getHighestVote = function (roomRef: MyRoom): number {
+    let currentVote: number;
+    let highestVote: number = 0;
     let winningTeam: number;
+    let iterator: number = 0;
+
+    let ties: number[] = [];
+
+    roomRef.teams.forEach((teamMap, team) => {
+        if(teamMap.size > 0) {
+            currentVote = Number(roomRef.state.attributes.get(`team${team}_votes`));
+            logger.info(`Checking team${team} with votes at ${currentVote}`);
+            if (iterator == 0) {
+                highestVote = currentVote;
+                ties = [team];
+                console.log(ties);
+                console.log(ties.length);
+            }
+
+            if (currentVote > highestVote) {
+                highestVote = currentVote;
+                logger.info(`Setting a new highest vote: ${highestVote} from team ${team}`);
+                ties = [team];
+            } else if (currentVote == highestVote) {
+                ties.push(team);
+            }
+
+            iterator ++;
+        }
+    })
+
+    if (ties.length == 1) {
+        logger.info(`Returning paint winner`);
+        return ties[0];
+    } else {
+        logger.info(`Returning no winner`);
+        return -1;
+    }
+}
+
+let getHighScores = function (roomRef: MyRoom, ties: number[], score: number) {
     let highestScore: number;
     let currentScore: number;
     let tiedTeams: number[] = [];
@@ -995,7 +1068,7 @@ let getHighScores = function (roomRef: MyRoom, ties: number[], score: number): n
                 highestScore = currentScore;
                 logger.info(`Found new high score = ${highestScore}`);
                 winningTeam = team;
-                tiedTeams = [highestScore];
+                tiedTeams = [team];
             } else if (currentScore == highestScore) {
                 logger.info(`Pushing new team, ${team}, into tiedTeams`);
                 tiedTeams.push(team);
@@ -1008,13 +1081,13 @@ let getHighScores = function (roomRef: MyRoom, ties: number[], score: number): n
 
     if (tiedTeams.length == 1) {
         logger.silly(`Found a winner winner chicken dinner - team${winningTeam}`);
-        return winningTeam;
+        //return winningTeam;
     } else {
         logger.silly(`Had some ties in ${scoreTypes[score]} score between ${tiedTeams.length} teams and moving to check ${scoreTypes[nextScore]} with nextScore of ${nextScore} and ${score}`);
         if (nextScore === 5) {
             winningTeam = roomRef.teams.size;
-            logger.info(`Sending Nobody Wins with ${winningTeam}`); 
-            return winningTeam;
+            logger.info(`Setting Nobody Wins with ${winningTeam}`); 
+            //return winningTeam;
         } else {
             getHighScores(roomRef, tiedTeams, nextScore);
         }

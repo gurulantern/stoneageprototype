@@ -32,6 +32,7 @@ public class GameController : MonoBehaviour
     public UIController _uiController;
     public EnvironmentController  _environmentController;
     public PaintController _paintController;
+    public VoteController _voteController;
     public static GameController Instance { get; private set; }
     private TextMeshProUGUI scoreBoard;
     private string currentGameState = "";
@@ -99,6 +100,8 @@ public class GameController : MonoBehaviour
         _uiController.UpdateGeneralMessageText("");
 
         PaintSetter.paint += RegisterPaint;
+        VoteButton.onVote += Wait;
+
     }
 
     private void OnDisable() 
@@ -118,6 +121,7 @@ public class GameController : MonoBehaviour
         onViewAdded -= OnPlayerCreated;
 
         PaintSetter.paint -= RegisterPaint;
+        VoteButton.onVote -= Wait;
     }
 
     /// <summary>
@@ -277,14 +281,12 @@ public class GameController : MonoBehaviour
     {
         StopAllCoroutines();
         gatherPlaying = false;
-        _uiController.UpdateCountDownMessage("Moving to Paint");
         StartCoroutine(BeginPaint(time));
     }
 
     private IEnumerator BeginPaint(float time)
     {
         yield return new WaitForSeconds(.5f);
-        _uiController.UpdateCountDownMessage("");
         roundTimeLimit = time;
         _paintController.ShowTeamWall(GetTeamIndex(ColyseusManager.Instance.CurrentUser.sessionId));
         _uiController.ShowPalette();
@@ -297,17 +299,35 @@ public class GameController : MonoBehaviour
     private void OnBeginVote(float time)
     {
         _uiController.HidePalette();
-        _uiController.UpdateCountDownMessage("Moving to Vote");
+        _voteController.ActivateVoteBG();
         StartCoroutine(BeginVote(time)); 
     }
 
+
+
+    //Using set transforms in the camera, find a posiiton to place the walls that are inactive 
+    // in fron to fthe camera so the player can vote on walls they want.
     private IEnumerator BeginVote(float time)
     {
         yield return new WaitForSeconds(.5f);
-        _uiController.UpdateCountDownMessage("");
         roundTimeLimit = time;
         paintPlaying = false;
         voting = true;
+        
+        _voteController.gameObject.SetActive(true);
+        int i = 0;
+        foreach (GameObject w in _paintController.walls) {
+            if (!w.activeSelf) {
+                w.transform.localScale = new Vector3(2.8f, 2.8f, 0f);
+                Vector3 votePos = _voteController.GetVotePosition().position;
+                _voteController.ReadyVoteButtons(w);
+                w.transform.position = new Vector3(votePos.x, votePos.y, 10f);
+                i++;
+            } else {
+                w.SetActive(false);
+            }
+        }
+        
         _uiController.timer.SetTime(time);
         _uiController.moveMessage.gameObject.SetActive(false);
 
@@ -315,9 +335,19 @@ public class GameController : MonoBehaviour
         yield break;
     }
 
+    private void Wait()
+    {
+        _uiController.UpdateCountDownMessage("Waiting for <br> others to vote...");
+        _voteController.gameObject.SetActive(false);
+        _paintController.gameObject.SetActive(false);
+    }
+
     private void OnRoundEnd()
     {
         LSLog.LogImportant($"Round Ended!", LSLog.LogColor.lime);
+        _uiController.UpdateCountDownMessage("");
+        _voteController.DeactivateVoteBG();
+        _voteController.gameObject.SetActive(false);
         _paintController.gameObject.SetActive(false);
         StartCoroutine(RoundEndRoutine());
     }

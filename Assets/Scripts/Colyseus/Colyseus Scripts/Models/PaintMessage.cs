@@ -12,3 +12,8 @@ public class PaintMessage
     public string flipX;
     public string flipY;
 }
+
+public class VoteMessage
+{
+    public string winnerInt;
+}

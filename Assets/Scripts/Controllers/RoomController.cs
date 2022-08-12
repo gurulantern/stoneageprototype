@@ -468,6 +468,10 @@ using UnityEngine.SceneManagement;
             }
         });
 
+        _room.OnMessage<VoteMessage>("votingResults", msg => {
+            LSLog.Log($"Got back results with: {msg.winnerInt}");
+        });
+
         _room.OnMessage<EmptyMessage>("onReset", msg => 
         {
             LSLog.Log("Resetting for a new round");

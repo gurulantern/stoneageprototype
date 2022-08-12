@@ -7,7 +7,7 @@ public class PaintController : MonoBehaviour
     [SerializeField]
     private GameObject prefab;
     [SerializeField] 
-    private Transform playerTransform;
+    private Transform camTransform;
     public List<GameObject> walls;
     public List<GameObject> paintings;
     public static PaintController Instance { get; private set; }
@@ -23,7 +23,7 @@ public class PaintController : MonoBehaviour
         for (int i = 0; i < count; i ++) {
             GameObject wall = Instantiate(prefab);
             wall.transform.SetParent(this.gameObject.transform);
-            wall.GetComponent<TeamWall>().SetOwnerTeam(i, playerTransform);
+            wall.GetComponent<TeamWall>().SetOwnerTeam(i, camTransform);
             walls.Add(wall);
         }
     }
