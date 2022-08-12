@@ -59,7 +59,7 @@ public class EnvironmentController : MonoBehaviour
         RoomController.onNetworkScorableAdd += OnScorableAdd;
 
         BlueprintScript.createObject += OnCreateObject;
-        GameController.onReset += GrowTrees;
+        GameController.onReset += ResetEnv;
     }
 
     private void OnDisable()
@@ -68,7 +68,7 @@ public class EnvironmentController : MonoBehaviour
         RoomController.onNetworkScorableAdd -= OnScorableAdd;
 
         BlueprintScript.createObject -= OnCreateObject;
-        GameController.onReset -= GrowTrees;
+        GameController.onReset -= ResetEnv;
     }
 
     public void UpdateNavMesh()
@@ -157,7 +157,7 @@ public class EnvironmentController : MonoBehaviour
         gatherables = GetComponentsInChildren<Gatherable>();
         foreach (Gatherable t in gatherables)
         {
-            if (!t.ID.Equals(state.id))
+            if (!t.ID.Equals(state.id) || state == null)
             {
                 continue;
             } 
@@ -282,7 +282,7 @@ public class EnvironmentController : MonoBehaviour
         }
     }
 
-    public void GrowTrees()
+    public void ResetEnv()
     {
         Sapling[] saplings = scoreTransform.GetComponentsInChildren<Sapling>();
         foreach(Sapling s in saplings) {
@@ -292,6 +292,7 @@ public class EnvironmentController : MonoBehaviour
         foreach(FruitTree f in fruitTrees) {
             if (f.stump == true) {
                 Destroy(f.gameObject);
+                fruitTreeCount -= 1;
             } 
 
             if (f.unharmed == true) {
@@ -302,8 +303,11 @@ public class EnvironmentController : MonoBehaviour
         foreach(Tree t in trees) {
             if (t.stump == true) {
                 Destroy(t.gameObject);
+                treeCount -= 1;
             }
         }
+
+        aurochsCount = -1;
 
         gatherables = GetComponentsInChildren<Gatherable>();
         scorables = GetComponentsInChildren<Scorable>();

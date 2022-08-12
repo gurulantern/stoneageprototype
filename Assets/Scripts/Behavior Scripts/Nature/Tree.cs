@@ -46,7 +46,6 @@ public class Tree : Gatherable
             stump = true;
             this.gameObject.GetComponentInChildren<CapsuleCollider2D>().gameObject.SetActive(false);
         }
-        //prevHarvestTrigger += 1;
     }
 
     protected override void UpdateStateForView()

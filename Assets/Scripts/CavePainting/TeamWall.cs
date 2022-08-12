@@ -15,11 +15,11 @@ public class TeamWall : MonoBehaviour
         playerPos = pos;
         this.gameObject.SetActive(false);
 
-        GameController.onReset += Destroy;
+        //GameController.onReset += Destroy;
     }
 
     private void OnDisable() {
-        GameController.onReset -= Destroy;    
+        //GameController.onReset -= Destroy;    
     }
 
     public void Reveal()
@@ -30,6 +30,6 @@ public class TeamWall : MonoBehaviour
 
     private void Destroy() 
     {
-        Destroy(gameObject);
+        Destroy(this.gameObject);
     }
 }

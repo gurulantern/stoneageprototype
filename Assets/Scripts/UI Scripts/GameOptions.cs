@@ -42,10 +42,49 @@ public class GameOptions : MonoBehaviour
     [SerializeField]
     private List<GameObject> teamObjects;
     [SerializeField]
+    private List<TMP_InputField> inputFields;
+
+    [SerializeField]
     private Toggle[] teamToggles;
 
     [SerializeField]
     private string[] actions = {"steal", "scare", "create"};
+
+    public int InputSelected = -1;
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab) && Input.GetKeyDown(KeyCode.LeftShift)) {
+            InputSelected--;
+            if (InputSelected < 0) InputSelected = 10;
+            SelectInputField(InputSelected);
+        }
+        if (Input.GetKeyDown(KeyCode.Tab)) {
+            InputSelected ++;
+            if (InputSelected > 10) InputSelected = 0;
+            SelectInputField(InputSelected);
+        }
+    }
+
+    private void SelectInputField(int selected) {
+        if (selected >= 0 && selected <= 10) {
+            inputFields[selected].Select();
+        } 
+    }
+
+    public void GatherSelected() => InputSelected = 0;
+    public void PaintSelected() => InputSelected = 1;
+    public void VoteSelected() => InputSelected = 2;
+    public void TireSelected() => InputSelected = 3;
+    public void RestSelected() => InputSelected = 4;
+    public void AurochsSelected() => InputSelected = 5;
+    public void ObsReqSelected() => InputSelected = 6;
+    public void NightSelected() => InputSelected = 7;
+    public void FoodXSelected() => InputSelected = 8;
+    public void ObsXSelected() => InputSelected = 9;
+    public void CreateXSelected() => InputSelected = 10;
+
+
 
     public void SetOptions()
     {

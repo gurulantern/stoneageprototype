@@ -370,9 +370,7 @@ customMethods.paint = function (roomRef: MyRoom, client: Client, request: any) {
     const flipY = param[6];
 
     roomRef.broadcast("onPaint", { userID: userID, type: type, teamIndex: teamIndex, 
-        posX: posX, posY: posY, flipX: flipX, flipY: flipY  })
-    
-    
+        posX: posX, posY: posY, flipX: flipX, flipY: flipY  });
 }
 
 customMethods.vote = function (roomRef: MyRoom, client: Client, request: any) {
@@ -386,10 +384,29 @@ customMethods.reset = function (roomRef: MyRoom, client: Client, request: any) {
         roomRef.broadcast("onReset");
     }
 
-    roomRef.state.gatherableObjects.forEach( g => {
-        if (g.gatherableType == "FRUIT_TREE" && g.harvestTrigger >= 9) {
-            g.harvestTrigger = 16;
-            logger.info(`${g.id} has grown fruit to ${g.harvestTrigger}`);
+    roomRef.state.gatherableObjects.forEach( (v, k) => {
+        if (v.gatherableType == "FRUIT_TREE" && v.harvestTrigger >= 9) {
+            if (v.harvestTrigger >= 9) {
+                v.harvestTrigger = 16;
+                logger.info(`${v.id} has grown fruit to ${v.harvestTrigger}`);
+            } else if (v.harvestTrigger == 1) {
+                roomRef.state.gatherableObjects.delete(k);
+                logger.info(`Removing ${k}`);
+            }       
+        } else if (v.gatherableType == "AUROCHS") {
+            roomRef.state.gatherableObjects.delete(k);
+            logger.info(`Removing ${k}`);
+        } else if (v. gatherableType == "TREE") {
+            if (v.harvestTrigger == 1) {
+                roomRef.state.gatherableObjects.delete(k);
+                logger.info(`Removing ${k}`);
+            }
+        }
+    });
+
+    roomRef.state.scorableObjects.forEach( (v, k) => {
+        if (v.scorableType == "SAPLING") {
+            
         }
     });
 }

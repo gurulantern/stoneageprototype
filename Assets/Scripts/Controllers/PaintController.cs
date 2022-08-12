@@ -22,6 +22,7 @@ public class PaintController : MonoBehaviour
     {
         for (int i = 0; i < count; i ++) {
             GameObject wall = Instantiate(prefab);
+            wall.transform.SetParent(this.gameObject.transform);
             wall.GetComponent<TeamWall>().SetOwnerTeam(i, playerTransform);
             walls.Add(wall);
         }

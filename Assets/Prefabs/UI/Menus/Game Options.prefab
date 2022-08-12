@@ -553,7 +553,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3661452382059620017}
+        m_TargetAssemblyTypeName: GameOptions, Assembly-CSharp
+        m_MethodName: ObsReqSelected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -1031,7 +1043,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3661452382059620017}
+        m_TargetAssemblyTypeName: GameOptions, Assembly-CSharp
+        m_MethodName: NightSelected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -1550,7 +1574,7 @@ RectTransform:
   m_Children:
   - {fileID: 7225159670891298929}
   m_Father: {fileID: 915178582418276150}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1846,7 +1870,7 @@ RectTransform:
   m_Children:
   - {fileID: 183310819680441426}
   m_Father: {fileID: 915178582418276150}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1983,7 +2007,7 @@ RectTransform:
   m_Children:
   - {fileID: 456791679726065571}
   m_Father: {fileID: 915178582418276150}
-  m_RootOrder: 5
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2309,7 +2333,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3661452382059620017}
+        m_TargetAssemblyTypeName: GameOptions, Assembly-CSharp
+        m_MethodName: VoteSelected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -3919,7 +3955,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3661452382059620017}
+        m_TargetAssemblyTypeName: GameOptions, Assembly-CSharp
+        m_MethodName: AurochsSelected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -4110,13 +4158,13 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4498128157654003028}
-  - {fileID: 5004096516587091928}
-  - {fileID: 6436932472009354392}
   - {fileID: 4046232860038618782}
   - {fileID: 2625533214636162261}
   - {fileID: 8525054503754130468}
   - {fileID: 3675605803324071933}
+  - {fileID: 4498128157654003028}
+  - {fileID: 5004096516587091928}
+  - {fileID: 6436932472009354392}
   m_Father: {fileID: 6744125870895239842}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5012,11 +5060,28 @@ MonoBehaviour:
   - {fileID: 4666398717100654409}
   - {fileID: 685246568773042001}
   - {fileID: 4386754547001421310}
+  inputFields:
+  - {fileID: 7901542812858123537}
+  - {fileID: 3126753414328989245}
+  - {fileID: 6558873014593746286}
+  - {fileID: 4117596107819217171}
+  - {fileID: 5431061543635803636}
+  - {fileID: 3699605228598128641}
+  - {fileID: 3025391189330092898}
+  - {fileID: 4421598439648265762}
+  - {fileID: 7903727323134211656}
+  - {fileID: 4244304348336498898}
+  - {fileID: 9116658360664669152}
+  inputToggles:
+  - {fileID: 5145677433603508428}
+  - {fileID: 1377110883249755689}
+  - {fileID: 1703596108434073957}
   teamToggles: []
   actions:
   - steal
   - scare
   - create
+  InputSelected: 0
 --- !u!1 &5117356689868759736
 GameObject:
   m_ObjectHideFlags: 0
@@ -5049,7 +5114,7 @@ RectTransform:
   m_Children:
   - {fileID: 4619470448515957448}
   m_Father: {fileID: 915178582418276150}
-  m_RootOrder: 2
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5299,7 +5364,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3661452382059620017}
+        m_TargetAssemblyTypeName: GameOptions, Assembly-CSharp
+        m_MethodName: FoodXSelected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -5669,7 +5746,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3661452382059620017}
+        m_TargetAssemblyTypeName: GameOptions, Assembly-CSharp
+        m_MethodName: PaintSelected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -5922,7 +6011,7 @@ RectTransform:
   m_Children:
   - {fileID: 6378924880496866671}
   m_Father: {fileID: 915178582418276150}
-  m_RootOrder: 6
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -6308,7 +6397,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3661452382059620017}
+        m_TargetAssemblyTypeName: GameOptions, Assembly-CSharp
+        m_MethodName: RestSelected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -6508,7 +6609,7 @@ RectTransform:
   m_Children:
   - {fileID: 9053902042077399036}
   m_Father: {fileID: 915178582418276150}
-  m_RootOrder: 0
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -7645,7 +7746,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3661452382059620017}
+        m_TargetAssemblyTypeName: GameOptions, Assembly-CSharp
+        m_MethodName: GatherSelected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -8422,7 +8535,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3661452382059620017}
+        m_TargetAssemblyTypeName: GameOptions, Assembly-CSharp
+        m_MethodName: ObsXSelected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -8967,7 +9092,7 @@ RectTransform:
   m_Children:
   - {fileID: 6211016123177171952}
   m_Father: {fileID: 915178582418276150}
-  m_RootOrder: 1
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -9303,7 +9428,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3661452382059620017}
+        m_TargetAssemblyTypeName: GameOptions, Assembly-CSharp
+        m_MethodName: TireSelected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -9689,7 +9826,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3661452382059620017}
+        m_TargetAssemblyTypeName: GameOptions, Assembly-CSharp
+        m_MethodName: CreateXSelected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []

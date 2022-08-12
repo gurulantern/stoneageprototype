@@ -144,7 +144,19 @@ public class GameController : MonoBehaviour
 
     public void Reset()
     {
+        Aurochs[] leftOverAurochs = _environmentController.transform.GetComponentsInChildren<Aurochs>();
+        foreach (Aurochs a in leftOverAurochs) {
+            Destroy(a.gameObject);
+        }
+        
+        foreach (GameObject w in _paintController.walls) {
+            Destroy(w.gameObject);
+        }
+        _paintController.walls.Clear();
+        _paintController.gameObject.SetActive(true);
+        
         _uiController.HideGameOverScreen();
+        
         onReset?.Invoke();
     }
 
@@ -265,13 +277,14 @@ public class GameController : MonoBehaviour
     {
         StopAllCoroutines();
         gatherPlaying = false;
-
+        _uiController.UpdateCountDownMessage("Moving to Paint");
         StartCoroutine(BeginPaint(time));
     }
 
     private IEnumerator BeginPaint(float time)
     {
         yield return new WaitForSeconds(.5f);
+        _uiController.UpdateCountDownMessage("");
         roundTimeLimit = time;
         _paintController.ShowTeamWall(GetTeamIndex(ColyseusManager.Instance.CurrentUser.sessionId));
         _uiController.ShowPalette();
@@ -284,15 +297,20 @@ public class GameController : MonoBehaviour
     private void OnBeginVote(float time)
     {
         _uiController.HidePalette();
+        _uiController.UpdateCountDownMessage("Moving to Vote");
         StartCoroutine(BeginVote(time)); 
     }
 
     private IEnumerator BeginVote(float time)
     {
+        yield return new WaitForSeconds(.5f);
+        _uiController.UpdateCountDownMessage("");
         roundTimeLimit = time;
         paintPlaying = false;
         voting = true;
         _uiController.timer.SetTime(time);
+        _uiController.moveMessage.gameObject.SetActive(false);
+
         Debug.Log("Vote has started, round time: " + roundTimeLimit);
         yield break;
     }

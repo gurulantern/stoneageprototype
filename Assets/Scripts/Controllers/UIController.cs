@@ -24,6 +24,8 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private Canvas _canvas = null;
     public GameObject gameOptions;
+    public TextMeshProUGUI moveMessage;
+
     [SerializeField]
     private TextMeshProUGUI generalMessageText;
     [SerializeField]
@@ -57,6 +59,8 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI pingLabel;
 
+    public GameObject _inventory;
+    public GameObject _staminaBar;
     public ObserveMeter _observeMeter;
     public Camera cam;
     public Scoreboard scoreboard;
@@ -273,6 +277,9 @@ public class UIController : MonoBehaviour
     {
         gameOverPanel.gameObject.SetActive(false);
         hudContainer.SetActive(true);
+        _staminaBar.SetActive(true);
+        _inventory.SetActive(true);
+        _observeMeter.transform.parent.gameObject.SetActive(true);
     }
 
     public void InitPalette(TeamWall wall) 
@@ -283,6 +290,9 @@ public class UIController : MonoBehaviour
     public void ShowPalette()
     {
         _palette.gameObject.SetActive(true);
+        _staminaBar.SetActive(false);
+        _inventory.SetActive(false);
+        _observeMeter.transform.parent.gameObject.SetActive(false);
     }
 
     public void HidePalette()
@@ -358,8 +368,6 @@ public class UIController : MonoBehaviour
         }
         //playerInfo.AddPlayer(entity);
     }
-
-
 
 }
 
