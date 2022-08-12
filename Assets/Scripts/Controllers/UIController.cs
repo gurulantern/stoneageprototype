@@ -40,6 +40,8 @@ public class UIController : MonoBehaviour
     private List<VoteButton> _voteButtons;
     [SerializeField]
     private Button _nextButton;
+    [SerializeField]
+    private Button _exportButton;
 
     //[SerializeField]
     //private PlayerInfoView playerInfo;
