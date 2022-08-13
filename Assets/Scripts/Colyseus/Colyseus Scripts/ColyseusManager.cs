@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class ColyseusManager : ColyseusManager<ColyseusManager>
 {
-    public delegate void OnRoomsReceived(ColyseusRoomAvailable[] rooms);
+    public delegate void OnRoomsReceived(StoneAgeRoomAvailable[] rooms);
     public static OnRoomsReceived onRoomsReceived;
     private NetworkedEntityFactory _networkedEntityFactory;
 
@@ -102,7 +102,7 @@ public class ColyseusManager : ColyseusManager<ColyseusManager>
 
     public async void GetAvailableRooms()
     {
-        ColyseusRoomAvailable[] rooms = await client.GetAvailableRooms(_roomController.roomName);
+        StoneAgeRoomAvailable[] rooms = await client.GetAvailableRooms<StoneAgeRoomAvailable>(_roomController.roomName);
 
         onRoomsReceived?.Invoke(rooms);
     }

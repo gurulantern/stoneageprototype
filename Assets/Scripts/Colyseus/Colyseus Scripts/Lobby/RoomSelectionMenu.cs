@@ -58,7 +58,7 @@ public class RoomSelectionMenu : MonoBehaviour
         ColyseusManager.Instance.GetAvailableRooms();
     }
 
-    public void HandRooms(ColyseusRoomAvailable[] rooms)
+    public void HandRooms(StoneAgeRoomAvailable[] rooms)
     {
         loadingCover.SetActive(false);
 

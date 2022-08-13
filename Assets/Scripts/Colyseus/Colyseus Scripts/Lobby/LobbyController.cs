@@ -83,7 +83,7 @@ public class LobbyController : MonoBehaviour
     {
         connectingCover.SetActive(true);
         string desiredRoomName = selectRoomMenu.RoomCreationName;
-        string gameModeLogic = collabToggle.isOn ? "collaborative" : "competitive";
+        string gameModeLogic = collabToggle.isOn ? "Collaborative" : "Competitive";
         roomOptions = gameOptions.GetInput();
         //roomOptions = new Dictionary<string, object> {{"logic", gameModeLogic}};
         if (!string.IsNullOrEmpty(desiredRoomName))
@@ -120,7 +120,7 @@ public class LobbyController : MonoBehaviour
         connectingCover.SetActive(false);
     }
 
-    private void OnRoomsReceived(ColyseusRoomAvailable[] rooms)
+    private void OnRoomsReceived(StoneAgeRoomAvailable[] rooms)
     {
         selectRoomMenu.HandRooms(rooms);
     }

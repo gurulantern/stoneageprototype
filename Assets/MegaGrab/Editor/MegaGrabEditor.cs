@@ -12,10 +12,10 @@ public class MegaGrabEditor : Editor
 		var gameview = EditorWindow.GetWindow(type);
 		return gameview;
 #else
-        System.Type T = System.Type.GetType("UnityEditor.GameView,UnityEditor");
-        System.Reflection.MethodInfo GetMainGameView = T.GetMethod("GetMainGameView", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
-        System.Object Res = GetMainGameView.Invoke(null, null);
-        return (EditorWindow)Res;
+/*ï¿½ ï¿½ ï¿½ ï¿½*/ System.Type T = System.Type.GetType("UnityEditor.GameView,UnityEditor");
+/*ï¿½ ï¿½ ï¿½ ï¿½*/ System.Reflection.MethodInfo GetMainGameView = T.GetMethod("GetMainGameView", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+/*ï¿½ ï¿½ ï¿½ ï¿½*/ System.Object Res = GetMainGameView.Invoke(null, null);
+/*ï¿½ ï¿½ ï¿½ ï¿½*/ return (EditorWindow)Res;
 #endif
 	}
 

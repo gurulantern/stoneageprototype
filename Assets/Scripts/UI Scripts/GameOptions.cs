@@ -102,7 +102,7 @@ public class GameOptions : MonoBehaviour
     public Dictionary<string, object> GetInput()
     {
         Dictionary<string, object> options = new Dictionary<string, object>();
-        options.Add("logic", "competitive");
+        options.Add("logic", "Competitive");
         options.Add("gatherTime", GatherTime);
         options.Add("paintTime", PaintTime);
         options.Add("voteTime", VoteTime);
