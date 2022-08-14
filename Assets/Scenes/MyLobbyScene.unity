@@ -1738,6 +1738,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3025391189330092898, guid: c5f2867cf4bb4584281e10094c677f29,
+        type: 3}
+      propertyPath: m_Text
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3190767484286047586, guid: c5f2867cf4bb4584281e10094c677f29,
         type: 3}
       propertyPath: m_IsActive
@@ -1978,6 +1983,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -21.502716
       objectReference: {fileID: 0}
+    - target: {fileID: 4117596107819217171, guid: c5f2867cf4bb4584281e10094c677f29,
+        type: 3}
+      propertyPath: m_Text
+      value: .02
+      objectReference: {fileID: 0}
     - target: {fileID: 4386754547001421310, guid: c5f2867cf4bb4584281e10094c677f29,
         type: 3}
       propertyPath: m_IsActive
@@ -2112,6 +2122,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -58.95228
+      objectReference: {fileID: 0}
+    - target: {fileID: 5431061543635803636, guid: c5f2867cf4bb4584281e10094c677f29,
+        type: 3}
+      propertyPath: m_Text
+      value: .08
       objectReference: {fileID: 0}
     - target: {fileID: 5475499428723006857, guid: c5f2867cf4bb4584281e10094c677f29,
         type: 3}
@@ -2427,6 +2442,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7901542812858123537, guid: c5f2867cf4bb4584281e10094c677f29,
+        type: 3}
+      propertyPath: m_Text
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 8018881551181421826, guid: c5f2867cf4bb4584281e10094c677f29,
         type: 3}
@@ -3990,6 +4010,7 @@ MonoBehaviour:
     type: 3}
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
+  m_CursorLockBehavior: 0
 --- !u!1 &922685469
 GameObject:
   m_ObjectHideFlags: 0

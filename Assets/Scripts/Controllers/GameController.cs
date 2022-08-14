@@ -160,6 +160,7 @@ public class GameController : MonoBehaviour
         _paintController.gameObject.SetActive(true);
         
         _uiController.HideGameOverScreen();
+        _uiController.ShowTags();
         
         onReset?.Invoke();
     }
@@ -290,6 +291,7 @@ public class GameController : MonoBehaviour
         roundTimeLimit = time;
         _paintController.ShowTeamWall(GetTeamIndex(ColyseusManager.Instance.CurrentUser.sessionId));
         _uiController.ShowPalette();
+        _uiController.ConcealTags();
         paintPlaying = true;
         _uiController.timer.SetTime(time);
         Debug.Log("Paint has started, round time: " + roundTimeLimit);

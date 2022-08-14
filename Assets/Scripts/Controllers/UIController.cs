@@ -304,10 +304,7 @@ public class UIController : MonoBehaviour
         _observeMeter.transform.parent.gameObject.SetActive(false);
     }
 
-    public void HidePalette()
-    {
-        _palette.gameObject.SetActive(false);
-    }
+    public void HidePalette() => _palette.gameObject.SetActive(false);
 
     public void Wait()
     {
@@ -334,6 +331,9 @@ public class UIController : MonoBehaviour
             pair.Value.UpdateTag(Camera.main.WorldToScreenPoint(pair.Key.transform.position), pair.Key.TeamIndex);
         }
     }
+
+    public void ConcealTags() => playerTagRoot.gameObject.SetActive(false);
+    public void ShowTags() => playerTagRoot.gameObject.SetActive(true);
 
     private void UpdatePlayerJoinMessage()
     {

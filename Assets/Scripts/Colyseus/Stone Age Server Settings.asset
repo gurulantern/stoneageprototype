@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colyseusServerAddress: r1mfpf.colyseus.dev
   colyseusServerPort: 443
-  useSecureProtocol: 0
+  useSecureProtocol: 1
   _requestHeaders: []

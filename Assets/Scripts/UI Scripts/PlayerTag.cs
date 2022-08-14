@@ -35,6 +35,8 @@ public class PlayerTag : MonoBehaviour
         SetColors(teamIdx);
     }
 
+    public void HideTag() => this.gameObject.SetActive(false);
+
     private void SetColors(int teamIdx)
     {
         playerTag.color = GameController.Instance.GetTeamColor(teamIdx);    

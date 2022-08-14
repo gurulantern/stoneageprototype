@@ -362,7 +362,7 @@ public class CharControllerMulti : NetworkedEntityView
     {
         RaycastHit2D hit;
         if (GameController.Instance.gatherPlaying && !tired && !sleeping && !observing 
-            && !gathering && !spending && context.performed) {
+            && !gathering && !spending && !scaring && context.performed) {
             Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
             hit = Physics2D.GetRayIntersection(ray, 20, _layerMask);
@@ -547,7 +547,7 @@ public class CharControllerMulti : NetworkedEntityView
 
     public void OnScare(InputAction.CallbackContext context)
     {
-        if (context.started && !sleeping && !tired) {
+        if (context.started && !sleeping && !tired && !gathering && !observing) {
             scaring = true;
             ChangeStamina(-5);
             animator.SetBool("Scare", true);
