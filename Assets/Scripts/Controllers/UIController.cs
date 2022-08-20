@@ -38,8 +38,7 @@ public class UIController : MonoBehaviour
 
     [SerializeField]
     private List<VoteButton> _voteButtons;
-    [SerializeField]
-    private Button _nextButton;
+
     [SerializeField]
     private Button _exportButton;
 
@@ -305,12 +304,6 @@ public class UIController : MonoBehaviour
     }
 
     public void HidePalette() => _palette.gameObject.SetActive(false);
-
-    public void Wait()
-    {
-
-    }
-
 
     public virtual void Update()
     {

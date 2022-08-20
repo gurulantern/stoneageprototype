@@ -14,10 +14,10 @@ public class RoomListItem : MonoBehaviour
     private RoomSelectionMenu menuRef;
 
     [SerializeField]
-    private TextMeshProUGUI roomName = null;
+    private Text roomName = null;
  
     [SerializeField]
-    private TextMeshProUGUI gameMode = null;
+    private Text gameMode = null;
 
     [SerializeField]
     private Image backgroundImage = null;

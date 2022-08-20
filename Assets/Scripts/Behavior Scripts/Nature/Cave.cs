@@ -22,7 +22,7 @@ public class Cave : Scorable
     {
         family.gameObject.SetActive(isHome);
         fireLog.gameObject.SetActive(isHome);
-        fire.gameObject.SetActive(isHome);
+        //fire.gameObject.SetActive(isHome);
     }
     
 }

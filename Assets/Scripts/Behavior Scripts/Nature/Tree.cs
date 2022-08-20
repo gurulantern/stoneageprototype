@@ -34,7 +34,9 @@ public class Tree : Gatherable
     {
         base.UpdateViewFromState();
         _treeStates[currHarvestTrigger].gameObject.SetActive(true);
-        _treeStates[prevHarvestTrigger].gameObject.SetActive(false);
+        if (prevHarvestTrigger < _treeStates.Length) {
+            _treeStates[prevHarvestTrigger].gameObject.SetActive(false);
+        }
     }
     //Left click decreases food remaining and triggers the animation for food to disappear
     public virtual void Harvest()

@@ -266,13 +266,6 @@
         "com.unity.modules.imgui": "1.0.0"
       }
     },
-    "io.colyseus.sdk": {
-      "version": "https://github.com/colyseus/colyseus-unity3d.git#upm",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "96ff87216277aae77e345991e47fd99affa635f5"
-    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,

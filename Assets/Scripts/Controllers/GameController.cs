@@ -636,11 +636,15 @@ public class GameController : MonoBehaviour
 
     public int GetTeamNumber(int teamIdx)
     {
-        if(teams[teamIdx].clientsOnTeam.Count <= 10)
-        {
-            return teams[teamIdx].clientsOnTeam.Count - 1;
+        if (teamIdx >= 0) {
+            if(teams[teamIdx].clientsOnTeam.Count <= 10)
+            {
+                return teams[teamIdx].clientsOnTeam.Count - 1;
+            } else {
+                LSLog.LogError($"Team of {teamIdx} full");
+                return -1;
+            }
         } else {
-            LSLog.LogError($"Team of {teamIdx} full");
             return -1;
         }
     }

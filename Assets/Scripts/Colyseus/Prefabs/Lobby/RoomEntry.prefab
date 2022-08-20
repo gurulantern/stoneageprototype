@@ -618,6 +618,10 @@ MonoBehaviour:
   clientCount: {fileID: 759126316557448783}
   joinButton: {fileID: 2165004158825049437}
   roomName: {fileID: 9018755434488364080}
+  gameMode: {fileID: 0}
+  backgroundImage: {fileID: 0}
+  coopColor: {r: 1, g: 1, b: 1, a: 1}
+  deathmatchColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &8555593715252980782
 GameObject:
   m_ObjectHideFlags: 0

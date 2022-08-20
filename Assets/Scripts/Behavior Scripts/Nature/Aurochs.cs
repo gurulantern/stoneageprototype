@@ -100,7 +100,9 @@ public class Aurochs : Gatherable
         base.UpdateViewFromState();
         escape = new Vector2(_state.xPos, _state.yPos);
         Debug.Log($"Setting a new destination from state with destination: {escape}.");
-        AvoidPlayer(escape, true);
+        if (alive) {
+            AvoidPlayer(escape, true);
+        }
     }
 
     public void ResumeJourney()
