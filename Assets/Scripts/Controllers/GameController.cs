@@ -625,7 +625,7 @@ public class GameController : MonoBehaviour
             }
         }
 
-        LSLog.LogError($"Client {clientID} is not on a team!"); //We should not be asking for teams if we're not expecting to have them
+        //LSLog.LogError($"Client {clientID} is not on a team!"); //We should not be asking for teams if we're not expecting to have them
         return -1;
     }
 
@@ -636,15 +636,11 @@ public class GameController : MonoBehaviour
 
     public int GetTeamNumber(int teamIdx)
     {
-        if (teamIdx >= 0) {
-            if(teams[teamIdx].clientsOnTeam.Count <= 10)
-            {
-                return teams[teamIdx].clientsOnTeam.Count - 1;
-            } else {
-                LSLog.LogError($"Team of {teamIdx} full");
-                return -1;
-            }
+        if(teams[teamIdx].clientsOnTeam.Count <= 10)
+        {
+            return teams[teamIdx].clientsOnTeam.Count - 1;
         } else {
+            LSLog.LogError($"Team of {teamIdx} full");
             return -1;
         }
     }
