@@ -15,7 +15,7 @@ Basic Mechanics:
  - Players have a stamina bar which decreases over time and once it is low enough, player speed will decrease and their avatar will look tired
  - To replenish stamina, players must sleep which will immoblize them and disable other functionalities until the stamina bar is full again
  - Players can go up to Fruit Trees to gather food with a left click. 
- - Players can also observe with a right click and fill the team's observe meter. This click will not gather food.
+ - Players can also observe with a right click and fill the team's observe meter. This click will not gather food. Once the meter is filled, it will allow the player access to a build menu.
  - Players can walk over ripe ground fruit to regain stamina without sleeping.
  - Players can take their gathered food and store in their cave to be scored at the end of the game. 
  - To win a game, a team or alliance must finish with the most food in their cave. 
